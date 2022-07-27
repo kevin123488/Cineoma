@@ -41,10 +41,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value = "·Î±×ÀÎ", notes = "Access-token°ú ·Î±×ÀÎ °á°ú ¸Ş¼¼Áö¸¦ ¹İÈ¯ÇÑ´Ù.", response = Map.class)
+	@ApiOperation(value = "ë¡œê·¸ì¸", notes = "Access-tokenê³¼ ë¡œê·¸ì¸ ê²°ê³¼ ë©”ì„¸ì§€ë¥¼ ë°˜í™˜í•œë‹¤.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(
-			@RequestBody @ApiParam(value = "·Î±×ÀÎ ½Ã ÇÊ¿äÇÑ È¸¿øÁ¤º¸(¾ÆÀÌµğ, ºñ¹Ğ¹øÈ£).", required = true) User user) {
+			@RequestBody @ApiParam(value = "ë¡œê·¸ì¸ ì‹œ í•„ìš”í•œ íšŒì›ì •ë³´(ì•„ì´ë””, ë¹„ë°€ë²ˆí˜¸).", required = true) User user) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -52,7 +52,7 @@ public class UserController {
 			User loginUser = userService.login(user);
 			if (loginUser != null) {
 				String token = jwtService.create("id", loginUser.getId(), "access-token");// key, data, subject
-				logger.debug("·Î±×ÀÎ ÅäÅ«Á¤º¸ : {}", token);
+				logger.debug("ë¡œê·¸ì¸ í† í°ì •ë³´ : {}", token);
 				resultMap.put("access-token", token);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
@@ -61,36 +61,36 @@ public class UserController {
 				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
-			logger.error("·Î±×ÀÎ ½ÇÆĞ : {}", e);
+			logger.error("ë¡œê·¸ì¸ ì‹¤íŒ¨ : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@ApiOperation(value = "È¸¿øÀÎÁõ", notes = "È¸¿ø Á¤º¸¸¦ ´ãÀº TokenÀ» ¹İÈ¯ÇÑ´Ù.", response = Map.class)
+	@ApiOperation(value = "íšŒì›ì¸ì¦", notes = "íšŒì› ì •ë³´ë¥¼ ë‹´ì€ Tokenì„ ë°˜í™˜í•œë‹¤.", response = Map.class)
 	@GetMapping("/info/{userid}")
 	public ResponseEntity<Map<String, Object>> getInfo(
-			@PathVariable("userid") @ApiParam(value = "ÀÎÁõÇÒ È¸¿øÀÇ ¾ÆÀÌµğ.", required = true) String userid,
+			@PathVariable("userid") @ApiParam(value = "ì¸ì¦í•  íšŒì›ì˜ ì•„ì´ë””.", required = true) String userid,
 			HttpServletRequest request) {
 //		logger.debug("userid : {} ", userid);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtService.isUsable(request.getHeader("access-token"))) {
-			logger.info("»ç¿ë °¡´ÉÇÑ ÅäÅ«!!!");
+			logger.info("ì‚¬ìš© ê°€ëŠ¥í•œ í† í°!!!");
 			try {
-//				·Î±×ÀÎ »ç¿ëÀÚ Á¤º¸.
+//				ë¡œê·¸ì¸ ì‚¬ìš©ì ì •ë³´.
 				User user = userService.userInfo(userid);
 				resultMap.put("userInfo", user);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} catch (Exception e) {
-				logger.error("Á¤º¸Á¶È¸ ½ÇÆĞ : {}", e);
+				logger.error("ì •ë³´ì¡°íšŒ ì‹¤íŒ¨ : {}", e);
 				resultMap.put("message", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 		} else {
-			logger.error("»ç¿ë ºÒ°¡´É ÅäÅ«!!!");
+			logger.error("ì‚¬ìš© ë¶ˆê°€ëŠ¥ í† í°!!!");
 			resultMap.put("message", FAIL);
 			status = HttpStatus.ACCEPTED;
 		}
@@ -110,7 +110,7 @@ public class UserController {
 
 	}
 
-	@ApiOperation(value = "È¸¿øÁ¤º¸¾ò±â", notes = "ÇÑ¸íÀÇ È¸¿ø Á¤º¸¸¦ ¾ò´Â´Ù. ¼º°ø½Ã ÇØ´ç member°´Ã¼ ¹İÈ¯. ½ÇÆĞ½Ã  no_content ¹İÈ¯", response = User.class)
+	@ApiOperation(value = "íšŒì›ì •ë³´ì–»ê¸°", notes = "í•œëª…ì˜ íšŒì› ì •ë³´ë¥¼ ì–»ëŠ”ë‹¤. ì„±ê³µì‹œ í•´ë‹¹ memberê°ì²´ ë°˜í™˜. ì‹¤íŒ¨ì‹œ  no_content ë°˜í™˜", response = User.class)
 	@GetMapping(value = "/{userid}")
 	public ResponseEntity<User> userInfo(@PathVariable("userid") String userid) throws Exception {
 		User user = userService.userInfo(userid);
@@ -121,7 +121,7 @@ public class UserController {
 			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 
-	@ApiOperation(value = "È¸¿ø ¼öÁ¤", notes = "ÇØ´ç È¸¿øÀÇ Á¤º¸¸¦ ¾ò´Â´Ù. ¼º°ø½Ã member°´Ã¼ ¹İÈ¯", response = User.class)
+	@ApiOperation(value = "íšŒì› ìˆ˜ì •", notes = "í•´ë‹¹ íšŒì›ì˜ ì •ë³´ë¥¼ ì–»ëŠ”ë‹¤. ì„±ê³µì‹œ memberê°ì²´ ë°˜í™˜", response = User.class)
 	@PutMapping
 	public ResponseEntity<User> modifyUser(@RequestBody User user) throws Exception {
 		System.out.println(user.toString());
@@ -130,8 +130,8 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	// À¯Àú»èÁ¦
-	@ApiOperation(value = "È¸¿ø»èÁ¦", notes = "ÇØ´çÈ¸¿øÀ» »èÁ¦½ÃÅ²´Ù.", response = String.class)
+	// ìœ ì €ì‚­ì œ
+	@ApiOperation(value = "íšŒì›ì‚­ì œ", notes = "í•´ë‹¹íšŒì›ì„ ì‚­ì œì‹œí‚¨ë‹¤.", response = String.class)
 	@DeleteMapping(value = "/{userid}")
 	public ResponseEntity<String> removeUser(@PathVariable("userid") String userid) throws Exception {
 		userService.deleteUser(userid);

@@ -24,7 +24,7 @@ public class SwaggerConfig {
 
     private static final String API_NAME = "API";
     private static final String API_VERSION = "0.0.1";
-    private static final String API_DESCRIPTION = "API ¸í¼¼¼­";
+    private static final String API_DESCRIPTION = "API";
 
     @Bean
     public Docket api() {

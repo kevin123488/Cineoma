@@ -49,8 +49,7 @@ public class JwtServiceImpl implements JwtService {
 
 		return key;
 	}
-
-//	? „?‹¬ ë°›ì? ?† ?°?´ ? œ??ë¡? ?ƒ?„±?œê²ƒì¸ì§? ?™•?¸ ?•˜ê³? ë¬¸ì œê°? ?ˆ?‹¤ë©? UnauthorizedException?„ ë°œìƒ.
+//	ì „ë‹¬ ë°›ì€ í† í°ì´ ì œëŒ€ë¡œ ìƒì„±ëœê²ƒì¸ì§€ í™•ì¸ í•˜ê³  ë¬¸ì œê°€ ìˆë‹¤ë©´ UnauthorizedExceptionì„ ë°œìƒ.
 	@Override
 	public boolean isUsable(String jwt) {
 		try {

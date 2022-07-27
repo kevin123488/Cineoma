@@ -23,13 +23,13 @@ public class UserRepositoryTest {
 	@Rollback(true)
 	public void testUser() throws Exception{
 		User user = new User();
-		user.setUser_name("³²ÇÑ¼Ö");
+		user.setUser_name("ë‚¨í•œì†”");
 		user.setEmail("hansol620915@naver.com");
 		user.setId("hansol");
 		user.setImage_path("temp");
 		user.setMy_point(0);
 		user.setPassword("1234");
-		user.setNickname("¼Ö123");
+		user.setNickname("ì†”123");
 		//when
 		int savedId = userRepository.save(user);
 		
