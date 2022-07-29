@@ -31,7 +31,6 @@ public class UserRepositoryTest {
 		user.setPassword("1234");
 		user.setNickname("솔123");
 		//when
-		int savedId = userRepository.save(user);
 		
 		
 	}

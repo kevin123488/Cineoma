@@ -1,13 +1,10 @@
 package com.ssafy.mafia.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,12 +14,17 @@ import lombok.Setter;
 public class User {
 	@Id @GeneratedValue
 	private int no;
+	@Column(nullable = false, unique = true)
 	private String id;
+	@Column(nullable = false)
 	private String password;
+	@Column(nullable = false)
 	private String nickname;
+	@Column(nullable = false)
 	private String email;
-	@Embedded
 	private String image_path;
+	@Column(nullable = false)
 	private String user_name;
 	private int my_point;
+	private String intro;
 }

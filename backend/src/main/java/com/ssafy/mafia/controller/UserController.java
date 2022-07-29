@@ -1,6 +1,7 @@
 package com.ssafy.mafia.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.mafia.service.JwtServiceImpl;
@@ -136,6 +138,11 @@ public class UserController {
 	public ResponseEntity<String> removeUser(@PathVariable("userid") String userid) throws Exception {
 		userService.deleteUser(userid);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	@ApiOperation(value = "회원 검색 목록", notes = "검색어에 맞는 유저목록을 보여준다.")
+	@GetMapping(value = "/list")
+	public ResponseEntity<List<User>> searchList(@RequestParam("id") String id) throws Exception{
+		return new ResponseEntity<List<User>>(userService.getList(id), HttpStatus.OK);
 	}
 
 }
