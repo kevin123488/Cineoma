@@ -5,8 +5,8 @@ import LobbyView from '../views/LobbyView.vue'
 import WaitView from '../views/WaitView.vue'
 import IngameView from '../views/IngameView.vue'
 import FinalView from '../views/FinalView.vue'
-import MyProfileView from '../views/MyProfileView.vue'
-import MyFriendView from '../views/MyFriendView.vue'
+import MyPageView from '../views/MyPageView.vue'
+import EditUserView from '../views/EditUserView.vue'
 
 const routes = [
   {
@@ -42,13 +42,13 @@ const routes = [
   {
     path: '/:id_pk/profile',
     name: 'profile',
-    component: MyProfileView
+    component: MyPageView
   },
   {
-    path: '/:id_pk/friend',
-    name: 'friend',
-    component: MyFriendView
-  }
+    path: '/:id_pk/edit',
+    name: 'edituser',
+    component: EditUserView
+  },
 ]
 
 const router = createRouter({
