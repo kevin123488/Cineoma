@@ -9,7 +9,7 @@
       </div>
     </div>
     <hr class="mt-1 mb-0">
-    <div class="search-result"><p>검색어를 입력해주세요 . . .</p></div>
+    <div class="search-result"><p>친구의 닉네임을 입력해주세요 . . .</p></div>
   </div>
 </template>
 

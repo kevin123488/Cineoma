@@ -2,7 +2,7 @@
 
 const state = {
   isLogin: false,
-  username: "",
+  userName: "",
     // Login
   id: "",
   email: "",
@@ -10,6 +10,7 @@ const state = {
   password: "",
   intro: "",
   imagePath: "",
+  myPoint: "",
 };
 
 const getters = { // return값이 있는 함수 형태로 작성
@@ -30,11 +31,14 @@ const actions = { // 비순차적, 비동기 로직 사용
 const mutations = { // state의 값에 접근하여 그 값을 바꿔줌
   SET_LOGIN(state, payload) {
     state.isLogin = payload.isLogin;
-    state.username = payload.username;
+    state.userName = payload.userName;
     state.id = payload.id;
     state.email = payload.email;
     state.nickname = payload.nickname;
     state.password = payload.password;
+    state.intro = payload.intro;
+    state.imagePath = payload.imagePath;
+    state.myPoint = payload.myPoint;
   },
 };
 

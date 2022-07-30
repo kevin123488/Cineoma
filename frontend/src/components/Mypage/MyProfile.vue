@@ -5,10 +5,10 @@
     <div class="myProfileLayout">
       <div class="profileDiv">
         <div class="profilePic">
-          <p>프로필 사진 {{ imagePath }} 이 들어갈 공간입니다</p>
+          <p style="text-align: center;">프로필 사진 {{ imagePath }}</p>
         </div>
         <div class="introduce">
-            <span style="font-family: 'NeoDunggeunmo Code';">자기소개가 들어갈 공간 {{ introduce }}</span>
+            <span style="font-family: 'NeoDunggeunmo Code';">자기소개가 들어갈 공간 {{ intro }}</span>
         </div>
 
         <!-- 모달 시작 -->
@@ -58,8 +58,13 @@
         num : 1,
         nickname: "",
         imagePath: "",
-        introduce: "", // 자기소개 부분인데 테이블에 이름 어떻게 들어가 있었는지 기억ㄴ
+        intro: "", // 자기소개 부분인데 테이블에 이름 어떻게 들어가 있었는지 기억ㄴ
         inputIntro: "",
+        winCitizen: "",
+        winMafia: "",
+        winDoctor: "",
+        winMid: "", // 중립직업
+        winAll: "",
       }
     },
     computed: {
@@ -71,13 +76,17 @@
       //   // 수정 직후 적용되는걸 확인하려면 router push 이용해서 마이페이지를 다시 로드해줘야 할듯
       //   // 아님 watch 이용해서 자기소개 수정될때마다 다시 요청받는것도 가능
       //   // 위에 주석처리해둔 부분은 나중에 추가해도 됨 일단 요청 보내고 들어오는거 확인하고 난 뒤에 ㄱ
+      //   // 회원정보 수정시 필요한 부분: id, nickname, intro, password, imagePath
       //   let newUser = {
-      //     // username: this.$store.accounts.state.username,
-      //     id: this.$store.accounts.state.id,
       //     // email: this.$store.accounts.state.email,
-      //     // nickname: this.$store.accounts.state.nickname,
-      //     // password: this.$store.accounts.state.password,
+      //     id: this.$store.accounts.state.id,
+      //     imagePath: this.$store.accounts.state.imagePath,
       //     intro: this.inputIntro,
+      //     // myPoint: this.$store.accounts.state.myPoint,
+      //     nickname: this.$store.accounts.state.nickname,
+      //     // no: null, // no는 넣어줄 필요 없음
+      //     password: this.$store.accounts.state.password,
+      //     // userName: this.$store.accounts.state.userName,
       //   }
       //   // 이 떄 넣어주는 객체의 구조를 어떻게 할지 정해야 함
       //   // 잘못된 구조로 넣어주면 에러뜸
@@ -90,14 +99,20 @@
       //   })
       // }
     },
-    // 나중에 주석 풀자
+    // 나중에 주석 풀자 // 이 부분은 응답 오는 형식보고 다시 짜보자
     // created() {
     //     let userId = this.$store.accounts.state.id
     //     console.log(userId)
     //     let { data } = http.get(`/user/${userId}`)
     //     this.nickname = data.nickname
     //     this.imagePath = data.imagePath
-    //     this.introduce = data.introduce
+    //     this.intro = data.intro
+    //     this.winCitizen = data.winCitizen
+    //     this.winMafia = data.winMafia
+    //     this.winDoctor = data.winDoctor
+    //     this.winMid = data.winMid
+    //     this.winAll = data.winAll
+    // 결과적으로 위의 승률관련된 정보들은 mypage 스토어에 저장하여 다른 컴포넌트(RecordDetail.vue 파일)에서 사용할 수 있게 해야함
     //   }
     }
 

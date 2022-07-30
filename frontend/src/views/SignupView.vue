@@ -54,7 +54,7 @@ import http from "../common/axios"
 export default {
     data() {
         return {
-            username: "",
+            userName: "",
             id: "",
             password: "",
             password2: "",
@@ -67,18 +67,22 @@ export default {
             this.$router.push("/")
         },
         async signup() {
-            if (this.Pw === this.Pw2) {
+            if (this.password === this.password2) {
                 console.log("good")
             } else {
                 alert("비밀번호 제대로 입력해라")
-            }
-
+            } // alert 실행되고 난 뒤에 밑에 로직 그대로 수행되면
+              // 비밀번호 확인할 이유가 없음
             let registerObj = {
-                username: this.username,
-                id: this.id,
                 email: this.email,
+                id: this.id,
+                imagePath: null,
+                intro: null,
+                myPoint: null,
                 nickname: this.nickname,
+                // no: null, // no는 보내줄 필요 없음
                 password: this.password,
+                userName: this.userName,
             }
             console.log(registerObj)
             try {

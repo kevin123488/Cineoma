@@ -22,6 +22,7 @@
 </template>
 
 <script>
+// mypage store에 있는 승률 정보를 가져와서 여기서 보여주면 됨
 
   export default {
     name: 'RecordDetail',
