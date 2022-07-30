@@ -23,11 +23,11 @@ public class UserRepositoryTest {
 	@Rollback(true)
 	public void testUser() throws Exception{
 		User user = new User();
-		user.setUser_name("남한솔");
+		user.setUserName("남한솔");
 		user.setEmail("hansol620915@naver.com");
 		user.setId("hansol");
-		user.setImage_path("temp");
-		user.setMy_point(0);
+		user.setImagePath("temp");
+		user.setMyPoint(0);
 		user.setPassword("1234");
 		user.setNickname("솔123");
 		//when

@@ -11,5 +11,5 @@ import com.ssafy.mafia.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	User findById(String id);
 	void deleteById(String id);
-	List<User> findAllById(String id);
+	//List<User> findAllById(String id);
 }

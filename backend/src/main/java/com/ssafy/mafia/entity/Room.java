@@ -16,8 +16,9 @@ public class Room {
 	private int no;
 	private int size;
 	private String subject;
+//	private String host_id;
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "host_id")
 	private User user;
 	private String password;
 }

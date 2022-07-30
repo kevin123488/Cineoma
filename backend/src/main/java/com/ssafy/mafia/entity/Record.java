@@ -1,5 +1,6 @@
 package com.ssafy.mafia.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,8 +19,11 @@ public class Record {
 	@OneToOne
 	@JoinColumn(name = "id")
 	private User user;
-	private int win_count;
-	private int lose_count;
-	private int draw_count;
+	@Column(name = "win_count")
+	private int winCount;
+	@Column(name = "lose_count")
+	private int loseCount;
+	@Column(name = "draw_count")
+	private int drawCount;
 }
 
