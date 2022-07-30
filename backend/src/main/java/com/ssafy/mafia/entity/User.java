@@ -22,9 +22,11 @@ public class User {
 	private String nickname;
 	@Column(nullable = false)
 	private String email;
-	private String image_path;
-	@Column(nullable = false)
-	private String user_name;
-	private int my_point;
+	@Column(name = "image_path")
+	private String imagePath;
+	@Column(nullable = false, name = "user_name")
+	private String userName;
+	@Column(name = "my_point")
+	private int myPoint;
 	private String intro;
 }

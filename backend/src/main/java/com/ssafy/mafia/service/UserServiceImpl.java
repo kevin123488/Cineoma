@@ -53,7 +53,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getList(String id) throws Exception {
-		return userRepository.findAllById(id);
+		//return userRepository.findAllById(id);
+		return null;
 	}
 	
 }
