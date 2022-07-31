@@ -166,6 +166,8 @@
     margin: auto;
     justify-content: space-around;
     height: 100%;
+    background-image: url(../../../public/homedesign/images/intro_movie.mp4);
+    border-radius: 30px;
   }
   .profilePic {
     border-radius: 20px;

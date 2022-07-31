@@ -79,5 +79,8 @@
   .friendLayout {
     display: flex;
     justify-content: space-evenly;
+    padding: 30px 10px 30px 10px;
+    background-image: url(../../../public/homedesign/images/mafia_dots.png);
+    border-radius: 30px;
   }
 </style>

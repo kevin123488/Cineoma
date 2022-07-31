@@ -1,6 +1,6 @@
 <template>
   <div class="friendSearch">
-    <h3>친구 검색</h3>
+    <!-- <h3>친구 검색</h3> -->
     <!-- <h1 style="font-family: 'NeoDunggeunmo Code';">친구검색이요</h1> -->
     <div class="search-box">
         <!-- <p>search . . .</p> -->
@@ -33,8 +33,9 @@
 
 <style>
 .friendSearch {
-  background-color: white;
-  color: black;
+  /* background-color: white; */
+  /* border: 5px solid white; */
+  color: whitesmoke;
   border-radius: 20px;
   width: 40%;
 }
@@ -74,6 +75,7 @@
 }
 .search-result {
   width: 100%;
+  margin-top: 10px;
   border: 5px solid white;
   border-radius: 20px;
   background-color: black;

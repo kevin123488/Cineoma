@@ -4,7 +4,8 @@
 <!--  -->
 <!--  -->
 
-
+<!-- 여기 div 추가해서 일단 맛만 보겠음 -->
+<div class="intro-background">
     <section class="u-align-center u-clearfix u-image u-section-2" id="carousel_bb13" data-image-width="1920" data-image-height="1080">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <div class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1">
@@ -28,6 +29,8 @@
         </div>
       </div>
     </section>
+
+</div>
 
 
 
