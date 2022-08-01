@@ -8,6 +8,10 @@
     <h1><b>방제목</b></h1>
     <div class="w3-section w3-bottombar w3-padding-16">
       <router-link :to="{ name: 'lobby' }" >
+      <!-- 방나가기 /room/roomNum -->
+      <!-- method: PUT -->
+      <!-- 방 삭제 /room/roomNum -->
+      <!-- method: DELETE -->
         <button class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i> 방나가기</button>
       </router-link>
     </div>
