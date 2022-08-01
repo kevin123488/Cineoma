@@ -130,6 +130,7 @@ export default {
         //     console.log("되나?")
         //     window.scrollTo({top:2000-step, behavior:"smooth"})
         // }
+        
     },
 
 
