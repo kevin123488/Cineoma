@@ -1,5 +1,5 @@
 <template>
-<div id="target"></div>
+<!-- <div id="target"></div> -->
 <!--  -->
 <!--  -->
 <!--  -->
@@ -45,7 +45,7 @@
 <!-- 디자인 전 로그인 코드 -->
 <div class="intro-background">
   <div class="login-background">
-    <h1>Login</h1>
+    <h1 class="mt-0">Login</h1>
     <div class="loginForm">
       <input type="text" placeholder="아이디 입력" v-model="userId">
       <input type="text" placeholder="비밀번호 입력" v-model="userPw">
@@ -62,7 +62,7 @@
 <script>
 
 import http from "../common/axios"
-import $ from 'jquery'
+// import $ from 'jquery'
 
 export default {
     data() {
@@ -122,23 +122,23 @@ export default {
         },
     },
     mounted () {
-        // window.scrollTo({top:2000, behavior:"instant"})
+        window.scrollTo({top:2000, behavior:"instant"})
         // let step;
         // for (step = 0; step < 1000; step++) {
         //     setTimeout(() => {
         //         console.log("쉬어")
         //     }, 10)
         //     console.log("되나?")
-        //     window.scrollTo({top:2000-step, behavior:"smooth"})
+        window.scrollTo({top:0, behavior:"smooth"})
         // }
         // $(document).ready(function(){
         //     const offset = $("#target").offset();
         //     $('html, body').animate({scrollTop: offset.top}, 500);
         // });
-        $(document).ready(function(){
-            const offset = $("#target").offset();
-            $('html, body').animate({scrollTop: offset.top}, 50000);
-        });
+        // $(document).ready(function(){
+        //     const offset = $("#target").offset();
+        //     $('html, body').animate({scrollTop: offset.top}, 50000);
+        // });
     },
 
 
@@ -151,6 +151,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     height: 2000px;
+    margin-top: 0px;
 }
 .start-btn {
     background-color: white;

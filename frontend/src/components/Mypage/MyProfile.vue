@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <hr>
-    <h1 style="font-family: 'NeoDunggeunmo Code';">{{ nickname }}의 프로필입니다</h1>
+    <h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ nickname }}의 프로필입니다</h1>
     <div class="myProfileLayout">
       <div class="profileDiv">
         <div class="profilePic">
@@ -166,8 +165,9 @@
     margin: auto;
     justify-content: space-around;
     height: 100%;
-    background-image: url(../../../public/homedesign/images/intro_movie.mp4);
+    /* background-image: url(../../../public/homedesign/images/intro_movie.mp4); */
     border-radius: 30px;
+    border: 5px solid white;
   }
   .profilePic {
     border-radius: 20px;
