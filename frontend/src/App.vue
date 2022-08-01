@@ -1,5 +1,5 @@
 <template>
-  <nav-header class='sticky-top'>
+  <nav-header class='sticky-top' style="z-index: 2000;">
   </nav-header>
   <router-view/>
 </template>
