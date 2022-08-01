@@ -1,5 +1,5 @@
 <template>
-
+<div id="target"></div>
 <!--  -->
 <!--  -->
 <!--  -->
@@ -62,6 +62,7 @@
 <script>
 
 import http from "../common/axios"
+import $ from 'jquery'
 
 export default {
     data() {
@@ -130,7 +131,14 @@ export default {
         //     console.log("되나?")
         //     window.scrollTo({top:2000-step, behavior:"smooth"})
         // }
-        
+        // $(document).ready(function(){
+        //     const offset = $("#target").offset();
+        //     $('html, body').animate({scrollTop: offset.top}, 500);
+        // });
+        $(document).ready(function(){
+            const offset = $("#target").offset();
+            $('html, body').animate({scrollTop: offset.top}, 50000);
+        });
     },
 
 
