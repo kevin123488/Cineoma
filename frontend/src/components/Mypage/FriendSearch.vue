@@ -14,6 +14,7 @@
 </template>
 
 <script>
+// import http from '../../common/axios'
 
   export default {
     name: 'FriendSearch',
@@ -26,7 +27,20 @@
     computed: {
     },
     methods: {
- 
+      // 나중에 객체 넘겨주는 부분의 이름 협의 필요
+      // async followFriend(id) {
+      //   console.log(id)
+      //   let ffObj = {
+      //     userId: this.$store.accounts.state.id,
+      //     followId: id,
+      //   }
+      //   console.log(ffObj)
+      //   try {
+      //     await http.POST("/follow", ffObj)
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // }
     }}
 
 </script>

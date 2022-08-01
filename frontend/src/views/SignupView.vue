@@ -12,7 +12,7 @@
             <h2 class="u-custom-font u-text u-text-2 my-2">MAFIA</h2>
             <h1 class="u-custom-font u-text u-text-1 my-2">SignUp</h1>
             <div class="signupForm">
-                <input type="text" placeholder="이름 입력" v-model="username">
+                <input type="text" placeholder="이름 입력" v-model="userName">
                 <input type="text" placeholder="아이디 입력" v-model="id">
                 <input type="text" placeholder="비밀번호 입력" v-model="password">
                 <input type="text" placeholder="비밀번호 확인" v-model="password2">

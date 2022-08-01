@@ -1,7 +1,6 @@
 <template>
-  <div class="w3-black">
-    <div class="container">
-      <hr>
+  <div class="w3-black mypage-background">
+    <div class="container mypage-undernavbar">
         <my-profile></my-profile>
       <hr>
         <my-friend></my-friend>
@@ -70,5 +69,13 @@
     padding-left: 4px;
     padding-top: 1px;
     width: 220px;
+  }
+  .mypage-background {
+    background-image: url(../../public/homedesign/images/mypage_mafia.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .mypage-undernavbar {
+  padding-top: 50px;
   }
 </style>

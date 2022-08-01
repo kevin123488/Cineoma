@@ -1,11 +1,11 @@
   <template>
-<div class="bg-secondary" style="padding-top:20px;">
+<div class="bg-secondary lobby-background" style="padding-top:20px;">
 
 <!--  -->
 <!--  -->
 <!-- 로비창 이식 -->
 
-<div class="w3-container w3-content" style="max-width:1400px;">    
+<div class="w3-container w3-content lobby-undernavbar" style="max-width:1400px;">    
   <div class="w3-row">
 
     
@@ -258,5 +258,13 @@ input::placeholder {
 #scroll::-webkit-scrollbar {
   width: 0px;
   background-color: black;
+}
+.lobby-background {
+  background-image: url(../../public/homedesign/images/intro_movie.mp4);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.lobby-undernavbar {
+  margin-top: 50px;
 }
 </style>
