@@ -76,6 +76,6 @@
     background-size: cover;
   }
   .mypage-undernavbar {
-  padding-top: 50px;
+  padding-top: 80px;
   }
 </style>

@@ -4,7 +4,7 @@
     <div class="logo-in">
       <a>
         <router-link :to="{ name: 'lobby' }">
-        <img src="homedesign/images/default-logo.png" class="u-logo-image u-logo-image-1">
+        <img src="homedesign/images/logo.png" style="height: 100px; width: 100px; border-radius: 10px;" class="u-logo-image u-logo-image-1">
         </router-link>
       </a>
     </div>
@@ -150,14 +150,15 @@ button {
   text-decoration: none;
   font-size: inherit;
   font-family: inherit;
+  line-height: 2px;
 }
 button.learn-more {
   font-weight: 600;
-  color: #382b22;
+  color: gray;
   text-transform: uppercase;
   padding: 1.25em 2em;
-  background: #fff0f0;
-  /* background-color:transparent; */
+  /* background: #fff0f0; */
+  background-color:transparent;
   /* border: 2px solid rgb(199, 199, 199); */
   border-radius: 0.3em;
   transform-style: preserve-3d;
@@ -187,7 +188,7 @@ button.learn-more:hover::before {
   transform: translate3d(0, 0.5em, -1em);
 }
 button.learn-more:active {
-  background: #ffe9e9;
+  /* background: #ffe9e9; */
   transform: translate(0em, 0.75em);
 }
 button.learn-more:active::before {
@@ -236,7 +237,7 @@ button.learn-more:active::before {
     display: flex;
     justify-content: space-between;
     /* background-image: url(../../../public/homedesign/images/navbar.png); */
-    height: 50px;
+    height: 100px;
   }
   .logo-in {
     margin: auto;

@@ -1,5 +1,5 @@
 <template>
-  <nav-header class='fixed-top' style="z-index: 2000;">
+  <nav-header v-if="showNav" class='fixed-top' style="z-index: 2000;">
   </nav-header>
   <router-view/>
 </template>
@@ -11,9 +11,28 @@
   export default {
     name: 'App',
     components: { NavHeader },
+    data() {
+      return {
+        showNav: false,
+      }
+    },
     methods: {
+      scrollEvent() {
+        if (scrollY === 0) {
+          this.showNav = true;
+          console.log("지금 보여야됨")
+        } else {
+          this.showNav = false;
+        }
+      }
     },
     created() {
+    },
+    mounted() {
+      document.addEventListener("scroll", this.scrollEvent);
+    },
+    unmounted() {
+      document.removeEventListener("scroll", this.scrollEvent);
     }
   }
 

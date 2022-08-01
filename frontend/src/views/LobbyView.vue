@@ -265,6 +265,6 @@ input::placeholder {
   background-size: cover;
 }
 .lobby-undernavbar {
-  margin-top: 50px;
+  margin-top: 70px;
 }
 </style>
