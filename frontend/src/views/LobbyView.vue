@@ -5,13 +5,11 @@
 <!--  -->
 <!-- 로비창 이식 -->
 
-
 <div class="w3-container w3-content" style="max-width:1400px;">    
-  <!-- The Grid -->
   <div class="w3-row">
 
     
-    <!-- Middle Column -->
+    <!-- 방 관련 부분 -->
     <div class="w3-col m8">
     
       <div class="w3-row-padding">
@@ -22,10 +20,10 @@
               <input contenteditable="true" type="text"  class="w3-border w3-padding" placeholder="방 제목:">
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
-              </button>               
-              <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="font-family: 'NeoDunggeunmo Code';">
-                <i class="fa fa-pencil"></i>방만들기
               </button>
+              <!-- 방검색 어떻게할까? -->
+              <!-- 일단  -->
+              <make-room style="display: inline;"></make-room>
               <hr>
               <p>방 정렬할 라디오바</p>
             </div>
@@ -96,7 +94,7 @@
     <!-- End Middle Column -->
     </div>
     
-    <!-- Right Column -->
+    <!-- 친구창 -->
     <div class="w3-col m4">
 
       <div class="w3-card w3-round w3-white w3-center">
@@ -179,39 +177,12 @@
     <!-- End Right Column -->
     </div>
     
-  <!-- End Grid -->
   </div>
-  
-<!-- End Page Container -->
 </div>
-
 
 <!-- 로비창 이식 끝 -->
 <!--  -->
 <!--  -->
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <make-room></make-room>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <router-link :to="{ name: 'wait', params: { roomnumber: num } }" 
-            class="w3-bar-item w3-button"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">방만들기</button></router-link>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-    
     
     <hr>
     <friend-list></friend-list>
@@ -227,7 +198,10 @@
   import MakeRoom from '@/components/Lobby/MakeRoom.vue'
   import FriendList from '@/components/Lobby/FriendList.vue'
   import RoomList from '@/components/Lobby/RoomList.vue'
-
+  import { mapActions, mapGetters } from 'vuex'
+  import axios from 'axios'
+  import drf from '@/api/drf'
+  import router from '@/router'
 
   export default {
     name: 'LobbyView',
@@ -239,13 +213,42 @@
     data() {
       return {
         num : 1,
+        friendList: {},
+        roomList: {},
       }
     },
+
+    // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
     computed: {
+      ...mapGetters([
+        'isLogin',
+      ]),
     },
     methods: {
- 
-    }}
+      ...mapActions([
+        'saveFriendList',
+        'saveRoomList',
+    ]),
+
+    created() {
+      // 로그인된 상태면 요청, 아니면 로그인페이지로
+      if (this.isLogin) {
+        axios({
+          url: drf.lobby.setLobby(),
+          method: 'get',
+        })
+        .then(res => {
+          this.friendList = res.data.friendList
+          this.roomList = res.data.roomList
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        router.push({ name: 'login' })
+      }
+    }
+}}
 
 </script>
 <style>
