@@ -1,4 +1,4 @@
-package com.ssafy.mafia.controller;
+package com.ssafy.mafia.socketController;
 
 import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
