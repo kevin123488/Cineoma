@@ -14,6 +14,7 @@ const memberStore = {
     isLoginError: false,
     userInfo: null,
     isSignupError: false,
+    record: null,
   },
   getters: {
     checkUserInfo: function(state) {
@@ -34,6 +35,9 @@ const memberStore = {
     SET_IS_SIGNUP_ERROR: (state, isSignupError) => {
       state.isSignupError = isSignupError;
     },
+    SET_RECORD: (state, record) => {
+      state.record = record;
+    },
   },
   actions: {
     async userConfirm({ commit }, user) {
@@ -42,6 +46,8 @@ const memberStore = {
         (response) => {
           if (response.data.message === "success") {
             let token = response.data["access-token"];
+            let record = response.data["record"];
+            commit("SET_RECORD", record);
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
             sessionStorage.setItem("access-token", token);
