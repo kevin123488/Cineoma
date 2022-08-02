@@ -19,30 +19,29 @@
 <!--  -->
 
 
-<!-- 디자인 전 로그인 코드 -->
 <div class="intro-background">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <div class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1">
+        <div class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1"  style="margin-top: 150px">
           
-      <transition name="loginFade">
-        <div v-if="showLogin" class="login-layout u-container-layout u-valign-middle u-container-layout-1">
-          <h2 class="">어제는 시민이였던 내가 오늘은 마피아?!</h2>
-          <div>
-            <h1 class="u-custom-font u-text u-text-1 my-2">Login</h1>
-            <p style="font-family: 'NeoDunggeunmo Code';">갓 파 더</p>
-            <div class="loginForm">
-                <input type="text" placeholder="아이디 입력" v-model="userId">
-                <input type="text" placeholder="비밀번호 입력" v-model="userPw">
+          <transition name="loginFade">
+            <div v-if="showLogin" class="login-layout u-container-layout u-valign-middle u-container-layout-1">
+              <h2 class="">어제는 시민이였던 내가 오늘은 마피아?!</h2>
+              <div>
+                <h1 class="u-custom-font u-text u-text-1 my-2">Login</h1>
+                <p style="font-family: 'NeoDunggeunmo Code';">갓 파 더</p>
+                <div class="loginForm">
+                    <input type="text" placeholder="아이디 입력" v-model="userId">
+                    <input type="text" placeholder="비밀번호 입력" v-model="userPw">
+                </div>
+                <div>
+                    <div class="router-nav-in"><div class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;" @click="login">login</button></div></div>
+                    <div class="router-nav-in"><div class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;" @click="goToSignup">signup</button></div></div>
+                    <!-- <button class="loginSubmit" @click="login">login</button>
+                    <button class="goToSignup" @click="goToSignup">회원가입</button> -->
+                </div>
+              </div>
             </div>
-            <div>
-                <div class="router-nav-in"><div class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;" @click="login">login</button></div></div>
-                <div class="router-nav-in"><div class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;" @click="goToSignup">signup</button></div></div>
-                <!-- <button class="loginSubmit" @click="login">login</button>
-                <button class="goToSignup" @click="goToSignup">회원가입</button> -->
-            </div>
-          </div>
-        </div>
-      </transition>
+          </transition>
         </div>
 
       </div>
@@ -143,6 +142,9 @@ export default {
             this.showLogin = true
         }, 1000)
     },
+    created() {
+      console.log('created')
+    }
 }
 </script>
 

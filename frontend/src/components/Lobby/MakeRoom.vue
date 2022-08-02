@@ -5,15 +5,17 @@
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" style="margin-top: 200px;" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+            <h5 class="modal-title" id="staticBackdropLabel">방만들기</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>방만들기 창임</p>
+            <p>방 제목과 비밀번호를 설정해주세요</p>
+            <input contenteditable="true" type="text" class="w3-border w3-padding" placeholder="방 제목:" v-model="subject">
+            <input contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호(선택):" v-model="password">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -31,9 +33,11 @@
 
 
 <script>
-  import axios from 'axios'
-  import drf from '@/api/drf'
-  import router from '@/router'
+  // import axios from 'axios'
+  // import drf from '@/api/drf'
+  // import router from '@/router'
+  import { mapActions, mapGetters, } from 'vuex'
+  const ingameStore = "ingameStore"
 
   export default {
     name: 'MakeRoom',
@@ -42,25 +46,43 @@
     data() {
       return {
         num : 1,
+        subject: "",
+        password: "",
+
       }
     },
+
     computed: {
+      ...mapGetters([
+        'isLogin',
+      ]),
     },
+
     methods: {
-      createRoom(event) {
+      ...mapActions(ingameStore, [
+        'saveRoomTitle',
+        'saveIsCaptain',
+    ]),
+
+      createRoom() {
         // 방생성
         // /room, method: POST
-        axios({
-          url: drf.lobby.makeRoom(),
-          method: 'post',
-          data: { keyword: event.value, }
-        })
-        .then(res => {
-          router.push({ name: 'wait', params: { roomnumber: res.roomnumber } })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        this.saveIsCaptain(true)
+        this.saveRoomTitle(this.subject)
+        // axios({
+        //   url: drf.lobby.makeRoom(),
+        //   method: 'post',
+        //   headers: '토큰',
+        //   data: { subject: this.subject,
+        //           password: this.password,
+        //   }
+        // })
+        // .then(res => {
+        //   router.push({ name: 'wait', params: { roomnumber: res.roomnumber } })
+        // })
+        // .catch(err => {
+        //   console.log(err)
+        // })
       }
     },
     created() {
