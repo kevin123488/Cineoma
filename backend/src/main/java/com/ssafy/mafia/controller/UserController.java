@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.mafia.service.JwtServiceImpl;
+import com.ssafy.mafia.service.RecordService;
+import com.ssafy.mafia.entity.Record;
 import com.ssafy.mafia.entity.User;
 import com.ssafy.mafia.service.UserService;
 
@@ -42,6 +44,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RecordService recordService;
 
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
@@ -52,10 +56,12 @@ public class UserController {
 
 		try {
 			User loginUser = userService.login(user);
+			Record loginUserRecord = recordService.get(user.getId());
 			if (loginUser != null) {
 				String token = jwtService.create("id", loginUser.getId(), "access-token");// key, data, subject
 				logger.debug("로그인 토큰정보 : {}", token);
 				resultMap.put("access-token", token);
+				resultMap.put("record", loginUserRecord);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else {

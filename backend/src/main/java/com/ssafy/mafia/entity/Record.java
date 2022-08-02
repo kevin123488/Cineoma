@@ -16,9 +16,7 @@ import lombok.Setter;
 public class Record {
 	@Id @GeneratedValue
 	private int no;
-	@OneToOne
-	@JoinColumn(name = "id")
-	private User user;
+	private String id;
 	@Column(name = "win_count")
 	private int winCount;
 	@Column(name = "lose_count")
