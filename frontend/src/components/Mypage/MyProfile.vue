@@ -4,7 +4,7 @@
     <div class="myProfileLayout">
       <div class="profileDiv">
         <div class="profilePic">
-          <p style="text-align: center;">프로필 사진 {{ imagePath }}</p>
+          <p style="text-align: center;">{{ user.imagePath }}</p>
         </div>
         <div class="introduce">
             <span style="font-family: 'NeoDunggeunmo Code';">자기소개가 들어갈 공간 {{ intro }}</span>
@@ -24,11 +24,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <input style="color: black;" type="text" v-model="inputIntro">
+                <input style="color: black;" type="text" v-model="user.intro">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="submitIntro">Save changes</button>
+                <button type="button" class="btn btn-primary" @click="userUpdate">Save changes</button>
               </div>
             </div>
           </div>
@@ -46,73 +46,40 @@
 <script>
   import RecordDetail from '@/components/Mypage/RecordDetail.vue'
   // import http from "../../common/axios" // 나중에 주석 풀자
+  import { mapState, mapActions } from 'vuex';
+  const memberStore = "memberStore";
 
   export default {
     name: 'MyProfile',
     components: {
       RecordDetail,
     },
+    computed: {
+      ...mapState(memberStore, ["userInfo"]),
+    },
     data() {
       return {
         num : 1,
-        nickname: "",
-        imagePath: "",
-        intro: "", // 자기소개 부분인데 테이블에 이름 어떻게 들어가 있었는지 기억ㄴ
-        inputIntro: "",
-        winCitizen: "",
-        winMafia: "",
-        winDoctor: "",
-        winMid: "", // 중립직업
-        winAll: "",
+        user: {},
       }
     },
-    computed: {
+    created() {
+      // this.user = this.userInfo; // 얘 나중에 주석 풀어야 함. 얘 있으면 프론트만 켰을
+      // 때 확인 불가라 일단 주석처리 해둔 것
+      // 그리고 이미지 경로 수정하는 부분 어떻게 넣을지 생각해야함
+      // 모달 띄워서 선택? 아님 클릭할때마다 뭐로 바뀌게?
+      // 모달 띄워서 사진 몇 장 보여준 다음 특정 사진 클릭하면 그 imagePath로 수정하면 될듯
     },
     methods: {
-      // 나중에 주석 풀자
-      // async submitIntro() {
-      //   // this.introduce = this.inputIntro // 확인용
-      //   // 수정 직후 적용되는걸 확인하려면 router push 이용해서 마이페이지를 다시 로드해줘야 할듯
-      //   // 아님 watch 이용해서 자기소개 수정될때마다 다시 요청받는것도 가능
-      //   // 위에 주석처리해둔 부분은 나중에 추가해도 됨 일단 요청 보내고 들어오는거 확인하고 난 뒤에 ㄱ
-      //   // 회원정보 수정시 필요한 부분: id, nickname, intro, password, imagePath
-      //   let newUser = {
-      //     // email: this.$store.accounts.state.email,
-      //     id: this.$store.accounts.state.id,
-      //     imagePath: this.$store.accounts.state.imagePath,
-      //     intro: this.inputIntro,
-      //     // myPoint: this.$store.accounts.state.myPoint,
-      //     nickname: this.$store.accounts.state.nickname,
-      //     // no: null, // no는 넣어줄 필요 없음
-      //     password: this.$store.accounts.state.password,
-      //     // userName: this.$store.accounts.state.userName,
-      //   }
-      //   // 이 떄 넣어주는 객체의 구조를 어떻게 할지 정해야 함
-      //   // 잘못된 구조로 넣어주면 에러뜸
-      //   // 아이디만 넣어주면 유저를 찾을 수 있음
-      //   // 그 유저의 intro에 해당하는 부분을 넘겨주는 intro 값으로 수정하면 됨
-      //   console.log(newUser)
-      //   await http.put(`/user/${newUser.id}`, newUser)
-      //   .then(function() {
-      //     alert("자기소개 수정 완료!!")
-      //   })
-      // }
+      ...mapActions(memberStore, ["modifyMember"]),
+      userUpdate() {
+        this.modifyMember(this.user);
+        this.mvMyPage();
+      },
+      mvMyPage() {
+        this.$router.push({ name: "profile" });
+      }
     },
-    // 나중에 주석 풀자 // 이 부분은 응답 오는 형식보고 다시 짜보자
-    // created() {
-    //     let userId = this.$store.accounts.state.id
-    //     console.log(userId)
-    //     let { data } = http.get(`/user/${userId}`)
-    //     this.nickname = data.nickname
-    //     this.imagePath = data.imagePath
-    //     this.intro = data.intro
-    //     this.winCitizen = data.winCitizen
-    //     this.winMafia = data.winMafia
-    //     this.winDoctor = data.winDoctor
-    //     this.winMid = data.winMid
-    //     this.winAll = data.winAll
-    // 결과적으로 위의 승률관련된 정보들은 mypage 스토어에 저장하여 다른 컴포넌트(RecordDetail.vue 파일)에서 사용할 수 있게 해야함
-    //   }
     }
 
 </script>

@@ -72,6 +72,7 @@ export default {
               id: null,
               password: null,
             },
+            showLogin: false,
         };
     },
     computed: {
