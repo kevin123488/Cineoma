@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 		if (user.getId() == null || user.getPassword() == null)
 			return null;
 		User findUser = userRepository.findById(user.getId());
-		if(user.getPassword() == findUser.getPassword()) return findUser;
+		if(user.getPassword().equals(findUser.getPassword())) return findUser;
 		return null;
 	}
 
