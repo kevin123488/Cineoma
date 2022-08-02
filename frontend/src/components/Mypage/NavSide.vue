@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div>
     <h1>네브사이드</h1>
 

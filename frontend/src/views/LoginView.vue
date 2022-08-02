@@ -19,10 +19,9 @@
 <!--  -->
 
 
-<!-- 디자인 전 로그인 코드 -->
 <div class="intro-background">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <div class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1">
+        <div class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1"  style="margin-top: 150px">
           
       <transition name="loginFade">
         <div v-if="showLogin" class="login-layout u-container-layout u-valign-middle u-container-layout-1">
@@ -114,6 +113,9 @@ export default {
             this.showLogin = true
         }, 1000)
     },
+    created() {
+      console.log('created')
+    }
 }
 </script>
 

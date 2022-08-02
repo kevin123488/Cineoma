@@ -1,15 +1,15 @@
 import { createStore } from "vuex"
 import createPersistedState from "vuex-persistedstate";
-import memberStore from "./modules/memberStore"
-import lobby from "./modules/lobby"
-import ingame from "./modules/ingame"
+import accounts from "./modules/accounts"
+import lobbyStore from "./modules/lobby"
+import ingameStore from "./modules/ingame"
 import mypage from "./modules/mypage"
 
 export default createStore({
   modules: {
-    memberStore,
-    lobby,
-    ingame,
+    accounts,
+    lobbyStore,
+    ingameStore,
     mypage,
   },
   plugins: [

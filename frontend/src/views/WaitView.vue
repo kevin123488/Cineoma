@@ -5,14 +5,17 @@
   <!-- Header -->
   <header id="portfolio">
     <div class="w3-container">
-    <h1><b>방제목</b></h1>
+    <h1><b>{{ roomTitle }}</b></h1>
     <div class="w3-section w3-bottombar w3-padding-16">
       <router-link :to="{ name: 'lobby' }" >
       <!-- 방나가기 /room/roomNum -->
       <!-- method: PUT -->
       <!-- 방 삭제 /room/roomNum -->
       <!-- method: DELETE -->
-        <button class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i> 방나가기</button>
+      
+        <button v-if="isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방삭제</button>
+        <button v-if="!isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방나가기</button>
+
       </router-link>
     </div>
     </div>
@@ -93,8 +96,11 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
+  const ingameStore = "ingameStore"
+
   export default {
-    name: 'WaitView',
+
     components: {
     },
     data() {
@@ -102,9 +108,31 @@
         num : 1,
       }
     },
+    
     computed: {
+      ...mapGetters(ingameStore, [
+        'roomTitle',
+        'isCaptain'
+      ]),
+      // ...mapGetters(memberStore, [
+      //   'isLogin',
+      // ]),
+      ...mapActions(ingameStore, [
+        'saveRoomTitle',
+        'saveIsCaptain',
+      ])
     },
+
     methods: {
- 
-    }}
+      leaveroom() {
+        this.saveIsCaptain(false)
+        this.saveRoomTitle("")
+      }
+    },
+    created() {
+      console.log(this.isCaptain)
+    },
+    mounted() {
+    }
+    }
 </script>

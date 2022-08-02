@@ -24,6 +24,9 @@
               <!-- 방검색 어떻게할까? -->
               <!-- 일단  -->
               <make-room style="display: inline;"></make-room>
+              <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
+                <a href="/lobby" style="font-size: 1em;"><i class="fa fa-refresh"></i>새로고침</a>
+              </button>
               <hr>
               <p>방 정렬할 라디오바</p>
             </div>
@@ -199,9 +202,11 @@
   import FriendList from '@/components/Lobby/FriendList.vue'
   import RoomList from '@/components/Lobby/RoomList.vue'
   import { mapActions, mapGetters } from 'vuex'
-  import axios from 'axios'
-  import drf from '@/api/drf'
-  import router from '@/router'
+  const lobbyStore = "lobbyStore"
+  const ingameStore = "ingameStore"
+  // import axios from 'axios'
+  // import drf from '@/api/drf'
+  // import router from '@/router'
 
   export default {
     name: 'LobbyView',
@@ -213,42 +218,59 @@
     data() {
       return {
         num : 1,
-        friendList: {},
-        roomList: {},
+        roomList1: "num",
       }
     },
 
     // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
     computed: {
-      ...mapGetters([
+      // ...mapState("ingame", ["roomTitle"]),
+      ...mapGetters(lobbyStore, [
         'isLogin',
+        'friendList',
+        'roomList',
+      ]),
+      ...mapGetters(ingameStore, [
+        'roomTitle',
+        'isCaptain'
       ]),
     },
     methods: {
-      ...mapActions([
+      ...mapActions(lobbyStore, [
         'saveFriendList',
         'saveRoomList',
     ]),
+      ...mapActions(ingameStore, [
+        'saveRoomTitle',
+        'saveIsCaptain',
+    ]),
+    },
 
     created() {
+      this.saveIsCaptain(false)
+      this.roomList1 = this.roomList
       // 로그인된 상태면 요청, 아니면 로그인페이지로
-      if (this.isLogin) {
-        axios({
-          url: drf.lobby.setLobby(),
-          method: 'get',
-        })
-        .then(res => {
-          this.friendList = res.data.friendList
-          this.roomList = res.data.roomList
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      } else {
-        router.push({ name: 'login' })
-      }
+      // if (this.isLogin) {
+      //   axios({
+      //     url: drf.lobby.setLobby(),
+      //     method: 'get',
+      //   })
+      //   .then(res => {
+      //     this.friendList = res.data.friendList
+      //     this.roomList = res.data.roomList
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
+      // } else {
+      //   router.push({ name: 'login' })
+      // }
+    },
+    mounted() {
+      console.log(this.isCaptain)
     }
-}}
+    }
+
 
 </script>
 <style>
