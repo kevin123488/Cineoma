@@ -172,12 +172,13 @@
   .profilePic {
     border-radius: 20px;
     color: black;
-    background-color: white;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
     width: 250px;
-    height: 250px;
+    height: 300px;
+    background-image: url(../../../public/homedesign/images/profile_dot.png);
+    background-size: cover;
   }
   .introduce {
     margin-top: 100px;
