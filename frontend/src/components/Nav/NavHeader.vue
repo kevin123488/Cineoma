@@ -4,7 +4,7 @@
     <div class="logo-in">
       <a>
         <router-link :to="{ name: 'lobby' }">
-        <img src="homedesign/images/logo.png" style="height: 100px; width: 100px; border-radius: 10px;" class="u-logo-image u-logo-image-1">
+        <img src="/homedesign/images/logo.png" style="height: 100px; width: 100px; border-radius: 10px;" class="u-logo-image u-logo-image-1">
         </router-link>
       </a>
     </div>

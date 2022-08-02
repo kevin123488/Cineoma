@@ -23,10 +23,11 @@
 <div class="intro-background">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <div class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1">
-        
-          <div v-if="!showLogin" class="login-layout u-container-layout u-valign-middle u-container-layout-1">
-            <h2 class="">어제는 시민이였던 내가 오늘은 마피아?!</h2>
-            <div>
+          
+      <transition name="loginFade">
+        <div v-if="showLogin" class="login-layout u-container-layout u-valign-middle u-container-layout-1">
+          <h2 class="">어제는 시민이였던 내가 오늘은 마피아?!</h2>
+          <div>
             <h1 class="u-custom-font u-text u-text-1 my-2">Login</h1>
             <p style="font-family: 'NeoDunggeunmo Code';">갓 파 더</p>
             <div class="loginForm">
@@ -38,11 +39,10 @@
                 <div class="router-nav-in"><div class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;" @click="goToSignup">signup</button></div></div>
                 <!-- <button class="loginSubmit" @click="login">login</button>
                 <button class="goToSignup" @click="goToSignup">회원가입</button> -->
+            </div>
           </div>
         </div>
-
-          </div>
-          <div v-else></div>
+      </transition>
         </div>
 
       </div>
@@ -72,7 +72,7 @@ export default {
             userId: null,
             userPw: null,
             position: 1000,
-            showLogin: true,
+            showLogin: false,
         }
     },
     methods: {
@@ -140,8 +140,8 @@ export default {
         //     $('html, body').animate({scrollTop: offset.top}, 50000);
         // });
         setTimeout(() => {
-            this.showLogin = false
-        }, 2000)
+            this.showLogin = true
+        }, 1000)
     },
 }
 </script>
@@ -163,5 +163,12 @@ export default {
 .login-layout {
     z-index: 1;
     margin-top: 80px;
+}
+/* 로그인 천천히 띄우기 */
+.loginFade-enter-active {
+  transition: opacity 2s;
+}
+.loginFade-enter-from {
+  opacity: 0;
 }
 </style>
