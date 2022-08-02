@@ -126,11 +126,14 @@
       logout() {
         this.$store.commit("accounts/SET_LOGIN", {
           isLogin: false,
-          username: "",
+          userName: "",
           id: "",
           email: "",
           nickname: "",
           password: "",
+          intro: "",
+          imagePath: "",
+          myPoint: "",
         })
         alert("로그아웃!!")
         this.$router.push("/") // 로그아웃 하면 로그인 창으로 보내주자
