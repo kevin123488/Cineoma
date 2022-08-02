@@ -6,12 +6,74 @@
 const lobbyStore = {
   namespaced: true,
   state: {
-    friendList: {},
-    roomList: {},
+    friendList: "ㅇㅇ",
+    roomList: [
+      { 
+        title: '1번방제',
+        roomNum: 1,
+        members: {
+          member1: 'info1',
+          member2: 'info2',
+          member3: 'info3',
+          member4: 'info4',
+          member5: 'info5',
+        }
+      },
+      { 
+        title: '2번방제',
+        roomNum: 2,
+        members: {
+          member1: 'info1',
+          member2: 'info2',
+          member3: 'info3',
+          member4: 'info4',
+          member5: 'info5',
+          }
+      },
+      { 
+        title: '3번방제',
+        roomNum: 3,
+        members: {
+          member1: 'info1',
+          member2: 'info2',
+          member3: 'info3',
+          member4: 'info4',
+          member5: 'info5',
+          }
+      },
+      { 
+        title: '4번방제',
+        roomNum: 4,
+        members: {
+          member1: 'info1',
+          member2: 'info2',
+          member3: 'info3',
+          member4: 'info4',
+          member5: 'info5',
+          }
+      },
+      { 
+        title: '5번방제',
+        roomNum: 5,
+        members: {
+          member1: 'info1',
+          member2: 'info2',
+          member3: 'info3',
+          member4: 'info4',
+          member5: 'info5',
+          }
+      },
+    ],
   },
   getters: {
-    friendList: state => state.friendList,
-    roomList: state => state.roomList,
+    friendList(state) {
+      return state.friendList;
+    },
+    roomList(state) {
+      return state.roomList;
+    },
+    // friendList: state => state.friendList,
+    // roomList: state => state.roomList,
   },
   mutations: {
     SET_FRIENDLIST: (state, friendList) => state.friendList = friendList,

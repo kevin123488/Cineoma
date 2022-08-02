@@ -41,57 +41,27 @@
             <br>
         </div>
 
-        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <span class="w3-right w3-opacity">생성시간: 10 min</span>
-          <h4>방 제목</h4><br>
-          <hr class="w3-clear">
-          <p>참여 인원 정보 넣으면 어떨까</p>
-            <!-- <div class="w3-row-padding" style="margin:0 -16px">
-              <div class="w3-half">
-                <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
+        <!-- 방 정보 시작 -->
+        <div v-for="(room, index) in roomList" :key="index" class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <div v-on:click="clickRoom(room.roomNum)">
+            <span class="w3-right w3-opacity">생성시간: 10 min</span>
+            <h4>{{ room.title }}</h4><br>
+            <hr class="w3-clear">
+            <p>참여 인원 정보 넣으면 어떨까</p>
+              <!-- <div class="w3-row-padding" style="margin:0 -16px">
+                <div class="w3-half">
+                  <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
+                </div>
+                <div class="w3-half">
+                  <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
+                </div>
               </div>
-              <div class="w3-half">
-                <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
-          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
+            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
+            <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
+          </div>
         </div>
-
-        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <span class="w3-right w3-opacity">생성시간: 5 min</span>
-          <h4>방 제목</h4><br>
-          <hr class="w3-clear">
-          <p>참여 인원 정보 넣으면 어떨까</p>
-            <!-- <div class="w3-row-padding" style="margin:0 -16px">
-              <div class="w3-half">
-                <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-              </div>
-              <div class="w3-half">
-                <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
-          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
-        </div>
-
-        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <span class="w3-right w3-opacity">생성시간: 10 min</span>
-          <h4>방 제목</h4><br>
-          <hr class="w3-clear">
-          <p>참여 인원 정보 넣으면 어떨까</p>
-            <!-- <div class="w3-row-padding" style="margin:0 -16px">
-              <div class="w3-half">
-                <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-              </div>
-              <div class="w3-half">
-                <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
-          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
-        </div>
-
+        <!-- 방정보 끝 -->
+        
       </div>
 
     <!-- End Middle Column -->
@@ -206,7 +176,7 @@
   const ingameStore = "ingameStore"
   // import axios from 'axios'
   // import drf from '@/api/drf'
-  // import router from '@/router'
+  import router from '@/router'
 
   export default {
     name: 'LobbyView',
@@ -217,8 +187,8 @@
     },
     data() {
       return {
-        num : 1,
-        roomList1: "num",
+        num: 1,
+        enterRoomNum: 1,
       }
     },
 
@@ -226,7 +196,6 @@
     computed: {
       // ...mapState("ingame", ["roomTitle"]),
       ...mapGetters(lobbyStore, [
-        'isLogin',
         'friendList',
         'roomList',
       ]),
@@ -244,11 +213,14 @@
         'saveRoomTitle',
         'saveIsCaptain',
     ]),
+    clickRoom(roomNum) {
+      console.log(typeof(roomNum))
+      router.push({ name: 'wait', params: { roomnumber: roomNum } })
+    }
     },
 
     created() {
       this.saveIsCaptain(false)
-      this.roomList1 = this.roomList
       // 로그인된 상태면 요청, 아니면 로그인페이지로
       // if (this.isLogin) {
       //   axios({
@@ -267,7 +239,8 @@
       // }
     },
     mounted() {
-      console.log(this.isCaptain)
+      console.log(this.roomList[0])
+      // console.log('???')
     }
     }
 
