@@ -100,7 +100,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  const ingameStore = "ingameStore"
+  const roomdataStore = "roomdataStore"
 
   export default {
 
@@ -113,14 +113,14 @@
     },
     
     computed: {
-      ...mapGetters(ingameStore, [
+      ...mapGetters(roomdataStore, [
         'roomTitle',
         'isCaptain'
       ]),
       // ...mapGetters(memberStore, [
       //   'isLogin',
       // ]),
-      ...mapActions(ingameStore, [
+      ...mapActions(roomdataStore, [
         'saveRoomTitle',
         'saveIsCaptain',
       ])

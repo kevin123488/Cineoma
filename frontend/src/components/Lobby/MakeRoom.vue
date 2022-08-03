@@ -1,15 +1,15 @@
 <template>
   <div>
-    <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="font-family: 'NeoDunggeunmo Code';">
+    <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#makeRoomModal" style="font-family: 'NeoDunggeunmo Code';">
       <i class="fa fa-pencil"></i>방만들기
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" style="margin-top: 200px;" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" style="margin-top: 200px;" id="makeRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">방만들기</h5>
+            <h5 class="modal-title" id="makeRoomModalLabel">방만들기</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -37,7 +37,8 @@
   // import drf from '@/api/drf'
   // import router from '@/router'
   import { mapActions, mapGetters, } from 'vuex'
-  const ingameStore = "ingameStore"
+  const roomdataStore = "roomdataStore"
+  const memberStore = "memberStore"
 
   export default {
     name: 'MakeRoom',
@@ -53,13 +54,13 @@
     },
 
     computed: {
-      ...mapGetters([
+      ...mapGetters(memberStore, [
         'isLogin',
       ]),
     },
 
     methods: {
-      ...mapActions(ingameStore, [
+      ...mapActions(roomdataStore, [
         'saveRoomTitle',
         'saveIsCaptain',
     ]),
