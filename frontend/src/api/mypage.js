@@ -8,13 +8,13 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 
 async function getFriends(userid) {
-    await api.get(`/follow/${userid}`);
+    await api.get(`/api/follow/${userid}`);
 }
 
 async function followFriend(user) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
-    await api.post(`/follow`, JSON.stringify(user));
+    await api.post(`/api/follow`, JSON.stringify(user));
 }
 
 async function followRemove(user) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
-    await api.delete(`/follow`, JSON.stringify(user));
+    await api.delete(`/api/follow`, JSON.stringify(user));
 }

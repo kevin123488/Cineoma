@@ -63,7 +63,7 @@ const memberStore = {
     getUserInfo({ commit }, token) {
       let decode_token = jwt_decode(token);
       findById(
-        decode_token.userid,
+        decode_token.id,
         (response) => {
           if (response.data.message === "success") {
             commit("SET_USER_INFO", response.data.userInfo);

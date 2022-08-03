@@ -1,4 +1,4 @@
-//package com.ssafy.mafia.config;
+q//package com.ssafy.mafia.config;
 //
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.messaging.simp.config.MessageBrokerRegistry;
