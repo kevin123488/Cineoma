@@ -7,14 +7,29 @@
 import { apiInstance } from "./index.js";
 const api = apiInstance();
 
-async function getFriends(userid) {
-    await api.get(`/api/follow/${userid}`);
+async function getFriends(userid, success, fail) {
+    await api.get(`/api/follow/${userid}`).then(success).catch(fail);
 }
 
-async function followFriend(user) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
-    await api.post(`/api/follow`, JSON.stringify(user));
+async function followFriend(user, success, fail) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
+    await api.post(`/api/follow`, JSON.stringify(user)).then(success).catch(fail);
 }
 
-async function followRemove(user) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
-    await api.delete(`/api/follow`, JSON.stringify(user));
+async function removeFriend(user, success, fail) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
+    await api.delete(`/api/follow`, JSON.stringify(user)).then(success).catch(fail);
+}
+
+async function searchFriend(user, success, fail) { // user에는 검색어, 오프셋(?), 페이지 정보를 넣음
+    await api.get(`/api/user/list`, JSON.stringify(user)).then(success).catch(fail);
+}
+
+// getFriend -> 친구 정보가 객체로 들어올듯
+// followFriend, removeFriend -> 요청 잘 들어가면 라우터 푸쉬 -> mypage 화면
+// searchFriend -> 검색 결과가 객체로 들어올듯
+
+export {
+    getFriends,
+    followFriend,
+    removeFriend,
+    searchFriend,
 }

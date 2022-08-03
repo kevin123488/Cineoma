@@ -12,7 +12,8 @@
 <script>
   import MyFriend from '@/components/Mypage/MyFriend.vue'
   import MyProfile from '@/components/Mypage/MyProfile.vue'
-
+  const mypageStore = "mypageStore";
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'MyPage',
@@ -28,9 +29,10 @@
     computed: {
     },
     methods: {
+      ...mapActions(mypageStore, ["getFriendsStore"]),
     },
     created() {
-
+      this.getFriendsStore();
     },
     }
 

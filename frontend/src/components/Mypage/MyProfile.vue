@@ -45,7 +45,6 @@
 
 <script>
   import RecordDetail from '@/components/Mypage/RecordDetail.vue'
-  // import http from "../../common/axios" // 나중에 주석 풀자
   import { mapState, mapActions } from 'vuex';
   const memberStore = "memberStore";
 
@@ -55,18 +54,53 @@
       RecordDetail,
     },
     computed: {
-      ...mapState(memberStore, ["userInfo", "isLogin"]),
+      ...mapState(memberStore, ["userInfo", "isLogin", "record"]),
     },
     data() {
       return {
         num : 1,
         user: {},
+        recordMafia: {
+          win: "",
+          draw: "",
+          lose: "",
+        },
+        recordPolice: {
+          win: "",
+          draw: "",
+          lose: "",
+        },
+        recordDoctor: {
+          win: "",
+          draw: "",
+          lose: "",
+        },
+        recordCitizen: {
+          win: "",
+          draw: "",
+          lose: "",
+        },
       }
     },
     created() {
       this.user = this.userInfo; // 얘 나중에 주석 풀어야 함. 얘 있으면 프론트만 켰을
       console.log(this.userInfo);
       console.log(this.isLogin);
+      // console.log(this.record);
+      this.record.forEach((rec) => {
+        console.log("여기 확인")
+        console.log(rec);
+        // console.log(rec.type);
+        if (rec.type === "mafia") {
+          console.log("이부분은 마피아의 기록")
+        } else if (rec.type === "police") {
+          console.log("이부분은 경찰의 기록")
+        } else if (rec.type === "doctor") {
+          console.log("이부분은 의사의 기록")
+        } else if (rec.type === "citizen") {
+          console.log("이부분은 시민의 기록")
+        }
+      });
       // 때 확인 불가라 일단 주석처리 해둔 것
       // 그리고 이미지 경로 수정하는 부분 어떻게 넣을지 생각해야함
       // 모달 띄워서 선택? 아님 클릭할때마다 뭐로 바뀌게?
