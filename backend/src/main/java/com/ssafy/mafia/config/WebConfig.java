@@ -7,13 +7,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-	/*
-	 * @Override public void addCorsMappings(CorsRegistry registry) {
-	 * registry.addMapping("/**") .allowedOrigins("*") .allowedMethods("GET",
-	 * "POST", "PUT", "DELETE", "OPTIONS") .maxAge(6000); }
-	 */
-	
-//	Swagger UI ½ÇÇà½Ã 404Ã³¸®
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*")
+				.maxAge(6000);
+	}
+
+//	Swagger UI ï¿½ï¿½ï¿½ï¿½ï¿½ 404Ã³ï¿½ï¿½
 //	@Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/swagger-ui/index.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui/index.html");

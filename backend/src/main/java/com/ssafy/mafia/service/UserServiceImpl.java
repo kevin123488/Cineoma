@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User userInfo(String id) throws Exception {
+		System.out.println(userRepository.findById(id).getUserName());
 		return userRepository.findById(id);
 	}
 
