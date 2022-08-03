@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ nickname }}의 프로필입니다</h1>
+    <h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ user.nickname }}의 프로필입니다</h1>
     <div class="myProfileLayout">
       <div class="profileDiv">
         <div class="profilePic">
           <p style="text-align: center;">{{ user.imagePath }}</p>
         </div>
         <div class="introduce">
-            <span style="font-family: 'NeoDunggeunmo Code';">자기소개가 들어갈 공간 {{ intro }}</span>
+            <span style="font-family: 'NeoDunggeunmo Code';">자기소개가 들어갈 공간 {{ user.intro }}</span>
         </div>
 
         <!-- 모달 시작 -->
@@ -140,20 +140,18 @@
     border-radius: 20px;
     color: black;
     margin: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width: 250px;
-    height: 300px;
-    background-image: url(../../../public/homedesign/images/profile_dot.png);
+    width: 450px;
+    height: 450px;
+    background-image: url(../../../public/homedesign/images/profile_dot2.png);
     background-size: cover;
   }
   .introduce {
-    margin-top: 100px;
-    border-radius: 20px;
-    border: 5px solid white;
     height: 100px;
+    width: 200px;
     overflow: auto;
     -ms-overflow-style: none;
+    background-image: url(../../../public/homedesign/images/introduce.png);
+    background-size: cover;
   }
   .introduce::-webkit-scrollbar {
     display: none;
