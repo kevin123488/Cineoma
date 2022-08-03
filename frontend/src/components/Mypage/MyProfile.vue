@@ -55,7 +55,7 @@
       RecordDetail,
     },
     computed: {
-      ...mapState(memberStore, ["userInfo"]),
+      ...mapState(memberStore, ["userInfo", "isLogin"]),
     },
     data() {
       return {
@@ -64,7 +64,9 @@
       }
     },
     created() {
-      // this.user = this.userInfo; // 얘 나중에 주석 풀어야 함. 얘 있으면 프론트만 켰을
+      this.user = this.userInfo; // 얘 나중에 주석 풀어야 함. 얘 있으면 프론트만 켰을
+      console.log(this.userInfo);
+      console.log(this.isLogin);
       // 때 확인 불가라 일단 주석처리 해둔 것
       // 그리고 이미지 경로 수정하는 부분 어떻게 넣을지 생각해야함
       // 모달 띄워서 선택? 아님 클릭할때마다 뭐로 바뀌게?
