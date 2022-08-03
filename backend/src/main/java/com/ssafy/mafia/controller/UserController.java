@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @CrossOrigin("*")
 public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -58,7 +58,7 @@ public class UserController {
 
 		try {
 			User loginUser = userService.login(user);
-			Record loginUserRecord = recordService.get(user.getId());
+			List<Record> loginUserRecord = recordService.get(user.getId());
 			if (loginUser != null) {
 				String token = jwtService.create("id", loginUser.getId(), "access-token");// key, data, subject
 				logger.debug("로그인 토큰정보 : {}", token);
@@ -113,6 +113,7 @@ public class UserController {
 		int found = userService.idCheck(user.getId());
 		if (found == 0) {
 			userService.registerUser(user);
+			recordService.registerUser(user.getId());
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);

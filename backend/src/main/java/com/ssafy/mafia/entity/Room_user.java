@@ -16,10 +16,6 @@ public class Room_user {
 	@Id @GeneratedValue
 	@Column(name = "no")
 	private int no;
-	@ManyToOne
-	//@JoinColumn(name = "no")
-	private Room room;
-	@ManyToOne
-	@JoinColumn(name = "id")
-	private User user;
+	private int roomNo;
+	String id;
 }

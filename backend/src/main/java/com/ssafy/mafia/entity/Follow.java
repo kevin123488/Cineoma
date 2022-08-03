@@ -12,7 +12,7 @@ import lombok.Setter;
 public class Follow {
 	@Id @GeneratedValue
 	private int no;
-	private String my_id;
-	private String follow_id;
+	private String myId;
+	private String followId;
 }
 
