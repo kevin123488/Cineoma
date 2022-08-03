@@ -20,15 +20,11 @@ ex) login의 경우
 
 }
 
-
-
 # 회원정보 수정 요청의 경우 백 코드는 다음과 같다
 
 ![](공통_요청_정리_assets/2022-07-29-12-03-01-image.png)
 
 user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명시된 id, nickname, intro, password, imagePath 값을 넣어주어야 한다. 수정할 부분은 별도의 수정할 값으로, 그 외의 값은 store에 저장된(로그인시 store에 모든 정보를 넣어둔다) 값을 이용하여 채워주자. 
-
-
 
 # 로그인
 
@@ -122,8 +118,6 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
     
     - 팔로우 하는사람, 팔로우 받는 사람 id
 
-
-
 # 친구 목록 불러오기
 
 - /follow
@@ -182,7 +176,19 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
   
   - ```json
     {    
-    
+        roomList: [
+            {
+            roomTitle: str,
+            roomNo: int,
+            memberCnt: int,
+            isPassword: bool,
+            memberList: [
+                'nickname',
+                'imagePath',
+                '',    
+                ]
+            }
+        ]
     }
     ```
 
@@ -194,10 +200,20 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
   
   - method:
     - POST
+  - data:
+    - roomTitle
+    - password
+    - size (5로 고정)
+  - 리턴형식
+    - - ```json
+        {
+            roomTitle: '',
+        }
+        ```
 
 # 방 입, 퇴실
 
-- /room/{roomNum}
+- /room/{roomNo}
   
   - method:
     
@@ -205,7 +221,13 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
   
   - body
     
-    - 방참여 여부 보내기
+    - 비번
+  
+  - ```json
+    {
+        리턴 필요없을듯
+    }
+    ```
 
 # 방 삭제
 
@@ -226,10 +248,11 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
 jpa 물어볼거 있음
 
 # 웹소켓
+
 (stomp 사용)
 
-
 # 1.대기화면(채팅창)
+
 Endpoint(/chat)
 //receive를 메시지를 받을 endpoint로 설정합니다.
 @MessageMapping("/receiveChat/{roomNo}")    
@@ -245,12 +268,10 @@ Endpoint(/chat)
     }
     ```
 
-
-
 # 2. 인게임
 
-
 # 게임 시작
+
 Endpoint(/mafia)
 //receive를 메시지를 받을 endpoint로 설정합니다.
 @MessageMapping("/receiveMafia/{roomNo}")
@@ -259,15 +280,16 @@ Endpoint(/mafia)
 
 - 리턴형식
   -job : string,(id 값이 들어감)
+  
   - ```json
     {
       f->b
       progress : start
     }
-
+    
     {
       b->f
-
+    
       progress : start,
       list {
         id :string,
@@ -278,37 +300,38 @@ Endpoint(/mafia)
       }
     }
     ```
-      ```json
-      
+    
+    ```json
     {
-       f->b
-      progress : voteDay,
-      
-      id : string,
-      nickname : string,
-      vote : string,
-      alive : bool,
-      isHost :  bool,
-      isWin : bool
-      
+     f->b
+    progress : voteDay,
+    
+    id : string,
+    nickname : string,
+    vote : string,
+    alive : bool,
+    isHost :  bool,
+    isWin : bool
+    
     }
-
+    
     {
-      
-      b->f
-      //뽑힌사람이 없을경우 id값이 null
-      // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-      gameEnd : int,
-      progress : voteDay,
-      id : string,
-      nickname : string,
-      count : int
-       
+    
+    b->f
+    //뽑힌사람이 없을경우 id값이 null
+    // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
+    gameEnd : int,
+    progress : voteDay,
+    id : string,
+    nickname : string,
+    count : int
+    
     }
-
-
+    ```
+  
   {
     {
+  
        f->b
       progress : voteNight,
       
@@ -319,24 +342,25 @@ Endpoint(/mafia)
       alive : bool,
       isHost :  bool,
       isWin : bool
-      
+  
     }
-
+  
     {
-      
+  
       b->f
       //뽑힌사람이 없을경우 id값이 null
       // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-
+      
       gameEnd : int,
       progress : voteNight,
       id : string,
       nickname : string
-       
+  
     }
-
-    ```
-
+  
+  ```
+  
+  ```
 
 - /gameResult
   
@@ -351,9 +375,6 @@ Endpoint(/mafia)
     - 승리여부
     
     - 직업
-
-
-
 
 - 리턴형식
   
@@ -364,22 +385,16 @@ Endpoint(/mafia)
     }
     ```
 
-
-
-
-
 5인 마1 의1 중1 시2
-
 
 웹소켓도 결국
 게임 시작할때 백에서 누가 무슨직업이고 죽고 살았는지 등 게임 내용은 다 가지고 시작
 
 낮->투표->밤->직업 행동
 
-
-
 낮->투표
 타이머 다됨
+
 + 다같이 동의해서 투표하러가자
 
 모든 유저한테
@@ -390,10 +405,7 @@ uri
 기권표 추가
 투표 할 uri
 
-
 밤되면
-
-
 
 직업들?
 의사, 마피아, 시민, 경찰?
@@ -403,22 +415,10 @@ uri
 
 uri
 
-
-
-
-
-
-
-
-
-
 실시간 x
 나
 
-
-
 - 인게임
-
 
 - /gameResult
   
@@ -433,7 +433,6 @@ uri
     - 승리여부
     
     - 직업
-
 
 # 게임 끝
 
@@ -450,5 +449,3 @@ uri
     - 승리여부
     
     - 직업
-
-

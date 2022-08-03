@@ -45,6 +45,7 @@ const memberStore = {
         user,
         (response) => {
           if (response.data.message === "success") {
+            console.log("success 됐나?")
             let token = response.data["access-token"];
             let record = response.data["record"];
             commit("SET_RECORD", record);
