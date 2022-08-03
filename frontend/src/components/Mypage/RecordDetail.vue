@@ -5,12 +5,12 @@
         <ul class="w3-ul w3-white w3-center w3-hover-opacity-off">
         <!-- <ul class="w3-ul w3-white w3-center w3-opacity w3-hover-opacity-off"> hover -->
           <li class="w3-dark-grey w3-xlarge w3-padding-32"><h3>전적</h3></li>
-          <li class="w3-padding-16"><span>시민 승률: </span></li>
-          <li class="w3-padding-16"><span>마피아 승률: </span></li>
-          <li class="w3-padding-16"><span>의사 승률: </span></li>
-          <li class="w3-padding-16"><span>경찰 승률: </span></li>
+          <li class="w3-padding-16"><span>시민 승률: {{ citizenWinRate }}%</span></li>
+          <li class="w3-padding-16"><span>마피아 승률: {{ mafiaWinRate }}%</span></li>
+          <li class="w3-padding-16"><span>의사 승률: {{ doctorWinRate }}%</span></li>
+          <li class="w3-padding-16"><span>경찰 승률: {{ policeWinRate }}%</span></li>
           <li class="w3-padding-16">
-            <h3>총 승률: </h3>
+            <h3>총 승률: {{ winRate }}%</h3>
             <span class="w3-opacity">per month</span>
           </li>
           <li class="w3-light-grey w3-padding-24">
@@ -31,7 +31,11 @@ const memberStore = "memberStore";
     },
     data() {
       return {
-        userRecord: {},
+        mafiaWinRate: "",
+        policeWinRate: "",
+        doctorWinRate: "",
+        citizenWinRate: "",
+        winRate: "",
       }
     },
     computed: {
@@ -40,7 +44,56 @@ const memberStore = "memberStore";
     methods: {
     },
     created() {
-      this.userRecord = this.record;
+      let winnum = (this.record[0].winCount + this.record[1].winCount + this.record[2].winCount + this.record[3].winCount) / (this.record[0].winCount + this.record[1].winCount + this.record[2].winCount + this.record[3].winCount + this.record[0].loseCount + this.record[1].loseCount + this.record[2].loseCount + this.record[3].loseCount + this.record[0].drawCount + this.record[1].drawCount + this.record[2].drawCount + this.record[3].drawCount)
+      if (this.record[0].winCount + this.record[1].winCount + this.record[2].winCount + this.record[3].winCount + this.record[0].loseCount + this.record[1].loseCount + this.record[2].loseCount + this.record[3].loseCount + this.record[0].drawCount + this.record[1].drawCount + this.record[2].drawCount + this.record[3].drawCount === 0) {
+        this.winRate = 0;
+      } else {
+        this.winRate = winnum.toFixed(2) * 100;
+      }
+      console.log(this.record[0])
+      console.log("해치웠나?")
+      this.record.forEach((rec) => {
+        console.log("여기 확인")
+        console.log(rec);
+        // console.log(rec.type);
+        if (rec.type === "mafia") {
+          console.log("이부분은 마피아의 기록")
+          if (rec.winCount === 0) {
+            this.mafiaWinRate = 0
+          } else {
+            let num = rec.winCount / (rec.winCount + rec.drawCount + rec.loseCount);
+            this.mafiaWinRate = num.toFixed(2) * 100;
+            console.log("d")
+          }
+        } else if (rec.type === "police") {
+          console.log("이부분은 경찰의 기록")
+          if (rec.winCount === 0) {
+            this.policeWinRate = 0
+          } else {
+            let num = rec.winCount / (rec.winCount + rec.drawCount + rec.loseCount);
+            this.policeWinRate = num.toFixed(2) * 100;
+            console.log("d")
+          }
+        } else if (rec.type === "doctor") {
+          console.log("이부분은 의사의 기록")
+          if (rec.winCount === 0) {
+            this.doctorWinRate = 0
+          } else {
+            let num = rec.winCount / (rec.winCount + rec.drawCount + rec.loseCount);
+            this.doctorWinRate = num.toFixed(2) * 100;
+            console.log("d")
+          }
+        } else if (rec.type === "citizen") {
+          console.log("이부분은 시민의 기록")
+          if (rec.winCount === 0) {
+            this.citizenWinRate = 0
+          } else {
+            let num = rec.winCount / (rec.winCount + rec.drawCount + rec.loseCount);
+            this.citizenWinRate = num.toFixed(2) * 100;
+            console.log("d")
+          }
+        }
+      });
     },
     }
 

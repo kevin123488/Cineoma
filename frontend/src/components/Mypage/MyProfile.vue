@@ -54,32 +54,12 @@
       RecordDetail,
     },
     computed: {
-      ...mapState(memberStore, ["userInfo", "isLogin", "record"]),
+      ...mapState(memberStore, ["userInfo", "isLogin"]),
     },
     data() {
       return {
         num : 1,
         user: {},
-        recordMafia: {
-          win: "",
-          draw: "",
-          lose: "",
-        },
-        recordPolice: {
-          win: "",
-          draw: "",
-          lose: "",
-        },
-        recordDoctor: {
-          win: "",
-          draw: "",
-          lose: "",
-        },
-        recordCitizen: {
-          win: "",
-          draw: "",
-          lose: "",
-        },
       }
     },
     created() {
@@ -87,20 +67,6 @@
       console.log(this.userInfo);
       console.log(this.isLogin);
       // console.log(this.record);
-      this.record.forEach((rec) => {
-        console.log("여기 확인")
-        console.log(rec);
-        // console.log(rec.type);
-        if (rec.type === "mafia") {
-          console.log("이부분은 마피아의 기록")
-        } else if (rec.type === "police") {
-          console.log("이부분은 경찰의 기록")
-        } else if (rec.type === "doctor") {
-          console.log("이부분은 의사의 기록")
-        } else if (rec.type === "citizen") {
-          console.log("이부분은 시민의 기록")
-        }
-      });
       // 때 확인 불가라 일단 주석처리 해둔 것
       // 그리고 이미지 경로 수정하는 부분 어떻게 넣을지 생각해야함
       // 모달 띄워서 선택? 아님 클릭할때마다 뭐로 바뀌게?
