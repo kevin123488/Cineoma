@@ -176,19 +176,7 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
   
   - ```json
     {    
-        roomList: [
-            {
-            roomTitle: str,
-            roomNo: int,
-            memberCnt: int,
-            isPassword: bool,
-            memberList: [
-                'nickname',
-                'imagePath',
-                '',    
-                ]
-            }
-        ]
+    
     }
     ```
 
@@ -200,20 +188,10 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
   
   - method:
     - POST
-  - data:
-    - roomTitle
-    - password
-    - size (5로 고정)
-  - 리턴형식
-    - - ```json
-        {
-            roomTitle: '',
-        }
-        ```
 
 # 방 입, 퇴실
 
-- /room/{roomNo}
+- /room/{roomNum}
   
   - method:
     
@@ -221,13 +199,7 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
   
   - body
     
-    - 비번
-  
-  - ```json
-    {
-        리턴 필요없을듯
-    }
-    ```
+    - 방참여 여부 보내기
 
 # 방 삭제
 
@@ -251,24 +223,83 @@ jpa 물어볼거 있음
 
 (stomp 사용)
 
-# 1.대기화면(채팅창)
+# 1.대기화면
 
-Endpoint(/chat)
-//receive를 메시지를 받을 endpoint로 설정합니다.
-@MessageMapping("/receiveChat/{roomNo}")    
+# 1-1 채팅창
+
+소켓 연결시 사용할 uri
+
+Endpoint(/room)
+
+
+
+//프론트 입장에서 데이터를 담아 보내줄 uri
+("/receiveChat") 
+
+
+
+//프론트 입장에서 구독하다가 데이터를 받을  uri
 //send로 메시지를 반환합니다.
-@SendTo("/sendChat")
+("/sendChat/{roomNo}")
+
+ex)/sendChat/107
 
 - 리턴형식
   
   - ```json
-    {    
-      nickname:,
-      contant:
+    { 
+    ("/receiveChat")
+        f->b   
+      roomNo: int,
+      nickname:String,
+      contant:String
+    }
+    { 
+    ("/sendChat/{roomNo}")
+        b->f   
+      nickname:String,
+      contant:String
     }
     ```
 
+# 1.대기화면
+
+# 1-2프로필화면
+
+//프론트 입장에서 데이터를 담아 보내줄 uri
+("/receiveProfile")
+
+//프론트 입장에서 구독하다가 데이터를 받을 uri
+//send로 메시지를 반환합니다.
+("/sendProfile/{roomNo}")
+
+ex)/sendChat/107
+
+- 리턴형식
+  
+  - ```json
+    { 
+    ("/receiveChat")
+        f->b   
+      roomNo: int,
+      nickname:String,
+      contant:String
+    }
+    { 
+    ("/sendChat/{roomNo}")
+        b->f   
+      nickname:String,
+      contant:String
+    }
+    ```
+
+
+
+
+
 # 2. 인게임
+
+
 
 # 게임 시작
 
@@ -328,13 +359,12 @@ Endpoint(/mafia)
     
     }
     ```
-  
+
   {
     {
-  
        f->b
       progress : voteNight,
-      
+
       id : string,
       nickname : string,
       job : string,
@@ -342,25 +372,23 @@ Endpoint(/mafia)
       alive : bool,
       isHost :  bool,
       isWin : bool
-  
+    
     }
-  
+    
     {
-  
+    
       b->f
       //뽑힌사람이 없을경우 id값이 null
       // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-      
+    
       gameEnd : int,
       progress : voteNight,
       id : string,
       nickname : string
-  
+    
     }
-  
-  ```
-  
-  ```
+    
+    ```
 
 - /gameResult
   
