@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.mafia.service.FollowService;
 import com.ssafy.mafia.service.JwtServiceImpl;
 import com.ssafy.mafia.service.RecordService;
 import com.ssafy.mafia.entity.Record;
@@ -153,5 +154,5 @@ public class UserController {
 	public ResponseEntity<List<User>> searchList(@RequestParam("id") String id) throws Exception{
 		return new ResponseEntity<List<User>>(userService.getList(id), HttpStatus.OK);
 	}
-
+	
 }
