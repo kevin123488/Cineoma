@@ -29,7 +29,9 @@ const roomdataStore = {
     saveIsCaptain({ commit }, isCaptain) {
       commit('SET_ISCAPTAIN', isCaptain)
     },
-
+    saveRoomTitle({ commit }, roomTitle) {
+      commit('SET_ROOMTITLE', roomTitle)
+    },
     // 외부요청
     async makeRoom({ commit }, roomInfo) {
       await roomMake(

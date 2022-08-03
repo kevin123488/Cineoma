@@ -63,13 +63,18 @@
       ...mapActions(roomdataStore, [
         'saveRoomTitle',
         'saveIsCaptain',
+        'makeRoom',
     ]),
 
       createRoom() {
-        // 방생성
-        // /room, method: POST
+        const data = {
+          roomTitle: this.subject,
+          password: this.password,
+          size: 5
+        }
         this.saveIsCaptain(true)
         this.saveRoomTitle(this.subject)
+        this.makeRoom(data)
         // axios({
         //   url: drf.lobby.makeRoom(),
         //   method: 'post',
