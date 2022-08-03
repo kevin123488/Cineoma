@@ -1,27 +1,27 @@
-<template>
+<template class="">
+  <div class="w3-black wait-background" style="height: 1000px;">
+    <div class="w3-main mx-5">
 
-<div class="w3-main mx-5">
+      <!-- Header -->
+      <header id="portfolio">
+        <div class="w3-container">
+        <h1><b>{{ roomTitle }}</b></h1>
+        <div class="w3-section w3-bottombar w3-padding-16">
+          <a href="/lobby">
+          <!-- <router-link :to="{ name: 'lobby' }" > -->
+          <!-- 방나가기 /room/roomNum -->
+          <!-- method: PUT -->
+          <!-- 방 삭제 /room/roomNum -->
+          <!-- method: DELETE -->
+          
+            <button v-if="isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방삭제</button>
+            <button v-if="!isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방나가기</button>
 
-  <!-- Header -->
-  <header id="portfolio">
-    <div class="w3-container">
-    <h1><b>{{ roomTitle }}</b></h1>
-    <div class="w3-section w3-bottombar w3-padding-16">
-      <a href="/lobby">
-      <!-- <router-link :to="{ name: 'lobby' }" > -->
-      <!-- 방나가기 /room/roomNum -->
-      <!-- method: PUT -->
-      <!-- 방 삭제 /room/roomNum -->
-      <!-- method: DELETE -->
-      
-        <button v-if="isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방삭제</button>
-        <button v-if="!isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방나가기</button>
-
-      <!-- </router-link> -->
-      </a>
-    </div>
-    </div>
-  </header>
+          <!-- </router-link> -->
+          </a>
+        </div>
+        </div>
+      </header>
   
   <!-- First Photo Grid-->
   <div class="w3-row">
@@ -87,7 +87,7 @@
     </div>
 
   </div>
-</div>
+    </div>
 
 
 
@@ -95,6 +95,7 @@
     <hr>
     <router-link :to="{ name: 'ingame', params: { id_pk: num } }" 
         class="w3-bar-item w3-button">게임시작</router-link>
+  </div>
 </template>
 
 <script>
@@ -138,3 +139,31 @@
     }
     }
 </script>
+
+<style>
+  .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-button {
+    display: inline-block;
+    height: 40px;
+  } 
+  .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right {
+    height: 40px;
+    padding-top: 6px;
+    padding-right: 5px;
+    margin: 0 0;
+  }
+  .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right > i {
+    position: relative;
+    top: -2px;
+  }
+  .w3-bar.w3-black.w3-hide-small .fa {
+    /* height: 30px; */
+    margin: 0;
+    /* padding-top: 6px; 
+    margin: 0 0; */
+  }
+  .wait-background {
+    background-image: url(../../public/homedesign/images/wait_mafia.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
