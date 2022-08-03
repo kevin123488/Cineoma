@@ -6,7 +6,9 @@
 const lobbyStore = {
   namespaced: true,
   state: {
-    friendList: "ㅇㅇ",
+    friendList: {
+      
+    },
     roomList: [
       { 
         title: '1번방제',

@@ -228,6 +228,7 @@
       //     method: 'get',
       //   })
       //   .then(res => {
+            // 친구목록: 온오프라인 정보 
       //     this.friendList = res.data.friendList
       //     this.roomList = res.data.roomList
       //   })
@@ -237,6 +238,7 @@
       // } else {
       //   router.push({ name: 'login' })
       // }
+
     },
     mounted() {
       console.log(this.roomList[0])
