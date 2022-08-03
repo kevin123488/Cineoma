@@ -1,5 +1,5 @@
 <template>
-	<video autoplay/>
+	<video autoplay class="video-size" />
 </template>
 
 <script>
@@ -15,3 +15,10 @@ export default {
 	},
 };
 </script>
+
+<style>
+.video-size {
+    width: 100%;
+    height: 200px;
+}
+</style>

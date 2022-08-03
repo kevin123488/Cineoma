@@ -111,7 +111,7 @@
 
 <script>
 const memberStore = "memberStore";
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
   export default {
     name: 'NavHeader',
@@ -126,12 +126,13 @@ import { mapState } from 'vuex';
       ...mapState(memberStore, ["isLogin", "userInfo", "record", "isLoginError", "isSignupError"]),
     },
     methods: {
+      ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
       logout() {
-        this.isLogin = false;
-        this.userInfo = null;
-        this.record = null;
-        this.isLoginError = false;
-        this.isSignupError = false;
+        console.log(this.userInfo)
+        this.SET_USER_INFO(null);
+        this.SET_IS_LOGIN(false);
+        console.log(this.isLogin)
+        console.log(this.userInfo)
         alert("로그아웃!!")
         this.$router.push("/") // 로그아웃 하면 로그인 창으로 보내주자
       },
