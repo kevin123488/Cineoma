@@ -41,24 +41,55 @@
             <br>
         </div>
 
-        <!-- 방 정보 시작 -->
-        <div v-for="(room, index) in roomList" :key="index" class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <div v-on:click="clickRoom(room.roomNum)">
-            <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4>{{ room.title }}</h4><br>
-            <hr class="w3-clear">
-            <p>참여 인원 정보 넣으면 어떨까</p>
-              <!-- <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-                </div>
-                <div class="w3-half">
-                  <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-                </div>
+        <!-- 들어가기모달 -->
+        <div class="modal" id="enterRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="margin-top: 200px;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="makeRoomModalLabel">{{ enterRoomData.roomTitle }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-            <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
-            <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
+
+              <div class="modal-body">
+                <p>함께할 멤버</p>
+                <div v-for="(member, index) in memberList" :key="index">
+                  <p>{{ member.nickname }}</p>
+                </div>
+                <input v-if="enterRoomData.isPassword" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호를 입력해주세요:" v-model="password">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <button v-on:click="clickRoom(enterRoomData.roomNo)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
+
+              </div>
           </div>
+        </div>
+        <p>참여 인원 정보 넣으면 어떨까</p>
+          <!-- <div class="w3-row-padding" style="margin:0 -16px">
+            <div class="w3-half">
+              <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
+            </div>
+            <div class="w3-half">
+              <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
+            </div>
+          </div>
+        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
+        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
+        </div>
+
+          <!-- 방 정보 시작 -->
+          <div v-for="(room, index) in roomList" :key="index" class="w3-container w3-card w3-white w3-round w3-margin"><br>
+            <span class="w3-right w3-opacity">생성시간: 10 min</span>
+            <h4>{{ room.roomTitle }} ({{ room.memberCnt }} / 5)</h4><br>
+            <hr class="w3-clear">
+
+            <!-- 들어가기버튼 -->
+            <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style="font-family: 'NeoDunggeunmo Code';">
+              <i class="fa fa-pencil"></i>들어가기
+            </button>
+
+
         </div>
         <!-- 방정보 끝 -->
         
@@ -173,7 +204,7 @@
   import RoomList from '@/components/Lobby/RoomList.vue'
   import { mapActions, mapGetters } from 'vuex'
   const lobbyStore = "lobbyStore"
-  const ingameStore = "ingameStore"
+  const roomdataStore = "roomdataStore"
   // import axios from 'axios'
   // import drf from '@/api/drf'
   import router from '@/router'
@@ -188,61 +219,57 @@
     data() {
       return {
         num: 1,
-        enterRoomNum: 1,
+        enterRoomData: {},
+        enterModalVisible: false,
+        memberList: [],
       }
     },
 
     // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
     computed: {
-      // ...mapState("ingame", ["roomTitle"]),
+      // ...mapState("roomdataStore", ["roomTitle"]),
       ...mapGetters(lobbyStore, [
         'friendList',
         'roomList',
       ]),
-      ...mapGetters(ingameStore, [
+      ...mapGetters(roomdataStore, [
         'roomTitle',
         'isCaptain'
       ]),
     },
     methods: {
       ...mapActions(lobbyStore, [
-        'saveFriendList',
-        'saveRoomList',
+        'getRoomList',
     ]),
-      ...mapActions(ingameStore, [
+      ...mapActions(roomdataStore, [
         'saveRoomTitle',
         'saveIsCaptain',
     ]),
-    clickRoom(roomNum) {
-      console.log(typeof(roomNum))
-      router.push({ name: 'wait', params: { roomnumber: roomNum } })
+
+    clickRoom(roomNo) {
+      console.log(roomNo)
+      router.push({ name: 'wait', params: { roomnumber: roomNo } })
+    },
+
+    openEnterRoom(room) {
+      this.enterRoomData = room
+      this.enterModalVisible = true
+      this.memberList = room.memberList
+      console.log(this.memberList)
     }
+    
     },
 
     created() {
       this.saveIsCaptain(false)
-      // 로그인된 상태면 요청, 아니면 로그인페이지로
-      // if (this.isLogin) {
-      //   axios({
-      //     url: drf.lobby.setLobby(),
-      //     method: 'get',
-      //   })
-      //   .then(res => {
-            // 친구목록: 온오프라인 정보 
-      //     this.friendList = res.data.friendList
-      //     this.roomList = res.data.roomList
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
-      // } else {
-      //   router.push({ name: 'login' })
-      // }
-
+      // store에 방목록 세팅
+      this.getRoomList()
     },
+
     mounted() {
+      console.log(this.friendList)
       console.log(this.roomList[0])
-      // console.log('???')
+      console.log(this.isCaptain)
     }
     }
 

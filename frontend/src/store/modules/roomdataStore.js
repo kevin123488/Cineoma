@@ -1,9 +1,13 @@
 // 참여중인 방 제목, 이 유저가 방장인지 체크할 예정
 // import { createStore } from 'vuex'
 // import { reactive } from "vue";
+import {
+  roomMake,
+  roomDelete,
+  roomEnter,
+} from "@/api/room.js";
 
-
-const ingameStore = {
+const roomdataStore = {
   namespaced: true,
   state: {
     roomTitle: "",
@@ -22,17 +26,48 @@ const ingameStore = {
     SET_ISCAPTAIN: (state, isCaptain) => state.isCaptain = isCaptain,
   },
   actions: {
-    saveRoomTitle({ commit }, roomTitle) {
-      commit('SET_ROOMTITLE', roomTitle)
-    },
-  
     saveIsCaptain({ commit }, isCaptain) {
       commit('SET_ISCAPTAIN', isCaptain)
+    },
+
+    // 외부요청
+    async makeRoom({ commit }, roomInfo) {
+      await roomMake(
+        roomInfo,
+        (response) => {
+          commit('SET_ROOMTITLE', response.data.roomTitle)
+          commit('SET_ISCAPTAIN', true)
+        },
+        () => {},
+      );
+    },
+
+    async deleteRoom({ commit }, roomNo) {
+      await roomDelete(
+        roomNo,
+        () => {
+          commit('SET_ROOMTITLE', '')
+          commit('SET_ISCAPTAIN', false)
+        },
+        () => {},
+      );
+    },
+
+    // (roomInfo{ roomNo, password: { password: int } } )
+    async enterRoom({ commit }, roomInfo) {
+      await roomEnter(
+        roomInfo,
+        () => {
+          commit('SET_ROOMTITLE', '')
+        },
+        () => {},
+      );
     },
   },
 };
 
-export default ingameStore;
+
+export default roomdataStore;
 
 
 // export default createStore({
