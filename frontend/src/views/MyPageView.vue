@@ -28,7 +28,11 @@
     computed: {
     },
     methods: {
-    }}
+    },
+    created() {
+
+    },
+    }
 
 </script>
 

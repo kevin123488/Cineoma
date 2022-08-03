@@ -1,7 +1,7 @@
-const mypage = {
+const mypageStore = {
   namespaced: true,
   state: {
-
+    friendList: "",
   },
   getters: {
 
@@ -14,7 +14,7 @@ const mypage = {
   },
 };
 
-export default mypage;
+export default mypageStore;
 
 // import { createStore } from 'vuex'
 
