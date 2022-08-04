@@ -3,11 +3,12 @@
     <h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ user.nickname }}의 프로필입니다</h1>
     <div class="myProfileLayout">
       <div class="profileDiv">
-        <div class="profilePic">
+        <div class="profilePic" @click="selectImage">
           <p style="text-align: center;">{{ user.imagePath }}</p>
+          <img class="profileImage" src="/homedesign/images/profile_mafia.jpg" alt="...">
         </div>
         <div class="introduce">
-            <span style="font-family: 'NeoDunggeunmo Code';">자기소개가 들어갈 공간 {{ user.intro }}</span>
+            <span style="font-family: 'NeoDunggeunmo Code';">{{ user.intro }}</span>
         </div>
 
         <!-- 모달 시작 -->
@@ -24,11 +25,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <input style="color: black;" type="text" v-model="user.intro">
+                <input style="color: black; width: 90%" type="text" v-model="user.intro">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="userUpdate">Save changes</button>
+                <button type="button" @click="cancellation" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" @click="userUpdate">저장</button>
               </div>
             </div>
           </div>
@@ -60,6 +61,10 @@
       return {
         num : 1,
         user: {},
+        image1: "profile_mafia.jpg",
+        image2: "profile_citizen",
+        image3: "profile_doctor",
+        image4: "profile_police",
       }
     },
     created() {
@@ -77,10 +82,17 @@
       userUpdate() {
         this.modifyMember(this.user);
         this.mvMyPage();
+        this.$router.go();
       },
       mvMyPage() {
         this.$router.push({ name: "profile" });
-      }
+      },
+      cancellation() {
+        this.$router.go();
+      },
+      selectImage() {
+        console.log(this.userInfo.imagePath);
+      },
     },
     }
 
@@ -146,14 +158,19 @@
     height: 450px;
     background-image: url(../../../public/homedesign/images/profile_dot2.png);
     background-size: cover;
+    cursor: pointer;
   }
   .introduce {
     height: 100px;
-    width: 200px;
+    width: 100%;
     overflow: auto;
     -ms-overflow-style: none;
-    background-image: url(../../../public/homedesign/images/introduce.png);
+    /* background-image: url(../../../public/homedesign/images/introduce.png); */
+    background-color: aqua;
     background-size: cover;
+    border-radius: 30px;
+    text-align: center;
+    margin: auto;
   }
   .introduce::-webkit-scrollbar {
     display: none;
@@ -165,5 +182,11 @@
     color: black;
     float: right;
     border-radius: 10px;
+  }
+  .profileImage {
+    margin: 100px 100px 100px 105px;
+    width: 55%;
+    height: 55%;
+    border-radius: 70px;
   }
 </style>

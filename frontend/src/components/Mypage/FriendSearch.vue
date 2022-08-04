@@ -47,10 +47,14 @@ const memberStore = "memberStore";
       ...mapActions(mypageStore, ["searchFriendStore", "followFriendStore"]),
       ...mapMutations(mypageStore, ["SET_FRIENDS_SEARCH"]),
       async friendSearch() {
-        this.SET_FRIENDS_SEARCH([]); // 검색시 store의 검색 결과를 초기화 할 필요가 있음
-        let word = this.searchWord;
-        let page = 0; // 첫 엔터 눌렀을 때 얘기임
-        await this.searchFriendStore(word, page); // mypageStore의 friendSearchList에 검색 결과가 담김
+        // this.SET_FRIENDS_SEARCH([]); // 검색시 store의 검색 결과를 초기화 할 필요가 있음
+        // let word = this.searchWord;
+        // let page = 1; // 첫 엔터 눌렀을 때 얘기임
+        let follow = {
+          word: this.searchWord,
+          page: 1,
+        }
+        await this.searchFriendStore(follow); // mypageStore의 friendSearchList에 검색 결과가 담김
         this.isSearched = this.isThereSearch;
         this.searchWord = "";
         this.searchResult = this.friendSearchList;

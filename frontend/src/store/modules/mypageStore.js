@@ -40,8 +40,11 @@ const mypageStore = {
         userid,
         (response) => { // 나중에 콘솔 찍어서 response 어떤 형식인지 확인
           if (response.data.length != 0) { 
+            console.log(response)
+            console.log(response.data)
+            console.log(response.data.length)
             // response.data. 일수도, response. 일수도 있음
-            commit("SET_FRIENDS", response.data.friends);
+            commit("SET_FRIENDS", response.data);
           } else {
             console.log("친구 없음")
           }
@@ -71,9 +74,13 @@ const mypageStore = {
     },
 
     async removeFriendStore({ commit }, user) {
+      console.log("팔취 들어가나?")
+      console.log(user);
       await removeFriend(
         user,
         (response) => {
+          console.log("응답 어떻게 오나?")
+          console.log(response);
           if (response.data.message === "success") {
             console.log("팔삭 성공")
             commit("SET_FOLLOWERS_NUM_MINUS", 1);
@@ -87,13 +94,13 @@ const mypageStore = {
       );
     },
 
-    async searchFriendStore({ commit }, word, page) {
+    async searchFriendStore({ commit }, follow) {
       await searchFriend(
-        word,
-        page,
+        follow,
         (response) => {
           if (response.data.length != 0) {
-            commit("SET_FRIENDS_SEARCH", response.data.friends);
+            console.log("검색 들어왔냐?")
+            commit("SET_FRIENDS_SEARCH", response.data);
           } else {
             console.log("검색결과 없음");
             commit("SET_SEARCH_ANSWER", false);
