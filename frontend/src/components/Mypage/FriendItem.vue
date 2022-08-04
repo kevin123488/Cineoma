@@ -36,8 +36,8 @@ const mypageStore = "mypageStore";
       ...mapActions(mypageStore, ["removeFriendStore"]),
       async deleteFriend() {
         let follow = {
-          id: this.userInfo.id,
-          friendId: this.friendItem.id,
+          myId: this.userInfo.id,
+          followId: this.friendItem.id,
         };
         await this.removeFriendStore(follow);
         this.$router.go(); // 삭제 요청 들어가고 실행된 후 새로고침하여 바뀐 정보 반영
