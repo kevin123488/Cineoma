@@ -16,10 +16,10 @@
         <div class="w3-col m12">
           <div class="">
             <!-- <div class="w3-container p-3"> -->
-            <div class="w3-container w3-card w3-white w3-round sticky-top mx-5 my-3">
+            <div id="lobbyTop" class="w3-container w3-card w3-round sticky-top mx-5 my-3">
             <div class="w3-container w3-roun my-3">
               <!-- <h6 class="w3-opacity">Social Media template by w3.css</h6> -->
-              <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="방 제목:" v-model="searchRoomKeyword">
+              <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
               <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
@@ -37,7 +37,7 @@
       <br>
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div class="w3-container w3-card w3-white w3-round sticky-top mx-5 my-3"><br>
+        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
             <h4 class="mx-4">Activated Room List</h4>
             <br>
         </div>
@@ -325,9 +325,18 @@ input::placeholder {
   margin-top: 70px;
 }
 #rooms {
-  background-image: url(../../public/homedesign/images/lobby_room.gif);
+  background-image: url(../../public/homedesign/images/lobby_room_v2.gif);
   background-repeat : no-repeat;
     background-size: 100% 100%;
-/* background-size : cover; */
+}
+/* #lobbyTop {
+  background-image: url(../../public/homedesign/images/lobby_top.png);
+  background-repeat : no-repeat;
+    background-size: 100% 100%;
+} */
+#lobbyMid {
+  background-image: url(../../public/homedesign/images/lobby_mid_v2.gif);
+  background-repeat : no-repeat;
+    background-size: 100% 100%;
 }
 </style>
