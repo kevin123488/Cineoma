@@ -14,6 +14,8 @@
   import MyProfile from '@/components/Mypage/MyProfile.vue'
   const mypageStore = "mypageStore";
   import { mapActions } from 'vuex';
+  import { mapState } from 'vuex';
+  const memberStore = "memberStore";
 
   export default {
     name: 'MyPage',
@@ -27,12 +29,14 @@
       }
     },
     computed: {
+      ...mapState(memberStore, ["userInfo"]),
     },
     methods: {
       ...mapActions(mypageStore, ["getFriendsStore"]),
     },
     created() {
-      this.getFriendsStore();
+      console.log(this.userInfo);
+      this.getFriendsStore(this.userInfo.id); // mypageStore의 friendList 부분에 정보 넣기
     },
     }
 

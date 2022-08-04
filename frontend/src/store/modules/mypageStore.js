@@ -11,6 +11,7 @@ const mypageStore = {
     friendList: "",
     friendSearchList: "",
     isThereSearch: true,
+    followNum: 0,
   },
   getters: {
 
@@ -18,12 +19,19 @@ const mypageStore = {
   mutations: {
     SET_FRIENDS: (state, friends) => {
       state.friendList = friends;
+      state.followNum = friends.length;
     },
     SET_FRIENDS_SEARCH: (state, friends) => {
       state.friendSearchList = friends;
     },
     SET_SEARCH_ANSWER: (state, ans) => {
       state.isThereSearch = ans;
+    },
+    SET_FOLLOWERS_NUM_PLUS: (state, num) => {
+      state.followNum += num;
+    },
+    SET_FOLLOWERS_NUM_MINUS: (state, num) => {
+      state.followNum -= num;
     }
   },
   actions: {
@@ -45,12 +53,13 @@ const mypageStore = {
     },
     // actions에 commit 안써도 되나? 안되면 follow, remove 로직은
     // 화면 구성하는 파일로 옮겨두도록 하겠음
-    async followFriendStore(user) {
+    async followFriendStore({ commit }, user) {
       await followFriend(
         user,
         (response) => {
           if (response.data.message === "success") {
             console.log("팔로우 성공")
+            commit("SET_FOLLOWERS_NUM_PLUS", 1);
           } else {
             console.log("팔로우 실패")
           }
@@ -61,12 +70,13 @@ const mypageStore = {
       );
     },
 
-    async removeFriendStore(user) {
+    async removeFriendStore({ commit }, user) {
       await removeFriend(
         user,
         (response) => {
           if (response.data.message === "success") {
             console.log("팔삭 성공")
+            commit("SET_FOLLOWERS_NUM_MINUS", 1);
           } else {
             console.log("팔삭 실패")
           }
@@ -77,9 +87,10 @@ const mypageStore = {
       );
     },
 
-    async searchFriendStore({ commit }, user) {
+    async searchFriendStore({ commit }, word, page) {
       await searchFriend(
-        user,
+        word,
+        page,
         (response) => {
           if (response.data.length != 0) {
             commit("SET_FRIENDS_SEARCH", response.data.friends);
