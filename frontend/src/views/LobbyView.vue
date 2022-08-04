@@ -20,12 +20,12 @@
             <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
             <div class="w3-container w3-roun my-3">
               <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
-              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
+              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
-              <make-room style="display: inline;"></make-room>
+              <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
-                <a href="/lobby" style="font-size: 1em;"><i class="fa fa-refresh"></i>새로고침</a>
+                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 1em;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
             </div>
             </div>
@@ -38,7 +38,7 @@
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
         <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
-            <h4 class="mx-4">Activated Room List</h4>
+            <h4 class="mx-4 text-purple">Activated Room List</h4>
             <br>
         </div>
 
@@ -66,7 +66,6 @@
               </div>
           </div>
         </div>
-        <p>참여 인원 정보 넣으면 어떨까</p>
           <!-- <div class="w3-row-padding" style="margin:0 -16px">
             <div class="w3-half">
               <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
@@ -82,11 +81,11 @@
           <!-- 방 정보 시작 -->
           <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4 id="title" class="px-4">{{ room.roomTitle }}</h4><h6 class="px-4">({{ room.memberCnt }} / 5)</h6>
+            <h4 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h4><h6 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h6>
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <p class="mx-3" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
+            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
               <i class="fa fa-pencil"></i>들어가기
             </p>
         </div>
@@ -100,7 +99,7 @@
 
       <!-- 공지창 -->
       <div id="notice" class="w3-round  w3-center">
-        <div class="w3-container mx-5">
+        <div class="w3-container" style="margin-left: 30px; margin-right: 30px">
           <br>
           <br>
           <p class="my-1">Upcoming Events:</p>
@@ -112,16 +111,16 @@
       </div>
       <br>
       
-      <div id="scroll" class="overflow-auto mx-5 my-3" style="height: 400px;">
+      <div id="scroll" class="overflow-auto my-3" style="height: 400px; margin-left: 60px; margin-right: 60px;">
 
-        <div class="w3-card w3-round w3-white w3-center sticky-top">
+        <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
-            <h3>Friend List</h3>
+            <h4>Friend List</h4>
           </div>
         </div>
 
         <div class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container">
+          <div class="w3-container lobbyFriend">
             <h3>친구 프로필</h3>
             <span>친구 이름</span>
             <p>온, 오프 표시나 게임중 표시</p>
@@ -138,7 +137,7 @@
         </div>
 
         <div class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container">
+          <div class="w3-container lobbyFriend">
             <h3>친구 프로필</h3>
             <span>친구 이름</span>
             <p>온, 오프 표시나 게임중 표시</p>
@@ -155,7 +154,7 @@
         </div>
 
         <div class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container">
+          <div class="w3-container lobbyFriend">
             <h3>친구 프로필</h3>
             <span>친구 이름</span>
             <p>온, 오프 표시나 게임중 표시</p>
@@ -202,7 +201,7 @@
   const mypageStore = "mypageStore"
   // import axios from 'axios'
   // import drf from '@/api/drf'
-  import router from '@/router'
+  // import router from '@/router'
 
   export default {
     name: 'LobbyView',
@@ -214,7 +213,6 @@
         num: 1,
         enterRoomData: {},
         enterModalVisible: false,
-        // memberList: [],
         searchRoomKeyword: '',
       }
     },
@@ -247,7 +245,7 @@
 
     tryEnterRoom(roomNo) {
       console.log(roomNo)
-      router.push({ name: 'wait', params: { roomnumber: roomNo } })
+      // router.push({ name: 'wait', params: { roomnumber: roomNo } })
 
       // roomInfo = { roomNo: int, password: { password: int } }
       const roomInfo = {
@@ -319,6 +317,22 @@ input::placeholder {
 .lobby-undernavbar {
   margin-top: 70px;
 }
+.text-purple {
+  color: rgb(228, 198, 255);
+}
+.text-darkpurple {
+  color: rgb(141, 94, 183);
+}
+.text-deepdarkpurple {
+  color: rgb(79, 48, 103);
+}
+.white-border {
+  display: flex;
+  margin: auto;
+  justify-content: space-around;
+  border-radius: 30px;
+  border: 5px solid white;
+}
 #rooms {
   background-image: url(../../public/homedesign/images/lobby_room_v2.gif);
   background-repeat : no-repeat;
@@ -331,6 +345,16 @@ input::placeholder {
 } */
 #lobbyMid {
   background-image: url(../../public/homedesign/images/lobby_mid_v2.gif);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+}
+#lobbyFriendTitle {
+  background-image: url(../../public/homedesign/images/lobby_friendtitle.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+}
+#lobbyFriend {
+  background-image: url(../../public/homedesign/images/lobby_friend.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
 }

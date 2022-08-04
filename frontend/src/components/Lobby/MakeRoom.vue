@@ -19,10 +19,9 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <router-link :to="{ name: 'wait', params: { roomnumber: num } }" 
-            class="w3-bar-item w3-button">
+            <!-- <router-link :to="{ name: 'wait', params: { roomnumber: num } }" class="w3-bar-item w3-button"> -->
             <button v-on:click="createRoom" type="button" class="btn btn-primary" data-bs-dismiss="modal">방만들기</button>
-            </router-link>
+            <!-- </router-link> -->
           </div>
         </div>
       </div>
