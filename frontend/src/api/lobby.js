@@ -9,9 +9,12 @@ async function roomList(success, fail) {
     await api.get(`/room`).then(success).catch(fail);
 }
 
-
+async function memberList(roomNo, success, fail) {
+    api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+    await api.get(`/room/${roomNo}`).then(success).catch(fail);
+}
 
 export {
     roomList,
-
+    memberList,
 }
