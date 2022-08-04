@@ -229,16 +229,16 @@ jpa 물어볼거 있음
 
 소켓 연결시 사용할 uri
 
-Endpoint(/roomSocket)
+Endpoint(roomSocket)
 
 //프론트 입장에서 데이터를 담아 보내줄 uri
 ("/receiveChat") 
 
 //프론트 입장에서 구독하다가 데이터를 받을  uri
 //send로 메시지를 반환합니다.
-("/sendChat/{roomNo}")
+("topic/sendChat/{roomNo}")
 
-ex)/sendChat/107
+ex)topic/sendChat/107
 
 - 리턴형식
   
@@ -251,7 +251,7 @@ ex)/sendChat/107
       contant:String
     }
     { 
-    ("/sendChat/{roomNo}")
+    ("topic/sendChat/{roomNo}")
         b->f   
       nickname:String,
       contant:String
@@ -267,7 +267,7 @@ ex)/sendChat/107
 
 //프론트 입장에서 구독하다가 데이터를 받을 uri
 //send로 메시지를 반환합니다.
-("/sendProfile/{roomNo}")
+("topic/sendProfile/{roomNo}")
 
 ex)/sendChat/107
 
@@ -275,17 +275,20 @@ ex)/sendChat/107
   
   - ```json
     { 
-    ("/receiveChat")
-        f->b   
+    ("/receiveProfile")
+        f->b
+    progress:String,//in and out 으로 입장인지 퇴장인지 구별하   
       roomNo: int,
-      nickname:String,
-      contant:String
+      id:String
     }
     { 
-    ("/sendChat/{roomNo}")
-        b->f   
+    ("topic/sendProfile/{roomNo}")
+        b->f  
+    progress:String,//in and out 으로 입장인지 퇴장인지 구별하 
       nickname:String,
-      contant:String
+      id:String,//out일땐 id값만 줄 예
+    imagePath:String,
+    intro:String
     }
     ```
 
