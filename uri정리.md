@@ -229,14 +229,10 @@ jpa 물어볼거 있음
 
 소켓 연결시 사용할 uri
 
-Endpoint(/room)
-
-
+Endpoint(/roomSocket)
 
 //프론트 입장에서 데이터를 담아 보내줄 uri
 ("/receiveChat") 
-
-
 
 //프론트 입장에서 구독하다가 데이터를 받을  uri
 //send로 메시지를 반환합니다.
@@ -293,35 +289,40 @@ ex)/sendChat/107
     }
     ```
 
-
-
-
-
 # 2. 인게임
-
-
 
 # 게임 시작
 
-Endpoint(/mafia)
-//receive를 메시지를 받을 endpoint로 설정합니다.
-@MessageMapping("/receiveMafia/{roomNo}")
-//send로 메시지를 반환합니다.
-@SendTo("/sendMafia")
+소켓 연결시 사용할 uri
 
-- 리턴형식
-  -job : string,(id 값이 들어감)
-  
-  - ```json
+Endpoint(/mafiaSocket)
+
+
+//프론트 입장에서 데이터를 담아 보내줄 uri
+("/receiveMafia")
+
+//프론트 입장에서 구독하다가 데이터를 받을 uri
+//send로 메시지를 반환합니다.
+("/sendMafia/{roomNo}")
+
+ex)/sendChat/107
+
+
+
+- - ```json
+    소켓 투표 장점 : 서로 누구를 투표햇는지 실시간으로 볼 수 있음
+    실제 마피아 게임 생각하면 누가 누구 뽑앗는지 표기 해주는게 맞을거같음
     {
       f->b
       progress : start
+      roomNo: int,
     }
     
     {
       b->f
     
       progress : start,
+    
       list {
         id :string,
         nickname : string,
@@ -337,11 +338,13 @@ Endpoint(/mafia)
      f->b
     progress : voteDay,
     
+    roomNo: int,
     id : string,
     nickname : string,
-    vote : string,
+    vote : string,//누구를 뽑았는지 id
     alive : bool,
     isHost :  bool,
+    //미션 관련으로 승리 했을 경우 알려주는 변수
     isWin : bool
     
     }
@@ -351,44 +354,52 @@ Endpoint(/mafia)
     b->f
     //뽑힌사람이 없을경우 id값이 null
     // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-    gameEnd : int,
+    {
     progress : voteDay,
+    gameEnd : int,
     id : string,
     nickname : string,
     count : int
+    // id, nickname은 죽은사람이 없는경우 "" 로 보내고 죽은사람이 있는경우 죽은 사람의 정보를 보
     
     }
     ```
-
+  
   {
     {
-       f->b
+  
+      프론트에서 투표 끝내고 백으로 정보 보내주는 부분
+      
+        f->b
+      마피아가 여러명이면
+      소켓으로 구현 가능함
       progress : voteNight,
-
-      id : string,
+      
+      id : string,//누구를 뽑았는지 일반 시민의 경우 "" 로 전달 혹은 그냥 안넣어서 보내도됨
       nickname : string,
-      job : string,
+      job : string,//내 직업이 뭔지
       vote : string,
       alive : bool,
       isHost :  bool,
       isWin : bool
-    
+  
     }
-    
+  
     {
-    
+  
       b->f
       //뽑힌사람이 없을경우 id값이 null
       // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-    
-      gameEnd : int,
       progress : voteNight,
+      gameEnd : int,
       id : string,
       nickname : string
-    
+  
     }
-    
-    ```
+  
+  ```
+  
+  ```
 
 - /gameResult
   
