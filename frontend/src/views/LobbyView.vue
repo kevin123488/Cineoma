@@ -12,12 +12,14 @@
     <!-- 방 관련 부분 -->
     <div class="w3-col m8">
     
-      <div class="w3-row-padding">
+      <div class="w3-row">
         <div class="w3-col m12">
-          <div class="w3-card w3-round w3-white">
-            <div class="w3-container p-3">
+          <div class="">
+            <!-- <div class="w3-container p-3"> -->
+            <div class="w3-container w3-card w3-white w3-round sticky-top mx-5 my-3">
+            <div class="w3-container w3-roun my-3">
               <!-- <h6 class="w3-opacity">Social Media template by w3.css</h6> -->
-              <input id ="searchBar" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="방 제목:" v-model="searchRoomKeyword">
+              <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="방 제목:" v-model="searchRoomKeyword">
               <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
@@ -27,7 +29,7 @@
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <a href="/lobby" style="font-size: 1em;"><i class="fa fa-refresh"></i>새로고침</a>
               </button>
-              <hr>
+            </div>
             </div>
           </div>
         </div>
@@ -35,8 +37,8 @@
       <br>
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div class="w3-container w3-card w3-white w3-round sticky-top w3-margin" style="margin: ;"><br>
-            <h4>Activated Room List</h4>
+        <div class="w3-container w3-card w3-white w3-round sticky-top mx-5 my-3"><br>
+            <h4 class="mx-4">Activated Room List</h4>
             <br>
         </div>
 
@@ -45,7 +47,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="makeRoomModalLabel">{{ enterRoomData.roomTitle }}</h5>
+                <h5 class="modal-title" id="makeRoomModalLabel">{{ enterRoomData.roomNo }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -78,15 +80,15 @@
         </div>
 
           <!-- 방 정보 시작 -->
-          <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4 id="title" class="px-2">{{ room.roomTitle }}</h4><h6 class="px-2">({{ room.memberCnt }} / 5)</h6>
-            <hr class="w3-clear">
+            <h4 id="title" class="px-4">{{ room.roomTitle }}</h4><h6 class="px-4">({{ room.memberCnt }} / 5)</h6>
+            <hr class="">
 
             <!-- 들어가기버튼 -->
-            <button type="button" class="w3-button" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room.roomNo)" style="font-family: 'NeoDunggeunmo Code';">
+            <p class="mx-3" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
               <i class="fa fa-pencil"></i>들어가기
-            </button>
+            </p>
         </div>
         <!-- 방정보 끝 -->
         
@@ -96,7 +98,7 @@
     <!-- 친구창 -->
     <div class="w3-col m4">
 
-      <div class="w3-card w3-round w3-white w3-center">
+      <div class="w3-card w3-round w3-white w3-center mx-5" style="margin-top: 1em">
         <div class="w3-container">
           <p>Upcoming Events:</p>
           <p>공지에 적은 내용 재탕하던지(이벤트 이름)</p>
@@ -107,7 +109,7 @@
       </div>
       <br>
       
-      <div id="scroll" class="overflow-auto" style="height: 400px;">
+      <div id="scroll" class="overflow-auto mx-5 my-3" style="height: 400px;">
 
         <div class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
@@ -249,6 +251,7 @@
     ]),
 
     tryEnterRoom(roomNo) {
+      console.log(roomNo)
       router.push({ name: 'wait', params: { roomnumber: roomNo } })
 
       // roomInfo = { roomNo: int, password: { password: int } }
@@ -259,11 +262,11 @@
       this.enterRoom(roomInfo)
     },
 
-    openEnterRoom(roomNo) {
+    openEnterRoom(room) {
       // 이쪽 랜더링 잘 안될수도 있을듯
       // 안되면 watch 달아보기
-      this.getMemberList(roomNo)
-      // this.enterRoomData = room
+      this.getMemberList(room.roomNo)
+      this.enterRoomData = room
       this.enterModalVisible = true
       // this.memberList = room.memberList
       // console.log(this.memberList)
@@ -320,5 +323,11 @@ input::placeholder {
 }
 .lobby-undernavbar {
   margin-top: 70px;
+}
+#rooms {
+  background-image: url(../../public/homedesign/images/lobby_room.gif);
+  background-repeat : no-repeat;
+    background-size: 100% 100%;
+/* background-size : cover; */
 }
 </style>
