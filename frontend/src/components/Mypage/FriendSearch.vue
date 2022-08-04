@@ -57,8 +57,8 @@ const memberStore = "memberStore";
       },
       async friendFollow(id) {
         let follow = {
-          id: this.userInfo.id,
-          friendId: id,
+          myId: this.userInfo.id,
+          followId: id,
         }
         await this.followFriendStore(follow);
         this.$router.go();
