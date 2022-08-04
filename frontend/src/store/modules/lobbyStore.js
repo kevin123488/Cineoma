@@ -71,6 +71,8 @@ const lobbyStore = {
     async getRoomList({ commit }) {
       await roomList(
         (response) => {
+          console.log('방정보 불러오기')
+          console.log(response.data.roomList)
           commit('SET_ROOMLIST', response.data.roomList)
         },
         () => {},
@@ -81,6 +83,7 @@ const lobbyStore = {
       await memberList(
         roomNo,
         (response) => {
+          console.log(response.data.memberList)
           commit('SET_MEMBERLIST', response.data.memberList)
         },
         () => {},
