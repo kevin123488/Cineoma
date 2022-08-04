@@ -26,14 +26,15 @@ public class MessageController {
 //		
 //	}
 	@MessageMapping("/receiveChat")
-    public ChatDto chat(ChatDto chatDto) {
+    public void chat(ChatDto chatDto) {
 //		public ChatDto chat(@DestinationVariable int roomNo, ChatDto chatDto) {
 			
 		System.out.println("roomNo : "+ chatDto.getRoomNo());
 		System.out.println("NickName : "+ chatDto.getNickName());		
 		System.out.println("Content : "+ chatDto.getContent());
-		sendingOperations.convertAndSend("/sendChat/"+chatDto.getRoomNo(), chatDto);
-        return chatDto;
+		//front에서 구독받을 uri로 보내줌
+		sendingOperations.convertAndSend("/topic/sendChat/"+chatDto.getRoomNo(), chatDto);
+        return;
     }
 	
 //	@MessageMapping("/receiveProfile")
