@@ -28,7 +28,6 @@
                 <a href="/lobby" style="font-size: 1em;"><i class="fa fa-refresh"></i>새로고침</a>
               </button>
               <hr>
-              <p>방 정렬할 라디오바</p>
             </div>
           </div>
         </div>
@@ -36,7 +35,7 @@
       <br>
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div class="w3-container w3-card w3-white w3-round sticky-top" style="margin: 0px 16px 16px 16px;"><br>
+        <div class="w3-container w3-card w3-white w3-round sticky-top w3-margin" style="margin: ;"><br>
             <h4>Activated Room List</h4>
             <br>
         </div>
@@ -85,7 +84,7 @@
             <hr class="w3-clear">
 
             <!-- 들어가기버튼 -->
-            <button type="button" class="w3-button" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style="font-family: 'NeoDunggeunmo Code';">
+            <button type="button" class="w3-button" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room.roomNo)" style="font-family: 'NeoDunggeunmo Code';">
               <i class="fa fa-pencil"></i>들어가기
             </button>
         </div>
@@ -111,7 +110,7 @@
       <div id="scroll" class="overflow-auto" style="height: 400px;">
 
         <div class="w3-card w3-round w3-white w3-center sticky-top">
-          <div class="w3-container">
+          <div class="w3-container my-3">
             <p>유저네임's Friend List</p>
           </div>
         </div>
@@ -218,7 +217,7 @@
         num: 1,
         enterRoomData: {},
         enterModalVisible: false,
-        memberList: [],
+        // memberList: [],
         searchRoomKeyword: '',
       }
     },
@@ -228,6 +227,7 @@
       ...mapState(mypageStore, ["friendList"]),
       ...mapGetters(lobbyStore, [
         'roomList',
+        'memberList'
       ]),
       ...mapGetters(roomdataStore, [
         'roomTitle',
@@ -237,6 +237,7 @@
     methods: {
       ...mapActions(lobbyStore, [
         'getRoomList',
+        'getMemberList',
     ]),
       ...mapActions(mypageStore, [
         'getFriends',
@@ -258,11 +259,14 @@
       this.enterRoom(roomInfo)
     },
 
-    openEnterRoom(room) {
-      this.enterRoomData = room
+    openEnterRoom(roomNo) {
+      // 이쪽 랜더링 잘 안될수도 있을듯
+      // 안되면 watch 달아보기
+      this.getMemberList(roomNo)
+      // this.enterRoomData = room
       this.enterModalVisible = true
-      this.memberList = room.memberList
-      console.log(this.memberList)
+      // this.memberList = room.memberList
+      // console.log(this.memberList)
     },
 
     searchRoom() {
