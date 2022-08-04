@@ -1,4 +1,4 @@
-  <template>
+<template>
 <div class="bg-secondary lobby-background" style="padding-top:20px;">
 
 <!--  -->
@@ -11,20 +11,18 @@
     <!-- <div id="test1"><div id="test2">asdf</div></div> -->
     <!-- 방 관련 부분 -->
     <div class="w3-col m8">
-    
+      
+      <!-- 방검색, 만들기, 새로고침 부분 -->
+
       <div class="w3-row">
         <div class="w3-col m12">
           <div class="">
-            <!-- <div class="w3-container p-3"> -->
-            <div id="lobbyTop" class="w3-container w3-card w3-round sticky-top mx-5 my-3">
+            <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
             <div class="w3-container w3-roun my-3">
-              <!-- <h6 class="w3-opacity">Social Media template by w3.css</h6> -->
               <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
               <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
-              <!-- 방검색 어떻게할까? -->
-              <!-- 일단  -->
               <make-room style="display: inline;"></make-room>
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <a href="/lobby" style="font-size: 1em;"><i class="fa fa-refresh"></i>새로고침</a>
@@ -34,7 +32,9 @@
           </div>
         </div>
       </div>
+
       <br>
+      <!--  -->
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
         <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
@@ -47,7 +47,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="makeRoomModalLabel">{{ enterRoomData.roomNo }}</h5>
+                <h5 class="modal-title">{{ enterRoomData.roomNo }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -98,13 +98,16 @@
     <!-- 친구창 -->
     <div class="w3-col m4">
 
-      <div class="w3-card w3-round w3-white w3-center mx-5" style="margin-top: 1em">
-        <div class="w3-container">
-          <p>Upcoming Events:</p>
-          <p>공지에 적은 내용 재탕하던지(이벤트 이름)</p>
-          <p><strong>Holiday</strong></p>
-          <p>Friday 15:00(이벤트 날짜)</p>
-          <p><button class="w3-button w3-block w3-theme-l4">Info(이벤트 정보)</button></p>
+      <!-- 공지창 -->
+      <div id="notice" class="w3-round  w3-center">
+        <div class="w3-container mx-5">
+          <br>
+          <br>
+          <p class="my-1">Upcoming Events:</p>
+          <p class="my-1"><strong>어제는 시민이였던 내가 오늘은 마피아?!</strong></p>
+          <p class="my-1"><strong>release</strong></p>
+          <p class="my-1">8/19 09:00</p>
+          <p class="my-1"><button class="w3-button w3-block w3-theme-l4">최종발표</button></p>
         </div>
       </div>
       <br>
@@ -113,7 +116,7 @@
 
         <div class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
-            <p>유저네임's Friend List</p>
+            <h3>Friend List</h3>
           </div>
         </div>
 
@@ -171,9 +174,9 @@
       </div>
       <br>
       
-      <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
+      <!-- <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
         <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div>
+      </div> -->
       
     <!-- End Right Column -->
     </div>
@@ -185,11 +188,7 @@
 <!--  -->
 <!--  -->
     
-    <hr>
-    <friend-list></friend-list>
 
-    <hr>
-    <room-list></room-list>
 
 
   </div>
@@ -197,8 +196,6 @@
 
 <script>
   import MakeRoom from '@/components/Lobby/MakeRoom.vue'
-  import FriendList from '@/components/Lobby/FriendList.vue'
-  import RoomList from '@/components/Lobby/RoomList.vue'
   import { mapActions, mapGetters, mapState } from 'vuex'
   const lobbyStore = "lobbyStore"
   const roomdataStore = "roomdataStore"
@@ -211,8 +208,6 @@
     name: 'LobbyView',
     components: {
         MakeRoom,
-        FriendList,
-        RoomList,
     },
     data() {
       return {
@@ -327,7 +322,7 @@ input::placeholder {
 #rooms {
   background-image: url(../../public/homedesign/images/lobby_room_v2.gif);
   background-repeat : no-repeat;
-    background-size: 100% 100%;
+  background-size: 100% 100%;
 }
 /* #lobbyTop {
   background-image: url(../../public/homedesign/images/lobby_top.png);
@@ -337,6 +332,12 @@ input::placeholder {
 #lobbyMid {
   background-image: url(../../public/homedesign/images/lobby_mid_v2.gif);
   background-repeat : no-repeat;
-    background-size: 100% 100%;
+  background-size: 100% 100%;
+}
+#notice {
+  background-image: url(../../public/homedesign/images/notice_cloud.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  height: 250px;
 }
 </style>

@@ -45,6 +45,8 @@ const roomdataStore = {
       await roomMake(
         roomInfo,
         (response) => {
+          console.log('방만들기 성공')
+          console.log('response.data')
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
           commit('SET_ROOMNO', roomInfo.roomNo)

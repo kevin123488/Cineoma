@@ -5,11 +5,11 @@
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" style="margin-top: 200px;" id="makeRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal" style="margin-top: 200px;" id="makeRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog" style="z-index: 10000000;">
+        <div class="modal-content" style="z-index: 1100;">
           <div class="modal-header">
-            <h5 class="modal-title" id="makeRoomModalLabel">방만들기</h5>
+            <h5 class="modal-title">방만들기</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -75,25 +75,9 @@
         this.saveIsCaptain(true)
         this.saveRoomTitle(this.subject)
         this.makeRoom(roomInfo)
-        // axios({
-        //   url: drf.lobby.makeRoom(),
-        //   method: 'post',
-        //   headers: '토큰',
-        //   data: { subject: this.subject,
-        //           password: this.password,
-        //   }
-        // })
-        // .then(res => {
-        //   router.push({ name: 'wait', params: { roomnumber: res.roomnumber } })
-        // })
-        // .catch(err => {
-        //   console.log(err)
-        // })
       }
     },
     created() {
-      
-
       }
     }
 

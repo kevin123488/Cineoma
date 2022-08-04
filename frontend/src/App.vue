@@ -1,5 +1,5 @@
 <template>
-  <nav-header v-if="showNav" class='fixed-top' style="z-index: 2000;">
+  <nav-header v-if="showNav" class='fixed-top' style="z-index: 1000;">
   </nav-header>
   <router-view/>
 </template>
