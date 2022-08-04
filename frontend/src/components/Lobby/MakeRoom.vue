@@ -67,14 +67,14 @@
     ]),
 
       createRoom() {
-        const data = {
+        const roomInfo = {
           roomTitle: this.subject,
           password: this.password,
           size: 5
         }
         this.saveIsCaptain(true)
         this.saveRoomTitle(this.subject)
-        this.makeRoom(data)
+        this.makeRoom(roomInfo)
         // axios({
         //   url: drf.lobby.makeRoom(),
         //   method: 'post',

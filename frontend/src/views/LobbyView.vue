@@ -8,7 +8,7 @@
 <div class="w3-container w3-content lobby-undernavbar" style="max-width:1400px;">    
   <div class="w3-row">
 
-    
+    <!-- <div id="test1"><div id="test2">asdf</div></div> -->
     <!-- 방 관련 부분 -->
     <div class="w3-col m8">
     
@@ -17,8 +17,8 @@
           <div class="w3-card w3-round w3-white">
             <div class="w3-container p-3">
               <!-- <h6 class="w3-opacity">Social Media template by w3.css</h6> -->
-              <input contenteditable="true" type="text"  class="w3-border w3-padding" placeholder="방 제목:">
-              <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
+              <input id ="searchBar" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="방 제목:" v-model="searchRoomKeyword">
+              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
               <!-- 방검색 어떻게할까? -->
@@ -60,7 +60,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                <button v-on:click="clickRoom(enterRoomData.roomNo)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
+                <button v-on:click="tryEnterRoom(enterRoomData.roomNo)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
 
               </div>
           </div>
@@ -79,23 +79,19 @@
         </div>
 
           <!-- 방 정보 시작 -->
-          <div v-for="(room, index) in roomList" :key="index" class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round w3-margin"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4>{{ room.roomTitle }} ({{ room.memberCnt }} / 5)</h4><br>
+            <h4 id="title" class="px-2">{{ room.roomTitle }}</h4><h6 class="px-2">({{ room.memberCnt }} / 5)</h6>
             <hr class="w3-clear">
 
             <!-- 들어가기버튼 -->
-            <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style="font-family: 'NeoDunggeunmo Code';">
+            <button type="button" class="w3-button" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style="font-family: 'NeoDunggeunmo Code';">
               <i class="fa fa-pencil"></i>들어가기
             </button>
-
-
         </div>
         <!-- 방정보 끝 -->
         
       </div>
-
-    <!-- End Middle Column -->
     </div>
     
     <!-- 친구창 -->
@@ -202,9 +198,10 @@
   import MakeRoom from '@/components/Lobby/MakeRoom.vue'
   import FriendList from '@/components/Lobby/FriendList.vue'
   import RoomList from '@/components/Lobby/RoomList.vue'
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters, mapState } from 'vuex'
   const lobbyStore = "lobbyStore"
   const roomdataStore = "roomdataStore"
+  const mypageStore = "mypageStore"
   // import axios from 'axios'
   // import drf from '@/api/drf'
   import router from '@/router'
@@ -222,14 +219,14 @@
         enterRoomData: {},
         enterModalVisible: false,
         memberList: [],
+        searchRoomKeyword: '',
       }
     },
 
     // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
     computed: {
-      // ...mapState("roomdataStore", ["roomTitle"]),
+      ...mapState(mypageStore, ["friendList"]),
       ...mapGetters(lobbyStore, [
-        'friendList',
         'roomList',
       ]),
       ...mapGetters(roomdataStore, [
@@ -241,14 +238,24 @@
       ...mapActions(lobbyStore, [
         'getRoomList',
     ]),
+      ...mapActions(mypageStore, [
+        'getFriends',
+    ]),
       ...mapActions(roomdataStore, [
+        'enterRoom',
         'saveRoomTitle',
         'saveIsCaptain',
     ]),
 
-    clickRoom(roomNo) {
-      console.log(roomNo)
+    tryEnterRoom(roomNo) {
       router.push({ name: 'wait', params: { roomnumber: roomNo } })
+
+      // roomInfo = { roomNo: int, password: { password: int } }
+      const roomInfo = {
+        roomNo: roomNo,
+        password: { password: this.password },
+      }
+      this.enterRoom(roomInfo)
     },
 
     openEnterRoom(room) {
@@ -256,14 +263,33 @@
       this.enterModalVisible = true
       this.memberList = room.memberList
       console.log(this.memberList)
-    }
-    
+    },
+
+    searchRoom() {
+      console.log(this.searchRoomKeyword)
+
+      const rooms = document.querySelectorAll('#rooms')
+      rooms.forEach(room => {
+        const titleTag = room.querySelector('#title')
+        if (titleTag.innerText.includes(this.searchRoomKeyword)){
+          room.style.display = 'block'
+        }
+        else {
+          room.style.display = 'none'
+        }
+      });
+    },
     },
 
     created() {
+      // 방장아님 표시
       this.saveIsCaptain(false)
+
       // store에 방목록 세팅
       this.getRoomList()
+
+      // store에 친구목록 세팅
+      this.getFriends()
     },
 
     mounted() {
