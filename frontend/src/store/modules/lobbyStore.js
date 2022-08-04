@@ -72,8 +72,8 @@ const lobbyStore = {
       await roomList(
         (response) => {
           console.log('방정보 불러오기')
-          console.log(response.data.roomList)
-          commit('SET_ROOMLIST', response.data.roomList)
+          console.log(response.data)
+          commit('SET_ROOMLIST', response.data)
         },
         () => {},
       );

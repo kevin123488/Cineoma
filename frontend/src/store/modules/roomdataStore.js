@@ -6,6 +6,8 @@ import {
   roomDelete,
   roomEnter,
 } from "@/api/room.js";
+import router from '@/router'
+
 
 const roomdataStore = {
   namespaced: true,
@@ -46,10 +48,11 @@ const roomdataStore = {
         roomInfo,
         (response) => {
           console.log('방만들기 성공')
-          console.log('response.data')
+          console.log(response.data)
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
-          commit('SET_ROOMNO', roomInfo.roomNo)
+          commit('SET_ROOMNO', roomInfo.no)
+          router.push({ name: 'wait', params: { roomnumber:  response.data.no } })
         },
         () => {},
       );
@@ -73,6 +76,7 @@ const roomdataStore = {
         (response) => {
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ROOMNO', roomInfo.roomNo)
+          router.push({ name: 'wait', params: { roomnumber:  roomInfo.roomNo } })
         },
         () => {},
       );
