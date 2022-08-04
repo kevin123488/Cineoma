@@ -10,10 +10,14 @@ import {
 const roomdataStore = {
   namespaced: true,
   state: {
+    roomNo: -1,
     roomTitle: "",
     isCaptain: false,
   },
   getters: {
+    roomNo(state) {
+      return state.roomNo;
+    },
     roomTitle(state) {
       return state.roomTitle;
     },
@@ -22,10 +26,14 @@ const roomdataStore = {
     },
   },
   mutations: {
+    SET_ROOMNO: (state, roomNo) => state.roomNo = roomNo,
     SET_ROOMTITLE: (state, roomTitle) => state.roomTitle = roomTitle,
     SET_ISCAPTAIN: (state, isCaptain) => state.isCaptain = isCaptain,
   },
   actions: {
+    saveRoomNo({ commit }, roomNo) {
+      commit('SET_ROOMNO', roomNo)
+    },
     saveIsCaptain({ commit }, isCaptain) {
       commit('SET_ISCAPTAIN', isCaptain)
     },
@@ -39,6 +47,7 @@ const roomdataStore = {
         (response) => {
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
+          commit('SET_ROOMNO', roomInfo.roomNo)
         },
         () => {},
       );
@@ -55,12 +64,13 @@ const roomdataStore = {
       );
     },
 
-    // (roomInfo{ roomNo, password: { password: int } } )
+    // roomInfo = { roomNo: int, password: { password: int } }
     async enterRoom({ commit }, roomInfo) {
       await roomEnter(
         roomInfo,
-        () => {
-          commit('SET_ROOMTITLE', '')
+        (response) => {
+          commit('SET_ROOMTITLE', response.data.roomTitle)
+          commit('SET_ROOMNO', roomInfo.roomNo)
         },
         () => {},
       );

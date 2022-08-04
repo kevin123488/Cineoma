@@ -14,8 +14,8 @@
           <!-- 방 삭제 /room/roomNum -->
           <!-- method: DELETE -->
           
-            <button v-if="isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방삭제</button>
-            <button v-if="!isCaptain" v-on:click="leaveroom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방나가기</button>
+            <button v-if="isCaptain" v-on:click="tryDeleteRoom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방삭제</button>
+            <button v-if="!isCaptain" v-on:click="tryLeaveRoom" class="w3-button w3-white w3-hide-small"><i class='fa fa-close'></i>방나가기</button>
 
           <!-- </router-link> -->
           </a>
@@ -101,6 +101,7 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
   const roomdataStore = "roomdataStore"
+  const memberStore = "memberStore"
 
   export default {
 
@@ -114,23 +115,33 @@
     
     computed: {
       ...mapGetters(roomdataStore, [
+        'roomNo',
         'roomTitle',
         'isCaptain'
       ]),
-      // ...mapGetters(memberStore, [
-      //   'isLogin',
-      // ]),
+      ...mapGetters(memberStore, [
+        'isLogin',
+      ]),
       ...mapActions(roomdataStore, [
+        'deleteRoom',
+        'enterRoom',
         'saveRoomTitle',
         'saveIsCaptain',
       ])
     },
 
     methods: {
-      leaveroom() {
-        this.saveIsCaptain(false)
-        this.saveRoomTitle("")
+      tryDeleteRoom() {
+        this.deleteRoom(this.roomNo)
+      },
+      tryLeaveRoom() {
+      // roomInfo = { roomNo: int, password: { password: int } }
+      const roomInfo = {
+        roomNo: this.roomNo,
+        password: 0,
       }
+      this.enterRoom(roomInfo)        
+      },      
     },
     created() {
       console.log(this.isCaptain)
