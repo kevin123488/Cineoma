@@ -9,5 +9,5 @@ import com.ssafy.mafia.entity.Follow;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Integer>{
-	List<Follow> FindAllByMyId(String id);
+	List<Follow> findAllByMyId(String id);
 }
