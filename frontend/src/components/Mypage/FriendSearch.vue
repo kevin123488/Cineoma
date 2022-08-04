@@ -5,16 +5,28 @@
     <div class="search-box">
         <!-- <p>search . . .</p> -->
       <div class="search-txt-div">
-        <input class="search-txt" type="text" placeholder="search . . ." style="font-family: 'NeoDunggeunmo Code';">
+        <input v-model="searchWord" @keyup.enter="friendSearch" class="search-txt" type="text" placeholder="search . . ." style="font-family: 'NeoDunggeunmo Code';">
       </div>
     </div>
     <hr class="mt-1 mb-0">
-    <div class="search-result"><p>친구의 닉네임을 입력해주세요 . . .</p></div>
+    <div class="search-result"><p v-if="!isSearched">친구의 닉네임을 입력해주세요 . . .</p></div>
+    <div v-for="(result, index) in searchResult" :key="index">
+      <div>
+        <div>
+          대충 이미지 {{ result.imagePath }}
+        </div>
+        <div @click="friendFollow(result.id)">
+          대충 친구추가 버튼 {{ result.id }} 이거로 접근해서 내 id랑 대상 id 넣어서 요청
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import http from '../../common/axios'
+import { mapActions, mapMutations, mapState } from 'vuex';
+const mypageStore = "mypageStore";
+const memberStore = "memberStore";
 
   export default {
     name: 'FriendSearch',
@@ -22,26 +34,37 @@
     },
     data() {
       return {
+        isSearched: false,
+        searchWord: "",
+        searchResult: [], // 친구들의 정보가 리스트의 형태로 들어올듯
       }
     },
     computed: {
+      ...mapState(mypageStore, ["isThereSearch", "friendSearchList"]),
+      ...mapState(memberStore, ["userInfo"]),
     },
     methods: {
-      // 나중에 객체 넘겨주는 부분의 이름 협의 필요
-      // async followFriend(id) {
-      //   console.log(id)
-      //   let ffObj = {
-      //     userId: this.$store.accounts.state.id,
-      //     followId: id,
-      //   }
-      //   console.log(ffObj)
-      //   try {
-      //     await http.POST("/follow", ffObj)
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // }
-    }}
+      ...mapActions(mypageStore, ["searchFriendStore", "followFriendStore"]),
+      ...mapMutations(mypageStore, ["SET_FRIENDS_SEARCH"]),
+      async friendSearch() {
+        this.SET_FRIENDS_SEARCH([]); // 검색시 store의 검색 결과를 초기화 할 필요가 있음
+        let word = this.searchWord;
+        let page = 0; // 첫 엔터 눌렀을 때 얘기임
+        await this.searchFriendStore(word, page); // mypageStore의 friendSearchList에 검색 결과가 담김
+        this.isSearched = this.isThereSearch;
+        this.searchWord = "";
+        this.searchResult = this.friendSearchList;
+      },
+      async friendFollow(id) {
+        let follow = {
+          id: this.userInfo.id,
+          friendId: id,
+        }
+        await this.followFriendStore(follow);
+        this.$router.go();
+      }
+    }
+    }
 
 </script>
 

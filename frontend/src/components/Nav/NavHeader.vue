@@ -11,7 +11,8 @@
     <div></div>
     <div class="router-go">
       <div class="router-nav-in"><router-link :to="{ name: 'lobby' }" class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">로비</button></router-link></div>
-      <div class="router-nav-in"><router-link :to="{ name: 'profile', params: { id_pk: num } }" class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">마이페이지</button></router-link></div>
+      <!-- <div class="router-nav-in"><router-link :to="{ name: 'profile', params: { id_pk: num } }" class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">마이페이지</button></router-link></div> -->
+      <div @click="goMyPage" class="router-nav-in"><div class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">마이페이지</button></div></div>
       <div class="router-nav-in"><asd @click="logout" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">로그아웃</button></asd></div>
     </div>
     <!-- 여기까지 -->
@@ -136,7 +137,19 @@ import { mapState, mapMutations } from 'vuex';
         alert("로그아웃!!")
         this.$router.push("/") // 로그아웃 하면 로그인 창으로 보내주자
       },
-    }}
+      goMyPage() {
+        this.num = this.userInfo.id;
+        this.$router.push({ name: "profile", params: { id_pk: this.num } }) ;
+      },
+    },
+    created() {
+      // if (this.isLogin) {
+      //   console.log("어어어ㅓ엉어어어어어어어엉엉어")
+      //   this.num = this.userInfo.id;
+      // }
+      console.log("navbar 언제 생성되는지 확인")
+    },
+    }
 
 </script>
 

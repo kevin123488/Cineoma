@@ -44,6 +44,7 @@ const memberStore = "memberStore";
     methods: {
     },
     created() {
+      console.log(this.record)
       let winnum = (this.record[0].winCount + this.record[1].winCount + this.record[2].winCount + this.record[3].winCount) / (this.record[0].winCount + this.record[1].winCount + this.record[2].winCount + this.record[3].winCount + this.record[0].loseCount + this.record[1].loseCount + this.record[2].loseCount + this.record[3].loseCount + this.record[0].drawCount + this.record[1].drawCount + this.record[2].drawCount + this.record[3].drawCount)
       if (this.record[0].winCount + this.record[1].winCount + this.record[2].winCount + this.record[3].winCount + this.record[0].loseCount + this.record[1].loseCount + this.record[2].loseCount + this.record[3].loseCount + this.record[0].drawCount + this.record[1].drawCount + this.record[2].drawCount + this.record[3].drawCount === 0) {
         this.winRate = 0;
