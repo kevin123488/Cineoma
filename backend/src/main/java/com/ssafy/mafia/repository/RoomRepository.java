@@ -12,5 +12,7 @@ import com.ssafy.mafia.entity.Room;
 public interface RoomRepository extends JpaRepository<Room, Integer> {
 	Room findByNo(int no);
 	void deleteByNo(int no);
-	List<Room> findAllByNo(int no);
+	List<Room> findAll();
+
+//	List<MemberResultDto> findAllById(String id);
 }
