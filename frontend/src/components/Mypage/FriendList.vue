@@ -29,10 +29,16 @@ const mypageStore = "mypageStore";
     methods: {
     },
     created() {
-      this.friends = this.friendList;
+      // this.friends = this.friendList;
     },
     mounted() {
     },
+    watch: {
+      friendList (newMsg) {
+        this.friends = this.friendList;
+        console.log(newMsg);
+      }
+    }
   }
 
 </script>

@@ -112,6 +112,7 @@
 
 <script>
 const memberStore = "memberStore";
+const mypageStore = "mypageStore";
 import { mapState, mapMutations } from 'vuex';
 
   export default {
@@ -128,10 +129,12 @@ import { mapState, mapMutations } from 'vuex';
     },
     methods: {
       ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+      ...mapMutations(mypageStore, ["SET_FRIENDS"]),
       logout() {
         console.log(this.userInfo)
         this.SET_USER_INFO(null);
         this.SET_IS_LOGIN(false);
+        this.SET_FRIENDS([]);
         console.log(this.isLogin)
         console.log(this.userInfo)
         alert("로그아웃!!")

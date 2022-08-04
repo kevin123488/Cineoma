@@ -9,6 +9,7 @@ const api = apiInstance();
 
 async function getFriends(userid, success, fail) {
     await api.get(`/api/follow/${userid}`).then(success).catch(fail);
+    // await api.get(`/api/follow`, {params: userid}).then(success).catch(fail);
 }
 
 async function followFriend(follow, success, fail) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
@@ -16,15 +17,13 @@ async function followFriend(follow, success, fail) { // user에는 요청 보내
 }
 
 async function removeFriend(follow, success, fail) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
+    console.log("되나,,,")
     await api.delete(`/api/follow`, JSON.stringify(follow)).then(success).catch(fail);
+    console.log(JSON.stringify(follow))
 }
 
-async function searchFriend(word, page, success, fail) { // user에는 검색어, 오프셋(?), 페이지 정보를 넣음
-    let params = {
-        word: word,
-        page: page,
-    }
-    await api.get(`/api/user/list`, { params: params }).then(success).catch(fail);
+async function searchFriend(follow, success, fail) { // user에는 검색어, 오프셋(?), 페이지 정보를 넣음
+    await api.get(`/api/user/list/`, { params: follow }).then(success).catch(fail);
 }
 
 // getFriend -> 친구 정보가 객체로 들어올듯
