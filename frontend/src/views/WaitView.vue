@@ -88,19 +88,24 @@
 
   </div>
   <div>
-    <div
-      v-for="(item, idx) in recvList"
-      :key="idx"
-    >
-      <h3>유저이름: {{ item.nickName }}</h3>
-      <h3>내용: {{ item.content }}</h3>
+    <div class="chatList">
+      <div
+        v-for="(item, idx) in recvList"
+        :key="idx"
+      >
+        <h3>유저이름: {{ item.nickName }}</h3>
+        <h3>내용: {{ item.content }}</h3>
+      </div>
     </div>
-
-    <input
+    <div class="chatItem">
+      <input
       v-model="message"
       type="text"
       @keyup="sendMessage"
-    >
+      class="chatInput"
+      >
+      <button @click="sendMessage" id="chatButton">보내기</button>
+    </div>
   </div>
   
   
@@ -127,6 +132,7 @@ export default {
   data() {
     return {
       num : 1,
+      userList: [],
       nickName: 'a',
       message: '',
       recvList: []
@@ -220,29 +226,50 @@ export default {
 </script>
 
 <style>
-  .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-button {
-    display: inline-block;
-    height: 40px;
-  } 
-  .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right {
-    height: 40px;
-    padding-top: 6px;
-    padding-right: 5px;
-    margin: 0 0;
-  }
-  .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right > i {
-    position: relative;
-    top: -2px;
-  }
-  .w3-bar.w3-black.w3-hide-small .fa {
-    /* height: 30px; */
-    margin: 0;
-    /* padding-top: 6px; 
-    margin: 0 0; */
-  }
-  .wait-background {
-    background-image: url(../../public/homedesign/images/wait_mafia.gif);
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+.w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-button {
+  display: inline-block;
+  height: 40px;
+} 
+.w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right {
+  height: 40px;
+  padding-top: 6px;
+  padding-right: 5px;
+  margin: 0 0;
+}
+.w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right > i {
+  position: relative;
+  top: -2px;
+}
+.w3-bar.w3-black.w3-hide-small .fa {
+  /* height: 30px; */
+  margin: 0;
+  /* padding-top: 6px; 
+  margin: 0 0; */
+}
+.wait-background {
+  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.chatList {
+  height: 300px;
+  width: 80%;
+  background-color: whitesmoke;
+  margin: auto;
+}
+.chatList::-webkit-scrollbar {
+  width: 2px;
+}
+
+.chatItem {
+  width: 80%;
+  display: flex;
+  margin: auto;
+}
+
+.chatInput {
+  width: 955px;
+}
+
 </style>
