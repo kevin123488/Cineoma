@@ -85,6 +85,8 @@ export default {
         let token = sessionStorage.getItem("access-token");
         if (this.isLogin) {
           await this.getUserInfo(token);
+          console.log('토큰확인')
+          console.log(token)
           this.$router.push({ name: "lobby"});
         }
       },
