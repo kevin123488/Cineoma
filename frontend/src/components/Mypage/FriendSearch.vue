@@ -76,6 +76,7 @@ const memberStore = "memberStore";
 .friendSearch {
   /* background-color: white; */
   /* border: 5px solid white; */
+  opacity: 0.65;
   color: whitesmoke;
   border-radius: 20px;
   width: 40%;

@@ -80,8 +80,10 @@
     display: flex;
     justify-content: space-evenly;
     padding: 30px 10px 30px 10px;
-    /* background-image: url(../../../public/homedesign/images/mafia_dots.png); */
+    background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif);
+    background-size: cover;
     border-radius: 30px;
     border: 5px solid white;
+    box-shadow: 5px 5px 5px 5px rgb(81, 124, 157);
   }
 </style>
