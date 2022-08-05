@@ -13,8 +13,8 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 public class RoomUser {
-//	@Id @GeneratedValue
-//	@Column(name = "no")
+	@Id @GeneratedValue
+	@Column(name = "no")
 	private int no;
 	private int roomNo;
 	String id;
