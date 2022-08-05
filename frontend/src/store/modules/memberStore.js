@@ -78,6 +78,8 @@ const memberStore = {
     },
     modifyMember({ commit }, user) {
       modifyMemberInfo(user);
+      console.log("어떻게 들어가는지 확인 한번만")
+      console.log(user.imagePath)
       commit("SET_USER_INFO", user);
     },
     async registerMember({ commit }, user) {

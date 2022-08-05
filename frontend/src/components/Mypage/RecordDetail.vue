@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <!-- <div> -->
       <!-- <h1 style="font-family: 'NeoDunggeunmo Code';">승률 등등</h1> -->
-      <div class="w3-half" style="width: 100%;">
-        <ul class="w3-ul w3-white w3-center w3-hover-opacity-off">
+      <!-- <div class="goRound" style="width: 100%;">
+        <ul class="w3-ul w3-white w3-center w3-hover-opacity-off"> -->
         <!-- <ul class="w3-ul w3-white w3-center w3-opacity w3-hover-opacity-off"> hover -->
-          <li class="w3-dark-grey w3-xlarge w3-padding-32"><h3>전적</h3></li>
+          <!-- <li class="w3-dark-grey w3-xlarge w3-padding-32"><h3>전적</h3></li>
           <li class="w3-padding-16"><span>시민 승률: {{ citizenWinRate }}%</span></li>
           <li class="w3-padding-16"><span>마피아 승률: {{ mafiaWinRate }}%</span></li>
           <li class="w3-padding-16"><span>의사 승률: {{ doctorWinRate }}%</span></li>
@@ -17,6 +17,35 @@
             <button class="w3-button w3-white w3-padding-large w3-hover-black"><span>Sign Up</span></button>
           </li>
         </ul>
+      </div>
+    </div> -->
+    <div class="recordData">
+      <div>
+        <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0;">
+        <div class="recordCitizen">
+          <span style="color: black;">시민 승률: {{ citizenWinRate }}%</span>
+          <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0.1;">
+        </div>
+        <div>
+          <span style="color: black;">마피아 승률: {{ mafiaWinRate }}%</span>
+          <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0.1;">
+        </div>
+        <div>
+          <span>의사 승률: {{ doctorWinRate }}%</span>
+          <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0.1;">
+        </div>
+        <div>
+          <span>경찰 승률: {{ policeWinRate }}%</span>
+          <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0.1;">
+        </div>
+        <div>
+          <h3>총 승률: {{ winRate }}%</h3>
+          <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0.1;">
+        </div>
+        <div>
+          <span>시민이었던 내가 오늘은 마피아?</span>
+        </div>
+        <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0;">
       </div>
     </div>
 </template>
@@ -100,4 +129,17 @@ const memberStore = "memberStore";
 
 </script>
 <style>
+.recordData {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-color: white;
+  color: white;
+  opacity: 0.9;
+  text-align: center;
+  border-radius: 30px;
+  border: 5px solid white;
+  background-image: url(../../../public/homedesign/images/mypage_mafia_record.gif);
+  box-shadow: 3px 3px 3px 3px rgb(92, 108, 168);
+}
 </style>

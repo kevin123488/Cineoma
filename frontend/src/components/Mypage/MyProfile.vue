@@ -3,9 +3,9 @@
     <h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ user.nickname }}의 프로필입니다</h1>
     <div class="myProfileLayout">
       <div class="profileDiv">
-        <div class="profilePic" @click="selectImage">
-          <p style="text-align: center;">{{ user.imagePath }}</p>
-          <img class="profileImage" src="/homedesign/images/profile_mafia.jpg" alt="...">
+        <div class="profilePic">
+          <!-- <p style="text-align: center;">{{ user.imagePath }}</p> -->
+          <img style="width: 290px; height: 290px; border-radius: 10px;" :src="`/homedesign/images/` + userInfo.imagePath">
         </div>
         <div class="introduce">
             <span style="font-family: 'NeoDunggeunmo Code';">{{ user.intro }}</span>
@@ -26,6 +26,13 @@
               </div>
               <div class="modal-body">
                 <input style="color: black; width: 90%" type="text" v-model="user.intro">
+                <div class="chooseImage">
+                  <h2 style="color: black">프로필 사진 선택</h2>
+                  <button @click="setMafiaPic"><h1>마피아</h1></button>
+                  <button @click="setCitizenPic"><h1>시민</h1></button>
+                  <button @click="setPolicePic"><h1>경찰</h1></button>
+                  <button @click="setDoctorPic"><h1>의사</h1></button>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" @click="cancellation" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -62,9 +69,9 @@
         num : 1,
         user: {},
         image1: "profile_mafia.jpg",
-        image2: "profile_citizen",
-        image3: "profile_doctor",
-        image4: "profile_police",
+        image2: "mypage_mafia.gif",
+        image3: "wait_mafia.gif",
+        image4: "mypage_mafia_record2.gif",
       }
     },
     created() {
@@ -80,9 +87,11 @@
     methods: {
       ...mapActions(memberStore, ["modifyMember"]),
       userUpdate() {
+        console.log("지금")
+        console.log(this.user.imagePath)
         this.modifyMember(this.user);
-        this.mvMyPage();
-        this.$router.go();
+        // this.mvMyPage();
+        this.$router.go(); // 잠시 주석처리
       },
       mvMyPage() {
         this.$router.push({ name: "profile" });
@@ -90,8 +99,21 @@
       cancellation() {
         this.$router.go();
       },
-      selectImage() {
-        console.log(this.userInfo.imagePath);
+      setMafiaPic() {
+        this.user.imagePath = this.image1;
+        // alert("마피아 사진 선택. 수정 버튼을 눌러 프로필 사진을 바꿔보세요")
+      },
+      setCitizenPic() {
+        this.user.imagePath = this.image2;
+        // alert("시민 사진 선택. 수정 버튼을 눌러 프로필 사진을 바꿔보세요")
+      },
+      setPolicePic() {
+        this.user.imagePath = this.image3;
+        // alert("경찰 사진 선택. 수정 버튼을 눌러 프로필 사진을 바꿔보세요")
+      },
+      setDoctorPic() {
+        this.user.imagePath = this.image4;
+        // alert("의사 사진 선택. 수정 버튼을 눌러 프로필 사진을 바꿔보세요")
       },
     },
     }
@@ -146,19 +168,25 @@
     margin: auto;
     justify-content: space-around;
     height: 100%;
-    /* background-image: url(../../../public/homedesign/images/intro_movie.mp4); */
+    background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif);
     border-radius: 30px;
     border: 5px solid white;
+    background-size: cover;
+    box-shadow: 5px 5px 5px 5px rgb(81, 124, 157);
   }
   .profilePic {
     border-radius: 20px;
     color: black;
     margin: auto;
-    width: 450px;
-    height: 450px;
-    background-image: url(../../../public/homedesign/images/profile_dot2.png);
+    margin-top: 50px;
+    margin-bottom:50px; 
+    width: 300px;
+    height: 300px;
+    /* background-image: url(../../../public/homedesign/images/profile_mafia.jpg); */
+    border: 5px solid white;
     background-size: cover;
     cursor: pointer;
+    box-shadow: 3px 3px 3px 3px rgb(92, 108, 168);
   }
   .introduce {
     height: 100px;
@@ -171,6 +199,7 @@
     border-radius: 30px;
     text-align: center;
     margin: auto;
+    box-shadow: 3px 3px 3px 3px rgb(92, 108, 168);
   }
   .introduce::-webkit-scrollbar {
     display: none;
@@ -184,9 +213,8 @@
     border-radius: 10px;
   }
   .profileImage {
-    margin: 100px 100px 100px 105px;
-    width: 55%;
-    height: 55%;
+    width: 300px;
+    height: 300px;
     border-radius: 70px;
   }
 </style>
