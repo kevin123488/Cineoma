@@ -229,6 +229,10 @@ jpa 물어볼거 있음
 
 소켓 연결시 사용할 uri
 
+"https://i7e107.p.ssafy.io/roomSocket"
+
+ㅇ
+
 Endpoint(roomSocket)
 
 //프론트 입장에서 데이터를 담아 보내줄 uri
@@ -260,7 +264,17 @@ ex)topic/sendChat/107
 
 # 1.대기화면
 
-# 1-2프로필화면
+백 입장에서
+
+생성 까지는 http 리스폰스 리퀘스트 로 컨트롤 하고  
+
+b->f 룸넘버 랑 ok사인
+
+f 소켓 연결 하고  방에 들어감
+
+  방 나오는거 까지 소켓으로 통신
+
+# 1-2프로필화면(입퇴실체크)
 
 //프론트 입장에서 데이터를 담아 보내줄 uri
 ("/receiveProfile")
@@ -268,8 +282,6 @@ ex)topic/sendChat/107
 //프론트 입장에서 구독하다가 데이터를 받을 uri
 //send로 메시지를 반환합니다.
 ("topic/sendProfile/{roomNo}")
-
-ex)/sendChat/107
 
 - 리턴형식
   
@@ -281,6 +293,7 @@ ex)/sendChat/107
       roomNo: int,
       id:String
     }
+    
     { 
     ("topic/sendProfile/{roomNo}")
         b->f  
@@ -288,18 +301,83 @@ ex)/sendChat/107
       nickname:String,
       id:String,//out일땐 id값만 줄 예
     imagePath:String,
-    intro:String
+    intro:String,
+    winRate:int//퍼센트로 
     }
     ```
+
+# 
+
+# 
+
+# 1-3 ready 버튼
+
+//프론트 입장에서 데이터를 담아 보내줄 uri
+("/receiveReady")
+
+//프론트 입장에서 구독하다가 데이터를 받을 uri
+//send로 메시지를 반환합니다.
+("topic/sendReady/{roomNo}")
+
+- 리턴형식
+  
+  - ```json
+    { 
+    ("/receiveReady")
+        f->b    
+      roomNo: int,
+      StartGame: bool,//true : 게임 시작 하겠다.  f :  대기
+      ifReady: bool,//true : ready 상태  f :  레디안함
+      id:String
+    }
+    
+    { 
+    ("topic/sendReady/{roomNo}")
+        b->f
+      StartGame: bool,//true : 인게임으로 넘어가.  f :  대기
+        ifStart: bool,//true : start 가능상태  f :  레디안한사람잇
+       ifReady: bool,//true : ready 상태  f :  레디안함
+       id:String
+    }
+    ```
+
+# 1-4  방 폭파!
+
+//프론트 입장에서 데이터를 담아 보내줄 uri
+("/receiveBreak")
+
+//프론트 입장에서 구독하다가 데이터를 받을 uri
+//send로 메시지를 반환합니다.
+("topic/sendBreak/{roomNo}")
+
+- 리턴형식
+  
+  - ```json
+    { 
+    ("/receiveBreak")
+        f->b    //방장만 이 신호를 줄 수 있도록 만들어 놔야
+    
+      roomNo: int,
+    }
+    
+    { 
+    ("topic/sendBreak/{roomNo}")
+        b->f  
+      roomNo: int//이 신호를 받으면 나가
+    }
+    ```
+
+# 
 
 # 2. 인게임
 
 # 게임 시작
 
+대기방 소켓 끊어지고 새로운 소켓 연결
+
 소켓 연결시 사용할 uri
 
 Endpoint(/mafiaSocket)
-
 
 //프론트 입장에서 데이터를 담아 보내줄 uri
 ("/receiveMafia")
@@ -310,10 +388,8 @@ Endpoint(/mafiaSocket)
 
 ex)/sendChat/107
 
-
-
 - - ```json
-    소켓 투표 장점 : 서로 누구를 투표햇는지 실시간으로 볼 수 있음
+    투표 결과를 누가 누구를 뽑았는지 컬러로 표시 해주
     실제 마피아 게임 생각하면 누가 누구 뽑앗는지 표기 해주는게 맞을거같음
     {
       f->b
@@ -330,6 +406,7 @@ ex)/sendChat/107
         id :string,
         nickname : string,
         job : string,
+        color : string,
         alive : bool,
         isHost:  bool
       }
