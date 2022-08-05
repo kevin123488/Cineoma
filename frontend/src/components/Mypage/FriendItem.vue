@@ -44,7 +44,7 @@ const memberStore = "memberStore";
         await this.removeFriendStore(follow);
         // await removeFriend(follow);
         console.log(follow);
-        // this.$router.go(); // 삭제 요청 들어가고 실행된 후 새로고침하여 바뀐 정보 반영
+        this.$router.go(); // 삭제 요청 들어가고 실행된 후 새로고침하여 바뀐 정보 반영
       }
     }}
 

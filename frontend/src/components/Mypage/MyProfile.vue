@@ -168,7 +168,7 @@
     margin: auto;
     justify-content: space-around;
     height: 100%;
-    background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif);
+    /* background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif); */
     border-radius: 30px;
     border: 5px solid white;
     background-size: cover;
@@ -199,6 +199,8 @@
     border-radius: 30px;
     text-align: center;
     margin: auto;
+    opacity: 0.5;
+    color: black;
     box-shadow: 3px 3px 3px 3px rgb(92, 108, 168);
   }
   .introduce::-webkit-scrollbar {
