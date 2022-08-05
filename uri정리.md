@@ -298,11 +298,14 @@ f 소켓 연결 하고  방에 들어감
     ("topic/sendProfile/{roomNo}")
         b->f  
     progress:String,//in and out 으로 입장인지 퇴장인지 구별하 
-      nickname:String,
-      id:String,//out일땐 id값만 줄 예
-    imagePath:String,
-    intro:String,
-    winRate:int//퍼센트로 
+      List<userList>  {
+        nickname:String,
+        id:String,//out일땐 id값만 줄 예
+        imagePath:String,
+        intro:String,
+        ifReady: bool,//레디 상태 저장용 
+        winRate:int//퍼센트로 
+      }
     }
     ```
 
