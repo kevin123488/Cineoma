@@ -47,7 +47,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">{{ enterRoomData.roomNo }}</h5>
+                <h5 class="modal-title">{{ enterRoomData.roomTitle }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -182,18 +182,19 @@
         enterRoomData: {},
         enterModalVisible: false,
         searchRoomKeyword: '',
-        friends: [1, 2, 3, 4],
-        showFriendList: false
+        friends: []
+        // showFriendList: false
       }
     },
-
     watch: {
-    userInfo: function() {
+      userInfo () {
+        console.log('userInfo 보고있다 ')
         this.getFriendsStore(this.userInfo.id)
-        this.friends = this.friendList  
       },
+      friendList () {
+        this.friends = this.friendList;
+      }      
     },
-
     // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
     computed: {
       
@@ -266,11 +267,12 @@
 
       // store에 방목록 세팅
       this.getRoomList()
-
+      if (this.userInfo !== null) {
+        this.getFriendsStore(this.userInfo.id)
+      }
       // store에 친구목록 세팅
-      // this.getFriendsStore(this.userInfo.id)
-      console.log(this.userInfo)
-      console.log('왜 출력안해줌?')
+      // console.log(this.userInfo)
+      // console.log('왜 출력안해줌?')
     },
 
     mounted() {
