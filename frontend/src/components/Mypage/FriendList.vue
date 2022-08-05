@@ -52,9 +52,9 @@ const mypageStore = "mypageStore";
   /* border: 5px solid white; */
   padding: 10px 10px 10px 10px;
   color: whitesmoke;
-  background-image: url(../../../public/homedesign/images/mypage_mafia_record.gif);
-  border: 5px solid white;
-  box-shadow: 3px 3px 3px 3px rgb(92, 108, 168);
+  /* background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif); */
+  /* border: 5px solid white; */
+  /* box-shadow: 3px 3px 3px 3px rgb(92, 108, 168); */
 }
 .friendList::-webkit-scrollbar {
   width: 2px;
