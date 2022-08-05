@@ -87,7 +87,7 @@ export default {
     return {
       num : 1,
       usersInfo: [],
-      nickName: this.userInfo.nickName,
+      nickName: 'a',
       message: '',
       recvList: [],
       startGame: false,

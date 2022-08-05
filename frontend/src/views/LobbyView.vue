@@ -47,7 +47,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">{{ enterRoomData.roomNo }}</h5>
+                <h5 class="modal-title">{{ enterRoomData.roomTitle }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -111,7 +111,7 @@
       </div>
       <br>
       
-      <div id="scroll" class="overflow-auto my-3" style="height: 400px; margin-left: 60px; margin-right: 60px;">
+      <div id="scroll" class="overflow-auto my-3" style="height: 400px; margin-left: 100px; margin-right: 100px;">
 
         <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
@@ -119,52 +119,18 @@
           </div>
         </div>
 
-        <div class="w3-card w3-round w3-white w3-center">
+        <div v-for="(friend, index) in friends" :key="index" class="w3-card w3-round w3-white w3-center">
           <div class="w3-container lobbyFriend">
-            <h3>친구 프로필</h3>
-            <span>친구 이름</span>
-            <p>온, 오프 표시나 게임중 표시</p>
+            <h3>{{ friend.nickname }}</h3>
+            <span>프로필 이미지? </span>
+            <p></p>
             <div class="w3-row w3-opacity">
-              <div class="w3-half">
+              <!-- <div class="w3-half">
                 <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
               </div>
               <div class="w3-half">
                 <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-              </div>
-            </div>
-          </div>
-          <br>
-        </div>
-
-        <div class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container lobbyFriend">
-            <h3>친구 프로필</h3>
-            <span>친구 이름</span>
-            <p>온, 오프 표시나 게임중 표시</p>
-            <div class="w3-row w3-opacity">
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-              </div>
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-              </div>
-            </div>
-          </div>
-          <br>
-        </div>
-
-        <div class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container lobbyFriend">
-            <h3>친구 프로필</h3>
-            <span>친구 이름</span>
-            <p>온, 오프 표시나 게임중 표시</p>
-            <div class="w3-row w3-opacity">
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-              </div>
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-              </div>
+              </div> -->
             </div>
           </div>
           <br>
@@ -199,6 +165,8 @@
   const lobbyStore = "lobbyStore"
   const roomdataStore = "roomdataStore"
   const mypageStore = "mypageStore"
+  const memberStore = "memberStore"
+  
   // import axios from 'axios'
   // import drf from '@/api/drf'
   // import router from '@/router'
@@ -214,12 +182,24 @@
         enterRoomData: {},
         enterModalVisible: false,
         searchRoomKeyword: '',
+        friends: []
+        // showFriendList: false
       }
     },
-
+    watch: {
+      userInfo () {
+        console.log('userInfo 보고있다 ')
+        this.getFriendsStore(this.userInfo.id)
+      },
+      friendList () {
+        this.friends = this.friendList;
+      }      
+    },
     // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
     computed: {
+      
       ...mapState(mypageStore, ["friendList"]),
+      ...mapState(memberStore, ["userInfo"]),
       ...mapGetters(lobbyStore, [
         'roomList',
         'memberList'
@@ -235,7 +215,7 @@
         'getMemberList',
     ]),
       ...mapActions(mypageStore, [
-        'getFriends',
+        'getFriendsStore',
     ]),
       ...mapActions(roomdataStore, [
         'enterRoom',
@@ -287,15 +267,19 @@
 
       // store에 방목록 세팅
       this.getRoomList()
-
+      if (this.userInfo !== null) {
+        this.getFriendsStore(this.userInfo.id)
+      }
       // store에 친구목록 세팅
-      this.getFriends()
+      // console.log(this.userInfo)
+      // console.log('왜 출력안해줌?')
     },
 
     mounted() {
-      console.log(this.friendList)
-      console.log(this.roomList[0])
-      console.log(this.isCaptain)
+      console.log(this.userInfo)
+      // console.log(this.friendList)
+      // console.log(this.roomList[0])
+      // console.log(this.isCaptain)
     }
     }
 
