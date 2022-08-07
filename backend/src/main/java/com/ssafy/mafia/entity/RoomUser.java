@@ -16,6 +16,8 @@ public class RoomUser {
 	@Id @GeneratedValue
 	@Column(name = "no")
 	private int no;
+	@Column(nullable = false, unique = true)//한명이 여러방에 못들어가도록 만들어야함
+	private String id;
 	private int roomNo;
-	String id;
+	private boolean ifReady;
 }

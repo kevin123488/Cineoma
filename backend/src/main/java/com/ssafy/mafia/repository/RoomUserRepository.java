@@ -9,4 +9,6 @@ import com.ssafy.mafia.entity.RoomUser;
 public interface RoomUserRepository extends JpaRepository<RoomUser, Integer>{
 	
 	List<RoomUser> findAllByroomNo(int roomno);	
+	void deleteById(String id);
+	void deleteAllByRoomNo(int roomNo);
 }

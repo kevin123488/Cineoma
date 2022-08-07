@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.mafia.dto.RoomResultDto;
+//import com.ssafy.mafia.dto.RoomResultDto;
 import com.ssafy.mafia.entity.Room;
 import com.ssafy.mafia.entity.RoomUser;
 import com.ssafy.mafia.entity.User;
@@ -29,7 +29,7 @@ public class RoomController {
 	
 	@Autowired
 	private RoomService roomService;
-	RoomResultDto roomResultDto;
+//	RoomResultDto roomResultDto;
 	
 	//roomList - 참여인원(몇명인지), 방번호, 방이름 
 	//로비 

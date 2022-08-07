@@ -14,21 +14,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MessageController {
 	 private final SimpMessageSendingOperations sendingOperations;
-//	@MessageMapping("/receiveChat/{roomNo}")
-//	@SendTo("/sendChat")
-//	public ChatDto socketTest(@DestinationVariable int roomNo, ChatDto chatDto)
-////	public ChatDto socketTest( ChatDto chatDto)
-//	{
-//		System.out.println("roomNo : "+ roomNo);
-//		System.out.println("NickName : "+ chatDto.getNickName());		
-//		System.out.println("Content : "+ chatDto.getContent());
-//		return chatDto;
-//		
-//	}
+
 	@MessageMapping("/receiveChat")
     public void chat(ChatDto chatDto) {
-//		public ChatDto chat(@DestinationVariable int roomNo, ChatDto chatDto) {
-			
 		System.out.println("roomNo : "+ chatDto.getRoomNo());
 		System.out.println("NickName : "+ chatDto.getNickName());		
 		System.out.println("Content : "+ chatDto.getContent());
@@ -36,15 +24,4 @@ public class MessageController {
 		sendingOperations.convertAndSend("/topic/sendChat/"+chatDto.getRoomNo(), chatDto);
         return;
     }
-	
-//	@MessageMapping("/receiveProfile")
-//    public ChatDto profile(ChatDto chatDto) {
-////		public ChatDto chat(@DestinationVariable int roomNo, ChatDto chatDto) {
-//			
-//		System.out.println("roomNo : "+ chatDto.getRoomNo());
-//		System.out.println("NickName : "+ chatDto.getNickName());		
-//		System.out.println("Content : "+ chatDto.getContent());
-//		sendingOperations.convertAndSend("/sendProfile/"+chatDto.getRoomNo(), chatDto);
-//        return chatDto;
-//    }
 }

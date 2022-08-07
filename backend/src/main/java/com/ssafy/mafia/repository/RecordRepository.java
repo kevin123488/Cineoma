@@ -9,5 +9,6 @@ import com.ssafy.mafia.entity.Record;
 
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Integer>{
+	void deleteById(String id);
 	List<Record> findAllById(String id);
 }
