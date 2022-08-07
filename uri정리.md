@@ -298,12 +298,12 @@ f 소켓 연결 하고  방에 들어감
     ("topic/sendProfile/{roomNo}")
         b->f  
     progress:String,//in and out 으로 입장인지 퇴장인지 구별하 
-      List<userList>  {
+      List<userDto>  userList{
         nickname:String,
         id:String,//out일땐 id값만 줄 예
         imagePath:String,
         intro:String,
-        ifReady: bool,//레디 상태 저장용 
+        ifReady: bool,//레디 상태 저장용 지금 이정보를 백에서 알 수 없어서 db에 추
         winRate:int//퍼센트로 
       }
     }
@@ -329,7 +329,9 @@ f 소켓 연결 하고  방에 들어감
     ("/receiveReady")
         f->b    
       roomNo: int,
-      StartGame: bool,//true : 게임 시작 하겠다.  f :  대기
+    
+      //방장만 true로 보낼 수 있어야함. true : 게임 시작 하겠다.  f :  대기
+      StartGame: bool,
       ifReady: bool,//true : ready 상태  f :  레디안함
       id:String
     }
