@@ -19,19 +19,21 @@
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content modalDesign">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">프로필 정보 수정</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <input style="color: black; width: 90%" type="text" v-model="user.intro">
                 <div class="chooseImage">
-                  <h2 style="color: black">프로필 사진 선택</h2>
-                  <button @click="setMafiaPic"><h1>마피아</h1></button>
-                  <button @click="setCitizenPic"><h1>시민</h1></button>
-                  <button @click="setPolicePic"><h1>경찰</h1></button>
-                  <button @click="setDoctorPic"><h1>의사</h1></button>
+                  <div class="profilePicTitle">
+                    <h2 style="color: black">프로필 사진 선택</h2>
+                  </div>
+                  <button class="choicePic" @click="setMafiaPic"><h1>마피아</h1></button>
+                  <button class="choicePic" @click="setCitizenPic"><h1>시민</h1></button>
+                  <button class="choicePic" @click="setPolicePic"><h1>경찰</h1></button>
+                  <button class="choicePic" @click="setDoctorPic"><h1>의사</h1></button>
                 </div>
               </div>
               <div class="modal-footer">
@@ -218,5 +220,23 @@
     width: 300px;
     height: 300px;
     border-radius: 70px;
+  }
+  .choicePic {
+    margin: 10px 10px 10px 10px;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+  }
+  .profilePicTitle {
+    text-align: center;
+    margin: auto;
+    border-radius: 10px;
+    background-color: white;
+    width: 275px;
+  }
+  .modalDesign {
+    border-radius: 30px;
+    background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif);
+    background-size: cover;
   }
 </style>
