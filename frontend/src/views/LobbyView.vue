@@ -47,7 +47,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">{{ enterRoomData.roomTitle }}</h5>
+                <h5 class="modal-title">{{ enterRoomData.no }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -61,7 +61,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                <button v-on:click="tryEnterRoom(enterRoomData.roomNo)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
+                <button v-on:click="tryEnterRoom(enterRoomData.no)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
 
               </div>
           </div>
@@ -234,7 +234,7 @@
 
       // roomInfo = { roomNo: int, password: { password: int } }
       const roomInfo = {
-        roomNo: roomNo,
+        no: roomNo,
         password: { password: this.password },
       }
       this.enterRoom(roomInfo)
@@ -243,7 +243,8 @@
     openEnterRoom(room) {
       // 이쪽 랜더링 잘 안될수도 있을듯
       // 안되면 watch 달아보기
-      this.getMemberList(room.roomNo)
+      console.log(room.no)
+      this.getMemberList(room.no)
       this.enterRoomData = room
       this.enterModalVisible = true
       // this.memberList = room.memberList
