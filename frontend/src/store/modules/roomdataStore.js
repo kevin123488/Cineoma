@@ -51,7 +51,7 @@ const roomdataStore = {
           console.log(response.data)
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
-          commit('SET_ROOMNO', roomInfo.no)
+          commit('SET_ROOMNO', response.data.no)
           router.push({ name: 'wait', params: { roomnumber:  response.data.no } })
         },
         () => {},
