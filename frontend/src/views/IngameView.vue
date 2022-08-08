@@ -207,6 +207,24 @@ const OPENVIDU_SERVER_SECRET = "E107";
             .catch(error => reject(error.response));
         });
       },
+
+      // 
+      // 
+      // 인게임 보내는 
+      sendVote() {
+        console.log("Send message:" + this.message);
+        if (this.stompClient && this.stompClient.connected) {
+          const msg = { 
+            roomNo: this.roomNo,
+            nickName: this.nickName,
+            content: this.message 
+          };
+          console.log(msg);
+          this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
+        }
+      },
+
+
     },
   }
 

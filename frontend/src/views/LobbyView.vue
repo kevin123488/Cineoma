@@ -189,7 +189,12 @@
     watch: {
       userInfo () {
         console.log('userInfo 보고있다 ')
-        this.getFriendsStore(this.userInfo.id)
+        try {
+          this.getFriendsStore(this.userInfo.id)
+        }
+        catch (error) {
+          this.$router.push("/") 
+        }
       },
       friendList () {
         this.friends = this.friendList;
@@ -268,7 +273,15 @@
       // store에 방목록 세팅
       this.getRoomList()
       if (this.userInfo !== null) {
-        this.getFriendsStore(this.userInfo.id)
+        try {
+          console.log('이거다')
+          console.log('아닌가')
+        
+        }
+        catch (error) {
+          console.log('실행됨?')
+          this.$router.push("/") 
+        }
       }
       // store에 친구목록 세팅
       // console.log(this.userInfo)
