@@ -13,4 +13,7 @@ public interface RoomService {
 	void deleteRoom(int no) throws Exception;
 	public List<RoomUser> roomuserList(int roomNo) throws Exception;
 	
+	public int countUser(int no) throws Exception;
+	
+	public boolean checkUser(String id) throws Exception;
 }

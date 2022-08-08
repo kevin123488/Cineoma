@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.mafia.entity.User;
+import com.ssafy.mafia.repository.RoomUserRepository;
 import com.ssafy.mafia.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	RoomUserRepository roomuserRepository;
 	@Override
 	public User login(User user) throws Exception {
 		if (user.getId() == null || user.getPassword() == null)
@@ -38,6 +42,7 @@ public class UserServiceImpl implements UserService {
 		findUser.setNickname(user.getNickname());
 		findUser.setIntro(user.getIntro());
 		findUser.setPassword(user.getPassword());
+		findUser.setImagePath(user.getImagePath());
 		userRepository.save(findUser);
 	}
 
@@ -57,5 +62,14 @@ public class UserServiceImpl implements UserService {
 		//return userRepository.findAllById(id);
 		return null;
 	}
+
+	@Override
+	public List<User> SearchList(String word) throws Exception {
+		System.out.println("서비스으으으" + word);
+		return userRepository.findByWord(word);
+	}
+	
+	
+
 	
 }

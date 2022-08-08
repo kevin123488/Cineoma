@@ -15,6 +15,7 @@ public class RoomServiceImpl implements RoomService{
 	
 	@Autowired
 	RoomRepository roomRepository;
+	
 	@Autowired
 	RoomUserRepository roomuserRepository;
 
@@ -47,6 +48,19 @@ public class RoomServiceImpl implements RoomService{
 		return roomuserRepository.findAllByroomNo(roomNo);
 	}
 	
+	@Override
+	public int countUser(int no) throws Exception {
+		
+		return roomuserRepository.findByRoomNo(no);
+	}
+
 	
+	public boolean checkUser(String id) throws Exception{
+		
+		//속한 방이 있으면 false
+		if(roomuserRepository.countById(id) > 0) return false;
+		// 없으면 true
+		else return true;
+	}
 	
 }

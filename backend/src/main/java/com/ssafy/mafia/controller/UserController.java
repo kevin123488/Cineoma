@@ -24,11 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.mafia.service.FollowService;
-import com.ssafy.mafia.service.JwtServiceImpl;
-import com.ssafy.mafia.service.RecordService;
 import com.ssafy.mafia.entity.Record;
 import com.ssafy.mafia.entity.User;
+import com.ssafy.mafia.service.JwtServiceImpl;
+import com.ssafy.mafia.service.RecordService;
 import com.ssafy.mafia.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -149,10 +148,22 @@ public class UserController {
 		userService.deleteUser(userid);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
+//	@ApiOperation(value = "회원 검색 목록", notes = "검색어에 맞는 유저목록을 보여준다.")
+//	@GetMapping(value = "/list")
+//	public ResponseEntity<List<User>> searchList(@RequestParam("id") String id) throws Exception{
+//		return new ResponseEntity<List<User>>(userService.getList(id), HttpStatus.OK);
+//	}
+	
 	@ApiOperation(value = "회원 검색 목록", notes = "검색어에 맞는 유저목록을 보여준다.")
 	@GetMapping(value = "/list")
-	public ResponseEntity<List<User>> searchList(@RequestParam("id") String id) throws Exception{
-		return new ResponseEntity<List<User>>(userService.getList(id), HttpStatus.OK);
+	public ResponseEntity<List<User>> searchList(@RequestParam("word") String word) throws Exception{
+		System.out.println(word);
+		return new ResponseEntity<List<User>>(userService.SearchList(word), HttpStatus.OK);
+//		return null;
+				
 	}
+	
+	
+	
 	
 }

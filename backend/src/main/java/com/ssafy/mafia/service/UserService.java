@@ -12,4 +12,7 @@ public interface UserService {
 	void deleteUser(String id) throws Exception;
 	int idCheck(String checkId) throws Exception;
 	List<User> getList(String id) throws Exception;
+	
+	List<User> SearchList(String word) throws Exception;
+	
 }

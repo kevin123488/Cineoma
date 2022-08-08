@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//import com.ssafy.mafia.dto.RoomResultDto;
+import com.ssafy.mafia.dto.RoomResultDto;
 import com.ssafy.mafia.entity.Room;
 import com.ssafy.mafia.entity.RoomUser;
 import com.ssafy.mafia.entity.User;
@@ -48,9 +49,7 @@ public class RoomController {
 	// 생성
 	@PostMapping(value ="/room")
 	public ResponseEntity<Room> createRoom(@RequestBody Room room) throws Exception{
-		
-		
-		roomService.createRoom(room);
+				roomService.createRoom(room);
 				return new ResponseEntity<Room>(room, HttpStatus.OK);
 		
 	}
@@ -59,10 +58,10 @@ public class RoomController {
 	// 
 	@GetMapping(value ="/room/{roomno}")
 	public ResponseEntity<List<RoomUser>> roomInfo(@PathVariable("roomno") int roomno) throws Exception{
-		System.out.println(roomno + "시발 왜 안되누 ;");
-		List<RoomUser> ru = roomService.roomuserList(roomno);
-		int test = ru.get(0).getRoomNo();
-		System.out.println("test :" + test);
+//		System.out.println(roomno + "시발 왜 안되누 ;");
+//		List<RoomUser> ru = roomService.roomuserList(roomno);
+//		int test = ru.get(0).getRoomNo();
+//		System.out.println("test :" + test);
 //		if (user != null)
 //			return new ResponseEntity<User>(user, HttpStatus.OK);
 //		else
@@ -72,9 +71,20 @@ public class RoomController {
 	
 		
 	}
-	//방 입장
-//	@PutMapping(value="/room/{no}")
-//	public 
+	//방 입장  // 방 번호 , 비밀번호, 유저 id 
+	// 비밀번호 , 인원 수 , 방에 들어가있는지 체크,
+	@PutMapping(value="/room")
+	public ResponseEntity<String> enterRoom(@RequestParam("no") int no, 
+								@RequestParam("id") String id, 
+								@RequestParam("password") String password) throws Exception{
+		
+
+		String ckpassword = roomService.roomInfo(no).getPassword();
+		if(!ckpassword.equals(password) || 5 <= roomService.countUser(no) || !roomService.checkUser(id)) 
+			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		else return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
 	
 	//삭제
 	@DeleteMapping(value ="/room/{no}") // db랑 이름 맞춰야함
