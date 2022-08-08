@@ -216,7 +216,7 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
         f->b
         id : string,
         roomNo : int,
-        password : string
+        password : string//비밀번호 없으면 ""
     }    
     ```
     b->f :
