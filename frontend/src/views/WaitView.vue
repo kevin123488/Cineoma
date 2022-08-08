@@ -143,7 +143,6 @@ export default {
           // 채팅
           this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {
             console.log('구독으로 받은 채팅입니다.', res.body);
-            this.message = ''
             this.recvList.push(JSON.parse(res.body))
           });
 
@@ -308,7 +307,8 @@ export default {
 
 .chatList {
   height: 300px;
-  width: 80%;
+  border-radius: 20px;
+  padding: 10px 10px 10px 10px;
   background-color: whitesmoke;
   margin: auto;
   color: #000;
@@ -318,13 +318,16 @@ export default {
 }
 
 .chatItem {
-  width: 80%;
+  border-radius: 20px;
+  padding: 10px 10px 10px 10px;
   display: flex;
   margin: auto;
 }
 
 .chatInput {
-  width: 955px;
+  width: 5%;
+  border-radius: 20px;
+  padding: 10px 10px 10px 10px;
 }
 
 </style>
