@@ -1,324 +1,237 @@
-<template class="">
-  <div class="w3-black wait-background" style="height: 1000px;">
-    <div class="w3-main mx-5">
-
-      <!-- Header -->
-      <header id="portfolio">
-        <div class="w3-container">
-        <h1><b>{{ roomTitle }}</b></h1>
-        <div class="w3-section w3-bottombar w3-padding-16">
-          <a href="/lobby">
-          <!-- <router-link :to="{ name: 'lobby' }" > -->
-          <!-- 방나가기 /room/roomNum -->
-          <!-- method: PUT -->
-          <!-- 방 삭제 /room/roomNum -->
-          <!-- method: DELETE -->
-          
-            <button v-if="isCaptain" 
-            class="w3-button w3-white w3-hide-small" @click="sendBreak">
-            <i class='fa fa-close'></i>방삭제</button>
-            <button v-if="!isCaptain"
-            class="w3-button w3-white w3-hide-small" @click="sendOut">
-            <i class='fa fa-close'></i>방나가기</button>
-
-          <!-- </router-link> -->
-          </a>
-        </div>
-        </div>
-      </header>
-  
-  <!-- First Photo Grid-->
-  <div class="w3-row">
-    <div 
-    class="w3-col m4 mx-5 my-5 w3-container w3-margin-bottom border border-secondary w3-white"
-    v-for="(item, idx) in usersList"
-    :key="idx"
-    >
-      <p>{{ item.nickName }}</p>
-      <p>{{ item.winRate }}</p>
-      <button id="readyButton" @click="isReady" v-if="!isCaptain">준비</button>
-    </div>
-  </div>
-
-  <div>
-    <div class="chatList">
-      <div
-        v-for="(item, idx) in recvList"
-        :key="idx"
-      >
-        <h3>{{ item.nickName }} : {{ item.content }}</h3>
+<template>
+  <div class="w3-main mx-5">
+    <ingame-nav class="mb-3"></ingame-nav>
+    <!-- 유저 화면 -->
+    <div class="w3-row">
+      <div class="w3-col m8">
+          <div class="w3-row">
+            <user-video v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stream-manager="sub"
+            class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+            id="video-container"
+            />
+          </div>
       </div>
-    </div>
-    <div class="chatItem">
-      <input
-      v-model="message"
-      type="text"
-      @keyup="sendMessage"
-      class="chatInput"
-      >
-      <button @click="sendMessage" id="chatButton">보내기</button>
-    </div>
-  </div>
-  
-  
-  </div>
-    <h1>대기방임</h1>
-    <hr>
-    <div v-if="isCaptain">
-      <button v-if="ifStart" @click="startSignal">게임시작</button>
-      <button v-else disabled>게임시작</button>
+
+      <div class="w3-col m4">
+        <ul class="mx-2 my-2 w3-container border border-secondary">
+          <li>직업</li>
+          <li>미션</li>
+        </ul>
+        <user-video :stream-manager="publisher"
+        class="mx-2 my-2 w3-container border border-secondary"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
-const roomdataStore = "roomdataStore"
-const memberStore = "memberStore"
+import IngameNav from '@/components/Ingame/IngameNav.vue'
+import axios from 'axios'
+import { OpenVidu } from 'openvidu-browser'
+import UserVideo from '@/components/Ingame/UserVideo.vue'
 
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-export default {
+const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io";
+const OPENVIDU_SERVER_SECRET = "E107";
 
-  components: {
-  },
-  data() {
-    return {
-      num : 1,
-      usersInfo: [],
-      nickName: 'a',
-      message: '',
-      recvList: [],
-      startGame: false,
-      ifStart: false,
-      ifReady: false
-    }
-  },
-  
-  computed: {
-    ...mapState(memberStore, ["userInfo"]),
-    ...mapGetters(roomdataStore, [
-      'roomNo',
-      'roomTitle',
-      'isCaptain'
-    ]),
-    ...mapGetters(memberStore, [
-      'isLogin',
-    ]),
-    ...mapActions(roomdataStore, [
-      'deleteRoom',
-      'enterRoom',
-      'saveRoomTitle',
-      'saveIsCaptain',
-    ])
-  },
+  export default {
+    name: 'IngameView',
+    components: {
+      IngameNav,
+      UserVideo,
+    },
+    data() {
+      return {
+        // OpenVidu objects
+        OV: undefined,
+        session: undefined,
+        publisher: undefined,
+        subscribers: [],
 
-  created() {
-    // App.vue가 생성되면 소켓 연결을 시도합니다.
-    this.connect()
-    console.log(this.isCaptain)
-    console.log(this.roomNo)
-    this.sendProfile()
-  },
+        // Join form
+        mySessionId: '',
+        myUserName: '',
 
-  methods: {
-    // 소켓 연결
-    connect() {
-      const serverURL = "https://i7e107.p.ssafy.io/roomSocket"
-      let socket = new SockJS(serverURL);
-      this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-      this.stompClient.connect(
-        {},
-        frame => {
-          // 소켓 연결 성공
-          this.connected = true;
-          console.log('소켓 연결 성공', frame);
+        // 진행상황
+        time: 'day'
+      }
+    },
+    created() {
+      this.mySessionId = this.$route.params.roomnumber;
+      this.myUserName = 'Participant' + Math.floor(Math.random() * 100);
+      this.joinSession();
+    },
+    methods: {
+      joinSession () {
+        // --- Get an OpenVidu object ---
+        this.OV = new OpenVidu();
 
-          // 채팅
-          this.stompClient.subscribe(`topic/sendChat/${this.roomNo}`, res => {
-            console.log('구독으로 받은 채팅입니다.', res.body);
-            this.recvList.push(JSON.parse(res.body))
-          });
+        // --- Init a session ---
+        this.session = this.OV.initSession();
 
-          // 프로필
-          this.stompClient.subscribe(`topic/sendProfile/${this.roomNo}`, res => {
-            console.log('구독으로 받은 프로필입니다.', res.body);
-            this.usersInfo.push(JSON.parse(res.body))
+        // --- Specify the actions when events take place in the session ---
 
-            // 방 나가기
-            if (res.body.progress === 'out') {
-              this.$route.push('lobby');
-            }
-          });
+        // On every new Stream received...
+        this.session.on('streamCreated', ({ stream }) => {
+          const subscriber = this.session.subscribe(stream);
+          this.subscribers.push(subscriber);
+        });
 
-          // 레디
-          this.stompClient.subscribe(`topic/sendReady/${this.roomNo}`, res => {
-            console.log('구독으로 받은 레디입니다.', res.body);
-            const readyData = JSON.parse(res.body)
-            this.ifStart = readyData.ifStart;
+        // On every Stream destroyed...
+        this.session.on('streamDestroyed', ({ stream }) => {
+          const index = this.subscribers.indexOf(stream.streamManager, 0);
+          if (index >= 0) {
+            this.subscribers.splice(index, 1);
+          }
+        });
 
-            if (readyData.startGame === true) {
-              this.$route.push({ name: 'ingame', params: { id_pk: this.roomNo } });
-            }
-          });
+        // On every asynchronous exception...
+        this.session.on('exception', ({ exception }) => {
+          console.warn(exception);
+        });
 
-          // 방 폭파
-          this.stompClient.subscribe(`topic/sendBreak/${this.roomNo}`, res => {
-            console.log('방 폭파.', res.body);
-            this.$route.push('lobby');
-          });
-        },
+        // --- Connect to the session with a valid user token ---
 
-        error => {
-          // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
-          this.connected = false;
+        // 'getToken' method is simulating what your server-side should do.
+        // 'token' parameter should be retrieved and returned by your own backend
+        this.getToken(this.mySessionId).then(token => {
+          this.session.connect(token, { clientData: this.myUserName })
+            .then(() => {
+
+              // --- Get your own camera stream with the desired properties ---
+
+              let publisher = this.OV.initPublisher(undefined, {
+                audioSource: undefined, // The source of audio. If undefined default microphone
+                videoSource: undefined, // The source of video. If undefined default webcam
+                publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+                publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+                resolution: '640x480',  // The resolution of your video
+                frameRate: 30,			// The frame rate of your video
+                insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+                mirror: false       	// Whether to mirror your local video or not
+              });
+
+              this.mainStreamManager = publisher;
+              this.publisher = publisher;
+
+              // --- Publish your stream ---
+
+              this.session.publish(this.publisher);
+            })
+            .catch(error => {
+              console.log('There was an error connecting to the session:', error.code, error.message);
+            });
+        });
+
+        window.addEventListener('beforeunload', this.leaveSession)
+      },
+
+      leaveSession () {
+        // --- Leave the session by calling 'disconnect' method over the Session object ---
+        if (this.session) this.session.disconnect();
+
+        this.session = undefined;
+        this.mainStreamManager = undefined;
+        this.publisher = undefined;
+        this.subscribers = [];
+        this.OV = undefined;
+
+        window.removeEventListener('beforeunload', this.leaveSession);
+      },
+
+      updateMainVideoStreamManager (stream) {
+        if (this.mainStreamManager === stream) return;
+        this.mainStreamManager = stream;
+      },
+
+      /**
+       * --------------------------
+       * SERVER-SIDE RESPONSIBILITY
+       * --------------------------
+       * These methods retrieve the mandatory user token from OpenVidu Server.
+       * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
+       * the API REST, openvidu-java-client or openvidu-node-client):
+       *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
+       *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
+       *   3) The Connection.token must be consumed in Session.connect() method
+       */
+
+      getToken (mySessionId) {
+        return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
+      },
+
+      // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-session
+      createSession (sessionId) {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
+              customSessionId: sessionId,
+            }), {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET,
+              },
+            })
+            .then(response => response.data)
+            .then(data => resolve(data.id))
+            .catch(error => {
+              if (error.response.status === 409) {
+                resolve(sessionId);
+              } else {
+                console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`);
+                if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
+                  location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`);
+                }
+                reject(error.response);
+              }
+            });
+        });
+      },
+
+      // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-connection
+      createToken (sessionId) {
+        return new Promise((resolve, reject) => {
+          axios
+            .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET,
+              },
+            })
+            .then(response => response.data)
+            .then(data => resolve(data.token))
+            .catch(error => reject(error.response));
+        });
+      },
+
+      // 
+      // 
+      // 인게임 보내는 
+      sendVote() {
+        console.log("Send message:" + this.message);
+        if (this.stompClient && this.stompClient.connected) {
+          const msg = { 
+            roomNo: this.roomNo,
+            nickName: this.nickName,
+            content: this.message 
+          };
+          console.log(msg);
+          this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
         }
-      );        
-    },
+      },
 
-    // 채팅
-    sendChat() {
-      console.log("Send message:" + this.message);
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          roomNo: this.roomNo,
-          nickName: this.nickName,
-          content: this.message 
-        };
-        console.log(msg);
-        this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
-      }
-    },
 
-    // 프로필
-    sendProfile() {
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          progress: 'in',
-          roomNo: this.roomNo,
-          id: this.userInfo.id
-        };
-        console.log(msg);
-        this.stompClient.send('/receiveProfile', JSON.stringify(msg), {});
-      }
     },
-
-    // 레디
-    sendReady() {
-        if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          roomNo: this.roomNo,
-          startGame: this.startGame,
-          ifReady: this.ifReady,
-          id: this.userInfo.id
-        };
-        console.log(msg);
-        this.stompClient.send('/receiveReady', JSON.stringify(msg), {});
-      }
-    },
-
-    // 방 나가기
-    sendOut() {
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          progress: 'out',
-          roomNo: this.roomNo,
-          id: this.userInfo.id
-        };
-        console.log(msg);
-        this.stompClient.send('/receiveProfile', JSON.stringify(msg), {});
-      }
-    },
-
-    // 방 폭파
-    sendBreak() {
-        if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          roomNo: this.roomNo,
-        };
-        console.log(msg);
-        this.stompClient.send('/receiveBreak', JSON.stringify(msg), {});
-      }
-    },
-
-    sendMessage (e) {
-      if(e.keyCode === 13 && this.nickName !== '' && this.message !== ''){
-        this.send()
-        this.message = ''
-      }
-    },
-
-    // 레디
-    isReady() {
-      const readyButton = document.getElementById("readyButton")
-      if (this.ifReady) {
-        readyButton.innerText = "준비완료"
-      } else {
-        readyButton.innerText = "준비"
-      }
-      this.ifReady = !this.ifReady
-      this.sendReady()
-    },
-
-    // 게임시작
-    startSignal() {
-      this.startGame = true
-      this.sendReady()
-    }
-  },
-  mounted() {
   }
-}
+
 </script>
 
 <style>
-.w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-button {
-  display: inline-block;
-  height: 40px;
-} 
-.w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right {
-  height: 40px;
-  padding-top: 6px;
-  padding-right: 5px;
-  margin: 0 0;
+#video-container {
+  width: 45%;
 }
-.w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right > i {
-  position: relative;
-  top: -2px;
-}
-.w3-bar.w3-black.w3-hide-small .fa {
-  /* height: 30px; */
-  margin: 0;
-  /* padding-top: 6px; 
-  margin: 0 0; */
-}
-.wait-background {
-  background-image: url(../../public/homedesign/images/wait_mafia.gif);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.chatList {
-  height: 300px;
-  width: 80%;
-  background-color: whitesmoke;
-  margin: auto;
-}
-.chatList::-webkit-scrollbar {
-  width: 2px;
-}
-
-.chatItem {
-  width: 80%;
-  display: flex;
-  margin: auto;
-}
-
-.chatInput {
-  width: 955px;
-}
-
 </style>
