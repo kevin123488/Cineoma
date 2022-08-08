@@ -235,7 +235,7 @@
       // roomInfo = { roomNo: int, password: { password: int } }
       const roomInfo = {
         no: roomNo,
-        password: { password: this.password },
+        info: { password: this.password, id: this.userInfo.id },
       }
       this.enterRoom(roomInfo)
     },
