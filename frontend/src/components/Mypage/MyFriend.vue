@@ -1,5 +1,5 @@
   <template>
-  <div><h1>친구 페이지</h1></div>
+  <div class="friendTitle"><h1>친구 페이지</h1></div>
   <div class="friendLayout mt-5">
 
     <!-- <hr>
@@ -85,5 +85,8 @@
     border-radius: 30px;
     border: 5px solid white;
     box-shadow: 5px 5px 5px 5px rgb(81, 124, 157);
+  }
+  .friendTitle {
+    background-color: rgba(37, 83, 143, 0.5);
   }
 </style>

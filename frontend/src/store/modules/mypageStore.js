@@ -46,6 +46,7 @@ const mypageStore = {
             // response.data. 일수도, response. 일수도 있음
             commit("SET_FRIENDS", response.data);
           } else {
+            commit("SET_FRIENDS", response.data);
             console.log("친구 없음")
           }
         },

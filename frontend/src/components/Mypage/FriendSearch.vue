@@ -9,7 +9,7 @@
       </div>
     </div>
     <hr class="mt-1 mb-0">
-    <div class="search-result"><p v-if="!isSearched">친구의 닉네임을 입력해주세요 . . .</p></div>
+    <div class="search-result"><p class="searchPlaceholder" v-if="!isSearched">친구의 닉네임을 입력해주세요 . . .</p></div>
     <div v-for="(result, index) in searchResult" :key="index">
       <div>
         <div>
@@ -44,7 +44,7 @@ const memberStore = "memberStore";
       ...mapState(memberStore, ["userInfo"]),
     },
     methods: {
-      ...mapActions(mypageStore, ["searchFriendStore", "followFriendStore"]),
+      ...mapActions(mypageStore, ["searchFriendStore", "followFriendStore", "getFriendsStore"]),
       ...mapMutations(mypageStore, ["SET_FRIENDS_SEARCH"]),
       async friendSearch() {
         // this.SET_FRIENDS_SEARCH([]); // 검색시 store의 검색 결과를 초기화 할 필요가 있음
@@ -64,7 +64,8 @@ const memberStore = "memberStore";
           followId: id,
         }
         await this.followFriendStore(follow);
-        this.$router.go();
+        // this.$router.go();
+        this.getFriendsStore(this.userInfo.id);
       }
     }
     }
@@ -124,6 +125,9 @@ const memberStore = "memberStore";
   overflow: auto;
   color: white;
   text-align: center;
+}
+.searchPlaceholder {
+  opacity: 1;
 }
 /* .search-box {
   margin: auto;

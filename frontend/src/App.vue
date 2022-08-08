@@ -13,12 +13,12 @@
     components: { NavHeader },
     data() {
       return {
-        showNav: false,
+        showNav: true,
       }
     },
     methods: {
       scrollEvent() {
-        if (scrollY === 0) {
+        if (scrollY <= 10) {
           this.showNav = true;
           console.log("지금 보여야됨")
         } else {
