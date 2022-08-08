@@ -50,15 +50,16 @@ public class RoomController {
 	@PostMapping(value ="/room")
 	public ResponseEntity<Room> createRoom(@RequestBody Room room) throws Exception{
 				roomService.createRoom(room);
+			
 				return new ResponseEntity<Room>(room, HttpStatus.OK);
 		
 	}
 	
 	// 방을 클릭했을때 
-	// 
+	// 방 제목, 닉네임 
 	@GetMapping(value ="/room/{roomno}")
 	public ResponseEntity<List<RoomUser>> roomInfo(@PathVariable("roomno") int roomno) throws Exception{
-//		System.out.println(roomno + "시발 왜 안되누 ;");
+//	
 //		List<RoomUser> ru = roomService.roomuserList(roomno);
 //		int test = ru.get(0).getRoomNo();
 //		System.out.println("test :" + test);
@@ -66,8 +67,7 @@ public class RoomController {
 //			return new ResponseEntity<User>(user, HttpStatus.OK);
 //		else
 //			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//		return new ResponseEntity<List<RoomUser>>(roomService.roomuserList(roomno), HttpStatus.OK);
-		return null;
+		return new ResponseEntity<List<RoomUser>>(roomService.roomuserList(roomno), HttpStatus.OK);
 	
 		
 	}

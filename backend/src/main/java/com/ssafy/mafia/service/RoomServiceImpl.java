@@ -22,6 +22,8 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public void createRoom(Room room) throws Exception {
 		roomRepository.save(room);
+		RoomUser roomUser = new RoomUser(room.getHostId(), room.getNo(), false);
+		roomuserRepository.save(roomUser);
 		
 	}
 
@@ -62,5 +64,6 @@ public class RoomServiceImpl implements RoomService{
 		// 없으면 true
 		else return true;
 	}
+	
 	
 }
