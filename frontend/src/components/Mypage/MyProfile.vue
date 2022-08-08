@@ -37,8 +37,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" @click="cancellation" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" @click="userUpdate">저장</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" @click="userUpdate" data-bs-dismiss="modal">저장</button>
               </div>
             </div>
           </div>
@@ -103,9 +103,6 @@
       },
       mvMyPage() {
         this.$router.push({ name: "profile" });
-      },
-      cancellation() {
-        this.$router.go();
       },
       setMafiaPic() {
         this.user.imagePath = this.image1;
@@ -178,7 +175,7 @@
     height: 100%;
     /* background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif); */
     border-radius: 30px;
-    border: 5px solid white;
+    border: 3px solid white;
     background-size: cover;
     box-shadow: 5px 5px 5px 5px rgb(81, 124, 157);
   }

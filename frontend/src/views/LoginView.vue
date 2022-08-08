@@ -26,11 +26,11 @@
       <transition name="loginFade">
         <div v-if="showLogin" class="login-layout u-container-layout u-valign-middle u-container-layout-1">
           <h2 class="">어제는 시민이였던 내가 오늘은 마피아?!</h2>
-          <div>
+          <div class="fadeLogin">
             <h1 class="u-custom-font u-text u-text-1 my-2">Login</h1>
             <p style="font-family: 'NeoDunggeunmo Code';">갓 파 더</p>
             <div class="loginForm">
-                <input type="text" placeholder="아이디 입력" v-model="user.id">
+                <input class="inputText" type="text" placeholder="아이디 입력" v-model="user.id">
                 <input type="password" @keyup.enter="confirm" placeholder="비밀번호 입력" v-model="user.password">
             </div>
             <div>
@@ -146,5 +146,7 @@ export default {
 }
 .loginFade-enter-from {
   opacity: 0;
+}
+.inputText {
 }
 </style>

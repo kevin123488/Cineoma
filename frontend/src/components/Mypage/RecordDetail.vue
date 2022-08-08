@@ -138,7 +138,7 @@ const memberStore = "memberStore";
   opacity: 0.9;
   text-align: center;
   border-radius: 30px;
-  border: 5px solid white;
+  border: 1px solid white;
   background-image: url(../../../public/homedesign/images/mypage_mafia_record.gif);
   box-shadow: 3px 3px 3px 3px rgb(92, 108, 168);
 }
