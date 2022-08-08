@@ -52,7 +52,6 @@ const memberStore = "memberStore";
         // let page = 1; // 첫 엔터 눌렀을 때 얘기임
         let follow = {
           word: this.searchWord,
-          page: 1,
         }
         await this.searchFriendStore(follow); // mypageStore의 friendSearchList에 검색 결과가 담김
         this.isSearched = this.isThereSearch;
