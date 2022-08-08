@@ -86,6 +86,12 @@
       // 모달 띄워서 선택? 아님 클릭할때마다 뭐로 바뀌게?
       // 모달 띄워서 사진 몇 장 보여준 다음 특정 사진 클릭하면 그 imagePath로 수정하면 될듯
     },
+    watch: {
+      userInfo(newMsg) {
+        console.log(newMsg);
+        this.user = this.userInfo;
+      }
+    },
     methods: {
       ...mapActions(memberStore, ["modifyMember"]),
       userUpdate() {
@@ -93,7 +99,7 @@
         console.log(this.user.imagePath)
         this.modifyMember(this.user);
         // this.mvMyPage();
-        this.$router.go(); // 잠시 주석처리
+        // this.$router.go(); // 잠시 주석처리
       },
       mvMyPage() {
         this.$router.push({ name: "profile" });
