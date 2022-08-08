@@ -223,8 +223,6 @@ const OPENVIDU_SERVER_SECRET = "E107";
           this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
         }
       },
-
-
     },
   }
 

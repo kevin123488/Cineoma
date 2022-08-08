@@ -24,10 +24,10 @@ async function roomDelete(roomNo, success, fail) {
     await api.delete(`/api/room/${roomNo}`).then(success).catch(fail);
 }
 
-// 방 들어갈때, 나갈때 요청 roomInfo = { roomNo: int, password: { password: int } }
+// 방 들어갈때, 나갈때 요청 roomInfo = { no: int, password: { password: int } }
 async function roomEnter(roomInfo, success, fail) {
     api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
-    await api.put(`/api/room/${roomInfo.roomNo}`, JSON.stringify(roomInfo.password)).then(success).catch(fail);
+    await api.put(`/api/room/${roomInfo.no}`, JSON.stringify(roomInfo.info)).then(success).catch(fail);
 }
 
 
