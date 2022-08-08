@@ -31,7 +31,7 @@
   <div class="w3-row">
     <div 
     class="w3-col m4 mx-5 my-5 w3-container w3-margin-bottom border border-secondary w3-white"
-    v-for="(item, idx) in usersList"
+    v-for="(item, idx) in usersInfo"
     :key="idx"
     >
       <p>{{ item.nickName }}</p>
@@ -53,10 +53,10 @@
       <input
       v-model="message"
       type="text"
-      @keyup="sendMessage"
+      @keyup.enter="sendChat"
       class="chatInput"
       >
-      <button @click="sendMessage" id="chatButton">보내기</button>
+      <button @click="sendChat" id="chatButton">보내기</button>
     </div>
   </div>
   
@@ -86,8 +86,9 @@ export default {
   data() {
     return {
       num : 1,
+      user: {},
       usersInfo: [],
-      nickName: this.userInfo.nickName,
+      nickName: '',
       message: '',
       recvList: [],
       startGame: false,
@@ -115,17 +116,20 @@ export default {
   },
 
   created() {
+    this.user = this.userInfo
+    this.nickName = this.user.nickname
     // App.vue가 생성되면 소켓 연결을 시도합니다.
     this.connect()
     console.log(this.isCaptain)
     console.log(this.roomNo)
-    this.sendProfile()
+    console.log(this.roomTitle)
+    // this.sendProfile()
   },
 
   methods: {
     // 소켓 연결
     connect() {
-      const serverURL = "https://i7e107.p.ssafy.io/roomSocket"
+      const serverURL = "http://localhost:8080/roomSocket"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
@@ -137,13 +141,14 @@ export default {
           console.log('소켓 연결 성공', frame);
 
           // 채팅
-          this.stompClient.subscribe(`topic/sendChat/${this.roomNo}`, res => {
+          this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {
             console.log('구독으로 받은 채팅입니다.', res.body);
+            this.message = ''
             this.recvList.push(JSON.parse(res.body))
           });
 
           // 프로필
-          this.stompClient.subscribe(`topic/sendProfile/${this.roomNo}`, res => {
+          this.stompClient.subscribe(`/topic/sendProfile/${this.roomNo}`, res => {
             console.log('구독으로 받은 프로필입니다.', res.body);
             this.usersInfo.push(JSON.parse(res.body))
 
@@ -154,7 +159,7 @@ export default {
           });
 
           // 레디
-          this.stompClient.subscribe(`topic/sendReady/${this.roomNo}`, res => {
+          this.stompClient.subscribe(`/topic/sendReady/${this.roomNo}`, res => {
             console.log('구독으로 받은 레디입니다.', res.body);
             const readyData = JSON.parse(res.body)
             this.ifStart = readyData.ifStart;
@@ -165,7 +170,7 @@ export default {
           });
 
           // 방 폭파
-          this.stompClient.subscribe(`topic/sendBreak/${this.roomNo}`, res => {
+          this.stompClient.subscribe(`/topic/sendBreak/${this.roomNo}`, res => {
             console.log('방 폭파.', res.body);
             this.$route.push('lobby');
           });
@@ -199,7 +204,7 @@ export default {
         const msg = { 
           progress: 'in',
           roomNo: this.roomNo,
-          id: this.userInfo.id
+          id: this.user.id
         };
         console.log(msg);
         this.stompClient.send('/receiveProfile', JSON.stringify(msg), {});
@@ -213,7 +218,7 @@ export default {
           roomNo: this.roomNo,
           startGame: this.startGame,
           ifReady: this.ifReady,
-          id: this.userInfo.id
+          id: this.user.id
         };
         console.log(msg);
         this.stompClient.send('/receiveReady', JSON.stringify(msg), {});
@@ -226,7 +231,7 @@ export default {
         const msg = { 
           progress: 'out',
           roomNo: this.roomNo,
-          id: this.userInfo.id
+          id: this.user.id
         };
         console.log(msg);
         this.stompClient.send('/receiveProfile', JSON.stringify(msg), {});
@@ -246,7 +251,7 @@ export default {
 
     sendMessage (e) {
       if(e.keyCode === 13 && this.nickName !== '' && this.message !== ''){
-        this.send()
+        this.sendChat()
         this.message = ''
       }
     },
@@ -306,6 +311,7 @@ export default {
   width: 80%;
   background-color: whitesmoke;
   margin: auto;
+  color: #000;
 }
 .chatList::-webkit-scrollbar {
   width: 2px;
