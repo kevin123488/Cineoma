@@ -10,10 +10,10 @@
     </div>
     <div></div>
     <div class="router-go">
-      <div class="router-nav-in"><router-link :to="{ name: 'lobby' }" class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">로비</button></router-link></div>
+      <div class="router-nav-in"><router-link :to="{ name: 'lobby' }" class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more nav-color" style="height: 30px; font-size: 24px;">로비</button></router-link></div>
       <!-- <div class="router-nav-in"><router-link :to="{ name: 'profile', params: { id_pk: num } }" class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">마이페이지</button></router-link></div> -->
-      <div @click="goMyPage" class="router-nav-in"><div class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">마이페이지</button></div></div>
-      <div class="router-nav-in"><asd @click="logout" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more" style="height: 30px;">로그아웃</button></asd></div>
+      <div @click="goMyPage" class="router-nav-in"><div class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more nav-color" style="height: 30px; font-size: 24px;">마이페이지</button></div></div>
+      <div class="router-nav-in"><asd @click="logout" style="font-family: 'NeoDunggeunmo Code';"><button class="learn-more nav-color" style="height: 30px; font-size: 24px;">로그아웃</button></asd></div>
     </div>
     <!-- 여기까지 -->
     <!-- <account-error-list v-if="authError"></account-error-list> -->
@@ -171,7 +171,7 @@ button {
 }
 button.learn-more {
   font-weight: 600;
-  color: gray;
+  color: rgb(188, 0, 0);
   text-transform: uppercase;
   padding: 1.25em 2em;
   /* background: #fff0f0; */
@@ -266,4 +266,7 @@ button.learn-more:active::before {
   .router-nav-in {
     margin: auto;
   }
+  /* .nav-color {
+    color: #8a7878;
+  } */
 </style>

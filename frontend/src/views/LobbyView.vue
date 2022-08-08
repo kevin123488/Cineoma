@@ -7,6 +7,7 @@
 
 <div class="w3-container w3-content lobby-undernavbar" style="max-width:1400px;">    
   <div class="w3-row">
+      <h1 style="font-family: 'NeoDunggeunmo Code'; margin-left: 50px;" class="text-deepdarkpurple">사이트 이름</h1>
 
     <!-- <div id="test1"><div id="test2">asdf</div></div> -->
     <!-- 방 관련 부분 -->
@@ -15,17 +16,19 @@
       <!-- 방검색, 만들기, 새로고침 부분 -->
 
       <div class="w3-row">
+        
         <div class="w3-col m12">
+          
           <div class="">
             <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
             <div class="w3-container w3-roun my-3">
               <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
-              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
               <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
-                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 1em;"><i class="fa fa-refresh "></i>새로고침</a>
+                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
             </div>
             </div>
@@ -37,8 +40,8 @@
       <!--  -->
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
-            <h4 class="mx-4 text-purple">Activated Room List</h4>
+        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5"><br>
+            <h2 class="mx-4 text-purple">Activated Room List</h2>
             <br>
         </div>
 
@@ -48,7 +51,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">{{ enterRoomData.no }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-laroombel="Close"></button>
               </div>
 
               <div class="modal-body">
@@ -81,13 +84,14 @@
           <!-- 방 정보 시작 -->
           <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h4><h6 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h6>
+            <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h4 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h4>
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
+            <button class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" 
+            style=" font-family: 'NeoDunggeunmo Code'; font-size: 20px; background:rgba(0, 0, 0, 0); margin-bottom: 28px;">
               <i class="fa fa-pencil"></i>들어가기
-            </p>
+            </button>
         </div>
         <!-- 방정보 끝 -->
         
@@ -100,12 +104,11 @@
       <!-- 공지창 -->
       <div id="notice" class="w3-round  w3-center">
         <div class="w3-container" style="margin-left: 30px; margin-right: 30px">
-          <br>
-          <br>
-          <p class="my-1">Upcoming Events:</p>
+
+          <p class="" style="margin-top: 60px;">Upcoming Events:</p>
           <p class="my-1"><strong>어제는 시민이였던 내가 오늘은 마피아?!</strong></p>
           <p class="my-1"><strong>release</strong></p>
-          <p class="my-1">8/19 09:00</p>
+          <p class="my-1">8/19 13:00</p>
           <p class="my-1"><button class="w3-button w3-block w3-theme-l4">최종발표</button></p>
         </div>
       </div>
@@ -115,7 +118,7 @@
 
         <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
-            <h4>Friend List</h4>
+            <h3>Friend List</h3>
           </div>
         </div>
 
@@ -302,6 +305,7 @@
 <style>
 input::placeholder {
   font-family: 'NeoDunggeunmo Code';
+  font-size: 20px;  
 }
 #scroll::-webkit-scrollbar {
   width: 0px;
@@ -361,5 +365,49 @@ input::placeholder {
   background-repeat : no-repeat;
   background-size: 100% 100%;
   height: 250px;
+}
+/* 버튼효과 */
+button.learn-more {
+  font-weight: 600;
+  color: gray;
+  text-transform: uppercase;
+  padding: 1.25em 2em;
+  /* background: #fff0f0; */
+  background-color:transparent;
+  /* border: 2px solid rgb(199, 199, 199); */
+  border-radius: 0.3em;
+  transform-style: preserve-3d;
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+button.learn-more::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 90%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background: #f9c4f5; */
+  border-radius: inherit;
+  /* box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e2; */
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+button.learn-more:hover {
+  background: #ffe9e9;
+  transform: translate(0, 0.25em);
+}
+button.learn-more:hover::before {
+  /* box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2; */
+  transform: translate3d(0, 0.5em, -1em);
+}
+button.learn-more:active {
+  /* background: #ffe9e9; */
+  transform: translate(0em, 0.75em);
+}
+button.learn-more:active::before {
+  box-shadow: 0 0 0 2px white, 0 0 #ffe3e2;
+  transform: translate3d(0, 0, -1em);
 }
 </style>

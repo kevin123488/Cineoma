@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#makeRoomModal" style="font-family: 'NeoDunggeunmo Code';">
+    <button type="button" class="w3-button w3-theme mx-3" data-bs-toggle="modal" data-bs-target="#makeRoomModal" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
       <i class="fa fa-pencil"></i>방만들기
     </button>
 
