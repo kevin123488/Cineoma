@@ -65,7 +65,7 @@ const mypageStore = {
             console.log("팔로우 성공")
             commit("SET_FOLLOWERS_NUM_PLUS", 1);
           } else {
-            console.log("팔로우 실패")
+            // console.log("팔로우 실패")
           }
         },
         (error) => {
@@ -86,7 +86,7 @@ const mypageStore = {
             console.log("팔삭 성공")
             commit("SET_FOLLOWERS_NUM_MINUS", 1);
           } else {
-            console.log("팔삭 실패")
+            // console.log("팔삭 실패")
           }
         },
         (error) => {
@@ -102,9 +102,11 @@ const mypageStore = {
           if (response.data.length != 0) {
             console.log("검색 들어왔냐?")
             commit("SET_FRIENDS_SEARCH", response.data);
+            commit("SET_SEARCH_ANSWER", true);
           } else {
             console.log("검색결과 없음");
             commit("SET_SEARCH_ANSWER", false);
+            commit("SET_FRIENDS_SEARCH", response.data);
           }
         },
         (error) => {

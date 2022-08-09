@@ -13,8 +13,8 @@ async function getFriends(userid, success, fail) {
 }
 
 async function followFriend(follow, success, fail) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
-    // await api.post(`/api/follow`, JSON.stringify(follow)).then(success).catch(fail);
-    await api.post(`/api/follow`, {data: follow}).then(success).catch(fail); // body에 담을 때 이렇게 요청보내면 됨
+    await api.post(`/api/follow`, JSON.stringify(follow)).then(success).catch(fail);
+    // await api.post(`/api/follow`, {data: follow}).then(success).catch(fail); // body에 담을 때 이렇게 요청보내면 됨
 }
 
 async function removeFriend(follow, success, fail) { // user에는 요청 보내는 사람과 대상이 되는 id 객체형식으로
