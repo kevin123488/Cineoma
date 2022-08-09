@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ user.nickname }}의 프로필입니다</h1>
+    <div class="profileTitle"><h1 style="font-family: 'NeoDunggeunmo Code';" class="mt-0">{{ user.nickname }}의 프로필입니다</h1></div>
     <div class="myProfileLayout">
       <div class="profileDiv">
         <div class="profilePic">
@@ -241,5 +241,11 @@
     border-radius: 30px;
     background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif);
     background-size: cover;
+  }
+  .profileTitle {
+    background-color: rgba(37, 83, 143, 0.5);
+    width: 700px;
+    text-align: center;
+    border-radius: 20px;
   }
 </style>

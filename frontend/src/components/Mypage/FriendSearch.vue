@@ -9,14 +9,15 @@
       </div>
     </div>
     <hr class="mt-1 mb-0">
-    <div class="search-result"><p class="searchPlaceholder" v-if="!isSearched">친구의 닉네임을 입력해주세요 . . .</p></div>
-    <div v-for="(result, index) in searchResult" :key="index">
-      <div>
-        <div>
-          대충 이미지 {{ result.imagePath }}
-        </div>
-        <div @click="friendFollow(result.id)">
-          대충 친구추가 버튼 {{ result.id }} 이거로 접근해서 내 id랑 대상 id 넣어서 요청
+    <div class="search-result"><p class="searchPlaceholder" v-if="!isSearched">친구의 닉네임을 입력해주세요 . . .</p>
+      <div v-for="(result, index) in searchResult" :key="index">
+        <div class="searchResultItem">
+          <div>
+            이미지 {{ result.imagePath }}
+          </div>
+          <div @click="friendFollow(result.id)">
+            친구추가 버튼 {{ result.nickname }} 이거로 접근해서 내 id랑 대상 id 넣어서 요청
+          </div>
         </div>
       </div>
     </div>
@@ -57,12 +58,14 @@ const memberStore = "memberStore";
         this.isSearched = this.isThereSearch;
         this.searchWord = "";
         this.searchResult = this.friendSearchList;
+        console.log(this.isSearched);
       },
       async friendFollow(id) {
         let follow = {
           myId: this.userInfo.id,
           followId: id,
         }
+        console.log(follow);
         await this.followFriendStore(follow);
         // this.$router.go();
         this.getFriendsStore(this.userInfo.id);
@@ -128,6 +131,16 @@ const memberStore = "memberStore";
 }
 .searchPlaceholder {
   opacity: 1;
+}
+.searchResultItem {
+  display: flex;
+  justify-content: space-between;
+  color: black;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  margin: 10px 10px 10px 10px;
+  opacity: 0.7;
 }
 /* .search-box {
   margin: auto;
