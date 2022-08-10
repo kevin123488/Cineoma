@@ -145,6 +145,7 @@ public class UserController {
 	@ApiOperation(value = "회원삭제", notes = "해당회원을 삭제시킨다.", response = String.class)
 	@DeleteMapping(value = "/{userid}")
 	public ResponseEntity<String> removeUser(@PathVariable("userid") String userid) throws Exception {
+		System.out.println(userid);
 		userService.deleteUser(userid);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
@@ -159,11 +160,8 @@ public class UserController {
 	public ResponseEntity<List<User>> searchList(@RequestParam("word") String word) throws Exception{
 		System.out.println(word);
 		return new ResponseEntity<List<User>>(userService.SearchList(word), HttpStatus.OK);
-//		return null;
+
 				
-	}
-	
-	
-	
+	}	
 	
 }
