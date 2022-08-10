@@ -15,6 +15,7 @@ const roomdataStore = {
     roomNo: -1,
     roomTitle: "",
     isCaptain: false,
+    isConnected: false,
   },
   getters: {
     roomNo(state) {
@@ -26,11 +27,15 @@ const roomdataStore = {
     isCaptain(state) {
       return state.isCaptain;
     },
+    isConnected(state) {
+      return state.isConnected;
+    },
   },
   mutations: {
     SET_ROOMNO: (state, roomNo) => state.roomNo = roomNo,
     SET_ROOMTITLE: (state, roomTitle) => state.roomTitle = roomTitle,
     SET_ISCAPTAIN: (state, isCaptain) => state.isCaptain = isCaptain,
+    SET_ISCONNECTED: (state, isConnected) => state.isConnected = isConnected,
   },
   actions: {
     saveRoomNo({ commit }, roomNo) {
@@ -42,6 +47,9 @@ const roomdataStore = {
     saveRoomTitle({ commit }, roomTitle) {
       commit('SET_ROOMTITLE', roomTitle)
     },
+    saveIsConnected({ commit }, isConnected) {
+      commit('SET_ISCONNECTED', isConnected)
+    },    
     // 외부요청
     async makeRoom({ commit }, roomInfo) {
       await roomMake(
