@@ -1,10 +1,8 @@
 <template>
 <div v-if="streamManager">
-	<ov-video :stream-manager="streamManager"
-	class="mx-2 my-2 w3-container border border-secondary w3-col m6"
-    id="video-container"/>
+	<ov-video :stream-manager="streamManager" />
 	<div>
-		<p>{{ clientData }}</p>
+		<p>{{ nickname }}</p>
 	</div>
 </div>
 </template>
@@ -21,6 +19,7 @@ export default {
 
 	props: {
 		streamManager: Object,
+		nickname: Object,
 	},
 
 	computed: {
