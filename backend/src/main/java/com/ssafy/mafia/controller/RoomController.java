@@ -94,7 +94,7 @@ public class RoomController {
 //		else return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 //	}
 	
-	@PutMapping(value="/room")
+	@PutMapping(value="/room/{roomNo}")
 	@ApiOperation(value = "방 입장", notes = "방 입장을 위한 조건을 체크하여 결과를 리턴해줌")
 	public ResponseEntity<String> enterRoom(@RequestBody RoomEnterDto dto) throws Exception{
 		
