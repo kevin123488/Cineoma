@@ -70,8 +70,8 @@
     <div v-if="isCaptain">
       <!-- <button v-if="ifStart" @click="startSignal">게임시작</button>
       <button v-else disabled>게임시작</button> -->
-      <button @click="startTest">게임시작-임시-</button>
     </div>
+    <button @click="startTest">게임시작-임시-</button>
   </div>
 </template>
 

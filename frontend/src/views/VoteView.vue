@@ -5,13 +5,16 @@
     <div class="w3-row">
       <div class="w3-col m8">
         <div class="w3-row">
-          <user-video
-          v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stream-manager="sub">
-          </user-video>
+          <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
+            <user-video
+              v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+              :stream-manager="sub">
+            </user-video>
+            <button>vote</button>
+          </div>
           <!-- <user-video
-            :stream-manager="subscribers[0]"
+            :stream-manager="subscribers[0]"d
             :gameInfo="gameInfo[0]"
             @click="doVote(gameInfo[0])"
           />
@@ -38,10 +41,12 @@
           <li>직업</li>
           <li>미션</li>
         </ul>
-        <user-video
-          :stream-manager="publisher"
-          :gameInfo="myInfo"
-        />
+        <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
+          <user-video
+            :stream-manager="publisher"
+            :gameInfo="myInfo"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -311,6 +316,53 @@ export default {
       });
     },
 
+
+    // 시간
+    dayToDayVote() { // 낮에서 낮 투표로
+      // if (this.isSkiped === false) {
+      //   this.sendSkip();
+      // }
+      this.progress.isDay = false;
+      this.progress.isVoteDay = true;
+      this.clearId = setTimeout(() => {
+        this.voteToDayResult();
+      }, 3000); // 투표시간 타이머
+    },
+
+    voteToDayResult() { // 낮 투표에서 낮 투표 결과로
+      this.progress.isVoteDay = false;
+      this.progress.isVoteDayResult = true;
+      setTimeout(() => {
+        this.dayResultToNightVote();
+      }, 3000); // 낮 투표결과 보여줄 타이머
+    },
+
+    dayResultToNightVote() { // 낮 투표 결과에서 밤 투표로
+      this.progress.isVoteDayResult = false;
+      this.progress.isNight = true;
+      setTimeout(() => {
+        this.nightVoteToNightResult();
+      }, 3000); // 밤 투표 진행할 타이머
+    },
+
+    nightVoteToNightResult() { // 밤 투표에서 밤 투표 결과로
+      this.progress.isNight = false;
+      this.progress.isNightResult = true;
+      setTimeout(() => {
+        this.nightResultToDay();
+      }, 3000); // 밤 결과 보여줄 타이머
+    },
+
+    nightResultToDay() { // 밤 투표 결과에서 낮으로
+      this.progress.isNightResult = false;
+      this.progress.isDay = true;
+      this.isSkiped = false;
+      setTimeout(() => {
+        this.dayToDayVote();
+      }, 3000) // 낮 진행시킬 타이머
+    },
+
+
     connect() {
       const serverURL = "http://localhost:8080/roomSocket"
       let socket = new SockJS(serverURL);
@@ -335,6 +387,7 @@ export default {
                   gameInfo.color = joinUser.color;
                 }
               })
+            this.dayToDayVote();
             });
           });
 
