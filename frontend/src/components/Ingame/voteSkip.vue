@@ -19,6 +19,8 @@
 // 프론트에서 정보 줄 때 사용할 uri -> ("/receiveMafia")
 const ingameStore = "ingameStore";
 import { mapState } from 'vuex';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 // 문제점: 1. isSkiped 버튼이 뜨는 타이밍 조절 -> 낮 진입하자마자 isSkiped true 만들기 -> 낮 진입시 정보를 받아야 할듯
 
@@ -49,7 +51,9 @@ export default {
   },
   methods: {
     dayToDayVote() { // 낮에서 낮 투표로
-      this.sendSkip();
+      if (this.isSkiped === false) {
+        this.sendSkip();
+      }
       this.progress.isDay = false;
       this.progress.isVoteDay = true;
       this.clearId = setTimeout(() => {
@@ -80,6 +84,7 @@ export default {
     nightResultToDay() { // 밤 투표 결과에서 낮으로
       this.progress.isNightResult = false;
       this.progress.isDay = true;
+      this.isSkiped = false;
       setTimeout(() => {
         this.dayToDayVote();
       }, 100000) // 낮 진행시킬 타이머
@@ -115,7 +120,6 @@ export default {
                 this.progress.isVoteDay = true;
                 clearTimeout(this.clearId);
               }
-
             } else if (res.body.progress === voteDay) {
 
             } else if (res.body.progress === voteDayFinish) {
@@ -170,36 +174,36 @@ export default {
     // 문제점: 이 방식대로 할 경우, 처음 goDay가 실행될 때 1번만 getVoteSkip 함수가 실행됨
     // 이 소켓 구독이라는게 한번 실행되면 계속 받아보는건지, 아님 연락이 올때마다 확인할 수 있게 connect 함수 안에 넣어둬야 하는건지를 잘 모르겠음
     // 이거 안되면 다른 방법 생각해 봐야할듯
-    goDay() {
-      // this.getVoteSkip(); // 얘를 계속해서 실행시켜야 할 것 같기도 함 -> setInterval 사용
-      // 혹은 위의 함수를 풀어서 이 안에 적어두기
-      this.stompClient.subscribe(`/sendMafia/${this.roomNo}/${this.userInfo.id}`, res => {
-        if (res.body.progress === day) {
-          this.color = res.body.color;
-          this.voteUser = res.body.nickname;
-          this.showModal = true;
-          // 스킵 신청한 사람의 닉네임을 1초간 띄워 줄 예정
-          setTimeout(() => {
-            this.showModal = false;
-          }, 1000);
-          // 스킵 가능한 경우 스킵 ㄱ
-          if (res.body.ifSkip === true) {
-            this.progress.isDay = false;
-            this.progress.isVoteDay = true;
-            // 그리고 여기서 함수 실행(낮 투표 진행하는 함수)
-          } else {
-            console.log("변화가 일어날만한 요소가 없음");
-          }
-        }
-      })
+    // goDay() {
+    //   // this.getVoteSkip(); // 얘를 계속해서 실행시켜야 할 것 같기도 함 -> setInterval 사용
+    //   // 혹은 위의 함수를 풀어서 이 안에 적어두기
+    //   this.stompClient.subscribe(`/sendMafia/${this.roomNo}/${this.userInfo.id}`, res => {
+    //     if (res.body.progress === day) {
+    //       this.color = res.body.color;
+    //       this.voteUser = res.body.nickname;
+    //       this.showModal = true;
+    //       // 스킵 신청한 사람의 닉네임을 1초간 띄워 줄 예정
+    //       setTimeout(() => {
+    //         this.showModal = false;
+    //       }, 1000);
+    //       // 스킵 가능한 경우 스킵 ㄱ
+    //       if (res.body.ifSkip === true) {
+    //         this.progress.isDay = false;
+    //         this.progress.isVoteDay = true;
+    //         // 그리고 여기서 함수 실행(낮 투표 진행하는 함수)
+    //       } else {
+    //         console.log("변화가 일어날만한 요소가 없음");
+    //       }
+    //     }
+    //   })
 
-      setTimeout(() => {
-        if (this.isSkiped === false) {
-          // 낮 시간 100초 기다렸다 아직 isskiped 안눌린 상태면 무효표(스킵표로 작동) 던지게 하기
-          this.sendSkip();
-        }
-      }, 100000)
-    },
+    //   setTimeout(() => {
+    //     if (this.isSkiped === false) {
+    //       // 낮 시간 100초 기다렸다 아직 isskiped 안눌린 상태면 무효표(스킵표로 작동) 던지게 하기
+    //       this.sendSkip();
+    //     }
+    //   }, 100000)
+    // },
   },
 }
 </script>

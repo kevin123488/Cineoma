@@ -67,6 +67,7 @@
     <div v-if="isCaptain">
       <button v-if="ifStart" @click="startSignal">게임시작</button>
       <button v-else disabled>게임시작</button>
+      <!-- <button @click="startVote">게임시작-임시-</button> -->
     </div>
   </div>
 </template>
@@ -127,6 +128,9 @@ export default {
   },
 
   methods: {
+    // startVote() {
+    //   this.$router.push("/vote");
+    // },
     // 소켓 연결
     connect() {
       const serverURL = "http://localhost:8080/roomSocket"
