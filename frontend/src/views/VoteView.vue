@@ -61,7 +61,7 @@ const roomdataStore = "roomdataStore"
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
@@ -130,6 +130,7 @@ export default {
       job: '', // 직업
       voted: [],
     };
+    // this.connect()
   },
   mounted() {
     console.log(this.isConnected)
@@ -306,7 +307,7 @@ export default {
       });
     },
 
-  connect() {
+    connect() {
       const serverURL = "http://localhost:8080/roomSocket"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
@@ -337,21 +338,48 @@ export default {
             console.log('구독으로 받은 게임 정보입니다.', res.body);
             const data = JSON.parse(res.body);
 
+            // 낮 투표
             if (data.progress === 'voteDay') {
               this.gameInfos.forEach(gameInfo => {
-                if (gameInfo.id === data.votedId) {
+                // 내가 투표 받을 때
+                if (this.myInfo.id === data.votedId) {
+                  this.myInfo.push(data.id)
+                }
+                // 다른 사람이 투표 받을 때
+                else if (gameInfo.id === data.votedId) {
                   gameInfo.voted.push(data.id)
                 }
               })
             }
 
+            // 낮 투표 결과
             if (data.progress === 'voteDayFinish') {
+              // 승자 결정
               if (data.winJob !== '') {
-                this.$route.push({ name: 'final', params: { roomnumber: this.mySessionId } });
-              } else if (data.winJob === '') {
+                this.$router.push({ name: 'final', params: { roomnumber: this.mySessionId } });
+              }
+              // 죽은 사람이 없을 때
+              else if (data.id === '') {
                 this.progress.isVoteDay = false;
                 this.progress.isVoteDayResult = true;
               }
+              // 죽은 사람이 있을 때
+              else {
+                this.gameInfos.forEach(gameInfo => {
+                  // 자신이 죽었을 때
+                  if (this.myInfo.id === data.id) {
+                    this.myInfo.isAlive = false
+                  }
+                  // 다른 사람이 죽었을 때
+                  else if (gameInfo.id === data.id) {
+                    gameInfo.isAlive = false
+                  }
+                })
+              }
+            }
+
+            if (data.progress === 'voteNight') {
+              console.log(data)
             }
           });
         },
@@ -364,31 +392,35 @@ export default {
       );        
     },
 
-    sendVoteDay(voteId) {
+    sendVote(voteId) {
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
-          progress: 'day',
-          roomNo: this.mySessionId,
-          id: this.myUserId,
-          nickname: this.userInfo.nickname,
-          vote: voteId,
-          ifWin: this.missionWin
-        };
+            progress: 'voteDay',
+            roomNo: this.mySessionId,
+            id: this.myUserId,
+            nickname: this.userInfo.nickname,
+            job: this.myInfo.job,
+            vote: voteId,
+            ifWin: this.missionWin
+        }
+        if (this.progress.isNight) {
+          msg.progress = 'voteNight'
+        }
         console.log(msg);
         this.stompClient.send('/receiveMafia', JSON.stringify(msg), {});
-      }
-    },
+        }
+      },
 
     // 투표
     doVote(info) {
-      if (this.voteNo === 1) {
-        this.sendVoteDay(info.id);
+      if (this.voteNo === 1 && (this.progress.isVoteDay || this.progress.isNight)) {
+        this.sendVote(info.id);
         this.voteNo = 0;
         console.log(`투표한 id ${info.id}`);
       }
     },
-  },
-};
+  }
+}
 </script>
 
 <style></style>
