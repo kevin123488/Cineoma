@@ -7,13 +7,13 @@ import IngameView from '../views/IngameView.vue'
 import FinalView from '../views/FinalView.vue'
 import MyPageView from '../views/MyPageView.vue'
 import EditUserView from '../views/EditUserView.vue'
-import OvTest from '../views/OvTest.vue'
+import VoteView from '../views/VoteView.vue'
 
 const routes = [
   {
-    path: '/test',
-    name: 'OvTest',
-    component: OvTest
+    path: '/vote',
+    name: 'VoteView',
+    component: VoteView
   },
   {
     path: '/',
