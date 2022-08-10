@@ -34,6 +34,7 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public void deleteRoom(int no) throws Exception {
+		System.out.println("roomImpl no : " + no);
 		roomRepository.deleteByNo(no);
 		
 	}
