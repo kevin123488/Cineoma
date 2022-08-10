@@ -19,4 +19,6 @@ public class ProfileUserDto {
 	private int winRate;
 	//레디 상태를 표시함 true: ready완료
 	private boolean ifReady;
+	//t: 방장 , f:나머지
+	private boolean ifCaptain;
 }

@@ -8,6 +8,6 @@ import com.ssafy.mafia.entity.RoomUser;
 public interface RoomUserService {
 	
 	public void createRoomUser(RoomUser roomUser) throws Exception;
-	void deleteRoomUser(String id) throws Exception;
-	void deleteRoomAllUser(int roomNo) throws Exception;
+	public void deleteRoomUser(String id) throws Exception;
+	public void deleteRoomAllUser(int roomNo) throws Exception;
 }
