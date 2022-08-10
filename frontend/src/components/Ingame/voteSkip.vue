@@ -32,7 +32,7 @@ export default {
         id: "", // 임시 양식
       },
       isSkiped: false, // 낮 시간이 100초 지난 시점에 이 값이 계속 false라면? sendSkip 실행, 밤 투표 결과에서 낮으로 넘어올 때 이 값을 false로 맞춰줘야 함
-      voteUser: "", // 스킵 투표를 수행한 유저
+      voteUser: "",
       showModal: false, // 얘 바꾸는 타이밍 나중에 확인 -> 얘는 괜찮은듯
       progress: {
         isDay: true, // 시작화면이 얘니까 일단 얘를 true로
