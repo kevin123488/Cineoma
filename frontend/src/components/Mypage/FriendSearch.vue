@@ -12,12 +12,11 @@
     <div class="search-result"><p class="searchPlaceholder" v-if="!isSearched">친구의 닉네임을 입력해주세요 . . .</p>
       <div v-for="(result, index) in searchResult" :key="index">
         <div class="searchResultItem">
-          <div>
-            이미지 {{ result.imagePath }}
-          </div>
-          <div @click="friendFollow(result.id)">
-            친구추가 버튼 {{ result.nickname }} 이거로 접근해서 내 id랑 대상 id 넣어서 요청
-          </div>
+          <img class="friendSearchItemPic" :src="`/homedesign/images/` + result.imagePath" onerror="this.style.display='none'">
+          <h3>{{ result.nickname }}</h3>
+          <button class="followButton" @click="friendFollow(result.id)">
+            친구추가
+          </button>
         </div>
       </div>
     </div>
@@ -51,14 +50,19 @@ const memberStore = "memberStore";
         // this.SET_FRIENDS_SEARCH([]); // 검색시 store의 검색 결과를 초기화 할 필요가 있음
         // let word = this.searchWord;
         // let page = 1; // 첫 엔터 눌렀을 때 얘기임
-        let follow = {
-          word: this.searchWord,
+        if (this.searchWord != "") {
+          let follow = {
+            word: this.searchWord,
+          }
+          await this.searchFriendStore(follow); // mypageStore의 friendSearchList에 검색 결과가 담김
+          this.isSearched = this.isThereSearch;
+          this.searchWord = "";
+          this.searchResult = this.friendSearchList;
+          console.log(this.isSearched);
+        } else {
+          this.searchResult = [];
+          this.isSearched = false;
         }
-        await this.searchFriendStore(follow); // mypageStore의 friendSearchList에 검색 결과가 담김
-        this.isSearched = this.isThereSearch;
-        this.searchWord = "";
-        this.searchResult = this.friendSearchList;
-        console.log(this.isSearched);
       },
       async friendFollow(id) {
         let follow = {
@@ -124,10 +128,13 @@ const memberStore = "memberStore";
   border: 5px solid white;
   border-radius: 20px;
   background-color: black;
-  height: 80%;
+  height: 370px;
   overflow: auto;
   color: white;
   text-align: center;
+}
+.search-result::-webkit-scrollbar {
+  display: none;
 }
 .searchPlaceholder {
   opacity: 1;
@@ -141,6 +148,16 @@ const memberStore = "memberStore";
   display: flex;
   margin: 10px 10px 10px 10px;
   opacity: 0.7;
+  border: 2px solid white;
+}
+.friendSearchItemPic {
+  width: 100px;
+  height: 50px;
+  border-radius: 20px 0px 0px 20px;
+  margin-right: 5px;
+}
+.followButton {
+  border-radius: 0px 20px 20px 0px;
 }
 /* .search-box {
   margin: auto;

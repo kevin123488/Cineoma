@@ -1,17 +1,35 @@
 <template>
 <!-- 낮 중에만 활성화 되도록, v-if progress === day -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <transition name="voteResultFade">
   <div v-if="showModal" class="skipModal">
     <!-- 클릭할때마다 요소가 생성되게 해야 함. 어떻게? 생성자 ㄱ? 일단 고민 -->
       <h1>유저 {{ voteUser }} 님께서 스킵에 투표하셨습니다!</h1>
   </div>
+  </transition>
+    <transition name="voteResultFade">
   <button v-if="progress.isDay" @click="sendSkip">
     낮 스킵 후 투표로 넘어가기
     지금 낮임
   </button>
-  <div v-if="progress.isVoteDay">지금 낮 투표임</div>
+  </transition>
+  <transition name="voteResultFade">
+    <div v-if="progress.isVoteDay">지금 낮 투표임</div>
+  </transition>
+  <transition name="voteResultFade">
   <div v-if="progress.isVoteDayResult">지금 낮 투표 결과임</div>
+  </transition>
+  <transition name="voteResultFade">
   <div v-if="progress.isNight">지금 밤임</div>
+  </transition>
+  <transition name="voteResultFade">
   <div v-if="progress.isNightResult">지금 밤 투표 결과임</div>
+  </transition>
 </template>
 
 <script>
@@ -51,35 +69,35 @@ export default {
   },
   methods: {
     dayToDayVote() { // 낮에서 낮 투표로
-      if (this.isSkiped === false) {
-        this.sendSkip();
-      }
+      // if (this.isSkiped === false) {
+      //   this.sendSkip();
+      // }
       this.progress.isDay = false;
       this.progress.isVoteDay = true;
       this.clearId = setTimeout(() => {
         this.voteToDayResult();
-      }, 15000); // 투표시간 타이머
+      }, 3000); // 투표시간 타이머
     },
     voteToDayResult() { // 낮 투표에서 낮 투표 결과로
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
       setTimeout(() => {
         this.dayResultToNightVote();
-      }, 5000); // 낮 투표결과 보여줄 타이머
+      }, 3000); // 낮 투표결과 보여줄 타이머
     },
     dayResultToNightVote() { // 낮 투표 결과에서 밤 투표로
       this.progress.isVoteDayResult = false;
       this.progress.isNight = true;
       setTimeout(() => {
         this.nightVoteToNightResult();
-      }, 20000); // 밤 투표 진행할 타이머
+      }, 3000); // 밤 투표 진행할 타이머
     },
     nightVoteToNightResult() { // 밤 투표에서 밤 투표 결과로
       this.progress.isNight = false;
       this.progress.isNightResult = true;
       setTimeout(() => {
         this.nightResultToDay();
-      }, 5000); // 밤 결과 보여줄 타이머
+      }, 3000); // 밤 결과 보여줄 타이머
     },
     nightResultToDay() { // 밤 투표 결과에서 낮으로
       this.progress.isNightResult = false;
@@ -87,7 +105,7 @@ export default {
       this.isSkiped = false;
       setTimeout(() => {
         this.dayToDayVote();
-      }, 100000) // 낮 진행시킬 타이머
+      }, 3000) // 낮 진행시킬 타이머
     },
     connect() {
       const serverURL = "http://localhost:8080/roomSocket"
@@ -132,16 +150,18 @@ export default {
       )
     },
     sendSkip() {
-      if (this.stompClient && this.stompClient.connected) {
-          const msg = {
-              progress: 'day',
-              roomNo: this.roomNo,
-              id: this.userInfo.id,
-          }
-          this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
-          this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
-          this.isSkiped = true;
-      }
+      // if (this.stompClient && this.stompClient.connected) {
+      //     const msg = {
+      //         progress: 'day',
+      //         roomNo: this.roomNo,
+      //         id: this.userInfo.id,
+      //     }
+      //     this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
+      //     this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
+      //     this.isSkiped = true;
+      // }
+      clearTimeout(this.clearId)
+      this.dayToDayVote() 
     },
     // 아래의 getVoteSkip 함수는 goDay 함수 안에서 실행될 것
     // getVoteSkip() {
@@ -205,6 +225,9 @@ export default {
     //   }, 100000)
     // },
   },
+  created() {
+    this.nightResultToDay()
+  }
 }
 </script>
 
