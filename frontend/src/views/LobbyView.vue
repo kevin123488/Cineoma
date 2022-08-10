@@ -273,7 +273,7 @@ export default {
 
           // 방 입장
           this.stompClient.subscribe(`/room/${this.roomNo}`, res => {
-            console.log('방 입장 정보.', res.body);
+            console.log('방 입장 정보.', res);
             const roomInfo = {
               no: this.roomNo,
               password: { password: this.password },
