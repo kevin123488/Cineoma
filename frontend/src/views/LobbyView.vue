@@ -215,7 +215,8 @@ export default {
     ]),
     ...mapGetters(roomdataStore, [
       'roomTitle',
-      'isCaptain'
+      'isCaptain',
+      'isConnected',
     ]),
   },
   methods: {
@@ -331,6 +332,8 @@ export default {
 
   mounted() {
     console.log(this.userInfo)
+    console.log('연결되있나??')
+    console.log(this.isConnected)
     // console.log(this.friendList)
     // console.log(this.roomList[0])
     // console.log(this.isCaptain)

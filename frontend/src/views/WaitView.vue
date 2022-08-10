@@ -1,6 +1,9 @@
 <template class="">
   <div class="w3-black wait-background" style="height: 1000px;">
     <div class="w3-main mx-5">
+        <router-link :to="{ name: 'lobby' }">
+        <div>소켓연결 테스트ㄱㄱ</div>
+        </router-link>
 
       <!-- Header -->
       <header id="portfolio">
@@ -65,9 +68,15 @@
     <h1>대기방임</h1>
     <hr>
     <div v-if="isCaptain">
+<<<<<<< HEAD
       <!-- <button v-if="ifStart" @click="startSignal">게임시작</button> -->
       <!-- <button v-else disabled>게임시작</button> -->
       <button @click="startTest">시작</button>
+=======
+      <button v-if="ifStart" @click="startSignal">게임시작</button>
+      <button v-else disabled>게임시작</button>
+      <!-- <button @click="startVote">게임시작-임시-</button> -->
+>>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
     </div>
   </div>
 </template>
@@ -79,6 +88,7 @@ const memberStore = "memberStore"
 
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+// import router from '@/router'
 
 export default {
 
@@ -94,7 +104,8 @@ export default {
       recvList: [],
       startGame: false,
       ifStart: false,
-      ifReady: false
+      ifReady: false,
+      sessionId: '',
     }
   },
   
@@ -103,7 +114,8 @@ export default {
     ...mapGetters(roomdataStore, [
       'roomNo',
       'roomTitle',
-      'isCaptain'
+      'isCaptain',
+      'isConnected',
     ]),
     ...mapGetters(memberStore, [
       'isLogin',
@@ -113,6 +125,7 @@ export default {
       'enterRoom',
       'saveRoomTitle',
       'saveIsCaptain',
+      'saveIsConnected',
     ])
   },
 
@@ -124,24 +137,48 @@ export default {
     console.log(this.isCaptain)
     console.log(this.roomNo)
     console.log(this.roomTitle)
-    // this.sendProfile()
   },
 
   methods: {
+    // startVote() {
+    //   this.$router.push("/vote");
+    // },
     // 소켓 연결
     connect() {
       const serverURL = "http://localhost:8080/roomSocket"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+<<<<<<< HEAD
  
+=======
+
+      // const oldCloseCB = this.stompClient.ws.onclose
+      // this.stompClient.ws.onclose = e => {
+      //  console.log('소켓끊김')
+      //  console.log(e)
+      // }
+
+      socket.onclose = function() {
+        this.saveIsConnected(false)
+      };
+
+>>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
       this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
+
+          // this.saveIsConnected(true)
+          console.log(this.isConnected)
+          
           console.log('소켓 연결 성공', frame);
+          console.log('소켓id출력')
           console.log(socket._transport.url)
+          // const sessionIdLength = socket._transport.url.length
+          this.sessionId = socket._transport.url.slice(-18, -10)
+          this.sendProfile()
 
           // 채팅
           this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {
@@ -205,6 +242,10 @@ export default {
     sendProfile() {
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
+<<<<<<< HEAD
+=======
+          sessionId: this.sessionId,
+>>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
           roomNo: this.roomNo,
           id: this.user.id
         };
@@ -230,7 +271,11 @@ export default {
     // 방 나가기
     sendOut() {
       if (this.stompClient && this.stompClient.connected) {
+<<<<<<< HEAD
         const msg = { 
+=======
+        const msg = {
+>>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
           roomNo: this.roomNo,
           id: this.user.id
         };

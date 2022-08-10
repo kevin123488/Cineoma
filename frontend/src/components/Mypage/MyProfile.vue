@@ -244,8 +244,9 @@
   }
   .profileTitle {
     background-color: rgba(37, 83, 143, 0.5);
-    width: 700px;
+    /* width: 700px; */
     text-align: center;
     border-radius: 20px;
+    display: inline-block;
   }
 </style>

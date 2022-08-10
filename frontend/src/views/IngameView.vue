@@ -32,6 +32,9 @@ import IngameNav from '@/components/Ingame/IngameNav.vue'
 import axios from 'axios'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/components/Ingame/UserVideo.vue'
+import { mapGetters, mapActions } from 'vuex'
+const roomdataStore = "roomdataStore"
+const memberStore = "memberStore"
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -60,10 +63,31 @@ const OPENVIDU_SERVER_SECRET = "E107";
         time: 'day'
       }
     },
+  computed: {
+    ...mapGetters(roomdataStore, [
+      'roomNo',
+      'roomTitle',
+      'isCaptain',
+      'isConnected',
+    ]),
+    ...mapGetters(memberStore, [
+      'isLogin',
+    ]),
+    ...mapActions(roomdataStore, [
+      'deleteRoom',
+      'enterRoom',
+      'saveRoomTitle',
+      'saveIsCaptain',
+      'saveIsConnected',
+    ])
+  },    
     created() {
       this.mySessionId = this.$route.params.roomnumber;
       this.myUserName = 'Participant' + Math.floor(Math.random() * 100);
       this.joinSession();
+    },
+    mounted() {
+      console.log(this.isConnected)
     },
     methods: {
       joinSession () {

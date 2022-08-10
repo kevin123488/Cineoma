@@ -56,6 +56,9 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/Ingame/UserVideo.vue";
 
+import { mapGetters, mapActions } from 'vuex'
+const roomdataStore = "roomdataStore"
+
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:443";
@@ -97,6 +100,22 @@ export default {
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
+    ...mapGetters(roomdataStore, [
+      'roomNo',
+      'roomTitle',
+      'isCaptain',
+      'isConnected',
+    ]),
+    ...mapGetters(memberStore, [
+      'isLogin',
+    ]),
+    ...mapActions(roomdataStore, [
+      'deleteRoom',
+      'enterRoom',
+      'saveRoomTitle',
+      'saveIsCaptain',
+      'saveIsConnected',
+    ])           
   },
   created() {
     this.mySessionId = "a";
@@ -112,6 +131,9 @@ export default {
       voted: [],
     };
     // this.connect()
+  },
+  mounted() {
+    console.log(this.isConnected)
   },
   methods: {
     joinSession() {
