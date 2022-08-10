@@ -27,6 +27,9 @@
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <a href="/lobby" class="text-deepdarkpurple" style="font-size: 1em;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
+              <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+                인게임로직테스트
+              </button>
             </div>
             </div>
           </div>
@@ -232,6 +235,10 @@ export default {
       'saveRoomTitle',
       'saveIsCaptain',
     ]),
+
+    testvote() {
+      this.$router.push("/testvote") 
+    },
 
     openEnterRoom(room) {
       // 이쪽 랜더링 잘 안될수도 있을듯
