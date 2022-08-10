@@ -6,7 +6,12 @@
   </div>
   <button v-if="progress.isDay" @click="sendSkip">
     낮 스킵 후 투표로 넘어가기
+    지금 낮임
   </button>
+  <div v-if="progress.isVoteDay">지금 낮 투표임</div>
+  <div v-if="progress.isVoteDayResult">지금 낮 투표 결과임</div>
+  <div v-if="progress.isNight">지금 밤임</div>
+  <div v-if="progress.isNightResult">지금 밤 투표 결과임</div>
 </template>
 
 <script>
@@ -35,13 +40,50 @@ export default {
         isVoteDayResult: false,
         isNight: false,
         isNightResult: false,
-      }
+      },
+      clearId: "",
     }
   },
   computed: {
     ...mapState(ingameStore, ["user"]), // ingameStore에 저장되어 있는, 현재 게임에 접속중인 유저. 이름 바뀔 수 있음
   },
   methods: {
+    dayToDayVote() { // 낮에서 낮 투표로
+      this.sendSkip();
+      this.progress.isDay = false;
+      this.progress.isVoteDay = true;
+      this.clearId = setTimeout(() => {
+        this.voteToDayResult();
+      }, 15000); // 투표시간 타이머
+    },
+    voteToDayResult() { // 낮 투표에서 낮 투표 결과로
+      this.progress.isVoteDay = false;
+      this.progress.isVoteDayResult = true;
+      setTimeout(() => {
+        this.dayResultToNightVote();
+      }, 5000); // 낮 투표결과 보여줄 타이머
+    },
+    dayResultToNightVote() { // 낮 투표 결과에서 밤 투표로
+      this.progress.isVoteDayResult = false;
+      this.progress.isNight = true;
+      setTimeout(() => {
+        this.nightVoteToNightResult();
+      }, 20000); // 밤 투표 진행할 타이머
+    },
+    nightVoteToNightResult() { // 밤 투표에서 밤 투표 결과로
+      this.progress.isNight = false;
+      this.progress.isNightResult = true;
+      setTimeout(() => {
+        this.nightResultToDay();
+      }, 5000); // 밤 결과 보여줄 타이머
+    },
+    nightResultToDay() { // 밤 투표 결과에서 낮으로
+      this.progress.isNightResult = false;
+      this.progress.isDay = true;
+      setTimeout(() => {
+        this.dayToDayVote();
+      }, 100000) // 낮 진행시킬 타이머
+    },
     connect() {
       const serverURL = "http://localhost:8080/roomSocket"
       let socket = new SockJS(serverURL);
@@ -62,16 +104,16 @@ export default {
                 this.showModal = false;
               }, 1000);
 
-              let id = setTimeout(() => {
-                if (this.isSkiped === false) {
-                  this.sendSkip();
-                }
-              }, 10000)
+              // setTimeout(() => {
+              //   if (this.isSkiped === false) {
+              //     this.dayToVote();
+              //   }
+              // }, 100000)
 
               if (res.body.ifSkip === true) {
                 this.progress.isDay = false;
                 this.progress.isVoteDay = true;
-                clearTimeout(id)
+                clearTimeout(this.clearId);
               }
 
             } else if (res.body.progress === voteDay) {
