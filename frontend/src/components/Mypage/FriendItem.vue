@@ -9,6 +9,7 @@
         {{ friendItem.nickname }}
       </h3>
       <button class="deleteButton" @click="deleteFriend">친구삭제</button>
+      <!-- 친구목록 -->
       <!-- 얘 클릭하면 친구의 마이페이지로 이동할 수 있도록 해야함 -->
   </div>
 </template>
