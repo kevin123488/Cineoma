@@ -27,7 +27,7 @@ export default {
         id: "", // 임시 양식
       },
       isSkiped: false, // 낮 시간이 100초 지난 시점에 이 값이 계속 false라면? sendSkip 실행, 밤 투표 결과에서 낮으로 넘어올 때 이 값을 false로 맞춰줘야 함
-      voteUser: "", // 스킵 투표를 수행한 유저
+      voteUser: "",
       showModal: false, // 얘 바꾸는 타이밍 나중에 확인 -> 얘는 괜찮은듯
       progress: {
         isDay: true, // 시작화면이 얘니까 일단 얘를 true로
@@ -42,49 +42,6 @@ export default {
     ...mapState(ingameStore, ["user"]), // ingameStore에 저장되어 있는, 현재 게임에 접속중인 유저. 이름 바뀔 수 있음
   },
   methods: {
-    connect() {
-      const serverURL = "http://localhost:8080/roomSocket"
-      let socket = new SockJS(serverURL);
-      this.stompClient = Stomp.over(socket);
-      this.stompClient.connect(
-        {},
-        frame => {
-          this.connected = true;
-          console.log("소켓 연결 성공", frame);
-
-          this.stompClient.subscribe(`/sendMafia/${this.roomNo}/${this.userInfo.id}`, res => {
-            if (res.body.progress === day) {
-              this.color = res.body.color;
-              this.voteUser = res.body.nickname;
-              this.showModal = true;
-
-              setTimeout(() => {
-                this.showModal = false;
-              }, 1000);
-
-              let id = setTimeout(() => {
-                if (this.isSkiped === false) {
-                  this.sendSkip();
-                }
-              }, 10000)
-
-              if (res.body.ifSkip === true) {
-                this.progress.isDay = false;
-                this.progress.isVoteDay = true;
-                clearTimeout(id)
-              }
-
-            } else if (res.body.progress === voteDay) {
-
-            } else if (res.body.progress === voteDayFinish) {
-
-            } else if (res.body.progress === voteNight) {
-
-            }
-          })
-        }
-      )
-    },
     sendSkip() {
       if (this.stompClient && this.stompClient.connected) {
           const msg = {

@@ -141,7 +141,11 @@ export default {
           // 소켓 연결 성공
           this.connected = true;
           console.log('소켓 연결 성공', frame);
+          console.log('소켓id출력')
           console.log(socket._transport.url)
+          // const sessionIdLength = socket._transport.url.length
+
+          console.log(typeof(socket._transport.url))
 
           // 채팅
           this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {
