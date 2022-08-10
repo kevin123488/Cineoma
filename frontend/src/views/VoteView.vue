@@ -6,6 +6,11 @@
       <div class="w3-col m8">
         <div class="w3-row">
           <user-video
+          v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+          :stream-manager="sub">
+          </user-video>
+          <!-- <user-video
             :stream-manager="subscribers[0]"
             :gameInfo="gameInfo[0]"
             @click="doVote(gameInfo[0])"
@@ -24,7 +29,7 @@
             :stream-manager="subscribers[3]"
             :gameInfo="gameInfo[3]"
             @click="doVote(gameInfo[3])"
-          />
+          /> -->
         </div>
       </div>
 
@@ -36,7 +41,6 @@
         <user-video
           :stream-manager="publisher"
           :gameInfo="myInfo"
-          class="mx-2 my-2 w3-container border border-secondary"
         />
       </div>
     </div>

@@ -9,6 +9,11 @@
   const ingameStore = {
     namespaced: true,
     state: {
+      gameResult: {
+        winJob: '',
+        nickname: '',
+        color: '',
+      },
       absoluteTime: "",
       job: "",
       joinMembers: [
@@ -31,6 +36,9 @@
     },
   
     getters: {
+      gameResult(state) {
+        return state.gameResult;
+      },      
       absoluteTime(state) {
         return state.absoluteTime;
       },
@@ -43,15 +51,16 @@
     },
   
     mutations: {
-      SET_JOINMEMBERS: (state, joinMembers) => state.joinMembers = joinMembers,
+      SET_GAMERESULT: (state, gameResult) => state.gameResult = gameResult,      
     },
   
     actions: {
       setJoinMembers({ commit }, joinMembers) {
-            console.log('게임시작하고 멤버세팅')
-            console.log(joinMembers)
-            commit('SET_JOINMEMBERS', joinMembers)
-    }
+        commit('SET_JOINMEMBERS', joinMembers)
+    },
+      setGameResult({ commit }, gameResult) {
+        commit('SET_GAMERESULT', gameResult)
+    },
   }
 }
   

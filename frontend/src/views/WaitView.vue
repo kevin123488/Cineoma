@@ -68,12 +68,9 @@
     <h1>대기방임</h1>
     <hr>
     <div v-if="isCaptain">
-      <!-- <button v-if="ifStart" @click="startSignal">게임시작</button> -->
-      <!-- <button v-else disabled>게임시작</button> -->
-      <button @click="startTest">시작</button>
-      <button v-if="ifStart" @click="startSignal">게임시작</button>
-      <button v-else disabled>게임시작</button>
-      <!-- <button @click="startVote">게임시작-임시-</button> -->
+      <!-- <button v-if="ifStart" @click="startSignal">게임시작</button>
+      <button v-else disabled>게임시작</button> -->
+      <button @click="startTest">게임시작-임시-</button>
     </div>
   </div>
 </template>
@@ -198,14 +195,14 @@ export default {
             this.ifStart = readyData.ifStart;
 
             if (readyData.startGame === true) {
-              this.$route.push({ name: 'ingame', params: { id_pk: this.roomNo } });
+              this.$router.push({ name: 'ingame', params: { id_pk: this.roomNo } });
             }
           });
 
           // 방 폭파
           this.stompClient.subscribe(`/topic/sendBreak/${this.roomNo}`, res => {
             console.log('방 폭파.', res.body);
-            this.$route.push('lobby');
+            this.$router.push('lobby');
           });
         },
 
@@ -301,7 +298,7 @@ export default {
     },
 
     startTest() {
-      this.$router.push('/vote');
+      this.$router.push({ name: 'ingame', params: { id_pk: this.roomNo } });
     },
 
     // 게임시작
