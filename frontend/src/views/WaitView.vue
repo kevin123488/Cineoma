@@ -133,12 +133,15 @@ export default {
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+      
+
       this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
           console.log('소켓 연결 성공', frame);
+          console.log(socket._transport.url)
 
           // 채팅
           this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {

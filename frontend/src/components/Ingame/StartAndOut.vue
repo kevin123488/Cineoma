@@ -7,6 +7,7 @@
 import { mapGetters, mapActions, mapState } from 'vuex'
 const roomdataStore = "roomdataStore"
 const memberStore = "memberStore"
+// const ingameStore = "ingameStore"
 
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
@@ -17,15 +18,10 @@ export default {
   },
   data() {
     return {
-      num : 1,
-      user: {},
-      usersInfo: [],
-      nickName: '',
-      message: '',
-      recvList: [],
-      startGame: false,
-      ifStart: false,
-      ifReady: false
+      absoluteTime: "",
+      job: "",
+      joinMembers: [],
+      winJob: "",
     }
   },
   
@@ -39,6 +35,9 @@ export default {
     ...mapGetters(memberStore, [
       'isLogin',
     ]),
+    // ...mapGetters(ingameStore, [
+    //   'isLogin',
+    // ]),
     ...mapActions(roomdataStore, [
       'deleteRoom',
       'enterRoom',
@@ -50,11 +49,7 @@ export default {
   created() {
     this.user = this.userInfo
     this.nickName = this.user.nickname
-    // App.vue가 생성되면 소켓 연결을 시도합니다.
     this.connect()
-    console.log(this.isCaptain)
-    console.log(this.roomNo)
-    console.log(this.roomTitle)
     // this.sendProfile()
   },
 
@@ -72,47 +67,41 @@ export default {
           this.connected = true;
           console.log('소켓 연결 성공', frame);
 
-          // 채팅
-          this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {
-            console.log('구독으로 받은 채팅입니다.', res.body);
-            this.recvList.push(JSON.parse(res.body))
 
-          });
+          // 게임 시작하고 초기데이터 세팅
+          this.stompClient.subscribe(`/sendMafia/${this.roomNo}`, res => {
+            console.log('구독으로 받은 게임시작 정보입니다.', res.body);
+            const data = JSON.parse(res.body)
 
-          // 프로필
-          this.stompClient.subscribe(`/topic/sendProfile/${this.roomNo}`, res => {
-            console.log('구독으로 받은 프로필입니다.', res.body);
-            this.usersInfo.push(JSON.parse(res.body))
+            if (data.progress  === "start") {
+              this.absoluteTime = data.absoluteTime
+              this.job = data.job // 내 직업
+              this.joinUsers = data.joinUsers
+              this.joinUsers.forEach(user => {
+                user.isAlive = true
+                user.voteNo = 1
+                user.voted = []
+              });
+            }
 
-            // 방 나가기
-            if (res.body.progress === 'out') {
-              this.$route.push('lobby');
+          // 누구 나갔을때
+          this.stompClient.subscribe(`/sendMafia/${this.roomNo}/gameOut}`, res => {
+            const data = JSON.parse(res.body)
+            const newJoinMembers = this.joinMembers.filter(member => member.id !== data.id)
+            this.joinMembers = newJoinMembers
+            if (data.winJob !== "") {
+              this.winJob = data.winJob
+              console.log('직업에 따라 게임결과창으로 넘어가기')
+              // 모달 형식으로 결과 띄워주고 버튼누르면 router push로 로비창으로 보내주면 될듯
             }
           });
-
-          // 레디
-          this.stompClient.subscribe(`/topic/sendReady/${this.roomNo}`, res => {
-            console.log('구독으로 받은 레디입니다.', res.body);
-            const readyData = JSON.parse(res.body)
-            this.ifStart = readyData.ifStart;
-
-            if (readyData.startGame === true) {
-              this.$route.push({ name: 'ingame', params: { id_pk: this.roomNo } });
-            }
-          });
-
-          // 방 폭파
-          this.stompClient.subscribe(`/topic/sendBreak/${this.roomNo}`, res => {
-            console.log('방 폭파.', res.body);
-            this.$route.push('lobby');
-          });
-        },
+        },)
 
         error => {
           // 소켓 연결 실패
           console.log('소켓 연결 실패', error);
           this.connected = false;
-        }
+        }}
       );        
     },
 

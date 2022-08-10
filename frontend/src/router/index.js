@@ -8,6 +8,8 @@ import FinalView from '../views/FinalView.vue'
 import MyPageView from '../views/MyPageView.vue'
 import EditUserView from '../views/EditUserView.vue'
 import VoteView from '../views/VoteView.vue'
+import OvTest from '../views/OvTest.vue'
+import GameEnd from '../views/GameEndView.vue'
 
 const routes = [
   {
@@ -54,6 +56,11 @@ const routes = [
     path: '/:id_pk/edit',
     name: 'edituser',
     component: EditUserView
+  },
+  {
+    path: '/:job/end',
+    name: 'gameend',
+    component: GameEnd
   },
 ]
 
