@@ -1,10 +1,11 @@
 package com.ssafy.mafia.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,4 +30,7 @@ public class User {
 	@Column(name = "my_point")
 	private int myPoint;
 	private String intro;
+	@ManyToOne
+	@JoinColumn(name = "room_no")
+	private Room room;
 }

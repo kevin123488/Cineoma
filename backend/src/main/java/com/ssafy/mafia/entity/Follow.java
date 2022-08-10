@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +15,13 @@ import lombok.Setter;
 public class Follow {
 	@Id @GeneratedValue
 	private int no;
-	@Column(name = "my_id")
-	private String myId;
-	@Column(name = "follow_id")
-	private String followId;
+	
+	@ManyToOne
+	@JoinColumn(name="myId")
+	private User myId;
+	
+	@ManyToOne
+	@JoinColumn(name = "followId")
+	private User followId;
 }
 
