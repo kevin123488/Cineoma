@@ -40,8 +40,8 @@
     </div>
   </div>
 
-  <div>
-    <div class="chatList">
+  <div class="w3-row">
+    <div class="chatList w3-col m12">
       <div
         v-for="(item, idx) in recvList"
         :key="idx"
@@ -54,9 +54,9 @@
       v-model="message"
       type="text"
       @keyup.enter="sendChat"
-      class="chatInput"
+      class="chatInput w3-col m10"
       >
-      <button @click="sendChat" id="chatButton">보내기</button>
+      <button @click="sendChat" id="chatButton" class="w3-col m2">보내기</button>
     </div>
   </div>
   
@@ -133,17 +133,21 @@ export default {
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+      
+
       this.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           this.connected = true;
           console.log('소켓 연결 성공', frame);
+          console.log(socket._transport.url)
 
           // 채팅
           this.stompClient.subscribe(`/topic/sendChat/${this.roomNo}`, res => {
             console.log('구독으로 받은 채팅입니다.', res.body);
             this.recvList.push(JSON.parse(res.body))
+
           });
 
           // 프로필
@@ -183,17 +187,17 @@ export default {
       );        
     },
 
-    // 채팅
     sendChat() {
       console.log("Send message:" + this.message);
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
           roomNo: this.roomNo,
           nickName: this.nickName,
-          content: this.message 
+          content: this.message
         };
         console.log(msg);
         this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
+        this.message = '';
       }
     },
 
@@ -322,12 +326,19 @@ export default {
   padding: 10px 10px 10px 10px;
   display: flex;
   margin: auto;
+  color: #000;
 }
 
 .chatInput {
-  width: 5%;
   border-radius: 20px;
   padding: 10px 10px 10px 10px;
+  font-family: 'NeoDunggeunmo Code';
+}
+
+#chatButton {
+  border-radius: 20px;
+  padding: 10px 10px 10px 10px;
+  font-family: 'NeoDunggeunmo Code';
 }
 
 </style>

@@ -7,7 +7,6 @@
 
 <div class="w3-container w3-content lobby-undernavbar" style="max-width:1400px;">    
   <div class="w3-row">
-      <h1 style="font-family: 'NeoDunggeunmo Code'; margin-left: 50px;" class="text-deepdarkpurple">사이트 이름</h1>
 
     <!-- <div id="test1"><div id="test2">asdf</div></div> -->
     <!-- 방 관련 부분 -->
@@ -16,19 +15,17 @@
       <!-- 방검색, 만들기, 새로고침 부분 -->
 
       <div class="w3-row">
-        
         <div class="w3-col m12">
-          
           <div class="">
             <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
             <div class="w3-container w3-roun my-3">
               <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
-              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
+              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
               <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
-                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
+                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 1em;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
             </div>
             </div>
@@ -40,8 +37,8 @@
       <!--  -->
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5"><br>
-            <h2 class="mx-4 text-purple">Activated Room List</h2>
+        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
+            <h4 class="mx-4 text-purple">Activated Room List</h4>
             <br>
         </div>
 
@@ -51,7 +48,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">{{ enterRoomData.no }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-laroombel="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
               <div class="modal-body">
@@ -84,14 +81,13 @@
           <!-- 방 정보 시작 -->
           <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h4 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h4>
+            <h4 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h4><h6 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h6>
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <button class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" 
-            style=" font-family: 'NeoDunggeunmo Code'; font-size: 20px; background:rgba(0, 0, 0, 0); margin-bottom: 28px;">
+            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
               <i class="fa fa-pencil"></i>들어가기
-            </button>
+            </p>
         </div>
         <!-- 방정보 끝 -->
         
@@ -104,11 +100,12 @@
       <!-- 공지창 -->
       <div id="notice" class="w3-round  w3-center">
         <div class="w3-container" style="margin-left: 30px; margin-right: 30px">
-
-          <p class="" style="margin-top: 60px;">Upcoming Events:</p>
+          <br>
+          <br>
+          <p class="my-1">Upcoming Events:</p>
           <p class="my-1"><strong>어제는 시민이였던 내가 오늘은 마피아?!</strong></p>
           <p class="my-1"><strong>release</strong></p>
-          <p class="my-1">8/19 13:00</p>
+          <p class="my-1">8/19 09:00</p>
           <p class="my-1"><button class="w3-button w3-block w3-theme-l4">최종발표</button></p>
         </div>
       </div>
@@ -118,7 +115,7 @@
 
         <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
-            <h3>Friend List</h3>
+            <h4>Friend List</h4>
           </div>
         </div>
 
@@ -163,85 +160,77 @@
 </template>
 
 <script>
-  import MakeRoom from '@/components/Lobby/MakeRoom.vue'
-  import { mapActions, mapGetters, mapState } from 'vuex'
-  const lobbyStore = "lobbyStore"
-  const roomdataStore = "roomdataStore"
-  const mypageStore = "mypageStore"
-  const memberStore = "memberStore"
-  
-  // import axios from 'axios'
-  // import drf from '@/api/drf'
-  // import router from '@/router'
+import MakeRoom from '@/components/Lobby/MakeRoom.vue'
+import { mapActions, mapGetters, mapState } from 'vuex'
+const lobbyStore = "lobbyStore"
+const roomdataStore = "roomdataStore"
+const mypageStore = "mypageStore"
+const memberStore = "memberStore"
 
-  export default {
-    name: 'LobbyView',
-    components: {
-        MakeRoom,
-    },
-    data() {
-      return {
-        num: 1,
-        enterRoomData: {},
-        enterModalVisible: false,
-        searchRoomKeyword: '',
-        friends: []
-        // showFriendList: false
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+
+// import axios from 'axios'
+// import drf from '@/api/drf'
+// import router from '@/router'
+
+export default {
+  name: 'LobbyView',
+  components: {
+      MakeRoom,
+  },
+  data() {
+    return {
+      num: 1,
+      enterRoomData: {},
+      enterModalVisible: false,
+      searchRoomKeyword: '',
+      friends: [],
+      // showFriendList: false
+      roomNo: -1,
+      password: ''
+    }
+  },
+  watch: {
+    userInfo () {
+      console.log('userInfo 보고있다 ')
+      try {
+        this.getFriendsStore(this.userInfo.id)
+      }
+      catch (error) {
+        this.$router.push("/") 
       }
     },
-    watch: {
-      userInfo () {
-        console.log('userInfo 보고있다 ')
-        try {
-          this.getFriendsStore(this.userInfo.id)
-        }
-        catch (error) {
-          this.$router.push("/") 
-        }
-      },
-      friendList () {
-        this.friends = this.friendList;
-      }      
-    },
-    // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
-    computed: {
-      
-      ...mapState(mypageStore, ["friendList"]),
-      ...mapState(memberStore, ["userInfo"]),
-      ...mapGetters(lobbyStore, [
-        'roomList',
-        'memberList'
-      ]),
-      ...mapGetters(roomdataStore, [
-        'roomTitle',
-        'isCaptain'
-      ]),
-    },
-    methods: {
-      ...mapActions(lobbyStore, [
-        'getRoomList',
-        'getMemberList',
+    friendList () {
+      this.friends = this.friendList;
+    }      
+  },
+  // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
+  computed: {
+    ...mapState(mypageStore, ["friendList"]),
+    ...mapState(memberStore, ["userInfo"]),
+    ...mapGetters(lobbyStore, [
+      'roomList',
+      'memberList'
     ]),
-      ...mapActions(mypageStore, [
-        'getFriendsStore',
+    ...mapGetters(roomdataStore, [
+      'roomTitle',
+      'isCaptain'
     ]),
-      ...mapActions(roomdataStore, [
-        'enterRoom',
-        'saveRoomTitle',
-        'saveIsCaptain',
+  },
+  methods: {
+    ...mapActions(lobbyStore, [
+      'getRoomList',
+      'getMemberList',
     ]),
-
-    tryEnterRoom(roomNo) {
-      console.log(roomNo)
-      // router.push({ name: 'wait', params: { roomnumber: roomNo } })
-
-      // roomInfo = { roomNo: int, password: { password: int } }
-      const roomInfo = {
-        no: roomNo,
-        info: { password: this.password, id: this.userInfo.id },
-      }
-      this.enterRoom(roomInfo)
-    },
+    ...mapActions(mypageStore, [
+      'getFriendsStore',
+    ]),
+    ...mapActions(roomdataStore, [
+      'enterRoom',
+      'saveRoomTitle',
+      'saveIsCaptain',
+    ]),
 
     openEnterRoom(room) {
       // 이쪽 랜더링 잘 안될수도 있을듯
@@ -268,44 +257,89 @@
         }
       });
     },
+
+    // 소켓 연결
+    connect() {
+      const serverURL = "http://localhost:8080/roomSocket"
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+      this.stompClient.connect(
+        {},
+        frame => {
+          // 소켓 연결 성공
+          this.connected = true;
+          console.log('소켓 연결 성공', frame);
+
+          // 방 입장
+          this.stompClient.subscribe(`/room/${this.roomNo}`, res => {
+            console.log('방 입장 정보.', res.body);
+            const roomInfo = {
+              no: this.roomNo,
+              password: { password: this.password },
+            }
+            this.enterRoom(roomInfo)
+          });
+        },
+
+        error => {
+          // 소켓 연결 실패
+          console.log('소켓 연결 실패', error);
+          this.connected = false;
+        }
+      );        
     },
 
-    created() {
-      // 방장아님 표시
-      this.saveIsCaptain(false)
-
-      // store에 방목록 세팅
-      this.getRoomList()
-      if (this.userInfo !== null) {
-        try {
-          console.log('이거다')
-          console.log('아닌가')
-        
-        }
-        catch (error) {
-          console.log('실행됨?')
-          this.$router.push("/") 
-        }
+    tryEnterRoom(roomNo) {
+      if (this.stompClient && this.stompClient.connected) {
+        this.roomNo = roomNo
+        const msg = {
+          id: this.userInfo.id,
+          roomNo: this.roomNo,
+          password: this.password
+        };
+        console.log(msg);
+        this.stompClient.send('/receiveProfile', JSON.stringify(msg), {});
       }
-      // store에 친구목록 세팅
-      // console.log(this.userInfo)
-      // console.log('왜 출력안해줌?')
     },
+  },
 
-    mounted() {
-      console.log(this.userInfo)
-      // console.log(this.friendList)
-      // console.log(this.roomList[0])
-      // console.log(this.isCaptain)
+  created() {
+    // 소켓 연결
+    this.connect()
+
+    // 방장아님 표시
+    this.saveIsCaptain(false)
+
+    // store에 방목록 세팅
+    this.getRoomList()
+    if (this.userInfo !== null) {
+      try {
+        console.log('이거다')
+        console.log('아닌가')
+      
+      }
+      catch (error) {
+        console.log('실행됨?')
+        this.$router.push("/") 
+      }
     }
-    }
+    // store에 친구목록 세팅
+    // console.log(this.userInfo)
+    // console.log('왜 출력안해줌?')
+  },
 
-
+  mounted() {
+    console.log(this.userInfo)
+    // console.log(this.friendList)
+    // console.log(this.roomList[0])
+    // console.log(this.isCaptain)
+  }
+}
 </script>
 <style>
 input::placeholder {
   font-family: 'NeoDunggeunmo Code';
-  font-size: 20px;  
 }
 #scroll::-webkit-scrollbar {
   width: 0px;
@@ -365,49 +399,5 @@ input::placeholder {
   background-repeat : no-repeat;
   background-size: 100% 100%;
   height: 250px;
-}
-/* 버튼효과 */
-button.learn-more {
-  font-weight: 600;
-  color: gray;
-  text-transform: uppercase;
-  padding: 1.25em 2em;
-  /* background: #fff0f0; */
-  background-color:transparent;
-  /* border: 2px solid rgb(199, 199, 199); */
-  border-radius: 0.3em;
-  transform-style: preserve-3d;
-  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
-}
-button.learn-more::before {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 90%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  /* background: #f9c4f5; */
-  border-radius: inherit;
-  /* box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e2; */
-  transform: translate3d(0, 0.75em, -1em);
-  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
-}
-button.learn-more:hover {
-  background: #ffe9e9;
-  transform: translate(0, 0.25em);
-}
-button.learn-more:hover::before {
-  /* box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2; */
-  transform: translate3d(0, 0.5em, -1em);
-}
-button.learn-more:active {
-  /* background: #ffe9e9; */
-  transform: translate(0em, 0.75em);
-}
-button.learn-more:active::before {
-  box-shadow: 0 0 0 2px white, 0 0 #ffe3e2;
-  transform: translate3d(0, 0, -1em);
 }
 </style>

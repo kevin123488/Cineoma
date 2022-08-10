@@ -18,6 +18,7 @@ public interface RoomUserRepository extends JpaRepository<RoomUser, Integer>{
 	
 	@Query(value = "select count(*) from room_user where id =?",  nativeQuery =true)
 	public int countById(String id);
-	
+	void deleteById(String id);
+	void deleteAllByRoomNo(int roomNo);
 	
 }

@@ -220,7 +220,9 @@ user.blabla로 접근해야 하는 값이 정해져 있기 때문에, 저기 명
     }    
     ```
     b->f :
-    ok  사인 및 애러코드
+    ok  사인 및 애러코드 (리턴값, success, fail로 구분)
+    
+    
 
 # 방 삭제
 
@@ -316,7 +318,7 @@ ex)topic/sendChat/107
     ("topic/sendProfile/{roomNo}")
         b->f  
     progress:String,//in and out 으로 입장인지 퇴장인지 구별하 
-      List<userDto>  userList{
+      userList{
         nickname:String,
         id:String,//out일땐 id값만 줄 예
         imagePath:String,
@@ -394,20 +396,42 @@ ex)topic/sendChat/107
 
 # 2. 인게임
 
+**5인 마1 의1 중1 시2**
+
 # 게임 시작
 
-대기방 소켓 끊어지고 새로운 소켓 연결
+**대기방 소켓 하나에서 계속 ㄱ**
 
 소켓 연결시 사용할 uri
-
-Endpoint(/mafiaSocket)
 
 //프론트 입장에서 데이터를 담아 보내줄 uri
 ("/receiveMafia")
 
+
+
+//프론트에서 투표로직 처리 후 값 보내줄 때 사용할 uri
+
+
+
 //프론트 입장에서 구독하다가 데이터를 받을 uri
 //send로 메시지를 반환합니다.
+("/sendMafia/{roomNo}/{id}")
+
+progress : start
+
+
+
+백에서 전체에게 보내는 uri
+
 ("/sendMafia/{roomNo}")
+
+
+
+누가 나갔을 때 백에서 프론트에 보낼 uri
+
+("/sendMafia/{roomNo}/gameOut")
+
+
 
 ex)/sendChat/107
 
@@ -422,21 +446,47 @@ ex)/sendChat/107
     
     {
       b->f
-    
       progress : start,
-    
-      list {
-        id :string,
-        nickname : string,
-        job : string,
-        color : string,
-        alive : bool,
-        isHost:  bool
-      }
+      absoluteTime: hh:mm:ss, (24 기준)
+      job : string, // 시민 -> citizen, 의사 -> doctor, 마피아 -> mafia, 미션자 -> mission
+      isHost:  bool
+      joinUsers: [
+        {
+        id: string,
+        nickname: string,
+        color: string
+    	},
+        ]
     }
     ```
     
     ```json
+    # 투표화면으로 넘어가기 버튼을 낮에 눌렀을 때 주고받을 정보
+    {
+        f->b
+        progress : day,
+        
+        roomNo: int,
+        id: string,
+    }
+    
+    {
+        b->f
+        // 누가 넘기기 버튼 누를 때마다 모두에게 전송
+        progress : day,
+        ifSkip: bool,
+        id: string, // 긴급투표 버튼 누른 사람의 id를 넘겨줌
+        color: string,
+        absoluteTime: hh:mm:ss, (24 기준)
+    }
+    
+    // 과반수 이상의 투표자가 나오면 스킵 가능
+    ```
+    
+    
+    
+    ```json
+    // 투표했을 때(투표확정 버튼을 눌렀을 때)
     {
      f->b
     progress : voteDay,
@@ -445,149 +495,76 @@ ex)/sendChat/107
     id : string,
     nickname : string,
     vote : string,//누구를 뽑았는지 id
-    alive : bool,
-    isHost :  bool,
     //미션 관련으로 승리 했을 경우 알려주는 변수
-    isWin : bool
-    
+    ifWin : bool
     }
     
     {
-    
     b->f
-    //뽑힌사람이 없을경우 id값이 null
-    // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-    {
+    //뽑힌사람이 없을경우 id값이 ""
     progress : voteDay,
-    gameEnd : int,
     id : string,
-    nickname : string,
-    count : int
+    votedId: string,
     // id, nickname은 죽은사람이 없는경우 "" 로 보내고 죽은사람이 있는경우 죽은 사람의 정보를 보
+    }
     
+    {
+        b -> f
+        progress: voteDayFinish,
+        id: string, // 투표 결과 없을 때 -> ""
+        winJob: string, // 승리자 없을 때 -> "", 시민 승 -> citizen, 마피아 승 -> mafia, 미션자 승 -> mission
+        nickname: string, // 뽑힌사람의 닉네임
     }
     ```
+  
+  
+  
+  
   
   {
+  
     {
   
-      프론트에서 투표 끝내고 백으로 정보 보내주는 부분
-      
-        f->b
-      마피아가 여러명이면
-      소켓으로 구현 가능함
+  ```json
+  프론트에서 투표 끝내고 백으로 정보 보내주는 부분
+  // 밤 투표
+  
+    f->b
+  마피아가 여러명이면
+  소켓으로 구현 가능함
+  {
       progress : voteNight,
-      
-      id : string,//누구를 뽑았는지 일반 시민의 경우 "" 로 전달 혹은 그냥 안넣어서 보내도됨
-      nickname : string,
-      job : string,//내 직업이 뭔지
-      vote : string,
-      alive : bool,
-      isHost :  bool,
-      isWin : bool
+  	id : string,// 자기 아이디
+  	nickname : string,
+  	job : string,// 마피아 -> mafia, 의사 -> doctor
+  	vote : string, // 누구를 뽑았는지 id로
+  }
+  ```
   
     }
   
-    {
+    
   
+  ```json
+  {
+  b->f
+  progress : voteNight,
+  winJob: string, // 승리자 없을 때 -> "", 시민 승 -> citizen, 마피아 승 -> mafia, 미션자 승 -> mission
+  votedId : string, // 누가 뽑혔는지(누가 죽었는지)
+  nickname : string // 죽은 사람의 닉네임
+  }
+  ```
+  
+    
+  
+  ```json
+  // 어떤 유저가 나갔을 때(소켓 끊겼을 때)
+  // 얘 전용 uri -> (/gameOut)
+  {
       b->f
-      //뽑힌사람이 없을경우 id값이 null
-      // gameEnd :0) 안끝남 1) 시민승 2) 마피아승 3)중립승 
-      progress : voteNight,
-      gameEnd : int,
-      id : string,
-      nickname : string
-  
-    }
-  
+      id: string, // 나간사람 id
+      winJob: string, // 나감으로 인해 판별된 승리팀, 승리자 없을 때 -> "", 시민 승 -> citizen, 마피아 승 -> mafia, 미션자 승 -> mission
+  }
   ```
   
-  ```
-
-- /gameResult
   
-  - method:
-    
-    - POST
-  
-  - body
-    
-    - 유저 정보
-    
-    - 승리여부
-    
-    - 직업
-
-- 리턴형식
-  
-  - ```json
-    {    
-      nickname:
-      contant:
-    }
-    ```
-
-5인 마1 의1 중1 시2
-
-웹소켓도 결국
-게임 시작할때 백에서 누가 무슨직업이고 죽고 살았는지 등 게임 내용은 다 가지고 시작
-
-낮->투표->밤->직업 행동
-
-낮->투표
-타이머 다됨
-
-+ 다같이 동의해서 투표하러가자
-
-모든 유저한테
-타이머 다됨이 도착하거나
-넘어가자는 무언가가 모두 도착
-uri
-
-기권표 추가
-투표 할 uri
-
-밤되면
-
-직업들?
-의사, 마피아, 시민, 경찰?
-
-백에서-> 직업별 할 내용을 프론트로 보내줌
-프론트에서 투표화면 보여주고직업별
-
-uri
-
-실시간 x
-나
-
-- 인게임
-
-- /gameResult
-  
-  - method:
-    
-    - POST
-  
-  - body
-    
-    - 유저 정보
-    
-    - 승리여부
-    
-    - 직업
-
-# 게임 끝
-
-- /gameResult
-  
-  - method:
-    
-    - POST
-  
-  - body
-    
-    - 유저 정보
-    
-    - 승리여부
-    
-    - 직업

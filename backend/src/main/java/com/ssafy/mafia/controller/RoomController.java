@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.mafia.dto.RoomResultDto;
+// import com.ssafy.mafia.dto.RoomResultDto;
 import com.ssafy.mafia.entity.Room;
 import com.ssafy.mafia.entity.RoomUser;
 import com.ssafy.mafia.entity.User;

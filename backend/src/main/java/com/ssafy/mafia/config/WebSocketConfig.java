@@ -27,3 +27,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             .setAllowedOriginPatterns("http://localhost"+"*","https://i7e107.p.ssafy.io"+"*")//cros 허용 url
             .withSockJS();
     }
+}
