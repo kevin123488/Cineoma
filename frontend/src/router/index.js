@@ -8,8 +8,6 @@ import FinalView from '../views/FinalView.vue'
 import MyPageView from '../views/MyPageView.vue'
 import EditUserView from '../views/EditUserView.vue'
 import VoteView from '../views/VoteView.vue'
-
-// import OvTest from '../views/OvTest.vue'
 import GameEnd from '../views/GameEndView.vue'
 import TestVote from '../components/Ingame/voteSkip.vue'
 
