@@ -195,14 +195,14 @@ export default {
             this.ifStart = readyData.ifStart;
 
             if (readyData.startGame === true) {
-              this.$route.push({ name: 'ingame', params: { id_pk: this.roomNo } });
+              this.$router.push({ name: 'ingame', params: { id_pk: this.roomNo } });
             }
           });
 
           // 방 폭파
           this.stompClient.subscribe(`/topic/sendBreak/${this.roomNo}`, res => {
             console.log('방 폭파.', res.body);
-            this.$route.push('lobby');
+            this.$router.push('lobby');
           });
         },
 
@@ -298,7 +298,7 @@ export default {
     },
 
     startTest() {
-      this.$router.push('/vote');
+      this.$router.push({ name: 'ingame', params: { id_pk: this.roomNo } });
     },
 
     // 게임시작
