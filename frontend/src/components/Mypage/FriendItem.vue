@@ -6,9 +6,9 @@
       </h3> -->
       <img class="friendPic" :src="`/homedesign/images/` + friendItem.imagePath" onerror="this.style.display='none'">
       <h3>
-        {{ friendItem.id }}
+        {{ friendItem.nickname }}
       </h3>
-      <button @click="deleteFriend">친구삭제</button>
+      <button class="deleteButton" @click="deleteFriend">친구삭제</button>
       <!-- 얘 클릭하면 친구의 마이페이지로 이동할 수 있도록 해야함 -->
   </div>
 </template>
@@ -58,11 +58,18 @@ const memberStore = "memberStore";
   background-color: white;
   border-radius: 20px;
   display: flex;
+  justify-content: space-between;
   margin: 10px 10px 10px 10px;
   opacity: 0.7;
+  border: 2px solid white;
 }
 .friendPic {
-  background-size: cover;
-  margin: auto;
+  width: 100px;
+  height: 50px;
+  border-radius: 20px 0px 0px 20px;
+  margin-right: 5px;
+}
+.deleteButton {
+  border-radius: 0px 20px 20px 0px;
 }
 </style>
