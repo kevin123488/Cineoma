@@ -302,7 +302,7 @@ ex)topic/sendChat/107
     { 
     ("/receiveProfile")
         f->b
-    progress:String,//in and out 으로 입장인지 퇴장인지 구별하   
+        sessionId:string,
       roomNo: int,
       id:String
     }
@@ -425,6 +425,9 @@ ex)/sendChat/107
       f->b
       progress : start
       roomNo: int,
+      id : string, //당장 필요없지만 일단 받으면 편할거같아서 받아둠
+      sessionId:string //대기방에서 넘어 올때 소켓이 끊어지면 보내주고 유지된다면 안보내줘야함
+
     }
     
     {

@@ -12,5 +12,6 @@ public class StompInterceptor {
 	    public void onDisconnectEvent(SessionDisconnectEvent event)
 	 {
 		 event.getSessionId();
+		 
 	    }
 }
