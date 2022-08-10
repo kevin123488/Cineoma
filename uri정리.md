@@ -316,6 +316,7 @@ ex)topic/sendChat/107
         id:String,//out일땐 id값만 줄 예
         imagePath:String,
         intro:String,
+        ifCaptain: bool,
         ifReady: bool,//레디 상태 저장용 지금 이정보를 백에서 알 수 없어서 db에 추
         winRate:int//퍼센트로 
       }
@@ -427,7 +428,7 @@ ex)/sendChat/107
       roomNo: int,
       id : string, //당장 필요없지만 일단 받으면 편할거같아서 받아둠
       sessionId:string //대기방에서 넘어 올때 소켓이 끊어지면 보내주고 유지된다면 안보내줘야함
-
+    
     }
     
     {
