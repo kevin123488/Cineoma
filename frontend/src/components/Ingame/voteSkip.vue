@@ -100,7 +100,7 @@ export default {
           console.log("소켓 연결 성공", frame);
 
           this.stompClient.subscribe(`/sendMafia/${this.roomNo}/${this.userInfo.id}`, res => {
-            if (res.body.progress === day) {
+            if (res.body.progress === 'day') {
               this.color = res.body.color;
               this.voteUser = res.body.nickname;
               this.showModal = true;
@@ -120,12 +120,12 @@ export default {
                 this.progress.isVoteDay = true;
                 clearTimeout(this.clearId);
               }
-            } else if (res.body.progress === voteDay) {
-
-            } else if (res.body.progress === voteDayFinish) {
-
-            } else if (res.body.progress === voteNight) {
-
+            } else if (res.body.progress === 'voteDay') {
+              this.a
+            } else if (res.body.progress === 'voteDayFinish') {
+              this.a
+            } else if (res.body.progress === 'voteNight') {
+              this.a
             }
           })
         }
@@ -134,7 +134,7 @@ export default {
     sendSkip() {
       if (this.stompClient && this.stompClient.connected) {
           const msg = {
-              progress: day,
+              progress: 'day',
               roomNo: this.roomNo,
               id: this.userInfo.id,
           }
@@ -214,6 +214,13 @@ export default {
   position: absolute;
   width: 70%;
   height: 70%;
+}
+/* 결과창 Fade*/
+.voteResultFade-enter-active, .voteResultFade-leave-active {
+  transition: opacity 1s;
+}
+.voteResultFade-enter-from, .voteResultFade-leave-to {
+  opacity: 0;
 }
 
 </style>
