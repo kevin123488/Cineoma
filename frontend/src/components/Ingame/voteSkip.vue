@@ -1,35 +1,44 @@
 <template>
 <!-- 낮 중에만 활성화 되도록, v-if progress === day -->
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-  <transition name="voteResultFade">
-  <div v-if="showModal" class="skipModal">
-    <!-- 클릭할때마다 요소가 생성되게 해야 함. 어떻게? 생성자 ㄱ? 일단 고민 -->
-      <h1>유저 {{ voteUser }} 님께서 스킵에 투표하셨습니다!</h1>
-  </div>
-  </transition>
+  <div class="ingameBackground">
+    <!-- <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br> -->
     <transition name="voteResultFade">
-  <button v-if="progress.isDay" @click="sendSkip">
-    낮 스킵 후 투표로 넘어가기
-    지금 낮임
-  </button>
-  </transition>
-  <transition name="voteResultFade">
-    <div v-if="progress.isVoteDay">지금 낮 투표임</div>
-  </transition>
-  <transition name="voteResultFade">
-  <div v-if="progress.isVoteDayResult">지금 낮 투표 결과임</div>
-  </transition>
-  <transition name="voteResultFade">
-  <div v-if="progress.isNight">지금 밤임</div>
-  </transition>
-  <transition name="voteResultFade">
-  <div v-if="progress.isNightResult">지금 밤 투표 결과임</div>
-  </transition>
+    <div v-if="showModal" class="skipModal">
+      <!-- 클릭할때마다 요소가 생성되게 해야 함. 어떻게? 생성자 ㄱ? 일단 고민 -->
+        <h1>유저 {{ voteUser }} 님께서 스킵에 투표하셨습니다!</h1>
+    </div>
+    </transition>
+    <transition name="voteResultFade">
+    <button class="ingameDaySkipBtn" v-if="progress.isDay" @click="sendSkip">
+      낮 스킵 후 투표로 넘어가기
+      지금 낮임
+    </button>
+    </transition>
+
+    <transition name="voteResultFade">
+      <div class="voteForm" v-if="progress.isVoteDay">
+        <h3>지금 낮 투표임</h3>
+        <div class="voteItem">
+          
+        </div>
+      </div>
+    </transition>
+
+    <transition name="voteResultFade">
+    <div v-if="progress.isVoteDayResult">지금 낮 투표 결과임</div>
+    </transition>
+    <transition name="voteResultFade">
+    <div v-if="progress.isNight">지금 밤임</div>
+    </transition>
+    <transition name="voteResultFade">
+    <div v-if="progress.isNightResult">지금 밤 투표 결과임</div>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -69,7 +78,7 @@ export default {
   },
   methods: {
     dayToDayVote() { // 낮에서 낮 투표로
-      // if (this.isSkiped === false) {
+      // if (this.isSkiped === false) { // 나중에 주석 풀어야 함
       //   this.sendSkip();
       // }
       this.progress.isDay = false;
@@ -159,9 +168,9 @@ export default {
       //     this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
       //     this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
       //     this.isSkiped = true;
-      // }
+      // } // 나중에 주석 풀기
       clearTimeout(this.clearId)
-      this.dayToDayVote() 
+      this.dayToDayVote() // 얘 나중에 주석처리
     },
     // 아래의 getVoteSkip 함수는 goDay 함수 안에서 실행될 것
     // getVoteSkip() {
@@ -239,11 +248,39 @@ export default {
   height: 70%;
 }
 /* 결과창 Fade*/
-.voteResultFade-enter-active, .voteResultFade-leave-active {
+/* .voteResultFade-enter-active, .voteResultFade-leave-active {
   transition: opacity 1s;
 }
 .voteResultFade-enter-from, .voteResultFade-leave-to {
   opacity: 0;
+} */
+.ingameDaySkipBtn {
+  position: absolute;
+  top: 70%;
+  left: 70%;
+  height: 30px;
+  border: 2px solid black;
+  border-radius: 20px;
 }
-
+.voteForm {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  /* background-color: black; */
+  opacity: 0.7;
+  width: 500px;
+  height: 700px;
+  margin: auto;
+  border-radius: 30px;
+  /* box-shadow: 5px 5px 5px 5px gray; */
+  background-image: url(../../../public/homedesign/images/profile_mafia.jpg);
+  background-size: cover;
+}
+.ingameBackground {
+  background-image: url(../../../public/homedesign/images/wait_mafia.gif);
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* height: 773.3px; */
+}
 </style>
