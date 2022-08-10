@@ -94,27 +94,3 @@ const lobbyStore = {
 };
 
 export default lobbyStore;
-
-
-// export default createStore({
-//   state: {
-//     friendList: {},
-//     roomList: {},
-//   },
-  
-//   getters: {
-//     // friendList: state => state.friendList,
-//     // roomList: state => state.roomList,
-//   },
-
-//   mutations: {
-//     SET_FRIENDLIST: (state, friendList) => state.friendList = friendList,
-//     SET_ROOMLIST: (state, roomList) => state.roomList = roomList,
-//   },
-
-//   actions: {
-//   },
-
-//   modules: {
-//   },
-// })
