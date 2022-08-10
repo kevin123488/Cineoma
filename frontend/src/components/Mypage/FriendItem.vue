@@ -1,9 +1,10 @@
   <template>
   <div class="friendItem">
     <!-- <h1 style="font-family: 'NeoDunggeunmo Code';">친구 컴포넌트</h1> -->
-      <h3>
+      <!-- <h3>
         여기 이미지 {{ friendItem.imagePath }}
-      </h3>
+      </h3> -->
+      <img class="friendPic" :src="`/homedesign/images/` + friendItem.imagePath" onerror="this.style.display='none'">
       <h3>
         {{ friendItem.id }}
       </h3>
@@ -59,5 +60,9 @@ const memberStore = "memberStore";
   display: flex;
   margin: 10px 10px 10px 10px;
   opacity: 0.7;
+}
+.friendPic {
+  background-size: cover;
+  margin: auto;
 }
 </style>
