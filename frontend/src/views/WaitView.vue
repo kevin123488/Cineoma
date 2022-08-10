@@ -68,15 +68,9 @@
     <h1>대기방임</h1>
     <hr>
     <div v-if="isCaptain">
-<<<<<<< HEAD
-      <!-- <button v-if="ifStart" @click="startSignal">게임시작</button> -->
-      <!-- <button v-else disabled>게임시작</button> -->
-      <button @click="startTest">시작</button>
-=======
-      <button v-if="ifStart" @click="startSignal">게임시작</button>
-      <button v-else disabled>게임시작</button>
-      <!-- <button @click="startVote">게임시작-임시-</button> -->
->>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
+      <!-- <button v-if="ifStart" @click="startSignal">게임시작</button>
+      <button v-else disabled>게임시작</button> -->
+      <button @click="startTest">게임시작-임시-</button>
     </div>
   </div>
 </template>
@@ -149,9 +143,6 @@ export default {
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-<<<<<<< HEAD
- 
-=======
 
       // const oldCloseCB = this.stompClient.ws.onclose
       // this.stompClient.ws.onclose = e => {
@@ -163,7 +154,6 @@ export default {
         this.saveIsConnected(false)
       };
 
->>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
       this.stompClient.connect(
         {},
         frame => {
@@ -242,10 +232,7 @@ export default {
     sendProfile() {
       if (this.stompClient && this.stompClient.connected) {
         const msg = { 
-<<<<<<< HEAD
-=======
           sessionId: this.sessionId,
->>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
           roomNo: this.roomNo,
           id: this.user.id
         };
@@ -271,11 +258,7 @@ export default {
     // 방 나가기
     sendOut() {
       if (this.stompClient && this.stompClient.connected) {
-<<<<<<< HEAD
-        const msg = { 
-=======
         const msg = {
->>>>>>> 1d37dd62f4e5abdad78c42cc0cb0de5f9cc437db
           roomNo: this.roomNo,
           id: this.user.id
         };

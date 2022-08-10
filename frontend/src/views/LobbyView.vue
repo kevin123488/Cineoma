@@ -61,7 +61,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                <button v-on:click="tryEnterRoom(enterRoomData.no)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
+                <button v-on:click="tryEnterRoom(enterRoomData)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
 
               </div>
           </div>
@@ -167,9 +167,6 @@ const roomdataStore = "roomdataStore"
 const mypageStore = "mypageStore"
 const memberStore = "memberStore"
 
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
-
 // import axios from 'axios'
 // import drf from '@/api/drf'
 // import router from '@/router'
@@ -259,55 +256,13 @@ export default {
       });
     },
 
-    // 소켓 연결
-    connect() {
-      const serverURL = "http://localhost:8080/roomSocket"
-      let socket = new SockJS(serverURL);
-      this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
-      this.stompClient.connect(
-        {},
-        frame => {
-          // 소켓 연결 성공
-          this.connected = true;
-          console.log('소켓 연결 성공', frame);
-
-          // 방 입장
-          this.stompClient.subscribe(`/room/${this.roomNo}`, res => {
-            console.log('방 입장 정보.', res);
-            const roomInfo = {
-              no: this.roomNo,
-              password: { password: this.password },
-            }
-            this.enterRoom(roomInfo)
-          });
-        },
-
-        error => {
-          // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
-          this.connected = false;
-        }
-      );        
-    },
-
-    tryEnterRoom(roomNo) {
-      if (this.stompClient && this.stompClient.connected) {
-        this.roomNo = roomNo
-        const msg = {
-          id: this.userInfo.id,
-          roomNo: this.roomNo,
-          password: this.password
-        };
-        console.log(msg);
-        this.stompClient.send('/receiveProfile', JSON.stringify(msg), {});
-      }
-    },
+    tryEnterRoom(roomInfo) {
+      roomInfo.info = { id: this.userInfo.id, no: roomInfo.no, password: this.password, }
+      this.enterRoom(roomInfo)
+    }
   },
 
   created() {
-    // 소켓 연결
-    this.connect()
 
     // 방장아님 표시
     this.saveIsCaptain(false)

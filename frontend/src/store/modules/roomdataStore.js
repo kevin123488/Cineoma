@@ -52,6 +52,7 @@ const roomdataStore = {
     },    
     // 외부요청
     async makeRoom({ commit }, roomInfo) {
+      console.log(roomInfo);
       await roomMake(
         roomInfo,
         (response) => {
@@ -60,6 +61,7 @@ const roomdataStore = {
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
           commit('SET_ROOMNO', response.data.no)
+          console.log(response)
           router.push({ name: 'wait', params: { roomnumber:  response.data.no } })
         },
         () => {},
@@ -83,8 +85,8 @@ const roomdataStore = {
         roomInfo,
         (response) => {
           commit('SET_ROOMTITLE', response.data.roomTitle)
-          commit('SET_ROOMNO', roomInfo.roomNo)
-          router.push({ name: 'wait', params: { roomnumber:  roomInfo.roomNo } })
+          commit('SET_ROOMNO', roomInfo.no)
+          router.push({ name: 'wait', params: { roomnumber:  roomInfo.no } })
         },
         () => {},
       );
