@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="w3-row">
       <div class="w3-col m2" id="info-time">
-        <ingame-timer id="timer" :time="20" />
+        <ingame-timer id="timer" :time="count" />
         <p id="day">day:</p>
       </div>
       <div class="w3-col m7 border border-secondary px-3" id="info">
@@ -17,31 +17,33 @@
 </template>
 
 <script>
-import IngameTimer from './IngameTimer.vue'
+import IngameTimer from "./IngameTimer.vue";
 
 export default {
-    components: {
-        IngameTimer,
-    }
-
-}
+  props: {
+    count: Object,
+  },
+  components: {
+    IngameTimer,
+  },
+};
 </script>
 
 <style>
 #info-time {
-    text-align: center;
-    height: 130px;
+  text-align: center;
+  height: 130px;
 }
 
 #timer {
-    font-size: 35px;
+  font-size: 35px;
 }
 
 #day {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 #info {
-    height: 125px;
+  height: 125px;
 }
 </style>
