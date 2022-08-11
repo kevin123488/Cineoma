@@ -20,15 +20,15 @@
             <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
             <div class="w3-container w3-roun my-3">
               <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
-              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
               <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
-                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 1em;"><i class="fa fa-refresh "></i>새로고침</a>
+                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
               <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
-                인게임로직테스트
+                트랜지션 테스트
               </button>
             </div>
             </div>
@@ -40,9 +40,8 @@
       <!--  -->
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
-            <h4 class="mx-4 text-purple">Activated Room List</h4>
-            <br>
+        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 py-3" style="">
+            <h4 class="mx-4 text-purple" style="font-size: 28px;">Activated Room List</h4>
         </div>
 
         <!-- 들어가기모달 -->
@@ -84,11 +83,11 @@
           <!-- 방 정보 시작 -->
           <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h4><h6 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h6>
+            <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h3 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h3>
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
+            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px;">
               <i class="fa fa-pencil"></i>들어가기
             </p>
         </div>
@@ -118,7 +117,7 @@
 
         <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
-            <h4>Friend List</h4>
+            <h3>Friend List</h3>
           </div>
         </div>
 
@@ -305,6 +304,7 @@ export default {
 <style>
 input::placeholder {
   font-family: 'NeoDunggeunmo Code';
+  font-size: 20px;
 }
 #scroll::-webkit-scrollbar {
   width: 0px;
