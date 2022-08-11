@@ -127,7 +127,7 @@ export default {
     this.user = this.userInfo
     this.nickName = this.user.nickname
     // App.vue가 생성되면 소켓 연결을 시도합니다.
-    // this.connect()
+    this.connect();
     console.log(this.isCaptain)
     console.log(this.roomNo)
     console.log(this.roomTitle)
@@ -152,6 +152,7 @@ export default {
 
       socket.onclose = function() {
         this.saveIsConnected(false)
+        console.log("===================끊겼나?=====================")
       };
 
       this.stompClient.connect(
