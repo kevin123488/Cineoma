@@ -68,7 +68,14 @@ public class UserServiceImpl implements UserService {
 		System.out.println("서비스으으으" + word);
 		return userRepository.findByWord(word);
 	}
-	
+	@Override
+	public void updateUserRoomNo(int roomNo, String id) throws Exception {
+//		System.out.println(roomNo);
+//		System.out.println(id);
+		userRepository.updateRoomNo(roomNo, id);
+//		System.out.println(n);
+		
+	}
 	
 
 	

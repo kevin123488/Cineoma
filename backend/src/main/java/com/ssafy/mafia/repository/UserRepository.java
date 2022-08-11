@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query(value = "select * from user where nickname like %?%", nativeQuery =true)
 	public List<User> findByWord(String word);
-	//List<User> findAllById(String id);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update user set room_no = ?1 where id = ?2",  nativeQuery =true)
+	public int updateRoomNo(int roomNo, String id);
+	
 }

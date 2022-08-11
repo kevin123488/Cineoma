@@ -14,5 +14,5 @@ public interface UserService {
 	List<User> getList(String id) throws Exception;
 	
 	List<User> SearchList(String word) throws Exception;
-	
+	void updateUserRoomNo(int roomNo, String id) throws Exception;
 }
