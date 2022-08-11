@@ -1,4 +1,5 @@
 <template>
+<div :class="{'ingameNight': progress.isNight, 'ingameDay': progress.isDay, 'ingameDayVote': progress.isVoteDay, 'ingameDayVoteResult': progress.isVoteDayResult, 'ingameNightResult': progress.isNightResult}">
   <div class="w3-main mx-5">
     <ingame-nav class="mb-3"></ingame-nav>
     <!-- 유저 화면 -->
@@ -52,6 +53,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 publisher
 sub
@@ -72,7 +74,7 @@ const roomdataStore = "roomdataStore"
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:443";
+const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:6443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
@@ -141,7 +143,9 @@ export default {
       job: '', // 직업
       voted: [],
     };
-    // this.connect()
+    this.connect();
+    // 확인용 nightResultToDay
+    this.nightResultToDay(); // 타이머 확인 끝나면 다시 돌리기 ㄱ
   },
   mounted() {
     console.log(this.isConnected)
@@ -324,6 +328,7 @@ export default {
       // if (this.isSkiped === false) {
       //   this.sendSkip();
       // }
+      console.log("타이머 도나?");
       this.progress.isDay = false;
       this.progress.isVoteDay = true;
       this.clearId = setTimeout(() => {
@@ -359,6 +364,8 @@ export default {
       this.progress.isNightResult = false;
       this.progress.isDay = true;
       this.isSkiped = false;
+      console.log("지금낮인데 뭐 뜨냐?");
+      console.log(this.progress);
       setTimeout(() => {
         this.dayToDayVote();
       }, 3000) // 낮 진행시킬 타이머
@@ -376,7 +383,7 @@ export default {
           // 소켓 연결 성공
           this.connected = true;
           console.log('소켓 연결 성공', frame);
-
+          console.log("======================됐나?=======================")
           // 직업, 색깔 설정
           this.stompClient.subscribe(`/sendMafia/${this.mySessionId}/${this.userInfo.id}`, res => {
             console.log('구독으로 받은 게임 정보입니다.', res.body);
@@ -389,7 +396,7 @@ export default {
                   gameInfo.color = joinUser.color;
                 }
               })
-            this.dayToDayVote();
+            this.nightResultToDay(); // 낮 시작 ㄱㄱ
             });
           });
 
@@ -482,4 +489,35 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.ingameNight {
+  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameDay {
+  background-image: url(../../public/homedesign/images/mypage_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameDayVote {
+  background-image: url(../../public/homedesign/images/intro_movie.mp4);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameDayVoteResult {
+  background-image: url(../../public/homedesign/images/intro_movie.mp4);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameNightResult {
+  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+</style>
