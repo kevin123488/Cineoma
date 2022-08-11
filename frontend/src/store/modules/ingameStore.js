@@ -15,7 +15,7 @@
         color: '',
       },
       absoluteTime: "",
-      job: "",
+      job: "mission",
       joinMembers: [
         {
           id: 'int',

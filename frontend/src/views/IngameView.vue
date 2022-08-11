@@ -45,9 +45,15 @@
         </ul>
         <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
           <user-video
+            v-if="0"
             :stream-manager="publisher"
             :gameInfo="myInfo"
           />
+          <mission-user-video
+            v-if="1"
+            :stream-manager="publisher"
+            :gameInfo="myInfo"
+          />          
         </div>
       </div>
     </div>
@@ -57,7 +63,9 @@ publisher
 sub
 <script>
 const memberStore = "memberStore";
-import { mapState } from "vuex";
+const ingameStore = "ingameStore";
+const roomdataStore = "roomdataStore"
+import { mapState, mapGetters, mapActions, } from "vuex";
 import IngameNav from "@/components/Ingame/IngameNav.vue";
 
 import Stomp from 'webstomp-client'
@@ -66,13 +74,11 @@ import axios from "axios";
 
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/Ingame/UserVideo.vue";
-
-import { mapGetters, mapActions } from 'vuex'
-const roomdataStore = "roomdataStore"
+import MissionUserVideo from "@/components/Ingame/MissionUserVideo.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:443";
+const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:6443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
@@ -80,6 +86,7 @@ export default {
   components: {
     IngameNav,
     UserVideo,
+    MissionUserVideo,
   },
   data() {
     return {
@@ -120,6 +127,9 @@ export default {
     ...mapGetters(memberStore, [
       'isLogin',
     ]),
+    ...mapGetters(ingameStore, [
+      'job',
+    ]),    
     ...mapActions(roomdataStore, [
       'deleteRoom',
       'enterRoom',
@@ -141,6 +151,9 @@ export default {
       job: '', // 직업
       voted: [],
     };
+    console.log('job')
+    console.log(this.job)
+
     // this.connect()
   },
   mounted() {
