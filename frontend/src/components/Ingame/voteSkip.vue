@@ -22,9 +22,11 @@
 
     <transition name="voteResultFade">
       <div class="voteForm" v-if="progress.isVoteDay">
-        <h3>지금 낮 투표임</h3>
+        <h3 class="dayVoteTitle">지금 낮 투표임</h3>
         <div class="voteItem">
-          
+          <div v-for="vote in inGameAliveUser" :key="vote.id">
+            <div class="choosedUser" @click="chooseVote(vote.id)">{{ vote.nickname }}</div>
+          </div>
         </div>
       </div>
     </transition>
@@ -71,12 +73,25 @@ export default {
         isNightResult: false,
       },
       clearId: "",
+      inGameAliveUser: [
+        {
+          id: "kevin1110",
+          nickname: "정현본계정",
+        }, // 이런 형식으로 넣어두기
+      ], // 게임 시작할 때 여기 참여자 id와 닉네임 전부 넣어두기. 그리고 죽거나 투표로 내보내질 경우 여기서 빼기.
+      // 투표시 투표용지에 이름을 올릴 유저를 편하게 관리하게 위함
     }
   },
   computed: {
-    ...mapState(ingameStore, ["user"]), // ingameStore에 저장되어 있는, 현재 게임에 접속중인 유저. 이름 바뀔 수 있음
+    ...mapState(ingameStore, ["joinMembers"]), // ingameStore에 저장되어 있는, 현재 게임에 접속중인 유저. 이름 바뀔 수 있음
+  },
+  watch() { // 인게임 유저의 정보가 바뀔 때마다 실행?
+
   },
   methods: {
+    chooseVote(id) {
+      console.log(id);
+    },
     dayToDayVote() { // 낮에서 낮 투표로
       // if (this.isSkiped === false) { // 나중에 주석 풀어야 함
       //   this.sendSkip();
@@ -85,7 +100,7 @@ export default {
       this.progress.isVoteDay = true;
       this.clearId = setTimeout(() => {
         this.voteToDayResult();
-      }, 3000); // 투표시간 타이머
+      }, 300000); // 투표시간 타이머
     },
     voteToDayResult() { // 낮 투표에서 낮 투표 결과로
       this.progress.isVoteDay = false;
@@ -235,7 +250,7 @@ export default {
     // },
   },
   created() {
-    this.nightResultToDay()
+    this.nightResultToDay() // 얘 나중에 주석처리
   }
 }
 </script>
@@ -248,12 +263,12 @@ export default {
   height: 70%;
 }
 /* 결과창 Fade*/
-/* .voteResultFade-enter-active, .voteResultFade-leave-active {
+.voteResultFade-enter-active, .voteResultFade-leave-active {
   transition: opacity 1s;
 }
 .voteResultFade-enter-from, .voteResultFade-leave-to {
   opacity: 0;
-} */
+}
 .ingameDaySkipBtn {
   position: absolute;
   top: 70%;
@@ -267,20 +282,26 @@ export default {
   top: 10%;
   left: 10%;
   right: 10%;
-  /* background-color: black; */
+  /* background-color: white; */
   opacity: 0.7;
-  width: 500px;
-  height: 700px;
+  width: 80vh;
+  height: 80vh;
   margin: auto;
   border-radius: 30px;
   /* box-shadow: 5px 5px 5px 5px gray; */
-  background-image: url(../../../public/homedesign/images/profile_mafia.jpg);
-  background-size: cover;
+  background-image: url(../../../public/homedesign/images/vote_paper.png);
+  background-size: 80vh 80vh;
+  background-repeat: no-repeat;
 }
 .ingameBackground {
   background-image: url(../../../public/homedesign/images/wait_mafia.gif);
+  height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
   /* height: 773.3px; */
+}
+.dayVoteTitle {
+  text-align: center;
+  margin-top: 50px;
 }
 </style>
