@@ -1,6 +1,6 @@
 <template>
 <div v-if="streamManager">
-	<ov-video :stream-manager="streamManager" />
+	<mission-video :stream-manager="streamManager" />
 	<div>
 		<p>{{ nickname }}</p>
 	</div>
@@ -8,14 +8,14 @@
 </template>
 
 <script>
-import OvVideo from './OvVideo';
+import MissionVideo from './MissionVideo';
 
 
 export default {
 	name: 'UserVideo',
 
 	components: {
-		OvVideo,
+		MissionVideo,
 	},
 
 	props: {
@@ -23,7 +23,7 @@ export default {
 		nickname: Object,
 	},
 
-	computed: {
+	computed: {	
 		clientData () {
 			const { clientData } = this.getConnectionData();
 			return clientData;
