@@ -1,18 +1,18 @@
 <template>
-	<video autoplay class="video-size" />
+   <video autoplay class="video-size" />
 </template>
 
 <script>
 export default {
-	name: 'OvVideo',
+   name: 'OvVideo',
 
-	props: {
-		streamManager: Object,
-	},
+   props: {
+      streamManager: Object,
+   },
 
-	mounted () {
-		this.streamManager.addVideoElement(this.$el);
-	},
+   mounted () {
+      this.streamManager.addVideoElement(this.$el);
+   },
 };
 </script>
 
