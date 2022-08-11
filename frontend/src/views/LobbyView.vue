@@ -47,13 +47,13 @@
         <!-- 들어가기모달 -->
         <div class="modal" id="enterRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="margin-top: 200px;">
           <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content lobbyModal">
               <div class="modal-header">
-                <h5 class="modal-title">{{ enterRoomData.no }}</h5>
+                <h3 class="modal-title" style="color: white; margin-left: 50px;">{{ enterRoomData.roomTitle }}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
-              <div class="modal-body">
+              <div class="modal-body" style="color: white; margin-left: 50px;">
                 <p>함께할 멤버</p>
                 <div v-for="(member, index) in memberList" :key="index">
                   <p>{{ member.nickname }}</p>
@@ -61,9 +61,12 @@
                 <input v-if="enterRoomData.isPassword" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호를 입력해주세요:" v-model="password">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
+                <i class="fa fa-map-pin"></i>방검색
+              </button> -->
+                <button class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-close'></i>나가기</button>
 
-                <button v-on:click="tryEnterRoom(enterRoomData)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
+                <button v-on:click="tryEnterRoom(enterRoomData)" class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-arrow-right'></i>입장하기</button>
 
               </div>
           </div>
@@ -278,6 +281,8 @@ export default {
     if (this.userInfo !== null) {
       try {
         console.log('이거다')
+        this.getFriendsStore(this.userInfo.id)
+
         console.log('아닌가')
       
       }
@@ -333,6 +338,11 @@ input::placeholder {
   justify-content: space-around;
   border-radius: 30px;
   border: 5px solid white;
+}
+.lobbyModal {
+  background-image: url(../../public/homedesign/images/lobbyroom.gif);
+  border-radius: 30px;
+  background-size: cover;  
 }
 #rooms {
   background-image: url(../../public/homedesign/images/lobby_room_v2.gif);

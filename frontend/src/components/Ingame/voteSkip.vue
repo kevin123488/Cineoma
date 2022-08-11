@@ -136,7 +136,7 @@ export default {
   background-size: 30vh 30vh;
   background-repeat: no-repeat;
   background-color: rgba( 255, 255, 255, 0 );
-  transition-duration: 1s;
+  transition-duration: 0.5s;
   transition-timing-function: ease
 }
 .jobRollFormSide {
@@ -155,7 +155,7 @@ export default {
   background-size: 10vh 10vh;
   background-repeat: no-repeat;
   background-color: rgba( 255, 255, 255, 0 );
-  transition-duration: 1s;
+  transition-duration: 0.5s;
   transition-timing-function: ease
 }
 .openedJobRoll {
