@@ -44,7 +44,7 @@
       <!-- 시민 -->
       <div v-if="job === 'citizen'">
         <div class="citizenImage"></div>
-        <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
+        <div style="width: 65%; margin-left: 120px; margin-top: 120px;">
           <h3 class="">당신의 직업: 시민</h3>
           <h3 class="">당신은 선량한 시민입니다. 다른 사람들과 협력해 마피아를 잡아내세요.</h3>
           <h3 class="">마피아를 잡아내면 승리!</h3>
@@ -195,13 +195,9 @@ export default {
   background-repeat: no-repeat;
   /* height: 773.3px; */
 }
-.dayVoteTitle {
-  text-align: center;
-  margin-top: 50px;
-}
-.mafiaImage {
+/* .mafiaImage {
   position: absolute;
-  top: 0%;
+  top: 20%;
   left: 20%;
   right: 30%;
   opacity: 1;
@@ -217,7 +213,7 @@ export default {
 }
 .citizenImage {
   position: absolute;
-  top: 0%;
+  top: 8%;
   left: 20%;
   right: 30%;
   opacity: 1;
@@ -262,5 +258,5 @@ export default {
   background-repeat : no-repeat;
   background-size: 100% 100%;
   margin-bottom:px;  
-}
-</style>
+} */
+</style> 

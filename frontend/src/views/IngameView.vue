@@ -182,6 +182,11 @@
       </button>
     </a>
   </div>
+  <a href="/game/end">
+  <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
+  <i class='fa fa-close'></i>게임끝내기</button>
+  </a>
+</div>
 </template>
 
 <script>
@@ -247,7 +252,7 @@ export default {
       // 직업정보열람용
       isjobRollCenter: true,
       isJobRollOpen: false,
-      job: "citizen",
+      job: 'headmaster',      
     };
   },
   computed: {
@@ -963,7 +968,7 @@ export default {
 }
 .mafiaImage {
   position: absolute;
-  top: 0%;
+  top: 10%;
   left: 20%;
   right: 30%;
   opacity: 1;
@@ -979,13 +984,13 @@ export default {
 }
 .citizenImage {
   position: absolute;
-  top: 0%;
+  top: 8%;
   left: 20%;
   right: 30%;
   opacity: 1;
   width: 50vh;
   height: 50vh;
-  margin: auto;
+  /* margin: auto; */
   border-radius: 30px;
   background-size: 50vh 50vh;
   background-image: url(../../public/homedesign/images/citizen_whiteicon.png);
@@ -995,7 +1000,7 @@ export default {
 }
 .doctorImage {
   position: absolute;
-  top: 0%;
+  top: 8%;
   left: 20%;
   right: 30%;
   opacity: 1;
@@ -1011,7 +1016,7 @@ export default {
 }
 .headmasterImage {
   position: absolute;
-  top: 0%;
+  top: 8%;
   left: 20%;
   right: 30%;
   opacity: 1;
