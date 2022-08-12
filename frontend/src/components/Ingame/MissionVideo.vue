@@ -74,8 +74,8 @@ export default {
         const { pose, posenetOutput } = await this.model.estimatePose(this.webcam.canvas);
         // Prediction 2: run input through teachable machine classification model
         console.log('통과')
-        console.log(pose)
-        console.log(posenetOutput)
+        // console.log(pose)
+        // console.log(posenetOutput)
 
         const prediction = await this.model.predict(posenetOutput);
         
