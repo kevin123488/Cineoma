@@ -8,7 +8,7 @@
       ingameNightResult: progress.isNightResult,
     }"
   >
-    <div v-if="startGame">
+    <div v-if="startGameSignal">
       <div class="w3-main mx-5">
         <ingame-nav class="mb-3" :count="count"></ingame-nav>
         <button @click="avOff">음소거</button>
@@ -18,24 +18,39 @@
           <div class="w3-col m8">
             <div class="w3-row">
               <div
-                class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+                class="mx-2 my-2 w3-container border border-secondary w3-col m5"
                 id="video-container"
               >
                 <user-video
                   :stream-manager="subscribers[0]"
-                  :gameInfo="gameInfo[0]"
+                  :gameInfo="gameInfos[0]"
                 />
+              </div>
+              <div
+                class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+                id="video-container"
+              >
                 <user-video
                   :stream-manager="subscribers[1]"
-                  :gameInfo="gameInfo[1]"
+                  :gameInfo="gameInfos[1]"
                 />
+              </div>
+              <div
+                class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+                id="video-container"
+              >
                 <user-video
                   :stream-manager="subscribers[2]"
-                  :gameInfo="gameInfo[2]"
+                  :gameInfo="gameInfos[2]"
                 />
+              </div>
+              <div
+                class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+                id="video-container"
+              >
                 <user-video
                   :stream-manager="subscribers[3]"
-                  :gameInfo="gameInfo[3]"
+                  :gameInfo="gameInfos[3]"
                 />
               </div>
             </div>
@@ -43,8 +58,8 @@
 
           <div class="w3-col m4">
             <ul class="mx-2 my-2 w3-container border border-secondary">
-              <li>직업</li>
-              <li>미션</li>
+              <li>직업: {{ myInfo.job }}</li>
+              <li>미션:</li>
             </ul>
             <div
               class="mx-2 my-2 w3-container border border-secondary w3-col m6"
@@ -109,6 +124,7 @@ export default {
 
       // 게임정보
       startGame: false,
+      startGameSignal: false,
       gameInfos: [],
       myInfo: {},
       progress: {
@@ -160,9 +176,15 @@ export default {
     };
     this.connect();
     // 확인용 nightResultToDay
+    this.startDay();
   },
   mounted() {
     console.log(this.isConnected);
+  },
+  watch: {
+    startGame() {
+      this.startGameSignal = true;
+    },
   },
   methods: {
     joinSession() {
@@ -340,9 +362,9 @@ export default {
     // 게임시작
     startDay() {
       setTimeout(() => {
-        this.startGame = true;
         this.dayTime();
-      }, 1500);
+        this.startGame = true;
+      }, 1000);
     },
 
     dayTime() {
