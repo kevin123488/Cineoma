@@ -81,6 +81,10 @@
       </div>
     </div>
   </div>
+  <a href="/">
+  <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
+  <i class='fa fa-close'></i>게임끝내기</button>
+  </a>
 </template>
 
 <script>
@@ -153,13 +157,6 @@ export default {
     ]),
     ...mapGetters(memberStore, ["isLogin"]),
     ...mapGetters(ingameStore, ["job"]),
-    ...mapActions(roomdataStore, [
-      "deleteRoom",
-      "enterRoom",
-      "saveRoomTitle",
-      "saveIsCaptain",
-      "saveIsConnected",
-    ]),
   },
   created() {
     this.mySessionId = "a";
@@ -187,6 +184,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions(ingameStore, ["setGameResult"]),    
+    ...mapActions(roomdataStore, [
+      "deleteRoom",
+      "enterRoom",
+      "saveRoomTitle",
+      "saveIsCaptain",
+      "saveIsConnected",
+    ]),
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
@@ -338,6 +343,7 @@ export default {
           });
       });
     },
+
     // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-connection
     createToken(sessionId) {
       return new Promise((resolve, reject) => {
@@ -419,6 +425,7 @@ export default {
       const serverURL = "http://localhost:8080/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
+      socket.onclose = function(){ console.log("=============소켓 끊어줬슴=============") }
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
       this.stompClient.connect(
         {},
@@ -602,6 +609,19 @@ export default {
       this.publisher.publishAudio(false);
       this.publisher.publishVideo(false);
     },
+    
+    gameEnd() {
+      const gameResult = {
+        winJob: 'mafia',
+        nickname: '마피아고수',
+        color: 'red',
+      }
+      console.log(typeof(this.setGameResult))
+      this.setGameResult(gameResult)
+      this.leaveSession()
+      this.stompClient.disconnect()
+      this.$router.push({ name: 'gameend', params: { winjob: gameResult.winJob } })
+    }
   },
 };
 </script>
