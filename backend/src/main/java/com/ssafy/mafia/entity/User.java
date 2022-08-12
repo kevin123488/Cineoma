@@ -13,7 +13,8 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 public class User {
-	@Id @GeneratedValue
+	@GeneratedValue
+	@Id
 	private int no;
 	@Column(nullable = false, unique = true)
 	private String id;

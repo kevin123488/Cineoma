@@ -1,19 +1,33 @@
 <template>
-  <div class="w3-main mx-5">
-    <ingame-nav class="mb-3"></ingame-nav>
-    <!-- 유저 화면 -->
-    <div class="w3-row">
-      <div class="w3-col m8">
-        <div class="w3-row">
-          <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
-            <user-video
-              v-for="sub in subscribers"
-              :key="sub.stream.connection.connectionId"
-              :stream-manager="sub">
-            </user-video>
-            <button>vote</button>
-          </div>
-          <!-- <user-video
+  <div
+    :class="{
+      ingameNight: progress.isNight,
+      ingameDay: progress.isDay,
+      ingameDayVote: progress.isVoteDay,
+      ingameDayVoteResult: progress.isVoteDayResult,
+      ingameNightResult: progress.isNightResult,
+    }"
+  >
+    <div class="w3-main mx-5">
+      <ingame-nav class="mb-3"></ingame-nav>
+      <!-- 유저 화면 -->
+      <div class="w3-row">
+        <div class="w3-col m8">
+          <div class="w3-row">
+            <div
+              class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+              id="video-container"
+            >
+              <user-video
+                v-for="sub in subscribers"
+                :key="sub.stream.connection.connectionId"
+                :stream-manager="sub"
+                :nickname="this.myUserName"
+              >
+              </user-video>
+              <button>vote</button>
+            </div>
+            <!-- <user-video
             :stream-manager="subscribers[0]"d
             :gameInfo="gameInfo[0]"
             @click="doVote(gameInfo[0])"
@@ -33,44 +47,53 @@
             :gameInfo="gameInfo[3]"
             @click="doVote(gameInfo[3])"
           /> -->
+          </div>
         </div>
-      </div>
 
-      <div class="w3-col m4">
-        <ul class="mx-2 my-2 w3-container border border-secondary">
-          <li>직업</li>
-          <li>미션</li>
-        </ul>
-        <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
-          <user-video
-            :stream-manager="publisher"
-            :gameInfo="myInfo"
-          />
+        <div class="w3-col m4">
+          <ul class="mx-2 my-2 w3-container border border-secondary">
+            <li>직업</li>
+            <li>미션</li>
+          </ul>
+          <div
+            class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+            id="video-container"
+          >
+            <user-video
+              v-if="0"
+              :stream-manager="publisher"
+              :gameInfo="myInfo"
+            />
+            <mission-user-video
+              v-if="1"
+              :stream-manager="publisher"
+              :gameInfo="myInfo"
+            />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-publisher
-sub
+publisher sub
 <script>
 const memberStore = "memberStore";
-import { mapState } from "vuex";
+const ingameStore = "ingameStore";
+const roomdataStore = "roomdataStore";
+import { mapState, mapGetters, mapActions } from "vuex";
 import IngameNav from "@/components/Ingame/IngameNav.vue";
 
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
 import axios from "axios";
 
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/Ingame/UserVideo.vue";
-
-import { mapGetters, mapActions } from 'vuex'
-const roomdataStore = "roomdataStore"
+import MissionUserVideo from "@/components/Ingame/MissionUserVideo.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:443";
+const OPENVIDU_SERVER_URL = "https://i7e107.p.ssafy.io:6443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
@@ -78,6 +101,7 @@ export default {
   components: {
     IngameNav,
     UserVideo,
+    MissionUserVideo,
   },
   data() {
     return {
@@ -110,21 +134,20 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
     ...mapGetters(roomdataStore, [
-      'roomNo',
-      'roomTitle',
-      'isCaptain',
-      'isConnected',
+      "roomNo",
+      "roomTitle",
+      "isCaptain",
+      "isConnected",
     ]),
-    ...mapGetters(memberStore, [
-      'isLogin',
-    ]),
+    ...mapGetters(memberStore, ["isLogin"]),
+    ...mapGetters(ingameStore, ["job"]),
     ...mapActions(roomdataStore, [
-      'deleteRoom',
-      'enterRoom',
-      'saveRoomTitle',
-      'saveIsCaptain',
-      'saveIsConnected',
-    ])           
+      "deleteRoom",
+      "enterRoom",
+      "saveRoomTitle",
+      "saveIsCaptain",
+      "saveIsConnected",
+    ]),
   },
   created() {
     this.mySessionId = "a";
@@ -135,14 +158,16 @@ export default {
       id: this.userInfo.id,
       nickname: this.userInfo.nickname,
       isAlive: true, // 살았나 죽었나
-      color: '', //색깔
-      job: '', // 직업
+      color: "", //색깔
+      job: "", // 직업
       voted: [],
     };
-    // this.connect()
+    this.connect();
+    // 확인용 nightResultToDay
+    this.nightResultToDay(); // 타이머 확인 끝나면 다시 돌리기 ㄱ
   },
   mounted() {
-    console.log(this.isConnected)
+    console.log(this.isConnected);
   },
   methods: {
     joinSession() {
@@ -169,7 +194,7 @@ export default {
           id: userData[0],
           nickname: userData[1],
           isAlive: true, // 살았나 죽었나
-          color: '', //색깔
+          color: "", //색깔
           voted: [],
         });
       });
@@ -316,12 +341,13 @@ export default {
       });
     },
 
-
     // 시간
-    dayToDayVote() { // 낮에서 낮 투표로
+    dayToDayVote() {
+      // 낮에서 낮 투표로
       // if (this.isSkiped === false) {
       //   this.sendSkip();
       // }
+      console.log("타이머 도나?");
       this.progress.isDay = false;
       this.progress.isVoteDay = true;
       this.clearId = setTimeout(() => {
@@ -329,7 +355,8 @@ export default {
       }, 3000); // 투표시간 타이머
     },
 
-    voteToDayResult() { // 낮 투표에서 낮 투표 결과로
+    voteToDayResult() {
+      // 낮 투표에서 낮 투표 결과로
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
       setTimeout(() => {
@@ -337,7 +364,8 @@ export default {
       }, 3000); // 낮 투표결과 보여줄 타이머
     },
 
-    dayResultToNightVote() { // 낮 투표 결과에서 밤 투표로
+    dayResultToNightVote() {
+      // 낮 투표 결과에서 밤 투표로
       this.progress.isVoteDayResult = false;
       this.progress.isNight = true;
       setTimeout(() => {
@@ -345,7 +373,8 @@ export default {
       }, 3000); // 밤 투표 진행할 타이머
     },
 
-    nightVoteToNightResult() { // 밤 투표에서 밤 투표 결과로
+    nightVoteToNightResult() {
+      // 밤 투표에서 밤 투표 결과로
       this.progress.isNight = false;
       this.progress.isNightResult = true;
       setTimeout(() => {
@@ -353,131 +382,176 @@ export default {
       }, 3000); // 밤 결과 보여줄 타이머
     },
 
-    nightResultToDay() { // 밤 투표 결과에서 낮으로
+    nightResultToDay() {
+      // 밤 투표 결과에서 낮으로
       this.progress.isNightResult = false;
       this.progress.isDay = true;
       this.isSkiped = false;
+      console.log("지금낮인데 뭐 뜨냐?");
+      console.log(this.progress);
       setTimeout(() => {
         this.dayToDayVote();
-      }, 3000) // 낮 진행시킬 타이머
+      }, 3000); // 낮 진행시킬 타이머
     },
 
-
     connect() {
-      const serverURL = "http://localhost:8080/roomSocket"
+      const serverURL = "http://localhost:8080/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
       this.stompClient.connect(
         {},
-        frame => {
+        (frame) => {
           // 소켓 연결 성공
           this.connected = true;
-          console.log('소켓 연결 성공', frame);
-
+          console.log("소켓 연결 성공", frame);
+          console.log("======================됐나?=======================");
           // 직업, 색깔 설정
-          this.stompClient.subscribe(`/sendMafia/${this.mySessionId}/${this.userInfo.id}`, res => {
-            console.log('구독으로 받은 게임 정보입니다.', res.body);
-            const data = JSON.parse(res.body);
+          this.stompClient.subscribe(
+            `/sendMafia/${this.mySessionId}/${this.userInfo.id}`,
+            (res) => {
+              console.log("구독으로 받은 게임 정보입니다.", res.body);
+              const data = JSON.parse(res.body);
 
-            this.myInfo.job = data.job;
-            data.joinUsers.forEach(joinUser => {
-              this.gameInfos.forEach(gameInfo => {
-                if (joinUser.id === gameInfo.id) {
-                  gameInfo.color = joinUser.color;
-                }
-              })
-            this.dayToDayVote();
-            });
-          });
-
-          this.stompClient.subscribe(`/sendMafia/${this.mySessionId}`, res => {
-            console.log('구독으로 받은 게임 정보입니다.', res.body);
-            const data = JSON.parse(res.body);
-
-            // 낮 투표
-            if (data.progress === 'voteDay') {
-              this.gameInfos.forEach(gameInfo => {
-                // 내가 투표 받을 때
-                if (this.myInfo.id === data.votedId) {
-                  this.myInfo.push(data.id)
-                }
-                // 다른 사람이 투표 받을 때
-                else if (gameInfo.id === data.votedId) {
-                  gameInfo.voted.push(data.id)
-                }
-              })
-            }
-
-            // 낮 투표 결과
-            if (data.progress === 'voteDayFinish') {
-              // 승자 결정
-              if (data.winJob !== '') {
-                this.$router.push({ name: 'final', params: { roomnumber: this.mySessionId } });
-              }
-              // 죽은 사람이 없을 때
-              else if (data.id === '') {
-                this.progress.isVoteDay = false;
-                this.progress.isVoteDayResult = true;
-              }
-              // 죽은 사람이 있을 때
-              else {
-                this.gameInfos.forEach(gameInfo => {
-                  // 자신이 죽었을 때
-                  if (this.myInfo.id === data.id) {
-                    this.myInfo.isAlive = false
+              this.myInfo.job = data.job;
+              data.joinUsers.forEach((joinUser) => {
+                this.gameInfos.forEach((gameInfo) => {
+                  if (joinUser.id === gameInfo.id) {
+                    gameInfo.color = joinUser.color;
                   }
-                  // 다른 사람이 죽었을 때
-                  else if (gameInfo.id === data.id) {
-                    gameInfo.isAlive = false
+                });
+                this.nightResultToDay(); // 낮 시작 ㄱㄱ
+              });
+            }
+          );
+
+          this.stompClient.subscribe(
+            `/sendMafia/${this.mySessionId}`,
+            (res) => {
+              console.log("구독으로 받은 게임 정보입니다.", res.body);
+              const data = JSON.parse(res.body);
+
+              // 낮 투표
+              if (data.progress === "voteDay") {
+                this.gameInfos.forEach((gameInfo) => {
+                  // 내가 투표 받을 때
+                  if (this.myInfo.id === data.votedId) {
+                    this.myInfo.push(data.id);
                   }
-                })
+                  // 다른 사람이 투표 받을 때
+                  else if (gameInfo.id === data.votedId) {
+                    gameInfo.voted.push(data.id);
+                  }
+                });
+              }
+
+              // 낮 투표 결과
+              if (data.progress === "voteDayFinish") {
+                // 승자 결정
+                if (data.winJob !== "") {
+                  this.$router.push({
+                    name: "final",
+                    params: { roomnumber: this.mySessionId },
+                  });
+                }
+                // 죽은 사람이 없을 때
+                else if (data.id === "") {
+                  this.progress.isVoteDay = false;
+                  this.progress.isVoteDayResult = true;
+                }
+                // 죽은 사람이 있을 때
+                else {
+                  this.gameInfos.forEach((gameInfo) => {
+                    // 자신이 죽었을 때
+                    if (this.myInfo.id === data.id) {
+                      this.myInfo.isAlive = false;
+                    }
+                    // 다른 사람이 죽었을 때
+                    else if (gameInfo.id === data.id) {
+                      gameInfo.isAlive = false;
+                    }
+                  });
+                }
+              }
+
+              if (data.progress === "voteNight") {
+                console.log(data);
               }
             }
-
-            if (data.progress === 'voteNight') {
-              console.log(data)
-            }
-          });
+          );
         },
 
-        error => {
+        (error) => {
           // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
+          console.log("소켓 연결 실패", error);
           this.connected = false;
         }
-      );        
+      );
     },
 
     sendVote(voteId) {
       if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-            progress: 'voteDay',
-            roomNo: this.mySessionId,
-            id: this.myUserId,
-            nickname: this.userInfo.nickname,
-            job: this.myInfo.job,
-            vote: voteId,
-            ifWin: this.missionWin
-        }
+        const msg = {
+          progress: "voteDay",
+          roomNo: this.mySessionId,
+          id: this.myUserId,
+          nickname: this.userInfo.nickname,
+          job: this.myInfo.job,
+          vote: voteId,
+          ifWin: this.missionWin,
+        };
         if (this.progress.isNight) {
-          msg.progress = 'voteNight'
+          msg.progress = "voteNight";
         }
         console.log(msg);
-        this.stompClient.send('/receiveMafia', JSON.stringify(msg), {});
-        }
-      },
+        this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
+      }
+    },
 
     // 투표
     doVote(info) {
-      if (this.voteNo === 1 && (this.progress.isVoteDay || this.progress.isNight)) {
+      if (
+        this.voteNo === 1 &&
+        (this.progress.isVoteDay || this.progress.isNight)
+      ) {
         this.sendVote(info.id);
         this.voteNo = 0;
         console.log(`투표한 id ${info.id}`);
       }
     },
-  }
-}
+  },
+};
 </script>
 
-<style></style>
+<style>
+.ingameNight {
+  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameDay {
+  background-image: url(../../public/homedesign/images/mypage_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameDayVote {
+  background-image: url(../../public/homedesign/images/intro_movie.mp4);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameDayVoteResult {
+  background-image: url(../../public/homedesign/images/intro_movie.mp4);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+.ingameNightResult {
+  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+</style>

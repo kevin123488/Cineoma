@@ -20,15 +20,15 @@
             <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
             <div class="w3-container w3-roun my-3">
               <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
-              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
                 <i class="fa fa-map-pin"></i>방검색
               </button>
               <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
-                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 1em;"><i class="fa fa-refresh "></i>새로고침</a>
+                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
               <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
-                인게임로직테스트
+                트랜지션 테스트
               </button>
             </div>
             </div>
@@ -40,21 +40,20 @@
       <!--  -->
       <div id="scroll" class="overflow-auto" style="height: 500px;">
         <!-- <p class="sticky-top"></p> -->
-        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 my-3"><br>
-            <h4 class="mx-4 text-purple">Activated Room List</h4>
-            <br>
+        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 py-3" style="">
+            <h4 class="mx-4 text-purple" style="font-size: 28px;">Activated Room List</h4>
         </div>
 
         <!-- 들어가기모달 -->
         <div class="modal" id="enterRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="margin-top: 200px;">
           <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content lobbyModal">
               <div class="modal-header">
-                <h5 class="modal-title">{{ enterRoomData.no }}</h5>
+                <h3 class="modal-title" style="color: white; margin-left: 50px;">{{ enterRoomData.roomTitle }}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
-              <div class="modal-body">
+              <div class="modal-body" style="color: white; margin-left: 50px;">
                 <p>함께할 멤버</p>
                 <div v-for="(member, index) in memberList" :key="index">
                   <p>{{ member.nickname }}</p>
@@ -62,9 +61,12 @@
                 <input v-if="enterRoomData.isPassword" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호를 입력해주세요:" v-model="password">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
+                <i class="fa fa-map-pin"></i>방검색
+              </button> -->
+                <button class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-close'></i>나가기</button>
 
-                <button v-on:click="tryEnterRoom(enterRoomData)" type="button" class="btn btn-primary" data-bs-dismiss="modal">입장하기</button>
+                <button v-on:click="tryEnterRoom(enterRoomData)" class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-arrow-right'></i>입장하기</button>
 
               </div>
           </div>
@@ -84,11 +86,11 @@
           <!-- 방 정보 시작 -->
           <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
             <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h4 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h4><h6 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h6>
+            <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h3 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h3>
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code';">
+            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px;">
               <i class="fa fa-pencil"></i>들어가기
             </p>
         </div>
@@ -106,10 +108,10 @@
           <br>
           <br>
           <p class="my-1">Upcoming Events:</p>
-          <p class="my-1"><strong>어제는 시민이였던 내가 오늘은 마피아?!</strong></p>
+          <p class="my-1"><strong>시민이였던 내가 오늘은 마피아?!</strong></p>
           <p class="my-1"><strong>release</strong></p>
-          <p class="my-1">8/19 09:00</p>
-          <p class="my-1"><button class="w3-button w3-block w3-theme-l4">최종발표</button></p>
+          <p class="my-1">8/19 13:00</p>
+          <p class="my-1">최종발표</p>
         </div>
       </div>
       <br>
@@ -118,7 +120,7 @@
 
         <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
           <div class="w3-container my-3">
-            <h4>Friend List</h4>
+            <h3>Friend List</h3>
           </div>
         </div>
 
@@ -279,6 +281,8 @@ export default {
     if (this.userInfo !== null) {
       try {
         console.log('이거다')
+        this.getFriendsStore(this.userInfo.id)
+
         console.log('아닌가')
       
       }
@@ -305,6 +309,7 @@ export default {
 <style>
 input::placeholder {
   font-family: 'NeoDunggeunmo Code';
+  font-size: 20px;
 }
 #scroll::-webkit-scrollbar {
   width: 0px;
@@ -333,6 +338,11 @@ input::placeholder {
   justify-content: space-around;
   border-radius: 30px;
   border: 5px solid white;
+}
+.lobbyModal {
+  background-image: url(../../public/homedesign/images/lobbyroom.gif);
+  border-radius: 30px;
+  background-size: cover;  
 }
 #rooms {
   background-image: url(../../public/homedesign/images/lobby_room_v2.gif);

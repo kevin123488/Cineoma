@@ -2,8 +2,8 @@ package com.ssafy.mafia.service;
 
 import java.util.List;
 
+import com.ssafy.mafia.dto.MemberResultDto;
 import com.ssafy.mafia.entity.Room;
-import com.ssafy.mafia.entity.RoomUser;
 
 public interface RoomService {
 	
@@ -11,7 +11,9 @@ public interface RoomService {
 	public void createRoom(Room room) throws Exception;
 	public Room roomInfo(int no) throws Exception;
 	void deleteRoom(int no) throws Exception;
-	public List<RoomUser> roomuserList(int roomNo) throws Exception;
+	
+	// 방에 있는 멤버 리스트
+	public List<MemberResultDto> roomuserList(int roomNo) throws Exception;
 	
 	public int countUser(int no) throws Exception;
 	

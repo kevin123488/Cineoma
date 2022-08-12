@@ -61,7 +61,7 @@
       setGameResult({ commit }, gameResult) {
         commit('SET_GAMERESULT', gameResult)
     },
-  }
-}
+  },
+};
   
-  export default ingameStore;
+export default ingameStore;
