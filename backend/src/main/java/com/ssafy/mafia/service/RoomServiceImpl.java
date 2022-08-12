@@ -3,12 +3,13 @@ package com.ssafy.mafia.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.mafia.dto.MemberResultDto;
 import com.ssafy.mafia.entity.Room;
-import com.ssafy.mafia.entity.RoomUser;
 import com.ssafy.mafia.repository.RoomRepository;
-import com.ssafy.mafia.repository.RoomUserRepository;
+import com.ssafy.mafia.repository.UserRepository;
 
 @Service
 public class RoomServiceImpl implements RoomService{
@@ -17,13 +18,15 @@ public class RoomServiceImpl implements RoomService{
 	RoomRepository roomRepository;
 	
 	@Autowired
-	RoomUserRepository roomuserRepository;
+	UserRepository userRepository;
+//	@Autowired
+//	RoomUserRepository roomuserRepository;
 
 	@Override
 	public void createRoom(Room room) throws Exception {
 		roomRepository.save(room);
-		RoomUser roomUser = new RoomUser(room.getHostId(), room.getNo(), false);
-		roomuserRepository.save(roomUser);
+//		User user = new RoomUser(room.getHostId(), room.getNo(), false);
+//		roomuserRepository.save(roomUser);
 		
 	}
 
@@ -45,26 +48,42 @@ public class RoomServiceImpl implements RoomService{
 		return roomRepository.findAll();
 	}
 
-	@Override
-	public List<RoomUser> roomuserList(int roomNo) throws Exception {
-
-		return roomuserRepository.findAllByroomNo(roomNo);
-	}
+//	//방 클릭했을때 보여주는 방의 유저들 유저 서비스에 있음 
+//	@Override
+//	public List<RoomUser> roomuserList(int roomNo) throws Exception {
+//
+//		return roomuserRepository.findAllByroomNo(roomNo);
+//		
+//	}
 	
 	@Override
 	public int countUser(int no) throws Exception {
 		
-		return roomuserRepository.findByRoomNo(no);
+		return roomRepository.findByRoomNo(no);
 	}
 
-	
-	public boolean checkUser(String id) throws Exception{
-		
-		//속한 방이 있으면 false
-		if(roomuserRepository.countById(id) > 0) return false;
-		// 없으면 true
-		else return true;
+	@Override
+	public List<MemberResultDto> roomuserList(int roomNo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public boolean checkUser(String id) throws Exception {
+		if(userRepository.findById(id).getRoom().getNo() == 1)
+			return true;
+		else 
+		return false;
+	}
+
+//	// 지금 참가한 방이 있는지
+//	public boolean checkUser(String id) throws Exception{
+//		
+//		//속한 방이 있으면 false
+//		if(roomuserRepository.countById(id) > 0) return false;
+//		// 없으면 true
+//		else return true;
+//	}
 	
 	
 }
