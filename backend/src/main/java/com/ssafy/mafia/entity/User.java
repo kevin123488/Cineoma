@@ -14,9 +14,9 @@ import lombok.Setter;
 @Getter @Setter
 public class User {
 	@GeneratedValue
-	@Id
 	private int no;
 	@Column(nullable = false, unique = true)
+	@Id
 	private String id;
 	@Column(nullable = false)
 	private String password;

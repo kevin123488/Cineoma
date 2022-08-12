@@ -67,37 +67,43 @@ public class RoomController {
 	@ApiOperation(value = "방 생성", notes ="넘겨 받은 값으로 방을 생성한다.")
 	@ApiImplicitParam(name = "room", value = "방 객체")
 	public ResponseEntity<String> createRoom(@RequestBody RoomParamDto roomdto) throws Exception{
-	
+				System.out.println(roomdto.getHostId() + "HOSTTOSTOSTOSTOSOTSOT");
 				User user = userService.userInfo(roomdto.getHostId());
 				
-				Room room = new Room(roomdto.getNo(), roomdto.getSize(),roomdto.getRoomTitle(),
-						user,roomdto.getPassword(),roomdto.isIfPassword(), roomdto.getMemberCnt());
-				
+				// 생성한 방번호로 자신의 방번호를 업데이트
+
+				Room room = new Room(roomdto.getNo(), 5,roomdto.getRoomTitle(),
+						user,roomdto.getPassword(),roomdto.isIfPassword(), 0);
+				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
 				roomService.createRoom(room);
+//				userService.updateRoomNo(user, roomdto.getNo());
 				
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		
 	}
 	
-	// 방을 클릭했을때 
-	// 방 제목, 닉네임 
+//	 방을 클릭했을때 
+//	 방 제목, 닉네임 
 	
-//	@GetMapping(value ="/room/{roomNo}")
-//	@ApiOperation(value = "방 정보", notes = "클릭한 방의 정보를 조회(참여유저 등)")
-//	@ApiImplicitParam(name = "roomNo", value ="클릭한 방의 번호")
-//	public ResponseEntity<List<User>> roomInfo(@PathVariable("roomNo") int roomno) throws Exception{
-////	
-////		List<RoomUser> ru = roomService.roomuserList(roomno);
-////		int test = ru.get(0).getRoomNo();
-////		System.out.println("test :" + test);
-////		if (user != null)
-////			return new ResponseEntity<User>(user, HttpStatus.OK);
-////		else
-////			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//		return new ResponseEntity<List<User>>(roomService.roomuserList(roomno), HttpStatus.OK);
-//	
-//		
-//	}
+	@GetMapping(value ="/room/{roomNo}")
+	@ApiOperation(value = "방 정보", notes = "클릭한 방의 정보를 조회(참여유저 등)")
+	@ApiImplicitParam(name = "roomNo", value ="클릭한 방의 번호")
+	public ResponseEntity<List<RoomEnterDto>> roomInfo(@RequestBody RoomEnterDto dto, @PathVariable("roomNo") int roomNo) throws Exception{
+	
+		List<User> uslist = userService.roomUser(roomNo);
+		List<RoomEnterDto> enterlist = new ArrayList<RoomEnterDto>();
+		for(User list : uslist) {
+			RoomEnterDto mdto = new RoomEnterDto(list.getId(), list.getNickname(), "", roomNo);
+			enterlist.add(mdto);
+		}
+		
+		if (enterlist != null)
+			return new ResponseEntity<List<RoomEnterDto>>(enterlist, HttpStatus.OK);
+		else
+			return new ResponseEntity<List<RoomEnterDto>>(HttpStatus.NO_CONTENT);
+	
+		
+	}
 	//방 입장  // 방 번호 , 비밀번호, 유저 id 
 	// 비밀번호 , 인원 수 , 방에 들어가있는지 체크,
 	@PutMapping(value="/room/{roomNo}")

@@ -25,8 +25,6 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 	@Query(value = "select count(*) from user where room_no =?",  nativeQuery =true)
 	public int findByRoomNo(int no);
 	
-	
-	
 	@Transactional
 	@Modifying
 	@Query(value = "update room set member_cnt = member_cnt+1 where no = ?1",  nativeQuery =true)
@@ -36,6 +34,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 	@Modifying
 	@Query(value = "update room set member_cnt = member_cnt-1 where no = ?1",  nativeQuery =true)
 	public int memberCntminus(int roomNo);
+
+	
 	
 //	@Query(value ="delete from room where no = ?", nativeQuery = true)
 //	void deleteByNo(int no);

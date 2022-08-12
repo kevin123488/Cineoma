@@ -28,7 +28,7 @@ public class RecordServiceImpl implements RecordService {
 		record2.setType("police");
 		recordRepository.save(record2);
 		Record record3 = new Record();
-		record3.setId(id);;
+		record3.setId(id);
 		record3.setType("doctor");
 		recordRepository.save(record3);
 		Record record4 = new Record();
@@ -37,4 +37,6 @@ public class RecordServiceImpl implements RecordService {
 		recordRepository.save(record4);
 		
 	}
+	
+
 }

@@ -46,6 +46,7 @@
     data() {
       return {
         num : 1,
+        hostId: "",
         subject: "",
         password: "",
 
@@ -67,6 +68,7 @@
 
       createRoom() {
         const roomInfo = {
+          hostId : 0,
           roomTitle: this.subject,
           password: this.password,
           size: 5
