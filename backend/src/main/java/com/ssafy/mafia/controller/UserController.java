@@ -111,7 +111,9 @@ public class UserController {
 	public ResponseEntity<String> signup(@RequestBody User user, HttpSession session, HttpServletResponse response)
 			throws Exception {
 		int found = userService.idCheck(user.getId());
+		System.out.println(user.getId());
 		if (found == 0) {
+			user.getRoom().setNo(1);
 			userService.registerUser(user);
 			recordService.registerUser(user.getId());
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -136,7 +138,7 @@ public class UserController {
 	@PutMapping
 	public ResponseEntity<User> modifyUser(@RequestBody User user) throws Exception {
 		System.out.println(user.toString());
-
+		
 		userService.updateUser(user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}

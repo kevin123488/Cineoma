@@ -10,8 +10,14 @@ import EditUserView from '../views/EditUserView.vue'
 import VoteView from '../views/VoteView.vue'
 import GameEnd from '../views/GameEndView.vue'
 import TestVote from '../components/Ingame/voteSkip.vue'
+import VoteResult from '../components/Ingame/voteResult.vue'
 
 const routes = [
+  {
+    path: '/voteResult',
+    name: 'VoteResult',
+    component: VoteResult
+  },
   {
     path: '/testvote',
     name: 'TestVote',

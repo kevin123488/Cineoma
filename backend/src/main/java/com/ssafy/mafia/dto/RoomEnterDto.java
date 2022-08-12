@@ -12,6 +12,7 @@ import lombok.Setter;
 public class RoomEnterDto {
 	
 	String id;
+	String nickname;
 	String password;
 	int no;
 

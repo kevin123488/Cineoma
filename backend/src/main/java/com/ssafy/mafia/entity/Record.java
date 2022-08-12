@@ -27,7 +27,7 @@ public class Record {
 	private int drawCount = 0;
 	private String type; // 직업을 나타냄.
 	
-	@ManyToOne
+//	@ManyToOne
 	@JoinColumn(name = "id")
-	private User id;
+	private String id;
 }

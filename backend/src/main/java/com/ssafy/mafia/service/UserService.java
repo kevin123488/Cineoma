@@ -19,7 +19,8 @@ public interface UserService {
 	// 방에 있는 유저 검색
 	List<User> roomUser(int roomNo) throws Exception;
 	//방에 참가한 상태인지
-	public boolean checkUser(String id) throws Exception;
+//	public boolean checkUser(String id) throws Exception;
+	void updateRoomNo(User user, int roomNo) throws Exception;
 	
 	void updateUserRoomNo(int roomNo, String id) throws Exception;
 }

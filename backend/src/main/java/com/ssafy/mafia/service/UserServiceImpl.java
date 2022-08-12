@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.mafia.entity.User;
+import com.ssafy.mafia.repository.RoomRepository;
 import com.ssafy.mafia.repository.UserRepository;
 
 @Service
@@ -13,8 +14,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 	
-//	@Autowired
-//	RoomUserRepository roomuserRepository;
+	@Autowired
+	RoomRepository roomRepository;
 	@Override
 	public User login(User user) throws Exception {
 		if (user.getId() == null || user.getPassword() == null)
@@ -82,18 +83,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> roomUser(int roomNo) throws Exception {
 		
-		
-		return userRepository.findAllByroomNo(roomNo);
+		return userRepository.findAllbyRoomNo(roomNo);
 	}
 	
 	
-	// 지금 참가한 방이 있는지
-	public boolean checkUser(String id) throws Exception{
+//	// 지금 참가한 방이 있는지
+//	public boolean checkUser(String id) throws Exception{
+//		
+//		//속한 방이 있으면 false
+//		if(userRepository.countById(id) > 0) return false;
+//		// 없으면 true
+//		else return true;
+//	}
+	//방 생성했을때 그 방번호로 업데이트 해줌.
+	@Override
+	public void updateRoomNo(User user, int roomNo) throws Exception {
+		user.setRoom(roomRepository.getOne(roomNo));
 		
-		//속한 방이 있으면 false
-		if(userRepository.countById(id) > 0) return false;
-		// 없으면 true
-		else return true;
 	}
 	
 

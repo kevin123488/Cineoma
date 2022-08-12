@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,17 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 	// 방에 몇명인지 검색
 	@Query(value = "select count(*) from user where room_no =?",  nativeQuery =true)
 	public int findByRoomNo(int no);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update room set member_cnt = member_cnt+1 where no = ?1",  nativeQuery =true)
+	public int memberCntPlus(int roomNo);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update room set member_cnt = member_cnt-1 where no = ?1",  nativeQuery =true)
+	public int memberCntminus(int roomNo);
+
 	
 	
 //	@Query(value ="delete from room where no = ?", nativeQuery = true)

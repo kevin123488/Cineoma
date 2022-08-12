@@ -46,6 +46,7 @@
     data() {
       return {
         num : 1,
+        hostId: "",
         subject: "",
         password: "",
 

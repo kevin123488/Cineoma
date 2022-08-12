@@ -20,19 +20,19 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public void registerUser(String id) throws Exception {
 		Record record1 = new Record();
-		record1.getId().setId(id);
+		record1.setId(id);
 		record1.setType("mafia");
 		recordRepository.save(record1);
 		Record record2 = new Record();
-		record2.getId().setId(id);
+		record2.setId(id);
 		record2.setType("police");
 		recordRepository.save(record2);
 		Record record3 = new Record();
-		record3.getId().setId(id);;
+		record3.setId(id);
 		record3.setType("doctor");
 		recordRepository.save(record3);
 		Record record4 = new Record();
-		record4.getId().setId(id);
+		record4.setId(id);
 		record4.setType("citizen");
 		recordRepository.save(record4);
 		
