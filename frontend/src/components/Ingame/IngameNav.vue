@@ -4,7 +4,7 @@
     <header class="w3-row">
       <div class="w3-col m2" id="info-time">
         <ingame-timer id="timer" :time="count" />
-        <p id="day">day:</p>
+        <p id="day">day: {{ progress.nowDay }}</p>
       </div>
       <div class="w3-col m7 border border-secondary px-3" id="info">
         <p v-show="progress.isDay">아침이 밝았습니다.</p>
