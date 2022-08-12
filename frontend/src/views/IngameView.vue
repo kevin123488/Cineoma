@@ -64,6 +64,7 @@
   <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
   <i class='fa fa-close'></i>게임끝내기</button>
   </a>
+</div>
 </template>
 
 <script>
@@ -492,32 +493,29 @@ export default {
 
             // 낮 투표
             if (data.progress === 'voteDay') {
-              this.gameInfos.forEach(gameInfo => {
-                // 내가 투표 받을 때
-                if (this.myInfo.id === data.votedId) {
-                  this.myInfo.push(data.id)
-                }
+              if (this.myInfo.id === data.votedId) {
+                this.myInfo.push(data.id)
+              }
 
-                // 죽은 사람이 없을 때
-                else if (data.id === "") {
-                  console.log("죽은 사람 없음");
-                }
+              // 죽은 사람이 없을 때
+              else if (data.id === "") {
+                console.log("죽은 사람 없음");
+              }
 
-                // 죽은 사람이 있을 때
-                else {
-                  this.gameInfos.forEach((gameInfo) => {
-                    // 자신이 죽었을 때
-                    if (this.myInfo.id === data.id) {
-                      console.log("내가 죽음");
-                      this.myInfo.isAlive = false;
-                    }
-                    // 다른 사람이 죽었을 때
-                    else if (gameInfo.id === data.id) {
-                      console.log(`${gameInfo.id}가 죽음`);
-                      gameInfo.isAlive = false;
-                    }
-                  });
-                }
+              // 죽은 사람이 있을 때
+              else {
+                this.gameInfos.forEach((gameInfo) => {
+                  // 자신이 죽었을 때
+                  if (this.myInfo.id === data.id) {
+                    console.log("내가 죽음");
+                    this.myInfo.isAlive = false;
+                  }
+                  // 다른 사람이 죽었을 때
+                  else if (gameInfo.id === data.id) {
+                    console.log(`${gameInfo.id}가 죽음`);
+                    gameInfo.isAlive = false;
+                  }
+                });
               }
 
               // 밤 투표
@@ -565,7 +563,8 @@ export default {
                 }
               }
             }
-          );
+        });
+        
         },
 
         (error) => {
