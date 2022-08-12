@@ -55,6 +55,7 @@
     computed: {
       ...mapGetters(memberStore, [
         'isLogin',
+        'checkUserInfo',
       ]),
     },
 
@@ -67,6 +68,7 @@
 
       createRoom() {
         const roomInfo = {
+          id: this.checkUserInfo.id,
           roomTitle: this.subject,
           password: this.password,
           size: 5

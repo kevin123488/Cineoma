@@ -70,7 +70,7 @@
       return {
         num : 1,
         user: {},
-        image1: "profile_mafia.jpg",
+        image1: "profile_mafia.png",
         image2: "mypage_mafia.gif",
         image3: "wait_mafia.gif",
         image4: "mypage_mafia_record2.gif",
