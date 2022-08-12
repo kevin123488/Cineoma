@@ -154,12 +154,12 @@
         </div>
 
         <div class="w3-col m4">
-          <ul class="mx-2 my-2 w3-container border border-secondary">
+          <ul class="mx-2 my-2 w3-container border border-secondary w3-col m8">
             <li>직업: {{ myInfo.job }}</li>
             <li>미션:</li>
           </ul>
           <div
-            class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+            class="mx-2 my-2 w3-container border border-secondary w3-col m8"
             id="video-container"
           >
             <user-video
@@ -229,6 +229,7 @@ export default {
       gameInfos: [],
       myInfo: {},
       progress: {
+        nowDay: 0,
         isDay: true,
         isVoteDay: false,
         isVoteDayResult: false,
@@ -498,6 +499,7 @@ export default {
     },
 
     dayTime() {
+      this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
 
