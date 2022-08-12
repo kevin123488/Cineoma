@@ -726,7 +726,7 @@ export default {
   height: 100vh;
 }
 .ingameDay {
-  background-image: url(../../public/homedesign/images/mypage_mafia.gif);
+  background-image: url(../../public/homedesign/images/day_mafia.gif);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
@@ -744,7 +744,7 @@ export default {
   height: 100vh;
 }
 .ingameNightResult {
-  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-image: url(../../public/homedesign/images/mypage_mafia.gif);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;

@@ -14,8 +14,8 @@
             <div class="signupForm">
                 <input type="text" placeholder="이름 입력" v-model="user.userName">
                 <input type="text" placeholder="아이디 입력" v-model="user.id">
-                <input type="text" placeholder="비밀번호 입력" v-model="user.password">
-                <input type="text" placeholder="비밀번호 확인" v-model="userpwdConfirm">
+                <input type="password" placeholder="비밀번호 입력" v-model="user.password">
+                <input type="password" placeholder="비밀번호 확인" v-model="userpwdConfirm">
                 <input type="text" placeholder="이메일 입력" v-model="user.email">
                 <input type="text" placeholder="닉네임 입력" v-model="user.nickname">
             </div>

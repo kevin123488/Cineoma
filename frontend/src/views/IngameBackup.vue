@@ -585,7 +585,7 @@ export default {
 </script>
 
 <style>
-.ingameNight {
+/* .ingameNight {
   background-image: url(../../public/homedesign/images/wait_mafia.gif);
   background-repeat: no-repeat;
   background-size: cover;
@@ -614,7 +614,7 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
-}
+} */
 </style>
 <template>
   <div
@@ -1204,7 +1204,7 @@ export default {
 </script>
 
 <style>
-.ingameNight {
+/* .ingameNight {
   background-image: url(../../public/homedesign/images/wait_mafia.gif);
   background-repeat: no-repeat;
   background-size: cover;
@@ -1233,5 +1233,5 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
-}
+} */
 </style>
