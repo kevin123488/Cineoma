@@ -79,9 +79,9 @@ const lobbyStore = {
       );
     },
 
-    async getMemberList({ commit }, roomNo ) {
+    async getMemberList({ commit }, info ) {
       await memberList(
-        roomNo,
+        info,
         (response) => {
           console.log(response.data.memberList)
           commit('SET_MEMBERLIST', response.data.memberList)

@@ -243,7 +243,8 @@ export default {
       // 이쪽 랜더링 잘 안될수도 있을듯
       // 안되면 watch 달아보기
       console.log(room.no)
-      this.getMemberList(room.no)
+      const info = { roomNo: room.no, id: { id: this.userInfo.id } }
+      this.getMemberList(info)
       this.enterRoomData = room
       this.enterModalVisible = true
       // this.memberList = room.memberList
