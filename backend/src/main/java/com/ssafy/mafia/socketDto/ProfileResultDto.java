@@ -1,4 +1,4 @@
-package com.ssafy.mafia.dto;
+package com.ssafy.mafia.socketDto;
 
 import java.util.List;
 

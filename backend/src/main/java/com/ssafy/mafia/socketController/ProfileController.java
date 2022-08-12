@@ -1,23 +1,19 @@
 package com.ssafy.mafia.socketController;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.mafia.dto.ProfileParamDto;
-import com.ssafy.mafia.dto.ProfileResultDto;
-import com.ssafy.mafia.dto.ProfileUserDto;
-import com.ssafy.mafia.entity.Record;
-import com.ssafy.mafia.entity.RoomUser;
+import com.ssafy.mafia.common.MafiaStaticData;
 import com.ssafy.mafia.entity.User;
 import com.ssafy.mafia.service.RecordService;
 import com.ssafy.mafia.service.RoomService;
-import com.ssafy.mafia.service.RoomUserService;
 import com.ssafy.mafia.service.UserService;
+import com.ssafy.mafia.socketDto.ProfileParamDto;
+import com.ssafy.mafia.socketDto.ProfileResultDto;
+import com.ssafy.mafia.socketDto.ProfileUserDto;
+import com.ssafy.mafia.socketService.ProfileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,86 +24,31 @@ public class ProfileController {
 	
 	 private final SimpMessageSendingOperations sendingOperations;
 	 
+	
 	 @Autowired
-	 private UserService userService;
-	 @Autowired
-	 private RoomUserService roomUserService;
-	 @Autowired
-	 private RoomService roomService;
-	 @Autowired
-	 private RecordService recordService;
+	 private ProfileService profileService;
+	
 	 
-	@MessageMapping("/receiveProfile")
-    public void chat(ProfileParamDto paramDto) throws Exception {
+	 @MessageMapping("/receiveProfile")
+     public void enterRoom(ProfileParamDto paramDto) throws Exception {
 		
 		ProfileResultDto result = new ProfileResultDto();
 		
-		//Progress와 userList에 나가는 유저 하나만 담아서 보냄
-		if(paramDto.getProgress().equals("out"))
-		{
-			ProfileUserDto pfuDto = new ProfileUserDto();
-			pfuDto.setId(paramDto.getId());
-			List<ProfileUserDto> list = new ArrayList<ProfileUserDto>();
-			list.add(pfuDto);
-			result.setUserList(list);
-			result.setProgress("out");
-//			System.out.println("out result : "+ result);
-			roomUserService.deleteRoomUser(paramDto.getId());
-		}
-		else if(paramDto.getProgress().equals("in"))
-		{
-			List<ProfileUserDto> list = new ArrayList<ProfileUserDto>();
-			List<RoomUser> roomUserList = roomService.roomuserList(paramDto.getRoomNo());
-			for (int i = 0; i < roomUserList.size(); i++) {
-				
-				RoomUser roomUser=roomUserList.get(i);
-				List<Record> recordList = recordService.get(paramDto.getId());//해당 아이디 승률정보 가져오기
-				User user = userService.userInfo(roomUser.getId());//해당 아이디 user 정보 가져오기
-				ProfileUserDto pud=setProfileUserDto(user);//redeay 승률 제외한 모든것 세팅
-				pud.setIfReady(roomUser.isIfReady());//ready 세팅
-				for (Record record : recordList) {
-					//마피아 구분할것 나중에 바뀔 수 있음
-					if(record.getType().equals("mafia"))
-					{
-						int tmpWin=record.getWinCount();
-						int tmpSum =tmpWin+record.getLoseCount();
-						if(tmpSum == 0)
-							pud.setWinRate(0);
-						else
-							pud.setWinRate((tmpWin*100)/tmpSum);
-						
-						break;
-					}
-				}
-				
-				list.add(pud);
-			}
-			result.setUserList(list);
-			result.setProgress("in");
-		}
-		else
-		{
-			System.out.println("ProfileController 에 파라미터 값 잘못들어옴");
-		}
+	
 		
-		sendingOperations.convertAndSend("/topic/sendProfile/"+paramDto.getRoomNo(), result);
+		//세션 아이디랑 유저 아이디,접속한 방 번호로 접속중인 회원관리 
+		MafiaStaticData.socketConnectedUserId.put(paramDto.getSessionId(), paramDto.getId());
+		MafiaStaticData.socketConnectedUserRoomNo.put(paramDto.getSessionId(), paramDto.getRoomNo());
+		
+		//static 저장 공간에 result에 필요할 값들을 넣어줌
+		profileService.enterRoom(paramDto.getId(), paramDto.getRoomNo());
+		
+
+		result.setProgress("in");
+		result.setUserList(MafiaStaticData.MafiaPlayStorageDtoMap.get(paramDto.getRoomNo()).getProfileUsers());
+		sendingOperations.convertAndSend("/topic/sendProfile/"+paramDto.getRoomNo()+"/", result);
         return;
     }
-	
-	//파라미터로 들어오는 User 정보 중 필요한 부분을 ProfileUserDto 에 복사함
-	private ProfileUserDto setProfileUserDto(User user)
-	{
-		ProfileUserDto dto = new ProfileUserDto();
-		
-		dto.setId(user.getId());
-		dto.setNickName(user.getNickname());
-		dto.setImagePath(user.getImagePath());
-		dto.setIntro(user.getIntro());
-		
-		
-		return dto;
-
-	}
 	
 
 }

@@ -1,4 +1,4 @@
-package com.ssafy.mafia.dto;
+package com.ssafy.mafia.socketDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +9,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ReadyResultDto {
+public class ReadyParamDto {
 	
+	//방 넘버
+	private int roomNo;
 	private String id;
-	
+	//모두가  ready면 true로 보내줌, 방장 외엔 의미없는 변수
+	private boolean ifStart;
 	//레디 상태를 표시함 true : ready 상태  f :  레디안함
 	private boolean ifReady;
-	//start가능한 상태인지 알려줌 , 방장에게만 의미있음
-	private boolean ifStart;
-	//방장만 true로 보낼 수 있어야함 true : 게임 시작 하겠다.  f :  대기 
+	//true 를 받으면 인게임으로 넘어가야함 , f : 유지
 	private boolean StartGame;
 }

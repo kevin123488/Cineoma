@@ -37,6 +37,4 @@ public class RecordServiceImpl implements RecordService {
 		recordRepository.save(record4);
 		
 	}
-	
-
 }
