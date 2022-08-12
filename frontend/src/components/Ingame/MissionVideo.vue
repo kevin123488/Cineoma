@@ -74,8 +74,8 @@ export default {
         const { pose, posenetOutput } = await this.model.estimatePose(this.webcam.canvas);
         // Prediction 2: run input through teachable machine classification model
         console.log('통과')
-        console.log(pose)
-        console.log(posenetOutput)
+        // console.log(pose)
+        // console.log(posenetOutput)
 
         const prediction = await this.model.predict(posenetOutput);
         
@@ -125,9 +125,9 @@ export default {
             this.ctx.drawImage(this.webcam.canvas, 0, 0);
             // draw the keypoints and skeleton
             if (pose) {
-                const minPartConfidence = 0.5;
-                tmPose.drawKeypoints(pose.keypoints, minPartConfidence, this.ctx);
-                tmPose.drawSkeleton(pose.keypoints, minPartConfidence, this.ctx);
+                // const minPartConfidence = 0.5;
+                // tmPose.drawKeypoints(pose.keypoints, minPartConfidence, this.ctx);
+                // tmPose.drawSkeleton(pose.keypoints, minPartConfidence, this.ctx);
             }
         }
     },
