@@ -1,123 +1,187 @@
 <template>
-<div :class="{'ingameNight': progress.isNight, 'ingameDay': progress.isDay, 'ingameDayVote': progress.isVoteDay, 'ingameDayVoteResult': progress.isVoteDayResult, 'ingameNightResult': progress.isNightResult}">
-  
-  <!-- 직업확인 두루마리 -->
-  <button @click="openJobRoll" :class="{ jobRollFormSide: !isjobRollCenter, jobRollFormCenter: isjobRollCenter }">
-    <div class="voteItem">
-    </div>
-  </button>
+  <div
+    :class="{
+      ingameNight: progress.isNight,
+      ingameDay: progress.isDay,
+      ingameDayVote: progress.isVoteDay,
+      ingameDayVoteResult: progress.isVoteDayResult,
+      ingameNightResult: progress.isNightResult,
+    }"
+  >
+    <!-- 직업확인 두루마리 -->
+    <button
+      @click="openJobRoll"
+      :class="{
+        jobRollFormSide: !isjobRollCenter,
+        jobRollFormCenter: isjobRollCenter,
+      }"
+    >
+      <div class="voteItem"></div>
+    </button>
 
-  <!-- 직업확인창 -->
-  <button v-if="isJobRollOpen" @click="switchJobRoll" class="openedJobRoll">
+    <!-- 직업확인창 -->
+    <button v-if="isJobRollOpen" @click="switchJobRoll" class="openedJobRoll">
+      <!-- 마피아 -->
+      <div v-if="job === 'mafia'">
+        <div class="mafiaImage"></div>
+        <div style="width: 65%; margin-left: 120px; margin-top: 390px">
+          <h3 class="">당신의 직업: 마피아</h3>
+          <h3 class="">밤마다 한명의 플레이어를 죽일 수 있습니다.</h3>
+          <h3 class="">모든 플레이어를 죽이면 승리!</h3>
+        </div>
+      </div>
 
-    <!-- 마피아 -->
-    <div v-if="job === 'mafia'">
-      <div class="mafiaImage"></div>        
-      <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-        <h3 class="">당신의 직업: 마피아</h3>
-        <h3 class="">밤마다 한명의 플레이어를 죽일 수 있습니다.</h3>
-        <h3 class="">모든 플레이어를 죽이면 승리!</h3>
-      </div>  
-    </div>  
+      <!-- 의사 -->
+      <div v-if="job === 'doctor'">
+        <div class="doctorImage"></div>
+        <div style="width: 65%; margin-left: 120px; margin-top: 390px">
+          <h3 class="">당신의 직업: 의사</h3>
+          <h3 class="">
+            밤마다 한명의 플레이어를 마피아로 부터 보호할 수 있습니다.
+          </h3>
+          <h3 class="">마피아를 잡아내면 승리!</h3>
+        </div>
+      </div>
 
-    <!-- 의사 -->
-    <div v-if="job === 'doctor'">
-      <div class="doctorImage"></div>  
-      <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-        <h3 class="">당신의 직업: 의사</h3>
-        <h3 class="">밤마다 한명의 플레이어를 마피아로 부터 보호할 수 있습니다.</h3>
-        <h3 class="">마피아를 잡아내면 승리!</h3>
-      </div>  
-    </div>  
+      <!-- 교주 -->
+      <div v-if="job === 'headmaster'">
+        <div class="headmasterImage"></div>
+        <div style="width: 65%; margin-left: 120px; margin-top: 390px">
+          <h3 class="">당신의 직업: 교주</h3>
+          <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
+          <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>
+        </div>
+      </div>
 
-    <!-- 교주 -->
-    <div v-if="job === 'headmaster'">
-      <div class="headmasterImage"></div>      
-      <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-        <h3 class="">당신의 직업: 교주</h3>
-        <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
-        <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>
-      </div>  
-    </div>
+      <!-- 시민 -->
+      <div v-if="job === 'citizen'">
+        <div class="citizenImage"></div>
+        <div style="width: 65%; margin-left: 120px; margin-top: 390px">
+          <h3 class="">당신의 직업: 시민</h3>
+          <h3 class="">
+            당신은 선량한 시민입니다. 다른 사람들과 협력해 마피아를 잡아내세요.
+          </h3>
+          <h3 class="">마피아를 잡아내면 승리!</h3>
+        </div>
+      </div>
+    </button>
 
-    <!-- 시민 -->
-    <div v-if="job === 'citizen'">
-      <div class="citizenImage"></div>
-      <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-        <h3 class="">당신의 직업: 시민</h3>
-        <h3 class="">당신은 선량한 시민입니다. 다른 사람들과 협력해 마피아를 잡아내세요.</h3>
-        <h3 class="">마피아를 잡아내면 승리!</h3>
-      </div>  
-    </div>
-
-  </button>  
-  
-  
-  <!-- 낮 투표용지 -->
-  <div class="voteForm" v-if="progress.isVoteDay">
-    <h3 class="dayVoteTitle">지금 낮 투표임</h3>
-    <div class="voteItem">
-      <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
-        <div v-if="info.isAlive" class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" @click="chooseVote(info.nickname)"><button class="learn-more">{{ info.nickname }}</button></div>
+    <!-- 낮 투표용지 -->
+    <div class="voteForm" v-if="progress.isVoteDay">
+      <h3 class="dayVoteTitle">지금 낮 투표임</h3>
+      <div class="voteItem">
+        <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
+          <div
+            v-if="info.isAlive"
+            class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+            @click="chooseVote(info.nickname)"
+          >
+            <button class="learn-more">{{ info.nickname }}</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h5 style="text-align: center" class="mt-5">
+          선택한 유저: <span style="font-weight: bold">{{ selected }}</span>
+        </h5>
+        <button v-if="!!selected">투표 확정 ㄱㄱ</button>
       </div>
     </div>
-    <div><h5 style="text-align: center;" class="mt-5">선택한 유저: <span style="font-weight: bold;">{{ selected }}</span></h5><button v-if="!!selected">투표 확정 ㄱㄱ</button></div>
-  </div>
 
-  <!-- 낮 투표 스킵 -->
-  <button class="ingameDaySkipBtn" v-if="progress.isDay" @click="sendSkip">
-    낮 스킵 후 투표로 넘어가기
-    지금 낮임
-  </button>
+    <!-- 낮 투표 스킵 -->
+    <button class="ingameDaySkipBtn" v-if="progress.isDay" @click="sendSkip">
+      낮 스킵 후 투표로 넘어가기 지금 낮임
+    </button>
 
-  <div class="w3-main mx-5">
-    <ingame-nav class="mb-3"></ingame-nav>
-    <!-- 유저 화면 -->
-    <div class="w3-row">
-      <div class="w3-col m8">
-        <div class="w3-row">
-          <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
-            <user-video
-              class="userVideoLayout"
-              v-for="sub in subscribers"
-              :key="sub.stream.connection.connectionId"
-              :stream-manager="sub"
-              :nickname="this.myUserName"
-            >
-            </user-video>
-            <button>vote</button>
-          </div>
-
-          <div class="w3-col m4">
-            <ul class="mx-2 my-2 w3-container border border-secondary">
-              <li>직업: {{ myInfo.job }}</li>
-              <li>미션:</li>
-            </ul>
+    <div class="w3-main mx-5">
+      <ingame-nav class="mb-3" :count="count" :progress="progress"></ingame-nav>
+      <!-- 유저 화면 -->
+      <div class="w3-row">
+        <div class="w3-col m8">
+          <div class="w3-row">
             <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
               id="video-container"
             >
               <user-video
-                v-if="0"
-                :stream-manager="publisher"
-                :gameInfo="myInfo"
-              />
-              <mission-user-video
-                v-if="1"
-                :stream-manager="publisher"
-                :gameInfo="myInfo"
-              />
+                class="userVideoLayout"
+                :stream-manager="subscribers[0]"
+                :gameInfo="gameInfos[0]"
+              >
+              </user-video>
+              <button>vote</button>
             </div>
+
+            <div
+              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+              id="video-container"
+            >
+              <user-video
+                class="userVideoLayout"
+                :stream-manager="subscribers[1]"
+                :gameInfo="gameInfos[1]"
+              >
+              </user-video>
+              <button>vote</button>
+            </div>
+
+            <div
+              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+              id="video-container"
+            >
+              <user-video
+                class="userVideoLayout"
+                :stream-manager="subscribers[2]"
+                :gameInfo="gameInfos[2]"
+              >
+              </user-video>
+              <button>vote</button>
+            </div>
+
+            <div
+              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+              id="video-container"
+            >
+              <user-video
+                class="userVideoLayout"
+                :stream-manager="subscribers[3]"
+                :gameInfo="gameInfos[3]"
+              >
+              </user-video>
+              <button>vote</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="w3-col m4">
+          <ul class="mx-2 my-2 w3-container border border-secondary">
+            <li>직업: {{ myInfo.job }}</li>
+            <li>미션:</li>
+          </ul>
+          <div
+            class="mx-2 my-2 w3-container border border-secondary w3-col m6"
+            id="video-container"
+          >
+            <user-video
+              v-if="0"
+              :stream-manager="publisher"
+              :gameInfo="myInfo"
+            />
+            <mission-user-video
+              v-if="1"
+              :stream-manager="publisher"
+              :gameInfo="myInfo"
+            />
           </div>
         </div>
       </div>
     </div>
+    <a href="/">
+      <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
+        <i class="fa fa-close"></i>게임끝내기
+      </button>
+    </a>
   </div>
-  <a href="/">
-  <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
-  <i class='fa fa-close'></i>게임끝내기</button>
-  </a>
-</div>
 </template>
 
 <script>
@@ -182,7 +246,7 @@ export default {
       // 직업정보열람용
       isjobRollCenter: true,
       isJobRollOpen: false,
-      job: 'citizen',      
+      job: "citizen",
     };
   },
   computed: {
@@ -214,7 +278,6 @@ export default {
       voted: [],
     };
     this.connect();
-    // 확인용 nightResultToDay
     this.startDay();
   },
   mounted() {
@@ -226,7 +289,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(ingameStore, ["setGameResult"]),    
+    ...mapActions(ingameStore, ["setGameResult"]),
     ...mapActions(roomdataStore, [
       "deleteRoom",
       "enterRoom",
@@ -237,19 +300,19 @@ export default {
 
     // 직업정보열람용
     switchJobRoll() {
-      this.isjobRollCenter = false
-      this.isJobRollOpen = false
+      this.isjobRollCenter = false;
+      this.isJobRollOpen = false;
     },
-    openJobRoll () {
+    openJobRoll() {
       if (this.isjobRollCenter) {
-        this.isJobRollOpen = true
+        this.isJobRollOpen = true;
       } else {
-      setTimeout(() => {
-        this.isJobRollOpen = true
-      }, 700)
-      if (!this.isjobRollCenter) {
-        this.isjobRollCenter = true
-      }      
+        setTimeout(() => {
+          this.isJobRollOpen = true;
+        }, 700);
+        if (!this.isjobRollCenter) {
+          this.isjobRollCenter = true;
+        }
       }
     },
 
@@ -445,7 +508,7 @@ export default {
       this.count = 20;
       setTimeout(() => {
         this.dayVoteTime();
-      }, 20000);
+      }, 22000);
     },
 
     dayVoteTime() {
@@ -460,7 +523,7 @@ export default {
       this.count = 5;
       setTimeout(() => {
         this.dayNightTime();
-      }, 5000);
+      }, 5200);
     },
 
     dayNightTime() {
@@ -478,7 +541,7 @@ export default {
       this.count = 5;
       setTimeout(() => {
         this.dayTime();
-      }, 5000);
+      }, 5200);
     },
 
     // 클릭 상호작용
@@ -493,8 +556,8 @@ export default {
       //     this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
       //     this.isSkiped = true;
       // } // 나중에 주석 풀기
-      clearTimeout(this.clearId)
-      this.dayToDayVote() // 얘 나중에 주석처리
+      clearTimeout(this.clearId);
+      this.dayToDayVote(); // 얘 나중에 주석처리
     },
 
     // 연결
@@ -503,7 +566,9 @@ export default {
       const serverURL = "http://localhost:8080/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      socket.onclose = function(){ console.log("=============소켓 끊어줬슴=============") }
+      socket.onclose = function () {
+        console.log("=============소켓 끊어줬슴=============");
+      };
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
       this.stompClient.connect(
         {},
@@ -551,97 +616,97 @@ export default {
                 });
               }
 
-            // 낮 진행
-            if (res.body.progress === 'day') {
-              this.color = res.body.color;
-              this.voteUser = res.body.nickname;
-              this.showModal = true;
+              // 낮 진행
+              if (res.body.progress === "day") {
+                this.color = res.body.color;
+                this.voteUser = res.body.nickname;
+                this.showModal = true;
 
-              setTimeout(() => {
-                this.showModal = false;
-              }, 1000);
+                setTimeout(() => {
+                  this.showModal = false;
+                }, 1000);
 
-              if (res.body.ifSkip === true) {
-                this.progress.isDay = false;
-                this.progress.isVoteDay = true;
-                clearTimeout(this.clearId);
-              }
-            }
-
-            // 낮 투표
-            if (data.progress === 'voteDay') {
-              if (this.myInfo.id === data.votedId) {
-                this.myInfo.push(data.id)
-              }
-
-              // 죽은 사람이 없을 때
-              else if (data.id === "") {
-                console.log("죽은 사람 없음");
-              }
-
-              // 죽은 사람이 있을 때
-              else {
-                this.gameInfos.forEach((gameInfo) => {
-                  // 자신이 죽었을 때
-                  if (this.myInfo.id === data.id) {
-                    console.log("내가 죽음");
-                    this.myInfo.isAlive = false;
-                  }
-                  // 다른 사람이 죽었을 때
-                  else if (gameInfo.id === data.id) {
-                    console.log(`${gameInfo.id}가 죽음`);
-                    gameInfo.isAlive = false;
-                  }
-                });
-              }
-
-              // 밤 투표
-              if (data.progress === "voteNight") {
-                if (
-                  this.myInfo.job === "mafia" ||
-                  this.myInfo.job === "doctor"
-                ) {
-                  this.voteNo = 1;
+                if (res.body.ifSkip === true) {
+                  this.progress.isDay = false;
+                  this.progress.isVoteDay = true;
+                  clearTimeout(this.clearId);
                 }
               }
 
-              if (data.progress === "voteNightResult") {
-                // 시간 바뀜
-                this.dayNightResult();
+              // 낮 투표
+              if (data.progress === "voteDay") {
+                if (this.myInfo.id === data.votedId) {
+                  this.myInfo.voted.push(data.id);
+                }
 
-                // 밤 투표 결과
-                if (data.progress === "voteDayFinish") {
-                  // 승자 결정
-                  if (data.winJob !== "") {
-                    this.$router.push({
-                      name: "final",
-                      params: { roomnumber: this.mySessionId },
-                    });
+                // 죽은 사람이 없을 때
+                else if (data.id === "") {
+                  console.log("죽은 사람 없음");
+                }
+
+                // 죽은 사람이 있을 때
+                else {
+                  this.gameInfos.forEach((gameInfo) => {
+                    // 자신이 죽었을 때
+                    if (this.myInfo.id === data.id) {
+                      console.log("내가 죽음");
+                      this.myInfo.isAlive = false;
+                    }
+                    // 다른 사람이 죽었을 때
+                    else if (gameInfo.id === data.id) {
+                      console.log(`${gameInfo.id}가 죽음`);
+                      gameInfo.isAlive = false;
+                    }
+                  });
+                }
+
+                // 밤 투표
+                if (data.progress === "voteNight") {
+                  if (
+                    this.myInfo.job === "mafia" ||
+                    this.myInfo.job === "doctor"
+                  ) {
+                    this.voteNo = 1;
                   }
-                  // 죽은 사람이 없을 때
-                  else if (data.id === "") {
-                    console.log("죽은 사람 없음");
-                  }
-                  // 죽은 사람이 있을 때
-                  else {
-                    this.gameInfos.forEach((gameInfo) => {
-                      // 자신이 죽었을 때
-                      if (this.myInfo.id === data.id) {
-                        console.log("내가 죽음");
-                        this.myInfo.isAlive = false;
-                      }
-                      // 다른 사람이 죽었을 때
-                      else if (gameInfo.id === data.id) {
-                        console.log(`${gameInfo.id}가 죽음`);
-                        gameInfo.isAlive = false;
-                      }
-                    });
+                }
+
+                if (data.progress === "voteNightResult") {
+                  // 시간 바뀜
+                  this.dayNightResult();
+
+                  // 밤 투표 결과
+                  if (data.progress === "voteDayFinish") {
+                    // 승자 결정
+                    if (data.winJob !== "") {
+                      this.$router.push({
+                        name: "final",
+                        params: { roomnumber: this.mySessionId },
+                      });
+                    }
+                    // 죽은 사람이 없을 때
+                    else if (data.id === "") {
+                      console.log("죽은 사람 없음");
+                    }
+                    // 죽은 사람이 있을 때
+                    else {
+                      this.gameInfos.forEach((gameInfo) => {
+                        // 자신이 죽었을 때
+                        if (this.myInfo.id === data.id) {
+                          console.log("내가 죽음");
+                          this.myInfo.isAlive = false;
+                        }
+                        // 다른 사람이 죽었을 때
+                        else if (gameInfo.id === data.id) {
+                          console.log(`${gameInfo.id}가 죽음`);
+                          gameInfo.isAlive = false;
+                        }
+                      });
+                    }
                   }
                 }
               }
             }
-        });
-        
+          );
         },
 
         (error) => {
@@ -692,19 +757,22 @@ export default {
       this.publisher.publishAudio(false);
       this.publisher.publishVideo(false);
     },
-    
+
     gameEnd() {
       const gameResult = {
-        winJob: 'mafia',
-        nickname: '마피아고수',
-        color: 'red',
-      }
-      console.log(typeof(this.setGameResult))
-      this.setGameResult(gameResult)
-      this.leaveSession()
-      this.stompClient.disconnect()
-      this.$router.push({ name: 'gameend', params: { winjob: gameResult.winJob } })
-    }
+        winJob: "mafia",
+        nickname: "마피아고수",
+        color: "red",
+      };
+      console.log(typeof this.setGameResult);
+      this.setGameResult(gameResult);
+      this.leaveSession();
+      this.stompClient.disconnect();
+      this.$router.push({
+        name: "gameend",
+        params: { winjob: gameResult.winJob },
+      });
+    },
   },
 };
 </script>
@@ -791,10 +859,12 @@ export default {
   height: 70%;
 }
 /* 결과창 Fade*/
-.voteResultFade-enter-active, .voteResultFade-leave-active {
+.voteResultFade-enter-active,
+.voteResultFade-leave-active {
   transition: opacity 1s;
 }
-.voteResultFade-enter-from, .voteResultFade-leave-to {
+.voteResultFade-enter-from,
+.voteResultFade-leave-to {
   opacity: 0;
 }
 .ingameDaySkipBtn {
@@ -820,7 +890,7 @@ export default {
   background-image: url(../../public/homedesign/images/jobRoll.png);
   background-size: 30vh 30vh;
   background-repeat: no-repeat;
-  background-color: rgba( 255, 255, 255, 0 );
+  background-color: rgba(255, 255, 255, 0);
   transition-duration: 0.5s;
   transition-timing-function: ease;
   z-index: 1199;
@@ -840,9 +910,9 @@ export default {
   background-image: url(../../public/homedesign/images/jobRoll.png);
   background-size: 10vh 10vh;
   background-repeat: no-repeat;
-  background-color: rgba( 255, 255, 255, 0 );
+  background-color: rgba(255, 255, 255, 0);
   transition-duration: 0.5s;
-  transition-timing-function: ease
+  transition-timing-function: ease;
 }
 .openedJobRoll {
   position: absolute;
@@ -859,7 +929,7 @@ export default {
   background-image: url(../../public/homedesign/images/jobinfo.png);
   background-size: 80vh 90vh;
   background-repeat: no-repeat;
-  background-color: rgba( 255, 255, 255, 0 );
+  background-color: rgba(255, 255, 255, 0);
   z-index: 1200;
 }
 .voteForm {
@@ -901,9 +971,9 @@ export default {
   border-radius: 30px;
   background-size: 50vh 50vh;
   background-image: url(../../public/homedesign/images/mafia_whiteicon.png);
-  background-repeat : no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-bottom:px;  
+  margin-bottom: px;
 }
 .citizenImage {
   position: absolute;
@@ -915,11 +985,11 @@ export default {
   height: 50vh;
   margin: auto;
   border-radius: 30px;
-  background-size: 50vh 50vh;  
+  background-size: 50vh 50vh;
   background-image: url(../../public/homedesign/images/citizen_whiteicon.png);
-  background-repeat : no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-bottom:px;
+  margin-bottom: px;
 }
 .doctorImage {
   position: absolute;
@@ -931,11 +1001,11 @@ export default {
   height: 50vh;
   margin: auto;
   border-radius: 30px;
-  background-size: 50vh 50vh;  
+  background-size: 50vh 50vh;
   background-image: url(../../public/homedesign/images/doctor_whiteicon.png);
-  background-repeat : no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-bottom:px;
+  margin-bottom: px;
 }
 .headmasterImage {
   position: absolute;
@@ -949,8 +1019,8 @@ export default {
   border-radius: 30px;
   background-size: 50vh 50vh;
   background-image: url(../../public/homedesign/images/headmaster_whiteicon.png);
-  background-repeat : no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-bottom:px;  
+  margin-bottom: px;
 }
 </style>

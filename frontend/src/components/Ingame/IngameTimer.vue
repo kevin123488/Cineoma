@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p :class="{ 'text-danger': total <= 15 }">
+    <p :class="{ 'text-danger': total <= 3 }">
       <strong>{{ minutes }}</strong>
       <strong>:</strong>
       <strong>{{ seconds }}</strong>
@@ -31,12 +31,6 @@ export default {
         this.tick();
       }, 1000);
     },
-  },
-  mounted: function () {
-    this.total = parseInt(this.time, 10);
-    this.interval = setInterval(() => {
-      this.tick();
-    }, 1000);
   },
   methods: {
     str_pad_left: function (string, pad, length) {
