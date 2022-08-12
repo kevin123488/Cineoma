@@ -10,8 +10,7 @@
 
     <!-- 직업확인창 -->
     <button v-if="isJobRollOpen" @click="switchJobRoll" class="openedJobRoll">
-     
-     <!-- 나중에 v-if걸어야됨 -->
+
       <!-- 마피아 -->
       <div v-if="job === 'mafia'">
         <div class="mafiaImage"></div>        
@@ -53,8 +52,6 @@
       </div>
 
     </button>
-
-
 
   </div>
 </template>
