@@ -38,12 +38,6 @@ export default {
     // ...mapGetters(ingameStore, [
     //   'isLogin',
     // ]),
-    ...mapActions(roomdataStore, [
-      'deleteRoom',
-      'enterRoom',
-      'saveRoomTitle',
-      'saveIsCaptain',
-    ])
   },
 
   created() {
@@ -54,6 +48,13 @@ export default {
   },
 
   methods: {
+    ...mapActions(roomdataStore, [
+      'deleteRoom',
+      'enterRoom',
+      'saveRoomTitle',
+      'saveIsCaptain',
+    ]),    
+    
     // 소켓 연결
     connect() {
       const serverURL = "http://localhost:8080/roomSocket"

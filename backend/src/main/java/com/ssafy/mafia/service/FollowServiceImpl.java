@@ -24,7 +24,7 @@ public class FollowServiceImpl implements FollowService {
 		List<Follow> fl = followRepository.findAllByMyId(id);
 		List<User> ul = new ArrayList<>();
 		for (Follow f : fl) {
-			ul.add(userRepository.findById(f.getFollowId()));
+			ul.add(userRepository.findById(f.getFollowId().getId()));								
 		}
 		return ul;
 	}
@@ -38,7 +38,7 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	public void deleteFollow(Follow follow) throws Exception {
-		List<Follow> findFL = followRepository.findAllByMyId(follow.getMyId());
+		List<Follow> findFL = followRepository.findAllByMyId(follow.getMyId().getId());
 		int fNo = 0; 
 		for(Follow f : findFL) {
 			if(f.getFollowId().equals(follow.getFollowId())) {

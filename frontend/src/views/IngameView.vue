@@ -1,50 +1,44 @@
 <template>
-  <div
-    :class="{
-      ingameNight: progress.isNight,
-      ingameDay: progress.isDay,
-      ingameDayVote: progress.isVoteDay,
-      ingameDayVoteResult: progress.isVoteDayResult,
-      ingameNightResult: progress.isNightResult,
-    }"
-  >
-    <div v-if="startGame">
-      <div class="w3-main mx-5">
-        <ingame-nav class="mb-3" :count="count"></ingame-nav>
-        <button @click="avOff">음소거</button>
-        <button @click="avOn">켜기</button>
-        <!-- 유저 화면 -->
+<div :class="{'ingameNight': progress.isNight, 'ingameDay': progress.isDay, 'ingameDayVote': progress.isVoteDay, 'ingameDayVoteResult': progress.isVoteDayResult, 'ingameNightResult': progress.isNightResult}">
+  <!-- 낮 투표용지 -->
+  <div class="voteForm" v-if="progress.isVoteDay">
+    <h3 class="dayVoteTitle">지금 낮 투표임</h3>
+    <div class="voteItem">
+      <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
+        <div v-if="info.isAlive" class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" @click="chooseVote(info.nickname)"><button class="learn-more">{{ info.nickname }}</button></div>
+      </div>
+    </div>
+    <div><h5 style="text-align: center;" class="mt-5">선택한 유저: <span style="font-weight: bold;">{{ selected }}</span></h5><button v-if="!!selected">투표 확정 ㄱㄱ</button></div>
+  </div>
+
+  <!-- 낮 투표 스킵 -->
+  <button class="ingameDaySkipBtn" v-if="progress.isDay" @click="sendSkip">
+    낮 스킵 후 투표로 넘어가기
+    지금 낮임
+  </button>
+
+  <div class="w3-main mx-5">
+    <ingame-nav class="mb-3"></ingame-nav>
+    <!-- 유저 화면 -->
+    <div class="w3-row">
+      <div class="w3-col m8">
         <div class="w3-row">
-          <div class="w3-col m8">
-            <div class="w3-row">
-              <div
-                class="mx-2 my-2 w3-container border border-secondary w3-col m6"
-                id="video-container"
-              >
-                <user-video
-                  :stream-manager="subscribers[0]"
-                  :gameInfo="gameInfo[0]"
-                />
-                <user-video
-                  :stream-manager="subscribers[1]"
-                  :gameInfo="gameInfo[1]"
-                />
-                <user-video
-                  :stream-manager="subscribers[2]"
-                  :gameInfo="gameInfo[2]"
-                />
-                <user-video
-                  :stream-manager="subscribers[3]"
-                  :gameInfo="gameInfo[3]"
-                />
-              </div>
-            </div>
+          <div class="mx-2 my-2 w3-container border border-secondary w3-col m6" id="video-container">
+            <user-video
+              class="userVideoLayout"
+              v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+              :stream-manager="sub"
+              :nickname="this.myUserName"
+            >
+            </user-video>
+            <button>vote</button>
           </div>
 
           <div class="w3-col m4">
             <ul class="mx-2 my-2 w3-container border border-secondary">
-              <li>직업</li>
-              <li>미션</li>
+              <li>직업: {{ myInfo.job }}</li>
+              <li>미션:</li>
             </ul>
             <div
               class="mx-2 my-2 w3-container border border-secondary w3-col m6"
@@ -66,6 +60,10 @@
       </div>
     </div>
   </div>
+  <a href="/">
+  <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
+  <i class='fa fa-close'></i>게임끝내기</button>
+  </a>
 </template>
 
 <script>
@@ -109,6 +107,7 @@ export default {
 
       // 게임정보
       startGame: false,
+      startGameSignal: false,
       gameInfos: [],
       myInfo: {},
       progress: {
@@ -137,18 +136,15 @@ export default {
     ]),
     ...mapGetters(memberStore, ["isLogin"]),
     ...mapGetters(ingameStore, ["job"]),
-    ...mapActions(roomdataStore, [
-      "deleteRoom",
-      "enterRoom",
-      "saveRoomTitle",
-      "saveIsCaptain",
-      "saveIsConnected",
-    ]),
   },
   created() {
     this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
     this.myUserId = this.userInfo.id;
+    // console.log("=====================참가자=================")
+    // console.log("=====================참가자=================")
+    // console.log("=====================참가자=================")
+    // console.log(this.subscribers)
     this.joinSession();
     this.myInfo = {
       id: this.userInfo.id,
@@ -160,11 +156,25 @@ export default {
     };
     this.connect();
     // 확인용 nightResultToDay
+    this.startDay();
   },
   mounted() {
     console.log(this.isConnected);
   },
+  watch: {
+    startGame() {
+      this.startGameSignal = true;
+    },
+  },
   methods: {
+    ...mapActions(ingameStore, ["setGameResult"]),    
+    ...mapActions(roomdataStore, [
+      "deleteRoom",
+      "enterRoom",
+      "saveRoomTitle",
+      "saveIsCaptain",
+      "saveIsConnected",
+    ]),
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
@@ -316,6 +326,7 @@ export default {
           });
       });
     },
+
     // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-connection
     createToken(sessionId) {
       return new Promise((resolve, reject) => {
@@ -340,9 +351,9 @@ export default {
     // 게임시작
     startDay() {
       setTimeout(() => {
-        this.startGame = true;
         this.dayTime();
-      }, 1500);
+        this.startGame = true;
+      }, 1000);
     },
 
     dayTime() {
@@ -392,11 +403,29 @@ export default {
       }, 5000);
     },
 
-    // 웹 소켓
+    // 클릭 상호작용
+    sendSkip() {
+      // if (this.stompClient && this.stompClient.connected) {
+      //     const msg = {
+      //         progress: 'day',
+      //         roomNo: this.roomNo,
+      //         id: this.userInfo.id,
+      //     }
+      //     this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
+      //     this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
+      //     this.isSkiped = true;
+      // } // 나중에 주석 풀기
+      clearTimeout(this.clearId)
+      this.dayToDayVote() // 얘 나중에 주석처리
+    },
+
+    // 연결
+
     connect() {
       const serverURL = "http://localhost:8080/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
+      socket.onclose = function(){ console.log("=============소켓 끊어줬슴=============") }
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
       this.stompClient.connect(
         {},
@@ -444,22 +473,29 @@ export default {
                 });
               }
 
-              // 낮 투표 결과
-              if (data.progress === "voteDayFinish") {
-                // 결과 초기화
-                this.gameInfos.forEach((gameInfo) => {
-                  gameInfo.voted = [];
-                });
+            // 낮 진행
+            if (res.body.progress === 'day') {
+              this.color = res.body.color;
+              this.voteUser = res.body.nickname;
+              this.showModal = true;
 
-                // 시간 바뀜
-                this.dayVoteResult();
+              setTimeout(() => {
+                this.showModal = false;
+              }, 1000);
 
-                // 승자 결정
-                if (data.winJob !== "") {
-                  this.$router.push({
-                    name: "final",
-                    params: { roomnumber: this.mySessionId },
-                  });
+              if (res.body.ifSkip === true) {
+                this.progress.isDay = false;
+                this.progress.isVoteDay = true;
+                clearTimeout(this.clearId);
+              }
+            }
+
+            // 낮 투표
+            if (data.progress === 'voteDay') {
+              this.gameInfos.forEach(gameInfo => {
+                // 내가 투표 받을 때
+                if (this.myInfo.id === data.votedId) {
+                  this.myInfo.push(data.id)
                 }
 
                 // 죽은 사람이 없을 때
@@ -580,11 +616,33 @@ export default {
       this.publisher.publishAudio(false);
       this.publisher.publishVideo(false);
     },
+    
+    gameEnd() {
+      const gameResult = {
+        winJob: 'mafia',
+        nickname: '마피아고수',
+        color: 'red',
+      }
+      console.log(typeof(this.setGameResult))
+      this.setGameResult(gameResult)
+      this.leaveSession()
+      this.stompClient.disconnect()
+      this.$router.push({ name: 'gameend', params: { winjob: gameResult.winJob } })
+    }
   },
 };
 </script>
 
 <style>
+.voteUserList {
+  display: flex;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.userVideoLayout {
+  height: 30vh;
+  width: 30vh;
+}
 .ingameNight {
   background-image: url(../../public/homedesign/images/wait_mafia.gif);
   background-repeat: no-repeat;
@@ -614,5 +672,39 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
+}
+.voteForm {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  /* background-color: white; */
+  /* opacity: 0.7; */
+  width: 80vh;
+  height: 80vh;
+  margin: auto;
+  border-radius: 30px;
+  /* box-shadow: 5px 5px 5px 5px gray; */
+  background-image: url(../../public/homedesign/images/vote_paper.png);
+  background-size: 80vh 80vh;
+  background-repeat: no-repeat;
+}
+.dayVoteTitle {
+  text-align: center;
+  margin-top: 50px;
+}
+.voteItem {
+  margin: auto;
+  width: 50vh;
+  left: 10%;
+  right: 10%;
+  margin-top: 60px;
+  background-color: fff;
+  /* opacity: 0.5; */
+  height: 45vh;
+  overflow: auto;
+}
+.voteItem::-webkit-scrollbar {
+  display: none;
 }
 </style>

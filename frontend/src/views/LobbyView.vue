@@ -108,10 +108,10 @@
           <br>
           <br>
           <p class="my-1">Upcoming Events:</p>
-          <p class="my-1"><strong>어제는 시민이였던 내가 오늘은 마피아?!</strong></p>
+          <p class="my-1"><strong>시민이였던 내가 오늘은 마피아?!</strong></p>
           <p class="my-1"><strong>release</strong></p>
-          <p class="my-1">8/19 09:00</p>
-          <p class="my-1"><button class="w3-button w3-block w3-theme-l4">최종발표</button></p>
+          <p class="my-1">8/19 13:00</p>
+          <p class="my-1">최종발표</p>
         </div>
       </div>
       <br>
