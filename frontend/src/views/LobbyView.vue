@@ -30,6 +30,9 @@
               <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                 트랜지션 테스트
               </button>
+              <button v-on:click="voteResult()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+                투표결과 테스트
+              </button>
             </div>
             </div>
           </div>
@@ -234,6 +237,10 @@ export default {
       'saveRoomTitle',
       'saveIsCaptain',
     ]),
+
+    voteResult() {
+      this.$router.push("/voteResult");
+    },
 
     testvote() {
       this.$router.push("/testvote") 

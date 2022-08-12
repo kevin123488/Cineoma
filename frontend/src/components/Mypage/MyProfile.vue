@@ -175,7 +175,7 @@
     height: 100%;
     /* background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif); */
     border-radius: 30px;
-    border: 3px solid white;
+    border: 3px solid aqua;
     background-size: cover;
     box-shadow: 5px 5px 5px 5px rgb(81, 124, 157);
   }
