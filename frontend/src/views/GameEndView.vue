@@ -12,60 +12,16 @@
 
 <div class="curtain">
   <div class="curtain__wrapper d-flex">
-    
-    <div class="curtain__prize">
-      <div :class="{curtain__leftPanel: !curtainOut, curtain__leftPanel_close: curtainOut}"></div>
-      <div :class="{curtain__rightPanel: !curtainOut, curtain__rightPanel_close: curtainOut}"></div>
+    <input type="checkbox">
+      <div class="curtain__prize">
+        <div class="curtain__leftPanel, curtain__panel--left"></div>
+        <div class="curtain__rightPanel, curtain__panel--right"></div>
 
-      <div class="gameEndBackground">
-        <div class="mainCurtain">
-
-          <!-- 마피아 -->
-          <!-- <div v-if="job === 'mafia'">
-            <div class="mafiaImage"></div>        
-            <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-              <h3 class="">당신의 직업: 마피아</h3>
-              <h3 class="">밤마다 한명의 플레이어를 죽일 수 있습니다.</h3>
-              <h3 class="">모든 플레이어를 죽이면 승리!</h3>
-            </div>  
-          </div>   -->
-
-          <!-- 의사 -->
-          <div v-if="job === 'doctor'">
-            <div class="doctorImage"></div>  
-            <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-              <h3 class="">당신의 직업: 의사</h3>
-              <h3 class="">밤마다 한명의 플레이어를 마피아로 부터 보호할 수 있습니다.</h3>
-              <h3 class="">마피아를 잡아내면 승리!</h3>
-            </div>  
-          </div>  
-
-          <!-- 교주 -->
-          <div v-if="job === 'headmaster'">
-            <div class="headmasterImage"></div>      
-            <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-              <h3 class="">당신의 직업: 교주</h3>
-              <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
-              <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>
-            </div>  
-          </div>
-
-          <!-- 시민 -->
-          <div v-if="job === 'citizen'">
-              <div class="citizenImage"></div>
-              <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-                <h3 class="">당신의 직업: 시민</h3>
-                <h3 class="">당신은 선량한 시민입니다. 다른 사람들과 협력해 마피아를 잡아내세요.</h3>
-                <h3 class="">마피아를 잡아내면 승리!</h3>
-            </div>
-
-          </div>
-        </div>
+        <div class="gameEndBackground">
+          <div class="mainCurtain">
+        </div>  
       </div>
     </div>
-
-
-
   </div>
 </div>
 
@@ -153,7 +109,7 @@ const roomdataStore = "roomdataStore"
   width:50%;
   height:100vh;
   float:left;
-  position:relative;
+  position:absolute;
   z-index:2;
   transition:all .5s ease-out;
 }
@@ -163,8 +119,8 @@ const roomdataStore = "roomdataStore"
   background-size: 100% 100%;
   width:50%;
   height:100vh;
-  float:right;
-  position:relative;
+  float:left;
+  position:absolute;
   z-index:2;
   transition:all 5s ease-out;
 }
@@ -175,7 +131,7 @@ const roomdataStore = "roomdataStore"
   right:-50%;
   width:50%;
   height:100vh;
-  float:right;
+  float:left;
   position:relative;
   z-index:2;
   transition:all 5s ease-out;
@@ -196,13 +152,18 @@ const roomdataStore = "roomdataStore"
    height:100%;
    vertical-align:middle;
 }
-/* .curtain__panel__left:hover ~ .curtain__panel__left{
-  transform:translateX(-100%)
+[type="checkbox"] {
+   position:absolute;
+   cursor:pointer;
+   width:100%;
+   height:100%;
+   z-index:100;
+   opacity:0;
 }
-.curtain__panel__right:hover ~ .curtain__panel__right{
-  transform:translateX(100%)
-} */
-/*  */
-
-
+[type="checkbox"]:checked ~ .curtain__panel--left {
+   transform:translateX(-100%)
+}
+[type="checkbox"]:checked ~ .curtain__panel--right {
+   transform:translateX(100%)
+}
 </style>
