@@ -17,8 +17,6 @@ public class Record {
 	@Id
 	@GeneratedValue
 	private int no;
-//	@ManyToOne
-//	private String id;
 	@Column(name = "win_count")
 	private int winCount = 0;
 	@Column(name = "lose_count")
@@ -26,8 +24,5 @@ public class Record {
 	@Column(name = "draw_count")
 	private int drawCount = 0;
 	private String type; // 직업을 나타냄.
-	
-	@ManyToOne
-	@JoinColumn(name = "id")
-	private User id;
+	private String id;
 }
