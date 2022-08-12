@@ -755,13 +755,6 @@ export default {
     ]),
     ...mapGetters(memberStore, ["isLogin"]),
     ...mapGetters(ingameStore, ["job"]),
-    ...mapActions(roomdataStore, [
-      "deleteRoom",
-      "enterRoom",
-      "saveRoomTitle",
-      "saveIsCaptain",
-      "saveIsConnected",
-    ]),
   },
   created() {
     this.mySessionId = "a";
@@ -783,6 +776,14 @@ export default {
     console.log(this.isConnected);
   },
   methods: {
+    ...mapActions(roomdataStore, [
+      "deleteRoom",
+      "enterRoom",
+      "saveRoomTitle",
+      "saveIsCaptain",
+      "saveIsConnected",
+    ]),
+        
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();

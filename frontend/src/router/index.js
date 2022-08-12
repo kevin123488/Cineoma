@@ -63,7 +63,7 @@ const routes = [
     component: EditUserView
   },
   {
-    path: '/:job/end',
+    path: '/:winjob/end',
     name: 'gameend',
     component: GameEnd
   },

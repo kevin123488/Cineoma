@@ -114,13 +114,6 @@ export default {
     ...mapGetters(memberStore, [
       'isLogin',
     ]),
-    ...mapActions(roomdataStore, [
-      'deleteRoom',
-      'enterRoom',
-      'saveRoomTitle',
-      'saveIsCaptain',
-      'saveIsConnected',
-    ])
   },
 
   created() {
@@ -134,6 +127,13 @@ export default {
   },
 
   methods: {
+    ...mapActions(roomdataStore, [
+      'deleteRoom',
+      'enterRoom',
+      'saveRoomTitle',
+      'saveIsCaptain',
+      'saveIsConnected',
+    ]),
     // startVote() {
     //   this.$router.push("/vote");
     // },
@@ -185,6 +185,7 @@ export default {
 
             // 방 나가기
             if (res.body.progress === 'out') {
+              this.stompClient.disconnect()
               this.$route.push('lobby');
             }
           });
@@ -203,6 +204,7 @@ export default {
           // 방 폭파
           this.stompClient.subscribe(`/topic/sendBreak/${this.roomNo}`, res => {
             console.log('방 폭파.', res.body);
+            this.stompClient.disconnect()
             this.$router.push('lobby');
           });
         },
