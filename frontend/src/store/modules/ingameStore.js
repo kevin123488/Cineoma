@@ -9,9 +9,11 @@
   const ingameStore = {
     namespaced: true,
     state: {
+      missionCnt: 0,
+      ifWin: false,
       gameResult: {
-        winJob: '',
-        nickname: '',
+        winJob: 'mafia',
+        nickname: '박제학',
         color: '',
       },
       absoluteTime: "",
@@ -36,6 +38,12 @@
     },
   
     getters: {
+      missionCnt(state) {
+        return state.missionCnt
+      },
+      ifWin(state) {
+        return state.ifWin;
+      },            
       gameResult(state) {
         return state.gameResult;
       },      
@@ -51,7 +59,9 @@
     },
   
     mutations: {
-      SET_GAMERESULT: (state, gameResult) => state.gameResult = gameResult,      
+      SET_GAMERESULT: (state, gameResult) => state.gameResult = gameResult,
+      SET_IFWIN: (state, ifWin) => state.ifWin = ifWin,
+      SET_MISSIONCNT: (state, missionCnt) => state.ifWin = missionCnt,
     },
   
     actions: {
@@ -61,6 +71,12 @@
       setGameResult({ commit }, gameResult) {
         commit('SET_GAMERESULT', gameResult)
     },
+      setIfWin({ commit }, ifWin) {
+        commit('SET_IFWIN', ifWin)
+    },   
+      setMissionCnt({ commit }, missionCnt) {
+        commit('SET_MISSIONCNT', missionCnt)
+    },        
   },
 };
   

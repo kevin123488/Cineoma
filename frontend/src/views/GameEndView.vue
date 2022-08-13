@@ -1,51 +1,44 @@
 <template>
-      <!-- 마피아 -->
-      <div v-if="job === 'mafia'">
-        <div class="mafiaImage"></div>        
-        <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-          <h3 class="">당신의 직업: 마피아</h3>
-          <h3 class="">밤마다 한명의 플레이어를 죽일 수 있습니다.</h3>
-          <h3 class="">모든 플레이어를 죽이면 승리!</h3>
-        </div>  
-      </div>  
+<!-- <div class="curtain">
+  <div class="curtain__wrapper">
+    <input type="checkbox">
+    <div class="curtain__leftPanel curtain__panel--left"></div>
+    <div class="curtain__rightPanel curtain__panel--right"></div>
+    <div class="curtain__prize">안에내용</div>
+  </div>
+</div> -->
 
-      <!-- 의사 -->
-      <div v-if="job === 'doctor'">
-        <div class="doctorImage"></div>  
-        <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-          <h3 class="">당신의 직업: 의사</h3>
-          <h3 class="">밤마다 한명의 플레이어를 마피아로 부터 보호할 수 있습니다.</h3>
-          <h3 class="">마피아를 잡아내면 승리!</h3>
-        </div>  
-      </div>  
+<div class="curtain">
+  <div class="curtain__wrapper">
 
-      <!-- 교주 -->
-      <div v-if="job === 'headmaster'">
-        <div class="headmasterImage"></div>      
-        <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-          <h3 class="">당신의 직업: 교주</h3>
-          <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
-          <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>
+<!-- <input type="checkbox">
+  <div class="curtain__leftPanel curtain__panel--left"></div>
+  <div class="curtain__rightPanel curtain__panel--right"></div> -->
+    <div :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
+
+    <div :class="{ curtainLeftPanel : !curtainOut , curtainLeftPanelOpen : curtainOut}"></div>
+    <div :class="{ curtainRightPanel : !curtainOut , curtainRightPanelOpen : curtainOut}"></div>
+
+    <div class="curtain__prize">
+      <div class="gameEndBackground">
+        <div class="mainCurtain">
+          <h1 style="padding-top: 200px;, margin-top: 0px;">{{ gameResult.winJob }} 승리!</h1>
+          <button @click="returnWaitRoom">대기방으로</button>
         </div>  
       </div>
+    </div>
 
-      <!-- 시민 -->
-      <div v-if="job === 'citizen'">
-        <div class="citizenImage"></div>
-        <div style="width: 65%; margin-left: 120px; margin-top: 390px;">
-          <h3 class="">당신의 직업: 시민</h3>
-          <h3 class="">당신은 선량한 시민입니다. 다른 사람들과 협력해 마피아를 잡아내세요.</h3>
-          <h3 class="">마피아를 잡아내면 승리!</h3>
-        </div>  
-      </div>
+  </div>
+</div>
+
 </template>
 
 <script>
 
-import router from '@/router'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 const ingameStore = "ingameStore"
 const roomdataStore = "roomdataStore"
+const memberStore = "memberStore"
 
 
   export default {
@@ -54,23 +47,161 @@ const roomdataStore = "roomdataStore"
     },
     data() {
       return {
+        job: 'mafia',
+        curtainOut: false,
+        isDark: true,
       }
     },
     computed: {
-        ...mapGetters(ingameStore, [
-            'gameResult',
-        ]),
-        ...mapGetters(roomdataStore, [
-            'roomNo',
-        ]),        
+      ...mapState(memberStore, ["userInfo"]),      
+      ...mapGetters(ingameStore, [
+          'gameResult',
+      ]),
+      ...mapGetters(roomdataStore, [
+          'roomNo',
+          'password',
+      ]),        
     },   
     methods: {
-        pushWaitRoom() {
-          router.push({ name: 'wait', params: { roomnumber: this.roomNo } })
-        }
-    }}
+      returnWaitRoom() {
+        const roomInfo =  { no: this.roomNo, info: {id: this.userInfo.id, no: this.roomNo, password: this.password, }}
+        this.enterRoom(roomInfo)
+      },
+    },
+    created() {
+      // 이긴 직업에 따라 배경바뀔거 표시
+      console.log(this.gameResult)
+    },
+    mounted() {
+      setTimeout(() =>{ this.isDark = false }, 1000)
+      setTimeout(() =>{ this.curtainOut = true }, 2000)
+    }
+  }
 
 </script>
 
 <style>
+
+div {
+  margin: 0;
+}
+.gameEndBackground {
+  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* height: 773.3px; */
+}
+.mainCurtain {
+  background-image: url(../../public/homedesign/images/ending_curtain.png);
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* height: 773.3px; */
+}
+.curtain {
+  box-sizing:border-box;
+  overflow:hidden;
+  width:100%;
+  height:100vh;
+}
+.curtainLeftPanel {
+  background-image: url(../../public/homedesign/images/leftOpenningCurtain.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  left:0%;
+  width:50%;
+  height:100vh;
+  margin:0;
+  padding:0;
+  float:left;
+  position:absolute;
+  z-index:2;
+  transition:all 2s ease;
+}
+.curtainLeftPanelOpen {
+  background-image: url(../../public/homedesign/images/leftOpenningCurtain.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  left:-50%;
+  width:50%;
+  height:100vh;
+  margin:0;
+  padding:0;
+  float:left;
+  position:absolute;
+  z-index:2;
+  transition:all 2s ease;
+}
+.curtainRightPanel {
+  background-image: url(../../public/homedesign/images/rightOpenningCurtain.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  right:0%;
+  width:50%;
+  height:100vh;
+  margin:0;
+  padding:0;
+  float:left;
+  position:absolute;
+  z-index:2;
+  transition:all 2s ease;
+}
+.curtainRightPanelOpen {
+  background-image: url(../../public/homedesign/images/rightOpenningCurtain.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  right:-50%;
+  width:50%;
+  height:100vh;
+  margin:0;
+  padding:0;
+  float:left;
+  position:absolute;
+  z-index:2;
+  transition:all 2s ease;
+}
+.curtain__prize {
+  position:absolute;
+  z-index:1;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+}
+.curtain__prize:before {
+  content:'';
+  display:absolute;
+  width:0;
+  height:100%;
+  vertical-align:middle;
+}
+.blackGround {
+  background-color: black;
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  opacity: 0.9;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+  transition:all 2s ease;
+}
+.blackGroundOut {
+  background-color: black;
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  opacity: 0;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+  transition:all 2s ease;
+}
 </style>

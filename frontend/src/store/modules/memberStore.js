@@ -17,6 +17,9 @@ const memberStore = {
     record: null,
   },
   getters: {
+    isLogin: function(state) {
+      return state.isLogin;
+    },
     checkUserInfo: function(state) {
       return state.userInfo;
     },
