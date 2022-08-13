@@ -23,6 +23,7 @@
       <div class="gameEndBackground">
         <div class="mainCurtain">
           <h1 style="padding-top: 200px;, margin-top: 0px;">{{ gameResult.winJob }} 승리!</h1>
+          <button @click="returnWaitRoom">대기방으로</button>
         </div>  
       </div>
     </div>
@@ -34,10 +35,10 @@
 
 <script>
 
-import router from '@/router'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 const ingameStore = "ingameStore"
 const roomdataStore = "roomdataStore"
+const memberStore = "memberStore"
 
 
   export default {
@@ -52,17 +53,20 @@ const roomdataStore = "roomdataStore"
       }
     },
     computed: {
-        ...mapGetters(ingameStore, [
-            'gameResult',
-        ]),
-        ...mapGetters(roomdataStore, [
-            'roomNo',
-        ]),        
+      ...mapState(memberStore, ["userInfo"]),      
+      ...mapGetters(ingameStore, [
+          'gameResult',
+      ]),
+      ...mapGetters(roomdataStore, [
+          'roomNo',
+          'password',
+      ]),        
     },   
     methods: {
-        pushWaitRoom() {
-          router.push({ name: 'wait', params: { roomnumber: this.roomNo } })
-        },
+      returnWaitRoom() {
+        const roomInfo =  { no: this.roomNo, info: {id: this.userInfo.id, no: this.roomNo, password: this.password, }}
+        this.enterRoom(roomInfo)
+      },
     },
     created() {
       // 이긴 직업에 따라 배경바뀔거 표시

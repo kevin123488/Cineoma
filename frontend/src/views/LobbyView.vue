@@ -61,7 +61,7 @@
 
               <div class="modal-body" style="color: white; margin-left: 50px;">
                 <p>함께할 멤버</p>
-                <div v-for="(member, index) in memberList" :key="index">
+                <div v-for="(member, index) in members" :key="index">
                   <p>{{ member.nickname }}</p>
                 </div>
                 <input v-if="enterRoomData.isPassword" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호를 입력해주세요:" v-model="password">
@@ -194,6 +194,7 @@ export default {
       enterModalVisible: false,
       searchRoomKeyword: '',
       friends: [],
+      members: [],
       // showFriendList: false
       roomNo: -1,
       password: ''
@@ -210,8 +211,11 @@ export default {
       }
     },
     friendList () {
-      this.friends = this.friendList;
-    }      
+      this.friends = this.friendList
+    },
+    memberList () {
+      this.members = this.memberList
+    }
   },
   // 로그인판별, 친구리스트, 방리스트 수정함수 불러오기위함
   computed: {
