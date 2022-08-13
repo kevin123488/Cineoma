@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registerUser(User user) throws Exception {
 		userRepository.save(user);
+		
 	}
 
 	@Override
@@ -66,10 +67,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> SearchList(String word) throws Exception {
+	public List<User> SearchList(String word, String id) throws Exception {
 		System.out.println("서비스으으으" + word);
-		return userRepository.findByWord(word);
+		return userRepository.findByWord(word, id);
 	}
+	// 유저의 방번호 업데이트
 	@Override
 	public void updateUserRoomNo(int roomNo, String id) throws Exception {
 //		System.out.println(roomNo);
@@ -95,13 +97,6 @@ public class UserServiceImpl implements UserService {
 //		// 없으면 true
 //		else return true;
 //	}
-	//방 생성했을때 그 방번호로 업데이트 해줌.
-	@Override
-	public void updateRoomNo(User user, int roomNo) throws Exception {
-		user.setRoom(roomRepository.getOne(roomNo));
-		
-	}
-	
 
 	
 }

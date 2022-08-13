@@ -34,8 +34,9 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 	@Modifying
 	@Query(value = "update room set member_cnt = member_cnt-1 where no = ?1",  nativeQuery =true)
 	public int memberCntminus(int roomNo);
-
 	
+	@Query(value = "select no from room where room_title = ?", nativeQuery = true)
+	public int findRoomNo(String roomTitle);
 	
 //	@Query(value ="delete from room where no = ?", nativeQuery = true)
 //	void deleteByNo(int no);

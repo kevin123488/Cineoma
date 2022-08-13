@@ -69,7 +69,7 @@
 
       createRoom() {
         const roomInfo = {
-          id: this.checkUserInfo.id,
+          hostId: this.checkUserInfo.id,
           roomTitle: this.subject,
           password: this.password,
           size: 5

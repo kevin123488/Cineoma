@@ -20,8 +20,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	void deleteById(String id);
 	
 	// 닉네임으로 유저 검색
-	@Query(value = "select * from user where nickname like %?%", nativeQuery =true)
-	public List<User> findByWord(String word);
+	@Query(value = "select * from user where nickname like %?1% and id != ?2", nativeQuery =true)
+	public List<User> findByWord(String word, String id );
 	
 //	@Query(value = "update user ")
 	@Transactional
@@ -34,7 +34,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	public int countById(String id);
 		
 	// 방번호로 방에 있는 유저 검색
-		@Query(value = "select room_no, nickname from user where room_no = ?", nativeQuery =true)
+		@Query(value = "select * from user where room_no = ?", nativeQuery =true)
 		List<User> findAllbyRoomNo(int roomNo);
 	
 	//방에있는 유저 삭제/ 방 삭제

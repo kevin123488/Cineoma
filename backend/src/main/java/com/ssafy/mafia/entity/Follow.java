@@ -15,13 +15,14 @@ import lombok.Setter;
 public class Follow {
 	@Id @GeneratedValue
 	private int no;
-	
-	@ManyToOne
-	@JoinColumn(name="myId")
-	private User myId;
-	
-	@ManyToOne
-	@JoinColumn(name = "followId")
-	private User followId;
+	private String myId;
+	private String followId;
+//	@ManyToOne
+//	@JoinColumn(name="myId")
+//	private User myId;
+//	
+//	@ManyToOne
+//	@JoinColumn(name = "followId")
+//	private User followId;
 }
 

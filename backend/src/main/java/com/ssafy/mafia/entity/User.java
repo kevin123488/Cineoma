@@ -31,7 +31,23 @@ public class User {
 	@Column(name = "my_point")
 	private int myPoint;
 	private String intro;
-	@ManyToOne
-	@JoinColumn(name = "room_no")
-	private Room room;
+	@Column(name = "room_no")
+	private int roomNo;
+//	@ManyToOne
+//	@JoinColumn(name = "room_no")
+//	private Room room;
+//	
+//	public void setRoom(Room room) {
+//		if(this.room != null) {
+//			this.room.getUsers().remove(this);
+//		}
+//		this.room = room;
+//		if(!room.getUsers().contains(this)) {
+//			room.addUser(this);
+//		}
+//	}
+
+
+
+
 }

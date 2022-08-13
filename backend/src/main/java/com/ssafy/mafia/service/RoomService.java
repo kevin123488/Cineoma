@@ -18,4 +18,7 @@ public interface RoomService {
 	public int countUser(int no) throws Exception;
 	
 	public boolean checkUser(String id) throws Exception;
+	
+	// 방 번호 찾기
+	public int findRoomNo(String roomTitle) throws Exception;
 }

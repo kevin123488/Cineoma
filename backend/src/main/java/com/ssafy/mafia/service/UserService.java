@@ -15,12 +15,12 @@ public interface UserService {
 	int idCheck(String checkId) throws Exception;
 	List<User> getList(String id) throws Exception;
 	// 검색어로 유저 검색
-	List<User> SearchList(String word) throws Exception;
+	List<User> SearchList(String word, String id) throws Exception;
 	// 방에 있는 유저 검색
 	List<User> roomUser(int roomNo) throws Exception;
 	//방에 참가한 상태인지
 //	public boolean checkUser(String id) throws Exception;
-	void updateRoomNo(User user, int roomNo) throws Exception;
+//	void updateRoomNo(User user, int roomNo) throws Exception;
 	
 	void updateUserRoomNo(int roomNo, String id) throws Exception;
 }

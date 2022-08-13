@@ -1,13 +1,14 @@
 package com.ssafy.mafia.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.context.annotation.Bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,14 +23,23 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Room {
 	@Id @GeneratedValue
+//	@Column(name = "room_no")
 	private int no;
 	private int size;
 	private String roomTitle;
-//	private String hostId;
+	@Column(name = "host_id")
+	private String hostId;
 	
-	@OneToOne
-	@JoinColumn(name = "host_id")
-	private User hostId;
+//	@OneToMany(mappedBy = "room")
+//	private List<User> users = new ArrayList<User>();
+//	
+//	public void addUser(User user) {
+//		this.users.add(user);
+//		
+//		if(user.getRoom() != this) {
+//			user.setRoom(this);
+//		}
+//	}
 	
 	private String password;
 	private boolean ifPassword;

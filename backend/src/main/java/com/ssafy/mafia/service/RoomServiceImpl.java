@@ -47,6 +47,8 @@ public class RoomServiceImpl implements RoomService{
 		
 		return roomRepository.findAll();
 	}
+	
+	
 
 //	//방 클릭했을때 보여주는 방의 유저들 유저 서비스에 있음 
 //	@Override
@@ -70,10 +72,17 @@ public class RoomServiceImpl implements RoomService{
 
 	@Override
 	public boolean checkUser(String id) throws Exception {
-		if(userRepository.findById(id).getRoom().getNo() == 1)
+		if(userRepository.findById(id).getRoomNo() == 1)
 			return true;
 		else 
 		return false;
+	}
+	
+	// 룸 이름으로 방 번호 찾기
+	@Override
+	public int findRoomNo(String roomTitle) throws Exception {
+		roomRepository.findRoomNo(roomTitle);
+		return 0;
 	}
 
 //	// 지금 참가한 방이 있는지
