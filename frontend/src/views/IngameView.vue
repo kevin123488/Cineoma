@@ -584,6 +584,10 @@ export default {
           console.log("소켓 연결 성공", frame);
           console.log("======================됐나?=======================");
           // 직업, 색깔 설정
+          // 소켓Id 다시줌
+          this.sessionId = socket._transport.url.slice(-18, -10)
+          this.sendProfile()
+
           this.stompClient.subscribe(
             `/sendMafia/${this.mySessionId}/${this.userInfo.id}`,
             (res) => {
@@ -721,6 +725,20 @@ export default {
           this.connected = false;
         }
       );
+    },
+
+    // 프로필
+    sendStart() {
+      if (this.stompClient && this.stompClient.connected) {
+        const msg = { 
+          progress : 'start',
+          sessionId: this.sessionId,
+          roomNo: this.roomNo,
+          id: this.user.id
+        };
+        console.log(msg);
+        this.stompClient.send('/receiveMafia', JSON.stringify(msg), {});
+      }
     },
 
     sendVote(voteId) {

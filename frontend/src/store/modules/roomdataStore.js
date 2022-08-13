@@ -15,9 +15,13 @@ const roomdataStore = {
     roomNo: -1,
     roomTitle: "",
     isCaptain: false,
+    password: '',
     isConnected: false,
   },
   getters: {
+    password(state) {
+      return state.password;
+    },    
     roomNo(state) {
       return state.roomNo;
     },
@@ -32,12 +36,16 @@ const roomdataStore = {
     },
   },
   mutations: {
+    SET_PASSWORD: (state, password) => state.password = password,    
     SET_ROOMNO: (state, roomNo) => state.roomNo = roomNo,
     SET_ROOMTITLE: (state, roomTitle) => state.roomTitle = roomTitle,
     SET_ISCAPTAIN: (state, isCaptain) => state.isCaptain = isCaptain,
     SET_ISCONNECTED: (state, isConnected) => state.isConnected = isConnected,
   },
   actions: {
+    savePassword({ commit }, password) {
+      commit('SET_PASSWORD', password)
+    },    
     saveRoomNo({ commit }, roomNo) {
       commit('SET_ROOMNO', roomNo)
     },
@@ -86,6 +94,7 @@ const roomdataStore = {
         (response) => {
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ROOMNO', roomInfo.no)
+          commit('SET_PASSWORD', roomInfo.password)
           router.push({ name: 'wait', params: { roomnumber:  roomInfo.no } })
         },
         () => {},
