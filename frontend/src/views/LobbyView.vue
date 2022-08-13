@@ -96,7 +96,7 @@
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px;">
+            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px; cursor: pointer;">
               <i class="fa fa-pencil"></i>들어가기
             </p>
         </div>

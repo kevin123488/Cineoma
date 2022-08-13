@@ -1,27 +1,32 @@
 <template>
-
 <!-- <div class="curtain">
   <div class="curtain__wrapper">
     <input type="checkbox">
-    <div class="curtain__panel curtain__panel--left"></div>
-    <div class="curtain__prize">커튼~</div>
-    <div class="curtain__panel curtain__panel--right">
-    </div>
+    <div class="curtain__leftPanel curtain__panel--left"></div>
+    <div class="curtain__rightPanel curtain__panel--right"></div>
+    <div class="curtain__prize">안에내용</div>
   </div>
 </div> -->
 
 <div class="curtain">
-  <div class="curtain__wrapper d-flex">
-    <input type="checkbox">
-      <div class="curtain__prize">
-        <div class="curtain__leftPanel, curtain__panel--left"></div>
-        <div class="curtain__rightPanel, curtain__panel--right"></div>
+  <div class="curtain__wrapper">
 
-        <div class="gameEndBackground">
-          <div class="mainCurtain">
+<!-- <input type="checkbox">
+  <div class="curtain__leftPanel curtain__panel--left"></div>
+  <div class="curtain__rightPanel curtain__panel--right"></div> -->
+    <div :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
+
+    <div :class="{ curtainLeftPanel : !curtainOut , curtainLeftPanelOpen : curtainOut}"></div>
+    <div :class="{ curtainRightPanel : !curtainOut , curtainRightPanelOpen : curtainOut}"></div>
+
+    <div class="curtain__prize">
+      <div class="gameEndBackground">
+        <div class="mainCurtain">
+          <h1 style="padding-top: 200px;, margin-top: 0px;">{{ gameResult.winJob }} 승리!</h1>
         </div>  
       </div>
     </div>
+
   </div>
 </div>
 
@@ -43,6 +48,7 @@ const roomdataStore = "roomdataStore"
       return {
         job: 'mafia',
         curtainOut: false,
+        isDark: true,
       }
     },
     computed: {
@@ -56,13 +62,15 @@ const roomdataStore = "roomdataStore"
     methods: {
         pushWaitRoom() {
           router.push({ name: 'wait', params: { roomnumber: this.roomNo } })
-        }
+        },
     },
     created() {
       // 이긴 직업에 따라 배경바뀔거 표시
+      console.log(this.gameResult)
     },
     mounted() {
-      // this.curtainOut = true
+      setTimeout(() =>{ this.isDark = false }, 1000)
+      setTimeout(() =>{ this.curtainOut = true }, 2000)
     }
   }
 
@@ -70,6 +78,9 @@ const roomdataStore = "roomdataStore"
 
 <style>
 
+div {
+  margin: 0;
+}
 .gameEndBackground {
   background-image: url(../../public/homedesign/images/wait_mafia.gif);
   height: 100vh;
@@ -90,53 +101,64 @@ const roomdataStore = "roomdataStore"
   width:100%;
   height:100vh;
 }
-.curtain__leftPanel {
+.curtainLeftPanel {
   background-image: url(../../public/homedesign/images/leftOpenningCurtain.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
+  left:0%;
   width:50%;
   height:100vh;
+  margin:0;
+  padding:0;
   float:left;
-  position:relative;
+  position:absolute;
   z-index:2;
-  transition:all .5s ease-out;
+  transition:all 2s ease;
 }
-.curtain__leftPanel_close {
+.curtainLeftPanelOpen {
   background-image: url(../../public/homedesign/images/leftOpenningCurtain.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
   left:-50%;
   width:50%;
   height:100vh;
+  margin:0;
+  padding:0;
   float:left;
   position:absolute;
   z-index:2;
-  transition:all .5s ease-out;
+  transition:all 2s ease;
 }
-.curtain__rightPanel {
+.curtainRightPanel {
   background-image: url(../../public/homedesign/images/rightOpenningCurtain.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
+  right:0%;
   width:50%;
   height:100vh;
+  margin:0;
+  padding:0;
   float:left;
   position:absolute;
   z-index:2;
-  transition:all 5s ease-out;
+  transition:all 2s ease;
 }
-.curtain__rightPanel_close {
+.curtainRightPanelOpen {
   background-image: url(../../public/homedesign/images/rightOpenningCurtain.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
   right:-50%;
   width:50%;
   height:100vh;
+  margin:0;
+  padding:0;
   float:left;
-  position:relative;
+  position:absolute;
   z-index:2;
-  transition:all 5s ease-out;
+  transition:all 2s ease;
 }
 .curtain__prize {
+  position:absolute;
   z-index:1;
   left:0;
   top:0;
@@ -146,24 +168,36 @@ const roomdataStore = "roomdataStore"
   text-align:center;
 }
 .curtain__prize:before {
-   content:'';
-   display:inline-block;
-   width:0;
-   height:100%;
-   vertical-align:middle;
+  content:'';
+  display:absolute;
+  width:0;
+  height:100%;
+  vertical-align:middle;
 }
-[type="checkbox"] {
-   position:absolute;
-   cursor:pointer;
-   width:100%;
-   height:100%;
-   z-index:100;
-   opacity:0;
+.blackGround {
+  background-color: black;
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  opacity: 0.9;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+  transition:all 2s ease;
 }
-[type="checkbox"]:checked ~ .curtain__panel--left {
-   transform:translateX(-100%)
-}
-[type="checkbox"]:checked ~ .curtain__panel--right {
-   transform:translateX(100%)
+.blackGroundOut {
+  background-color: black;
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  opacity: 0;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+  transition:all 2s ease;
 }
 </style>
