@@ -39,6 +39,7 @@ export default {
 	},
 	methods: {
     ...mapActions(ingameStore, ["setIfWin", "setMissionCnt"]),
+
     async startMotion() {
         // load the model and metadata
         // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
@@ -95,7 +96,7 @@ export default {
                 }
                 // 시작했으면 종료판별, 미션 성공조건 확인되면 성공태그 더해줌 
                 else {
-                    if (nowTime - this.start >=3000) {
+                    if (nowTime - this.start >= 3000 && this.missionCnt < 4) {
                         var missionTag = document.querySelector('#missionCnt')
                         var missionClear = document.createElement("div")
                         missionClear.innerText = '성공~'
