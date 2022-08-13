@@ -27,9 +27,12 @@
               <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
                 <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
               </button>
-              <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+              <!-- <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                 트랜지션 테스트
-              </button>
+              </button> -->
+              <a href="/game/end">
+                게임결과 테스트
+              </a>
               <button v-on:click="voteResult()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                 투표결과 테스트
               </button>
@@ -93,7 +96,7 @@
             <hr class="">
 
             <!-- 들어가기버튼 -->
-            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px;">
+            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px; cursor: pointer;">
               <i class="fa fa-pencil"></i>들어가기
             </p>
         </div>
@@ -249,10 +252,14 @@ export default {
     openEnterRoom(room) {
       // 이쪽 랜더링 잘 안될수도 있을듯
       // 안되면 watch 달아보기
+
+      console.log('방 들어갈때 방 정보임')
       console.log(room.no)
+      console.log(this.userInfo)
       const info = { roomNo: room.no, id: { id: this.userInfo.id } }
       this.getMemberList(info)
       this.enterRoomData = room
+      console.log(this.enterRoomData)
       this.enterModalVisible = true
       // this.memberList = room.memberList
       // console.log(this.memberList)
@@ -274,6 +281,9 @@ export default {
     },
 
     tryEnterRoom(roomInfo) {
+      console.log('방정보임')
+      
+      console.log(roomInfo)
       roomInfo.info = { id: this.userInfo.id, no: roomInfo.no, password: this.password, }
       this.enterRoom(roomInfo)
     }
@@ -300,8 +310,8 @@ export default {
       }
     }
     // store에 친구목록 세팅
-    // console.log(this.userInfo)
-    // console.log('왜 출력안해줌?')
+    console.log(this.userInfo)
+    console.log('왜 출력안해줌?')
   },
 
   mounted() {

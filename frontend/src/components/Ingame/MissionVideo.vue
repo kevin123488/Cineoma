@@ -11,6 +11,8 @@
 
 // import * as tf from '@tensorflow/tfjs';
 import * as tmPose from '@teachablemachine/pose';
+import { mapGetters, mapActions } from "vuex";
+const ingameStore = "ingameStore";
 
 export default {
 	name: 'OvVideo',
@@ -29,10 +31,14 @@ export default {
 			end : '',
 		};
 	},
+    computed: {
+        ...mapGetters(ingameStore, ["ifWin", "missionCnt"]),
+    },
 	props: {
 		streamManager: Object,
 	},
 	methods: {
+    ...mapActions(ingameStore, ["setIfWin", "setMissionCnt"]),
     async startMotion() {
         // load the model and metadata
         // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
@@ -66,14 +72,9 @@ export default {
         // Prediction #1: run input through posenet
         // estimatePose can take in an image, video or canvas html element
         // console.log(this.webcam)
-        console.log(this.model)
-        console.log(typeof(this.model))
-        console.log(Object.keys(this.model))
-        console.log('모델')
         
         const { pose, posenetOutput } = await this.model.estimatePose(this.webcam.canvas);
         // Prediction 2: run input through teachable machine classification model
-        console.log('통과')
         // console.log(pose)
         // console.log(posenetOutput)
 
@@ -85,7 +86,7 @@ export default {
         var nowTime = new Date()
         // console.log(nowTime - end)
         // 1.00이 되고, 마지막 시간이랑 3초 텀이 있어야 판별
-        if ((nowTime - this.end) >= 6000) {
+        if ((nowTime - this.end) >= 6000 && !this.ifWin) {
             // 동작 인식되면
             if (prediction[0].probability.toFixed(2) === '1.00') {
                 // 아직 미션시작 안했으면 시작시간 넣어주고 tryingMission true로
@@ -101,6 +102,12 @@ export default {
                         missionTag.appendChild(missionClear);
                         this.start = 0
                         this.end = new Date()
+                        this.setMissionCnt(this.missionCnt + 1)
+                        if (this.missionCnt === 4) {
+                            missionClear.innerText = '미션클리어!'
+                            missionTag.appendChild(missionClear);
+                            this.setIfWin(true)
+                        }
                     }
                 }
             }
