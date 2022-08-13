@@ -69,6 +69,7 @@ const lobbyStore = {
 
   actions: {
     async getRoomList({ commit }) {
+      console.log("방 정보 확인")
       await roomList(
         (response) => {
           console.log('방정보 불러오기')

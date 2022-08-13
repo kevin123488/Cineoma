@@ -36,8 +36,8 @@ export default {
   data() {
     return {
       progress: {
-        isVoteDayResult: true,
-        isNightResult: false,
+        isVoteDayResult: false,
+        isNightResult: true,
       },
       deadColor: "", // 투표 결과로 죽은 사람이 있다면? 그 결과로 오는 id값을 gameInfos의 값들과 비교한 후 해당 유저의 색 정보를 이 값에 넣어두도록 하자.
       // 없으면? 얘 ""로 되어있을 것, ""일 경우 보여줄 부분도 고려하자.
@@ -45,14 +45,24 @@ export default {
       whoIsGone: "임시닉네임", // 투표 결과 혹은 밤 중 죽은 사람의 닉네임을 여기 넣자
       msgCnt: 0, // 투표 결과 타이핑 효과에 필요
       showingMsg: "", // 투표 결과로 보여줄 메시지
-      stopCnt: 0, // 투표 결과 타이핑 효과의 setInterval을 멈추기 위한 값
+      stopCnt: 0, // 낮 투표 결과 타이핑 효과의 setInterval을 멈추기 위한 값
+      stopCnt2: 0, // 밤 투표 결과 타이핑 효과의 setInterval을 멈추기 위한 값
     }
   },
   created() {
     this.deadColor = 'red';
-    this.stopCnt = setInterval(this.typeEffect, 150); // 인게임에 이식할 땐 투표 상황에서 투표 결과 상황으로 넘어가지는 순간에 실행하면 됨
+    this.stopCnt = setInterval(this.typeEffect, 150); // 인게임에 이식할 땐 낮 투표 상황에서 투표 결과 상황으로 넘어가지는 순간에 실행하면 됨
+    this.stopCnt2 = setInterval(this.typeEffect2, 150); // 인게임에 이식할 땐 밤 투표 상황에서 투표 결과 상황으로 넘어가지는 순간에 실행하면 됨
   },
   methods: {
+    typeEffect2() {
+      this.msgCnt += 1;
+      this.showingMsg = `밤 사이에 ${ this.whoIsGone } 님이 사망하였습니다,,,`.slice(0, this.msgCnt);
+      if (this.msgCnt === 50) {
+        clearInterval(this.stopCnt2);
+        this.stopCnt2 = 0;
+      }
+    },
     typeEffect() {
       this.msgCnt += 1;
       this.showingMsg = `투표 결과 ${ this.whoIsGone } 님이 퇴출되었습니다!`.slice(0, this.msgCnt);
@@ -71,6 +81,7 @@ export default {
       this.progress.isVoteDayResult = !this.progress.isVoteDayResult;
       this.progress.isNightResult = !this.progress.isNightResult;
       this.isGone = false;
+      this.msgCnt = 0;
     },
     redToBlue() {
       this.deadColor = 'blue';

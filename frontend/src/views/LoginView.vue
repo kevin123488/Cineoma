@@ -76,7 +76,7 @@ export default {
         };
     },
     computed: {
-      ...mapState(memberStore, ["isLogin", "isLoginError"]),
+      ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
     },
     methods: {
       ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
@@ -85,6 +85,7 @@ export default {
         let token = sessionStorage.getItem("access-token");
         if (this.isLogin) {
           await this.getUserInfo(token);
+          console.log(this.userInfo);
           console.log('토큰확인')
           console.log(token)
           this.$router.push({ name: "lobby"});
