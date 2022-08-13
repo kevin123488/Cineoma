@@ -315,7 +315,7 @@ export default {
     }
     // store에 친구목록 세팅
     console.log(this.userInfo)
-    console.log('왜 출력안해줌?')
+    // console.log('왜 출력안해줌?')
   },
 
   mounted() {

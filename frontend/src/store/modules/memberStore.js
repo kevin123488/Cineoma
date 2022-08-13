@@ -34,6 +34,9 @@ const memberStore = {
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
       state.userInfo = userInfo;
+      console.log("======================");
+      console.log(userInfo);
+      console.log(state.userInfo);
     },
     SET_IS_SIGNUP_ERROR: (state, isSignupError) => {
       state.isSignupError = isSignupError;
@@ -63,12 +66,13 @@ const memberStore = {
         () => {},
       );
     },
-    getUserInfo({ commit }, token) {
+    async getUserInfo({ commit }, token) {
       let decode_token = jwt_decode(token);
-      findById(
+      await findById(
         decode_token.id,
         (response) => {
           if (response.data.message === "success") {
+            console.log(response.data.userInfo);
             commit("SET_USER_INFO", response.data.userInfo);
           } else {
             console.log("유저 정보 없음")
