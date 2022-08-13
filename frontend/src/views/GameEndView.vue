@@ -14,7 +14,7 @@
 <!-- <input type="checkbox">
   <div class="curtain__leftPanel curtain__panel--left"></div>
   <div class="curtain__rightPanel curtain__panel--right"></div> -->
-    <div :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
+    <div v-if="showblackGround" :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
 
     <div :class="{ curtainLeftPanel : !curtainOut , curtainLeftPanelOpen : curtainOut}"></div>
     <div :class="{ curtainRightPanel : !curtainOut , curtainRightPanelOpen : curtainOut}"></div>
@@ -22,9 +22,26 @@
     <div class="curtain__prize">
       <div class="gameEndBackground">
         <div class="mainCurtain">
-          <h1 style="padding-top: 200px;, margin-top: 0px;">{{ gameResult.winJob }} 승리!</h1>
-          <button @click="returnWaitRoom">대기방으로</button>
-        </div>  
+
+
+          <h1 style="padding-top: 200px;, margin-top: 0px; color: white;">시민 승리!</h1>
+
+          <div style="height: 250px;">
+            <br>
+            <div v-show="!showblackGround" @click="returnWaitRoom" class="w3-container my-3 w3-white" style="width:200px; margin: auto; border-radius: 10px; cursor: pointer;">
+              <h3>대기방으로</h3>
+            </div>
+          </div>
+
+          <div style="height: 250px;">
+            <div class="d-flex justify-content-center" style="margin: auto;">
+              <div v-for="(color, idx) in winColor" :key="idx">
+                <img class="winCharacter" :src="'/../../homedesign/images/mafia_' + color + '.png'" alt="">
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -50,6 +67,8 @@ const memberStore = "memberStore"
         job: 'mafia',
         curtainOut: false,
         isDark: true,
+        showblackGround: true,
+        winColor: ['red', 'blue', 'black']
       }
     },
     computed: {
@@ -75,6 +94,7 @@ const memberStore = "memberStore"
     mounted() {
       setTimeout(() =>{ this.isDark = false }, 1000)
       setTimeout(() =>{ this.curtainOut = true }, 2000)
+      setTimeout(() =>{ this.showblackGround = false }, 4500)
     }
   }
 
@@ -85,10 +105,16 @@ const memberStore = "memberStore"
 div {
   margin: 0;
 }
+.winCharacter {
+  height: 200px;
+  width: 200px;
+  background-size: 100% 100%;
+  animation: bounce 1s ease infinite;
+}
 .gameEndBackground {
-  background-image: url(../../public/homedesign/images/wait_mafia.gif);
+  background-image: url(../../public/homedesign/images/game_end.jpg);
   height: 100vh;
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   /* height: 773.3px; */
 }

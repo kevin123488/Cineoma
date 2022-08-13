@@ -171,7 +171,7 @@ button {
 }
 button.learn-more {
   font-weight: 600;
-  color: rgb(188, 0, 0);
+  color: rgb(32, 32, 32);
   text-transform: uppercase;
   padding: 1.25em 2em;
   /* background: #fff0f0; */
