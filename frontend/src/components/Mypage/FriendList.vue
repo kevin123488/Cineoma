@@ -46,8 +46,8 @@ const mypageStore = "mypageStore";
 <style>
 .friendList {
   overflow: auto;
-  height: 450px;
-  width: 40%;
+  height: 60vh;
+  width: 40vh;
   border-radius: 20px;
   /* border: 5px solid white; */
   padding: 10px 10px 10px 10px;

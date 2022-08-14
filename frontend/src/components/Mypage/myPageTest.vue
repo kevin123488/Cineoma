@@ -162,6 +162,17 @@ export default {
   background-image: url(../../../public/homedesign/images/goFriendPage.png);
   background-size: cover;
   background-repeat: no-repeat;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: wingwing;
+}
+@keyframes wingwing {
+  from {
+    left: 78%;
+  }
+  to {
+    left: 82%;
+  }
 }
 .goMyprofilePage {
   cursor: pointer;
@@ -174,6 +185,17 @@ export default {
   background-image: url(../../../public/homedesign/images/goMypage.png);
   background-size: cover;
   background-repeat: no-repeat;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: wangwang;
+}
+@keyframes wangwang {
+  from {
+    left: 22%;
+  }
+  to {
+    left: 18%;
+  }
 }
 .myFriendTestLayout {
   position: absolute;
@@ -190,7 +212,7 @@ export default {
 .profilePageBackground {
   height: 100vh;
   width: 100vw;
-  background-image: url(../../../public/homedesign/images/mypage_mafia.gif);
+  background-image: url(../../../public/homedesign/images/day_mafia.gif);
   background-size: cover;
   background-repeat: no-repeat;
 }

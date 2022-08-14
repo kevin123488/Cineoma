@@ -128,7 +128,7 @@ const memberStore = "memberStore";
   border: 5px solid white;
   border-radius: 20px;
   background-color: black;
-  height: 370px;
+  height: 50vh;
   overflow: auto;
   color: white;
   text-align: center;
@@ -149,10 +149,11 @@ const memberStore = "memberStore";
   margin: 10px 10px 10px 10px;
   opacity: 0.7;
   border: 2px solid white;
+  height: 6vh;
 }
 .friendSearchItemPic {
-  width: 100px;
-  height: 50px;
+  width: 3.3vw;
+  height: 5.5vh;
   border-radius: 20px 0px 0px 20px;
   margin-right: 5px;
 }
