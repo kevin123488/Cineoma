@@ -11,8 +11,14 @@ import VoteView from '../views/VoteView.vue'
 import GameEnd from '../views/GameEndView.vue'
 import TestVote from '../components/Ingame/voteSkip.vue'
 import VoteResult from '../components/Ingame/voteResult.vue'
+import myPageTest from '../components/Mypage/myPageTest.vue'
 
 const routes = [
+  {
+    path: '/myPageTest',
+    name: 'myPageTest',
+    component: myPageTest
+  },
   {
     path: '/voteResult',
     name: 'VoteResult',

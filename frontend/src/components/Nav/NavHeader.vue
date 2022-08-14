@@ -141,7 +141,7 @@ import { mapState, mapMutations } from 'vuex';
         this.$router.push("/") // 로그아웃 하면 로그인 창으로 보내주자
       },
       goMyPage() {
-        this.num = this.userInfo.id;
+        this.num = this.userInfo.id; // 나중에 얘 주석 풀자
         this.$router.push({ name: "profile", params: { id_pk: this.num } }) ;
       },
     },
