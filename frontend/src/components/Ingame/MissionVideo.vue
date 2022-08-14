@@ -1,6 +1,6 @@
 <template>
 	<!-- <video autoplay class="video-size" /> -->
-	<div>당신은 미션을 수행해야됩니다 (class1 3초 이상 유지, 6초 텀)</div>
+	<div>당신은 미션을 수행해야됩니다 (class{{ missionClass+1 }} 3초 이상 유지, 6초 텀)</div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
 	<div><canvas id="canvas"></canvas></div>
 	<div id="label-container"></div>
@@ -53,7 +53,7 @@ export default {
         this.maxPredictions = this.model.getTotalClasses();
         // Convenience function to setup a webcam
         const size = 200;
-        const flip = false; // whether to flip the webcam
+        const flip = true; // whether to flip the webcam
         this.webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
         await this.webcam.setup(); // request access to the webcam
         await this.webcam.play();
@@ -65,12 +65,12 @@ export default {
         this.labelContainer = document.getElementById("label-container");
         
         // 미션 랜덤배정 후
-        this.labelContainer.appendChild(document.createElement("div"));
+        // this.labelContainer.appendChild(document.createElement("div"));
 
         // 미션 랜덤배정 전
-        // for (let i = 0; i < this.maxPredictions; i++) { // and class labels
-        //     this.labelContainer.appendChild(document.createElement("div"));
-        // }
+        for (let i = 0; i < 3; i++) { // and class labels
+            this.labelContainer.appendChild(document.createElement("div"));
+        }
     },
 
 	async loop() {
@@ -114,6 +114,7 @@ export default {
                         this.start = 0
                         this.end = new Date()
                         this.setMissionCnt(this.missionCnt + 1)
+                        console.log(this.missionCnt)
                         if (this.missionCnt === 4) {
                             missionClear.innerText = '미션클리어!'
                             missionTag.appendChild(missionClear);
@@ -129,15 +130,15 @@ export default {
         }
 
         // 미션 랜덤배정 후=
-        const classPrediction = prediction[this.missionClass].className + ": " + prediction[this.missionClass].probability.toFixed(2);
-        this.labelContainer.childNodes.innerHTML = classPrediction;
+        // const classPrediction = prediction[this.missionClass].className + ": " + prediction[this.missionClass].probability.toFixed(2);
+        // this.labelContainer.childNodes.innerHTML = classPrediction;
 
         // 미션 랜덤배정 전
-        // for (let i = 0; i < this.maxPredictions; i++) {
-        //     const classPrediction =
-        //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-        //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
-        // }
+        for (let i = 0; i < 3; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            this.labelContainer.childNodes[i].innerHTML = classPrediction;
+        }
 
         // finally draw the poses
         this.drawPose(pose);

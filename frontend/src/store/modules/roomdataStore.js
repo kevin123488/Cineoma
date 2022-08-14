@@ -67,13 +67,12 @@ const roomdataStore = {
           console.log('============================')
           console.log('방만들기 성공')
           console.log(response.data)
-          commit('SET_ROOMTITLE', response.roomTitle)
+          commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
-          commit('SET_ROOMNO', response.no)
-          console.log(response.roomTitle)
-          console.log(response.no)
-          console.log(response)
-          router.push({ name: 'wait', params: { roomnumber:  response.no } })
+          commit('SET_ROOMNO', response.data.no)
+          console.log(response.data.roomTitle)
+          console.log(response.data.no)
+          router.push({ name: 'wait', params: { roomnumber:  response.data.no } })
         },
         () => {},
       );
