@@ -266,6 +266,11 @@ export default {
     ...mapGetters(ingameStore, ["job"]),
   },
   created() {
+    // 미션정보 세팅
+    this.setIfWin(false)
+    this.setMissionCnt(0)
+    this.setMissionClass(this.randomNum(0, 2))
+
     this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
     this.myUserId = this.userInfo.id;
@@ -294,7 +299,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(ingameStore, ["setGameResult"]),
+    ...mapActions(ingameStore, [
+      "setGameResult", 
+      "setIsDay", 
+      "setIfWin", 
+      "setMissionCnt", 
+      "setMissionClass",
+      ]),
     ...mapActions(roomdataStore, [
       "deleteRoom",
       "enterRoom",
@@ -302,6 +313,12 @@ export default {
       "saveIsCaptain",
       "saveIsConnected",
     ]),
+
+    // 랜덤미션번호
+    randomNum(min, max){
+      var randNum = Math.floor(Math.random()*(max-min+1)) + min;
+      return randNum;
+    },
 
     // 직업정보열람용
     switchJobRoll() {
@@ -506,6 +523,7 @@ export default {
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
+      this.isDay(true)
 
       if (this.myInfo.isAlive) {
         this.avOn;
@@ -519,6 +537,7 @@ export default {
 
     dayVoteTime() {
       this.progress.isDay = false;
+      this.isDay(false)
       this.progress.isVoteDay = true;
       this.count = 10;
     },
@@ -638,6 +657,7 @@ export default {
 
                 if (res.body.ifSkip === true) {
                   this.progress.isDay = false;
+                  this.isDay(false)
                   this.progress.isVoteDay = true;
                   clearTimeout(this.clearId);
                 }

@@ -64,13 +64,16 @@ const roomdataStore = {
       await roomMake(
         roomInfo,
         (response) => {
+          console.log('============================')
           console.log('방만들기 성공')
           console.log(response.data)
-          commit('SET_ROOMTITLE', response.data.roomTitle)
+          commit('SET_ROOMTITLE', response.roomTitle)
           commit('SET_ISCAPTAIN', true)
-          commit('SET_ROOMNO', response.data.no)
+          commit('SET_ROOMNO', response.no)
+          console.log(response.roomTitle)
+          console.log(response.no)
           console.log(response)
-          router.push({ name: 'wait', params: { roomnumber:  response.data.no } })
+          router.push({ name: 'wait', params: { roomnumber:  response.no } })
         },
         () => {},
       );
@@ -92,7 +95,8 @@ const roomdataStore = {
       await roomEnter(
         roomInfo,
         (response) => {
-          commit('SET_ROOMTITLE', response.data.roomTitle)
+          console.log('========응답오나=======')
+          commit('SET_ROOMTITLE', response.roomTitle)
           commit('SET_ROOMNO', roomInfo.no)
           commit('SET_PASSWORD', roomInfo.password)
           router.push({ name: 'wait', params: { roomnumber:  roomInfo.no } })
