@@ -397,7 +397,11 @@ ex)topic/sendChat/107
 # 2. 인게임
 
 **5인 마1 의1 중1 시2**
-
+red
+blue
+white
+black
+yellow
 # 게임 시작
 
 **대기방 소켓 하나에서 계속 ㄱ**
@@ -442,7 +446,7 @@ ex)/sendChat/107
       progress : start,
       absoluteTime: hh:mm:ss, (24 기준)
       job : string, // 시민 -> citizen, 의사 -> doctor, 마피아 -> mafia, 미션자 -> mission
-      isHost:  bool
+      ifHost:  bool
       joinUsers: [
         {
         id: string,
