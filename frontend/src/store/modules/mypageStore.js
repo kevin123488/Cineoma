@@ -102,6 +102,7 @@ const mypageStore = {
           if (response.data.length != 0) {
             console.log("검색 들어왔냐?")
             commit("SET_FRIENDS_SEARCH", response.data);
+            console.log(response.data);
             commit("SET_SEARCH_ANSWER", true);
           } else {
             console.log("검색결과 없음");

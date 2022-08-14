@@ -1,6 +1,6 @@
   <template>
   <div class="friendList">
-    <div><h3>친구목록</h3></div>
+    <div></div>
     <div v-for="(friend, index) in friends" :key="index">
       <friend-item :friendItem = friend></friend-item>
     </div>

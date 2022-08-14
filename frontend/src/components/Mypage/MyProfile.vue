@@ -4,7 +4,6 @@
     <div class="myProfileLayout">
       <div class="profileDiv">
         <div class="profilePic">
-          <!-- <p style="text-align: center;">{{ user.imagePath }}</p> -->
           <img style="width: 290px; height: 290px; border-radius: 10px;" :src="`/homedesign/images/` + userInfo.imagePath">
         </div>
         <div class="introduce">
@@ -77,7 +76,7 @@
       }
     },
     created() {
-      this.user = this.userInfo; // 얘 나중에 주석 풀어야 함. 얘 있으면 프론트만 켰을
+      this.user = this.userInfo; // 얘 나중에 주석 풀어야 함
       console.log(this.userInfo);
       console.log(this.isLogin);
       // console.log(this.record);

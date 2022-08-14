@@ -1,5 +1,5 @@
   <template>
-  <div class="friendTitle"><h1>친구 페이지</h1></div>
+  <div class="friendTitle"></div>
   <div class="friendLayout mt-5">
 
     <!-- <hr>
@@ -82,9 +82,6 @@
     padding: 30px 10px 30px 10px;
     /* background-image: url(../../../public/homedesign/images/mypage_mafia_record3.gif); */
     background-size: cover;
-    border-radius: 30px;
-    border: 1px solid white;
-    box-shadow: 5px 5px 5px 5px rgb(81, 124, 157);
   }
   .friendTitle {
     background-color: rgba(37, 83, 143, 0.5);

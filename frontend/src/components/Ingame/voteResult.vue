@@ -36,13 +36,13 @@ export default {
   data() {
     return {
       progress: {
-        isVoteDayResult: false,
-        isNightResult: true,
+        isVoteDayResult: true,
+        isNightResult: false,
       },
       deadColor: "", // 투표 결과로 죽은 사람이 있다면? 그 결과로 오는 id값을 gameInfos의 값들과 비교한 후 해당 유저의 색 정보를 이 값에 넣어두도록 하자.
-      // 없으면? 얘 ""로 되어있을 것, ""일 경우 보여줄 부분도 고려하자.
+      // 없으면? 얘 ""로 되어있을 것, ""일 경우 보여줄 부분도 고려하자. 장면 바뀔 때 초기화 하기
       isGone: false, // 투표 결과 화면에서 다음 날로 넘어갈 때 false로 맞춰주는거 잊지 말자
-      whoIsGone: "임시닉네임", // 투표 결과 혹은 밤 중 죽은 사람의 닉네임을 여기 넣자
+      whoIsGone: "임시닉네임", // 투표 결과 혹은 밤 중 죽은 사람의 닉네임을 여기 넣자. 장면 바뀔 때 초기화 하기
       msgCnt: 0, // 투표 결과 타이핑 효과에 필요
       showingMsg: "", // 투표 결과로 보여줄 메시지
       stopCnt: 0, // 낮 투표 결과 타이핑 효과의 setInterval을 멈추기 위한 값
@@ -52,7 +52,7 @@ export default {
   created() {
     this.deadColor = 'red';
     this.stopCnt = setInterval(this.typeEffect, 150); // 인게임에 이식할 땐 낮 투표 상황에서 투표 결과 상황으로 넘어가지는 순간에 실행하면 됨
-    this.stopCnt2 = setInterval(this.typeEffect2, 150); // 인게임에 이식할 땐 밤 투표 상황에서 투표 결과 상황으로 넘어가지는 순간에 실행하면 됨
+    // this.stopCnt2 = setInterval(this.typeEffect2, 150); // 인게임에 이식할 땐 밤 투표 상황에서 투표 결과 상황으로 넘어가지는 순간에 실행하면 됨
   },
   methods: {
     typeEffect2() {
@@ -135,10 +135,10 @@ export default {
 .redChar {
   cursor: pointer;
   position: absolute;
-  left: 35%;
-  top: 55%;
-  height: 30vh;
-  width: 30vh;
+  left: 32%;
+  top: 52%;
+  height: 35vh;
+  width: 35vh;
   background-size: cover;
   background-image: url(../../../public/homedesign/images/mafia_red.png);
   transition: all ease 3s;
@@ -146,10 +146,10 @@ export default {
 .blueChar {
   cursor: pointer;
   position: absolute;
-  left: 35%;
-  top: 55%;
-  height: 30vh;
-  width: 30vh;
+  left: 32%;
+  top: 52%;
+  height: 35vh;
+  width: 35vh;
   background-size: cover;
   background-image: url(../../../public/homedesign/images/mafia_blue.png);
   transition: all ease 3s;
@@ -157,10 +157,10 @@ export default {
 .whiteChar {
   cursor: pointer;
   position: absolute;
-  left: 35%;
-  top: 55%;
-  height: 30vh;
-  width: 30vh;
+  left: 32%;
+  top: 52%;
+  height: 35vh;
+  width: 35vh;
   background-size: cover;
   background-image: url(../../../public/homedesign/images/mafia_white.png);
   transition: all ease 3s;
@@ -168,10 +168,10 @@ export default {
 .blackChar {
   cursor: pointer;
   position: absolute;
-  left: 35%;
-  top: 55%;
-  height: 30vh;
-  width: 30vh;
+  left: 32%;
+  top: 52%;
+  height: 35vh;
+  width: 35vh;
   background-size: cover;
   background-image: url(../../../public/homedesign/images/mafia_black.png);
   transition: all ease 3s;
@@ -179,10 +179,10 @@ export default {
 .yellowChar {
   cursor: pointer;
   position: absolute;
-  left: 35%;
-  top: 55%;
-  height: 30vh;
-  width: 30vh;
+  left: 32%;
+  top: 52%;
+  height: 35vh;
+  width: 35vh;
   background-size: cover;
   background-image: url(../../../public/homedesign/images/mafia_yellow.png);
   transition: all ease 3s;

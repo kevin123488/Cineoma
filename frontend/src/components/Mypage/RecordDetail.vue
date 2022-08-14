@@ -19,7 +19,7 @@
         </ul>
       </div>
     </div> -->
-    <div class="recordData">
+    <!-- <div class="recordData">
       <div>
         <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0;">
         <div class="recordCitizen">
@@ -47,7 +47,14 @@
         </div>
         <hr style="width: 400px; margin-left: auto; margin-right: auto; opacity: 0;">
       </div>
-    </div>
+    </div> -->
+    <ul class="winRateTest">
+      <li><h2>총 승률: {{ winRate }}%</h2></li>
+      <li><h3>마피아 승률: {{ mafiaWinRate }}%</h3></li>
+      <li><h3>시민 승률: {{ citizenWinRate }}%</h3></li>
+      <li><h3>의사 승률: {{ doctorWinRate }}%</h3></li>
+      <li><h3>교주 승률: {{ policeWinRate }}%</h3></li>
+    </ul>
 </template>
 
 <script>
