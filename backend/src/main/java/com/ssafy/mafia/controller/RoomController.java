@@ -60,7 +60,7 @@ public class RoomController {
 	@PostMapping(value ="/room")
 	@ApiOperation(value = "방 생성", notes ="넘겨 받은 값으로 방을 생성한다.")
 	@ApiImplicitParam(name = "room", value = "방 객체")
-	public ResponseEntity<String> createRoom(@RequestBody Room room) throws Exception{
+	public ResponseEntity<Room> createRoom(@RequestBody Room room) throws Exception{
 				
 				// 생성한 방번호로 자신의 방번호를 업데이트
 				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ" );
@@ -73,7 +73,7 @@ public class RoomController {
 				
 //				userService.updateRoomNo(user, roomdto.getNo());
 				
-				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+				return new ResponseEntity<Room>(room, HttpStatus.OK);
 		
 	}
 	
