@@ -52,7 +52,7 @@
 
 <script>
 
-import { mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 const ingameStore = "ingameStore"
 const roomdataStore = "roomdataStore"
 const memberStore = "memberStore"
@@ -82,6 +82,8 @@ const memberStore = "memberStore"
       ]),        
     },   
     methods: {
+      ...mapActions(roomdataStore , ["enterRoom",]),
+      
       returnWaitRoom() {
         const roomInfo =  { no: this.roomNo, info: {id: this.userInfo.id, no: this.roomNo, password: this.password, }}
         this.enterRoom(roomInfo)

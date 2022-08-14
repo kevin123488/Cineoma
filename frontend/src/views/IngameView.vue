@@ -523,7 +523,7 @@ export default {
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
-      this.isDay(true)
+      this.setIsDay(true)
 
       if (this.myInfo.isAlive) {
         this.avOn;
@@ -537,7 +537,7 @@ export default {
 
     dayVoteTime() {
       this.progress.isDay = false;
-      this.isDay(false)
+      this.setIsDay(true)
       this.progress.isVoteDay = true;
       this.count = 10;
     },
@@ -657,7 +657,7 @@ export default {
 
                 if (res.body.ifSkip === true) {
                   this.progress.isDay = false;
-                  this.isDay(false)
+                  this.setIsDay(true)
                   this.progress.isVoteDay = true;
                   clearTimeout(this.clearId);
                 }
