@@ -1,10 +1,13 @@
 <template>
 	<!-- <video autoplay class="video-size" /> -->
-	<div>{{ motionExplanation[missionClass] }}</div>
+    <div v-if="ifWin" class="clearSign"></div>
+	<div style="font-size: 22px; font-family: 'NeoDunggeunmo Code';">{{ motionExplanation[missionClass] }}</div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
 	<div><canvas id="canvas"></canvas></div>
 	<div id="label-container"></div>
-	<div id="missionCnt">미션완료횟수</div>
+	<div id="missionCnt" class="d-flex missionInfo" >신자카운트: </div>
+
+	<div id="clearMessage" style="font-size: 30px; font-family: 'NeoDunggeunmo Code';"></div>
 </template>
 
 <script type="text/javascript">
@@ -70,7 +73,9 @@ export default {
 
         // 미션 랜덤배정 전
         for (let i = 0; i < 3; i++) { // and class labels
-            this.labelContainer.appendChild(document.createElement("div"));
+            const percent = document.createElement("div");
+            percent.classList.add("missionInfo");
+            this.labelContainer.appendChild(percent);
         }
     },
 
@@ -98,50 +103,69 @@ export default {
         var nowTime = new Date()
         // console.log(nowTime - end)
         // 1.00이 되고, 마지막 시간이랑 3초 텀이 있어야 판별
-        if ((nowTime - this.end) >= 6000 && !this.ifWin && this.isDay) {
-            // 동작 인식되면
-            if (prediction[this.missionClass].probability.toFixed(2) === '1.00') {
-                // 아직 미션시작 안했으면 시작시간 넣어주고 tryingMission true로
-                if (this.start === 0) {
-                    this.start = new Date()
-                }
-                // 시작했으면 종료판별, 미션 성공조건 확인되면 성공태그 더해줌 
-                else {
-                    if (nowTime - this.start >= 3000 && this.missionCnt < 4) {
-                        var missionTag = document.querySelector('#missionCnt')
-                        var missionClear = document.createElement("div")
+        if (!this.ifWin && this.isDay) {
+            // 쿨타임 끝났으면
+            if ((nowTime - this.end) >= 6000) {
+                // 동작 인식되면
+                if (prediction[this.missionClass].probability.toFixed(2) === '1.00') {
+                    // 아직 미션시작 안했으면 시작시간 넣어주고 tryingMission true로
+                    if (this.start === 0) {
+                        this.start = new Date()
+                    }
+                    // 시작했으면 종료판별, 미션 성공조건 확인되면 성공태그 더해줌 
+                    else {
+                        if (nowTime - this.start >= 3000 && this.missionCnt < 4) {
+                            var missionTag = document.querySelector('#missionCnt')
+                            var cntPlus = document.createElement("div")
 
-                        missionClear.classList.add("believer");
-                        
-                        missionTag.appendChild(missionClear);
-                        this.start = 0
-                        this.end = new Date()
-                        this.setMissionCnt(this.missionCnt + 1)
-                        console.log(this.missionCnt)
-                        if (this.missionCnt === 4) {
-                            missionClear.innerText = '미션클리어! 낮 투표에서 살아남으면 당신의 승리입니다!'
-                            missionTag.appendChild(missionClear);
-                            this.setIfWin(true)
+                            cntPlus.classList.add("believer");
+                            
+                            missionTag.appendChild(cntPlus);
+                            this.start = 0
+                            this.end = new Date()
+                            this.setMissionCnt(this.missionCnt + 1)
+                            console.log(this.missionCnt)
+                            if (this.missionCnt === 4) {
+                                var clearMessage = document.querySelector('#clearMessage')
+                                var missionClear = document.createElement("div")
+                                missionClear.classList.add("missionInfo");
+                                missionClear.innerText = '낮 투표에서 살아남으면 승리!'
+                                clearMessage.appendChild(missionClear);
+                                this.setIfWin(true)
+                            }
                         }
                     }
                 }
+                // 모션 일치안하면 초기화
+                else {
+                    this.start = 0
+                }
+
+                // 미션유지중인 시간 정보
+                if (this.start === 0) {
+                    const duration = '3 초 유지시 클리어';
+                    this.labelContainer.childNodes[1].innerText = duration;
+                } else {
+                    const duration = String(parseInt(4 - (nowTime - this.start)/1000)) + ' 초 유지시 클리어'
+                    this.labelContainer.childNodes[1].innerText = duration;
+                }
+            } else {
+                const duration = String(parseInt(7 - (nowTime - this.end)/1000)) + ' 초 뒤 도전가능'
+                this.labelContainer.childNodes[1].innerText = duration;
             }
-            // 모션 일치안하면 초기화
-            else {
-                this.start = 0
-            }
+
+            // 미션 랜덤배정 후=
+            const coolTime = String(parseInt(prediction[this.missionClass].probability.toFixed(2)*100)) + ' % 일치';
+            this.labelContainer.childNodes[0].innerText = coolTime;
+
+            // 미션 랜덤배정 전
+            // for (let i = 0; i < 3; i++) {
+            //     const classPrediction =
+            //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
+            // }
         }
 
-        // 미션 랜덤배정 후=
-        const classPrediction = String(parseInt(prediction[this.missionClass].probability.toFixed(2)*100)) + ' % 일치';
-        this.labelContainer.childNodes[0].innerHTML = classPrediction;
-
-        // 미션 랜덤배정 전
-        // for (let i = 0; i < 3; i++) {
-        //     const classPrediction =
-        //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-        //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
-        // }
 
         // finally draw the poses
         this.drawPose(pose);
@@ -174,11 +198,32 @@ export default {
     width: 100%;
     height: 200px;
 }
+.missionInfo {
+  font-size: 30px;
+  font-family: 'NeoDunggeunmo Code';
+}
 .believer {
   background-image: url(../../../public/homedesign/images/believer.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
   width: 30px;
   height: 30px;
+  margin-top:7px;
+}
+.clearSign {
+  position: absolute;
+  top: 42%;
+  left: 67%;
+  right: 30%;
+  opacity: 0.9;
+  width: 40vh;
+  height: 40vh;
+  margin: auto;
+  background-image: url(../../../public/homedesign/images/missionClear.png);
+  background-size: 40vh 40vh;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0);
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
 }
 </style>
