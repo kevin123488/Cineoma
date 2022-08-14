@@ -47,18 +47,12 @@ public class RoomController {
 	// 방 전체 리스트
 	@GetMapping(value ="/room")
 	@ApiOperation(value = "방 전체 리스트(로비화면)", notes ="전체 방 리스트를 조회한다.")
-	public ResponseEntity<List<RoomParamDto>> roomList() throws Exception{
-		List<RoomParamDto> RoomList = new ArrayList<RoomParamDto>();
-		List<Room> list = roomService.roomList();
-//		System.out.println(list.get(2).getRoomTitle() + " 111111111111111111111111");
-		int i = 0;
-		for(Room l : list ) {
-			RoomParamDto dto = new RoomParamDto(l.getNo(), l.getSize(), l.getRoomTitle(), 
-					l.getHostId().getId(), l.getPassword(), l.isIfPassword(), l.getMemberCnt());
-			RoomList.add(dto);
-			
-		}
-		return new ResponseEntity<List<RoomParamDto>>(RoomList, HttpStatus.OK);
+	public ResponseEntity<List<Room>> roomList() throws Exception{
+//		List<RoomParamDto> RoomList = new ArrayList<RoomParamDto>();
+//		List<Room> list = roomService.roomList();
+//		System.out.println(list.size() + " 리 스 트 사 이 즈 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		return new ResponseEntity(roomService.roomList(), HttpStatus.OK);
 //				return null;
 		
 	}
@@ -66,16 +60,17 @@ public class RoomController {
 	@PostMapping(value ="/room")
 	@ApiOperation(value = "방 생성", notes ="넘겨 받은 값으로 방을 생성한다.")
 	@ApiImplicitParam(name = "room", value = "방 객체")
-	public ResponseEntity<String> createRoom(@RequestBody RoomParamDto roomdto) throws Exception{
-				System.out.println(roomdto.getHostId() + "HOSTTOSTOSTOSTOSOTSOT");
-				User user = userService.userInfo(roomdto.getHostId());
+	public ResponseEntity<String> createRoom(@RequestBody Room room) throws Exception{
 				
 				// 생성한 방번호로 자신의 방번호를 업데이트
-
-				Room room = new Room(roomdto.getNo(), 5,roomdto.getRoomTitle(),
-						user,roomdto.getPassword(),roomdto.isIfPassword(), 0);
-				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ");
+				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ" );
 				roomService.createRoom(room);
+				System.out.println("방 만들어졌나 ?");
+				System.out.println("룸 번호 확인 !!!!!! " + roomService.findRoomNo(room.getRoomTitle()) + "방장 아이디 확인 !!" + room.getHostId());
+				
+				System.out.println(roomService.findRoomNo(room.getHostId()));
+				userService.updateUserRoomNo(roomService.findRoomNo(room.getHostId()), room.getHostId());
+				
 //				userService.updateRoomNo(user, roomdto.getNo());
 				
 				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
@@ -88,12 +83,14 @@ public class RoomController {
 	@GetMapping(value ="/room/{roomNo}")
 	@ApiOperation(value = "방 정보", notes = "클릭한 방의 정보를 조회(참여유저 등)")
 	@ApiImplicitParam(name = "roomNo", value ="클릭한 방의 번호")
-	public ResponseEntity<List<RoomEnterDto>> roomInfo(@RequestBody RoomEnterDto dto, @PathVariable("roomNo") int roomNo) throws Exception{
-	
+	public ResponseEntity<List<RoomEnterDto>> roomInfo(@PathVariable("roomNo") int roomNo) throws Exception{
+		System.out.println("asdasdasdasdasdasd");
 		List<User> uslist = userService.roomUser(roomNo);
+		System.out.println("asdasdasdasdasdasd");
 		List<RoomEnterDto> enterlist = new ArrayList<RoomEnterDto>();
 		for(User list : uslist) {
 			RoomEnterDto mdto = new RoomEnterDto(list.getId(), list.getNickname(), "", roomNo);
+			System.out.println(mdto.getId() + "방클릭했을때 아이디");
 			enterlist.add(mdto);
 		}
 		
@@ -119,10 +116,14 @@ public class RoomController {
 		//방의 비밀번호
 		String checkPw = roomService.roomInfo(roomNo).getPassword();
 		
-		if(!checkPw.equals(userPw) || 5 <= roomService.countUser(roomNo) || !roomService.checkUser(id))
+		if(!checkPw.equals(userPw) || 5 <= roomService.countUser(roomNo) || !roomService.checkUser(id)) {
+			System.out.println("못들어간다 으하하하");
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);
-		
-		else return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		else {
+			System.out.println("들어가셈~~~~!!@#!@#!@#!@#!@#");
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
 	}
 	
 	//삭제

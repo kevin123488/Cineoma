@@ -37,7 +37,7 @@ public class ProfileServiceImpl implements ProfileService{
 		
 		ProfileUserDto pud = pudInUser(user);
 		
-		if(room.getHostId().getId().equals(id))
+		if(room.getHostId().equals(id))
 			pud.setIfCaptain(true);
 		else
 			pud.setIfCaptain(false);
@@ -46,7 +46,7 @@ public class ProfileServiceImpl implements ProfileService{
 		MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo).getProfileUsers().add(pud);
 		
 	}
-
+	//방나가기
 	@Override
 	public void exitRoom(String id, int roomNo) throws Exception {
 		roomRepository.memberCntminus(roomNo);

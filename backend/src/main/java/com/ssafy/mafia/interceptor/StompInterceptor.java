@@ -13,7 +13,7 @@ import com.ssafy.mafia.socketService.ProfileService;
 
 @Configuration
 public class StompInterceptor {
-
+	// 인터셉터
 	@Autowired
 	RoomRepository roomRepository;
 	@Autowired
@@ -31,7 +31,7 @@ public class StompInterceptor {
 		 Room room= roomRepository.findByNo(roomNo);
 		 
 		 //방장이 나간경우
-		 if(room.getHostId().getId().equals(id))
+		 if(room.getHostId().equals(id))
 		 {
 			 
 		 }

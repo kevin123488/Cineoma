@@ -28,6 +28,7 @@ import com.ssafy.mafia.entity.Record;
 import com.ssafy.mafia.entity.User;
 import com.ssafy.mafia.service.JwtServiceImpl;
 import com.ssafy.mafia.service.RecordService;
+import com.ssafy.mafia.service.RoomService;
 import com.ssafy.mafia.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -43,12 +44,13 @@ public class UserController {
 
 	@Autowired
 	private JwtServiceImpl jwtService;
-
+	@Autowired
+	RoomService roomService;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RecordService recordService;
-
+	//로그인
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(
@@ -113,8 +115,10 @@ public class UserController {
 		int found = userService.idCheck(user.getId());
 		System.out.println(user.getId());
 		if (found == 0) {
-			user.getRoom().setNo(1);
+//			user.getRoom().setNo(1);
 			userService.registerUser(user);
+			userService.updateUserRoomNo(1, user.getId());
+//			user.setRoom(roomService.roomInfo(1));
 			recordService.registerUser(user.getId());
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		} else {
@@ -161,7 +165,9 @@ public class UserController {
 	@GetMapping(value = "/list")
 	public ResponseEntity<List<User>> searchList(@RequestParam("word") String word) throws Exception{
 		System.out.println(word);
-		return new ResponseEntity<List<User>>(userService.SearchList(word), HttpStatus.OK);
+		//여기 고쳐야함 아이디 받아서 자기꺼 안나오게
+		String id = "11";
+		return new ResponseEntity<List<User>>(userService.SearchList(word,id), HttpStatus.OK);
 
 				
 	}	
