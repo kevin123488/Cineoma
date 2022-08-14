@@ -47,7 +47,7 @@
 
       <br>
       <!--  -->
-      <div id="scroll" class="overflow-auto" style="height: 700px;">
+      <div id="scroll" class="overflow-auto" style="height: 535px;">
         <!-- <p class="sticky-top"></p> -->
         <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 py-3" style="">
             <h4 class="mx-4 text-purple" style="font-size: 28px;">Activated Room List</h4>
@@ -125,7 +125,7 @@
       </div>
       <br>
       
-      <div id="scroll" class="overflow-auto my-3" style="height: 565px; margin-left: 50px; margin-right: 50px;">
+      <div id="scroll" class="overflow-auto my-3" style="height: 405px; margin-left: 50px; margin-right: 50px;">
 
         <div id="" class="w3-center sticky-top lobbyFriendTitle">
           <div class="w3-container my-3">
@@ -344,6 +344,7 @@ input::placeholder {
   background-image: url(../../public/homedesign/images/intro_movie.mp4);
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100vh;
 }
 .lobby-undernavbar {
   margin-top: 70px;
