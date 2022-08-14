@@ -63,10 +63,11 @@ const memberStore = "memberStore";
   margin: 10px 10px 10px 10px;
   opacity: 0.7;
   border: 2px solid white;
+  height: 6vh;
 }
 .friendPic {
-  width: 100px;
-  height: 50px;
+  width: 4vw;
+  height: 5.5vh;
   border-radius: 20px 0px 0px 20px;
   margin-right: 5px;
 }
