@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.mafia.common.MafiaPlayStorage;
+import com.ssafy.mafia.common.MafiaStaticData;
 import com.ssafy.mafia.dto.RoomEnterDto;
 import com.ssafy.mafia.entity.Room;
 import com.ssafy.mafia.entity.User;
@@ -64,24 +66,16 @@ public class RoomController {
 	@ApiImplicitParam(name = "room", value = "방 객체")
 	public ResponseEntity<Room> createRoom(@RequestBody Room room) throws Exception{
 				
-				// 생성한 방번호로 자신의 방번호를 업데이트
-//				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ" );
+
 				roomService.createRoom(room);
 				
 				ArrayList<Room> rooms= (ArrayList<Room>) roomRepository.findAll();
-				int maxNum=0;
-				for (Room room2 : rooms) {
-					maxNum = Math.max(room2.getNo(), maxNum);
-				}
-				room = roomRepository.findByNo(maxNum);
-				
 
-				room = roomRepository.findByNo(maxNum);
-//				System.out.println("=======================room,===================================");
-//				System.out.println(maxNum);
-//				System.out.println(room);
-				userService.updateUserRoomNo(maxNum, room.getHostId());
-				
+
+				room = rooms.get(rooms.size()-1);
+
+				userService.updateUserRoomNo(room.getNo(), room.getHostId());
+				MafiaStaticData.MafiaPlayStorageDtoMap.put(room.getNo(), new MafiaPlayStorage());
 				
 				return new ResponseEntity<Room>(room, HttpStatus.OK);
 		

@@ -13,7 +13,7 @@ import com.ssafy.mafia.socketService.ProfileService;
 
 @Configuration
 public class StompInterceptor {
-	// 인터셉터
+
 	@Autowired
 	RoomRepository roomRepository;
 	@Autowired
@@ -23,17 +23,32 @@ public class StompInterceptor {
 	    public void onDisconnectEvent(SessionDisconnectEvent event) throws Exception
 	 {
 		 String sessionId=event.getSessionId();
+		 System.out.println(sessionId);
+		 
 		 String id = MafiaStaticData.socketConnectedUserId.get(sessionId);
 		 int roomNo = MafiaStaticData.socketConnectedUserRoomNo.get(sessionId);
 		 
-		 MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo);
+		 MafiaStaticData.socketConnectedUserId.remove(sessionId);		 
+		 MafiaStaticData.socketConnectedUserRoomNo.remove(sessionId);
 		 
+		 MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo);
+		 System.out.println(mps);
 		 Room room= roomRepository.findByNo(roomNo);
 		 
 		 //방장이 나간경우
 		 if(room.getHostId().equals(id))
 		 {
-			 
+			//게임 중인 경우
+			 if(mps.isIfPlay())
+			 {
+				 
+			 }
+			 //대기방인 경우
+			 else
+			 {
+				 profileService.exitRoom(id, roomNo);
+				 roomRepository.deleteByNo(roomNo);
+			 }
 		 }
 		 else
 		 {

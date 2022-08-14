@@ -42,13 +42,14 @@ public class ProfileServiceImpl implements ProfileService{
 		else
 			pud.setIfCaptain(false);
 		
-
-		MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo).getProfileUsers().add(pud);
 		
+		MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo).getProfileUsers().add(pud);
+		System.out.println(MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo));
 	}
-	//방나가기
+
 	@Override
 	public void exitRoom(String id, int roomNo) throws Exception {
+		System.out.println("======================exitRoom========Strat====================");
 		roomRepository.memberCntminus(roomNo);
 		userRepository.updateRoomNo(1, id);
 		int idx=0;
@@ -62,7 +63,7 @@ public class ProfileServiceImpl implements ProfileService{
 			}
 			idx++;
 		}
-		
+		System.out.println("======================exitRoom ===End=========================");
 	}
 	
 	//setIfCaptain 빼고 다 세팅해줌

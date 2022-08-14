@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Entity
@@ -21,9 +22,9 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Room {
 	@Id @GeneratedValue
-//	@Column(name = "room_no")
 	private int no;
 	private int size;
 	private String roomTitle;

@@ -39,6 +39,8 @@ public class ProfileController {
 		//세션 아이디랑 유저 아이디,접속한 방 번호로 접속중인 회원관리 
 		MafiaStaticData.socketConnectedUserId.put(paramDto.getSessionId(), paramDto.getId());
 		MafiaStaticData.socketConnectedUserRoomNo.put(paramDto.getSessionId(), paramDto.getRoomNo());
+		System.out.println(MafiaStaticData.socketConnectedUserId);
+		System.out.println(MafiaStaticData.socketConnectedUserRoomNo);
 		
 		//static 저장 공간에 result에 필요할 값들을 넣어줌
 		profileService.enterRoom(paramDto.getId(), paramDto.getRoomNo());
