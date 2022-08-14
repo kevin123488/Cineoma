@@ -46,7 +46,7 @@
       <!-- 교주 -->
       <div v-if="job === 'headmaster'">
         <div class="headmasterImage"></div>
-        <div style="width: 65%; margin-left: 120px; margin-top: 250px">
+        <div style="width: 65%; margin-left: 120px; margin-top: 300px">
           <h3 class="">당신의 직업: 교주</h3>
           <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
           <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>

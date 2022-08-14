@@ -122,27 +122,18 @@
       </div>
       <br>
       
-      <div id="scroll" class="overflow-auto my-3" style="height: 400px; margin-left: 100px; margin-right: 100px;">
+      <div id="scroll" class="overflow-auto my-3" style="height: 600px; margin-left: 50px; margin-right: 50px;">
 
-        <div id="" class="w3-card w3-round w3-white w3-center sticky-top">
+        <div id="" class="w3-center sticky-top lobbyFriendTitle">
           <div class="w3-container my-3">
-            <h3>Friend List</h3>
+            <h3 class="brownColor"><I>Friend List</I></h3>
           </div>
         </div>
 
-        <div v-for="(friend, index) in friends" :key="index" class="w3-card w3-round w3-white w3-center">
-          <div class="w3-container lobbyFriend">
-            <h3>{{ friend.nickname }}</h3>
-            <span>프로필 이미지? </span>
-            <p></p>
-            <div class="w3-row w3-opacity">
-              <!-- <div class="w3-half">
-                <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-              </div>
-              <div class="w3-half">
-                <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-              </div> -->
-            </div>
+        <div v-for="(friend, index) in friends" :key="index" class="w3-center lobbyFriend">
+          <div class="w3-container" style="height: 400px;">
+            <h2 class="brownColor" style="margin-top: 40px; margin-bottom: 40px;"><I><b>{{ friend.nickname }}</b></I></h2>
+            <img v-if="friend.imagePath !== null" class="friendImage" :src="`/homedesign/images/` + friend.imagePath" alt="">
           </div>
           <br>
         </div>
@@ -330,6 +321,10 @@ export default {
 }
 </script>
 <style>
+.friendImage {
+  height: 200px;
+  width: 200px;
+}
 input::placeholder {
   font-family: 'NeoDunggeunmo Code';
   font-size: 20px;
@@ -354,6 +349,9 @@ input::placeholder {
 }
 .text-deepdarkpurple {
   color: rgb(79, 48, 103);
+}
+.brownColor {
+  color:rgb(149, 100, 37)
 }
 .white-border {
   display: flex;
@@ -382,12 +380,12 @@ input::placeholder {
   background-repeat : no-repeat;
   background-size: 100% 100%;
 }
-#lobbyFriendTitle {
-  background-image: url(../../public/homedesign/images/lobby_friendtitle.png);
+.lobbyFriendTitle {
+  background-image: url(../../public/homedesign/images/lobby_friend.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
 }
-#lobbyFriend {
+.lobbyFriend {
   background-image: url(../../public/homedesign/images/lobby_friend.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
