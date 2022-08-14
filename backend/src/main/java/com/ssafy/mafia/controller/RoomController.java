@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.mafia.dto.RoomEnterDto;
-import com.ssafy.mafia.dto.RoomParamDto;
 import com.ssafy.mafia.entity.Room;
 import com.ssafy.mafia.entity.User;
+import com.ssafy.mafia.repository.RoomRepository;
 import com.ssafy.mafia.service.RoomService;
 import com.ssafy.mafia.service.UserService;
 
@@ -35,6 +35,8 @@ public class RoomController {
 	
 	@Autowired
 	private RoomService roomService;
+	@Autowired
+	private RoomRepository roomRepository;
 	@Autowired
 	private UserService userService;
 //	private RoomParamDto roomDto;
@@ -63,15 +65,23 @@ public class RoomController {
 	public ResponseEntity<Room> createRoom(@RequestBody Room room) throws Exception{
 				
 				// 생성한 방번호로 자신의 방번호를 업데이트
-				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ" );
+//				System.out.println(room.getRoomTitle() + " 방만들기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ" );
 				roomService.createRoom(room);
-				System.out.println("방 만들어졌나 ?");
-				System.out.println("룸 번호 확인 !!!!!! " + roomService.findRoomNo(room.getRoomTitle()) + "방장 아이디 확인 !!" + room.getHostId());
 				
-				System.out.println(roomService.findRoomNo(room.getHostId()));
-				userService.updateUserRoomNo(roomService.findRoomNo(room.getHostId()), room.getHostId());
+				ArrayList<Room> rooms= (ArrayList<Room>) roomRepository.findAll();
+				int maxNum=0;
+				for (Room room2 : rooms) {
+					maxNum = Math.max(room2.getNo(), maxNum);
+				}
+				room = roomRepository.findByNo(maxNum);
 				
-//				userService.updateRoomNo(user, roomdto.getNo());
+
+				room = roomRepository.findByNo(maxNum);
+//				System.out.println("=======================room,===================================");
+//				System.out.println(maxNum);
+//				System.out.println(room);
+				userService.updateUserRoomNo(maxNum, room.getHostId());
+				
 				
 				return new ResponseEntity<Room>(room, HttpStatus.OK);
 		
