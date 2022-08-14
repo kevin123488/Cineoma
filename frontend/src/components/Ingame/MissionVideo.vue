@@ -110,7 +110,9 @@ export default {
                     if (nowTime - this.start >= 3000 && this.missionCnt < 4) {
                         var missionTag = document.querySelector('#missionCnt')
                         var missionClear = document.createElement("div")
-                        missionClear.innerText = '성공!'
+
+                        missionClear.classList.add("believer");
+                        
                         missionTag.appendChild(missionClear);
                         this.start = 0
                         this.end = new Date()
@@ -171,5 +173,12 @@ export default {
 .video-size {
     width: 100%;
     height: 200px;
+}
+.believer {
+  background-image: url(../../../public/homedesign/images/believer.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  width: 30px;
+  height: 30px;
 }
 </style>
