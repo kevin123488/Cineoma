@@ -286,8 +286,9 @@ export default {
 
     tryEnterRoom(roomInfo) {
       console.log('방정보임')
-      
       console.log(roomInfo)
+      console.log('=======입장하기=======')
+
       roomInfo.info = { id: this.userInfo.id, no: roomInfo.no, password: this.password, }
       this.enterRoom(roomInfo)
     }

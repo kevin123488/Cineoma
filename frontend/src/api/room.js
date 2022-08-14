@@ -26,6 +26,10 @@ async function roomDelete(roomNo, success, fail) {
 
 // 방 들어갈때, 나갈때 요청 roomInfo = { no: int, password: { password: int } }
 async function roomEnter(roomInfo, success, fail) {
+    console.log('=========입장하기요청임========')
+    console.log(roomInfo.no)
+    console.log(roomInfo.info)
+
     api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
     await api.put(`/api/room/${roomInfo.no}`, JSON.stringify(roomInfo.info)).then(success).catch(fail);
 }

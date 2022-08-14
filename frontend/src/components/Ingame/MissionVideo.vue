@@ -18,9 +18,9 @@ export default {
 	name: 'OvVideo',
 	data() {
 		return{
-			URL: "https://teachablemachine.withgoogle.com/models/NVvUJYLtt/",
-			modelURL: "https://teachablemachine.withgoogle.com/models/NVvUJYLtt/model.json",
-			metadataURL: "https://teachablemachine.withgoogle.com/models/NVvUJYLtt/metadata.json",
+			URL: "https://teachablemachine.withgoogle.com/models/yk2e7UetV/",
+			modelURL: "https://teachablemachine.withgoogle.com/models/yk2e7UetV/model.json",
+			metadataURL: "https://teachablemachine.withgoogle.com/models/yk2e7UetV/metadata.json",
 			model: '',
 			maxPredictions: '',
 			labelContainer: '',
@@ -32,7 +32,12 @@ export default {
 		};
 	},
     computed: {
-        ...mapGetters(ingameStore, ["ifWin", "missionCnt"]),
+        ...mapGetters(ingameStore, [
+            "ifWin", 
+            "isDay",
+            "missionCnt",
+            "missionClass",
+            ]),
     },
 	props: {
 		streamManager: Object,
@@ -58,9 +63,14 @@ export default {
         canvas.width = size; canvas.height = size;
         this.ctx = canvas.getContext("2d");
         this.labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < this.maxPredictions; i++) { // and class labels
-            this.labelContainer.appendChild(document.createElement("div"));
-        }
+        
+        // 미션 랜덤배정 후
+        this.labelContainer.appendChild(document.createElement("div"));
+
+        // 미션 랜덤배정 전
+        // for (let i = 0; i < this.maxPredictions; i++) { // and class labels
+        //     this.labelContainer.appendChild(document.createElement("div"));
+        // }
     },
 
 	async loop() {
@@ -87,9 +97,9 @@ export default {
         var nowTime = new Date()
         // console.log(nowTime - end)
         // 1.00이 되고, 마지막 시간이랑 3초 텀이 있어야 판별
-        if ((nowTime - this.end) >= 6000 && !this.ifWin) {
+        if ((nowTime - this.end) >= 6000 && !this.ifWin && this.isDay) {
             // 동작 인식되면
-            if (prediction[0].probability.toFixed(2) === '1.00') {
+            if (prediction[this.missionClass].probability.toFixed(2) === '1.00') {
                 // 아직 미션시작 안했으면 시작시간 넣어주고 tryingMission true로
                 if (this.start === 0) {
                     this.start = new Date()
@@ -118,11 +128,16 @@ export default {
             }
         }
 
-        for (let i = 0; i < this.maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            this.labelContainer.childNodes[i].innerHTML = classPrediction;
-        }
+        // 미션 랜덤배정 후=
+        const classPrediction = prediction[this.missionClass].className + ": " + prediction[this.missionClass].probability.toFixed(2);
+        this.labelContainer.childNodes.innerHTML = classPrediction;
+
+        // 미션 랜덤배정 전
+        // for (let i = 0; i < this.maxPredictions; i++) {
+        //     const classPrediction =
+        //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
+        // }
 
         // finally draw the poses
         this.drawPose(pose);

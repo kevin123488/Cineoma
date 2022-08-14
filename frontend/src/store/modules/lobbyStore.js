@@ -84,8 +84,9 @@ const lobbyStore = {
       await memberList(
         info,
         (response) => {
-          console.log(response.data.memberList)
-          commit('SET_MEMBERLIST', response.data.memberList)
+          console.log('===============================')
+          console.log(response.data)
+          commit('SET_MEMBERLIST', response.data)
         },
         () => {},
       );
