@@ -1,6 +1,6 @@
 <template>
 	<!-- <video autoplay class="video-size" /> -->
-	<div>당신은 미션을 수행해야됩니다 (class{{ missionClass+1 }} 3초 이상 유지, 6초 텀)</div>
+	<div>{{ motionExplanation[missionClass] }}</div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
 	<div><canvas id="canvas"></canvas></div>
 	<div id="label-container"></div>
@@ -28,7 +28,8 @@ export default {
 			ctx: '',
 			start: 0,
 			tryingMission: false,
-			end : '',
+			end: '',
+            motionExplanation: ['고개를 오른쪽으로 기울이세요!', '고개를 왼쪽으로 기울이세요!', '왼손으로 머리를 긁으세요!']
 		};
 	},
     computed: {
@@ -109,14 +110,14 @@ export default {
                     if (nowTime - this.start >= 3000 && this.missionCnt < 4) {
                         var missionTag = document.querySelector('#missionCnt')
                         var missionClear = document.createElement("div")
-                        missionClear.innerText = '성공~'
+                        missionClear.innerText = '성공!'
                         missionTag.appendChild(missionClear);
                         this.start = 0
                         this.end = new Date()
                         this.setMissionCnt(this.missionCnt + 1)
                         console.log(this.missionCnt)
                         if (this.missionCnt === 4) {
-                            missionClear.innerText = '미션클리어!'
+                            missionClear.innerText = '미션클리어! 낮 투표에서 살아남으면 당신의 승리입니다!'
                             missionTag.appendChild(missionClear);
                             this.setIfWin(true)
                         }
@@ -130,15 +131,15 @@ export default {
         }
 
         // 미션 랜덤배정 후=
-        // const classPrediction = prediction[this.missionClass].className + ": " + prediction[this.missionClass].probability.toFixed(2);
-        // this.labelContainer.childNodes.innerHTML = classPrediction;
+        const classPrediction = String(parseInt(prediction[this.missionClass].probability.toFixed(2)*100)) + ' % 일치';
+        this.labelContainer.childNodes[0].innerHTML = classPrediction;
 
         // 미션 랜덤배정 전
-        for (let i = 0; i < 3; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            this.labelContainer.childNodes[i].innerHTML = classPrediction;
-        }
+        // for (let i = 0; i < 3; i++) {
+        //     const classPrediction =
+        //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
+        // }
 
         // finally draw the poses
         this.drawPose(pose);
