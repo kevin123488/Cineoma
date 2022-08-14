@@ -119,7 +119,9 @@ public class RoomController {
 		String userPw = dto.getPassword();
 		//방의 비밀번호
 		String checkPw = roomService.roomInfo(roomNo).getPassword();
-		
+		System.out.println(userPw);
+		System.out.println("checkPw : "+checkPw);
+		System.out.println(checkPw.equals(userPw));
 		if(!checkPw.equals(userPw) || 5 <= roomService.countUser(roomNo) || !roomService.checkUser(id)) {
 			System.out.println("못들어간다 으하하하");
 			return new ResponseEntity<String>(FAIL, HttpStatus.INTERNAL_SERVER_ERROR);

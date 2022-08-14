@@ -15,5 +15,5 @@ public class ChatDto {
 
     // 채팅내용을 저장하기 위한 변수
     private String content;
-
+  
 }

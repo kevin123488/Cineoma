@@ -26,45 +26,58 @@ public class ReadyController {
 	 
 	 @MessageMapping("/receiveReady")
      public void ready(ReadyParamDto paramDto) throws Exception {
-	 	
-		 ReadyResultDto result = new ReadyResultDto();
+
+		MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(paramDto.getRoomNo());
+		
+		ReadyResultDto result = new ReadyResultDto();
 		
 		//방장만 true로 보낼 수 있어야함, 나중에 방장인지 아닌지 체크 하는것도 만들까싶음
 		result.setStartGame(paramDto.isIfStart());
+		
 		//게임 시작 하는 경우
 		if(paramDto.isIfStart())
 		{
+			//대기방 유저 정보를 이용하여 게임 시작 유저 정보 반영
+			mps.gameStart();
+			mps.setMovingUserCount(mps.getProfileUsers().size());
+			result.setId(paramDto.getId());
+			result.setIfReady(true);
+			result.setStartGame(true);
+			result.setStartGame(true);
 			
 		}
-		
-		
-		
-		result.setId(paramDto.getId());
-		result.setIfReady(paramDto.isIfReady());
-		
-		int readyCount=0;
-		MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(paramDto.getRoomNo());
-		ArrayList<ProfileUserDto> pfuList = (ArrayList<ProfileUserDto>) mps.getProfileUsers();
-		//ready 상태변경
-		for (ProfileUserDto profileUserDto : pfuList) {
-			if(profileUserDto.getId().equals(paramDto.getId()))
-			{
-				profileUserDto.setIfReady(paramDto.isIfReady());
-				result.setIfReady(paramDto.isIfReady());
+		//대기방 상태
+		else
+		{
+			result.setId(paramDto.getId());
+			result.setIfReady(paramDto.isIfReady());
+			
+			int readyCount=0;
+			ArrayList<ProfileUserDto> pfuList = (ArrayList<ProfileUserDto>) mps.getProfileUsers();
+			//ready 상태변경 겸 레디 유저수 카운트
+			for (ProfileUserDto profileUserDto : pfuList) {
+				if(profileUserDto.getId().equals(paramDto.getId()))
+				{
+					profileUserDto.setIfReady(paramDto.isIfReady());
+					result.setIfReady(paramDto.isIfReady());
+				}
+				
+				if(profileUserDto.isIfReady())
+					readyCount++;
 			}
 			
-			if(profileUserDto.isIfReady())
-				readyCount++;
+			
+			//start 가능 상태 보낼 부분
+			if(readyCount == pfuList.size() && pfuList.size()==5)
+				result.setIfStart(true);
+			else
+				result.setIfStart(false);
+			
+			//front에서 구독받을 uri로 보내줌
 		}
 		
 		
-		//start 가능 상태 보낼 부분
-		if(readyCount == pfuList.size() && pfuList.size()==5)
-			result.setIfStart(true);
-		else
-			result.setIfStart(false);
 		
-		//front에서 구독받을 uri로 보내줌
 		sendingOperations.convertAndSend("/topic/sendReady/"+paramDto.getRoomNo(), result);
         return;
     }

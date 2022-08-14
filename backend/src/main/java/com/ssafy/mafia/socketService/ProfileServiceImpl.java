@@ -49,7 +49,7 @@ public class ProfileServiceImpl implements ProfileService{
 
 	@Override
 	public void exitRoom(String id, int roomNo) throws Exception {
-		System.out.println("======================exitRoom========Strat====================");
+//		System.out.println("======================exitRoom========Strat====================");
 		roomRepository.memberCntminus(roomNo);
 		userRepository.updateRoomNo(1, id);
 		int idx=0;
@@ -63,7 +63,7 @@ public class ProfileServiceImpl implements ProfileService{
 			}
 			idx++;
 		}
-		System.out.println("======================exitRoom ===End=========================");
+//		System.out.println("======================exitRoom ===End=========================");
 	}
 	
 	//setIfCaptain 빼고 다 세팅해줌
