@@ -15,7 +15,7 @@ import myPageTest from '../components/Mypage/myPageTest.vue'
 
 const routes = [
   {
-    path: '/myPageTest',
+    path: '/myPage',
     name: 'myPageTest',
     component: myPageTest
   },

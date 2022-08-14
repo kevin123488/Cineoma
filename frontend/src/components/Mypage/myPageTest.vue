@@ -1,11 +1,5 @@
 <template>
 <div class="profilePageBackground">
-  <div v-if="whichPage" class="myProfileTestLayOut">
-    <h2 class="profileName">내 정보</h2>
-    <img class="myProfileImage" :src="`/homedesign/images/` + userInfo.imagePath">
-    <div class="letMeIntroduce"><h3>{{ userInfo.intro }}</h3></div>
-    <!-- modal btn -->
-    <div class="modifyUserBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><h1>수정</h1></div>
     <!-- modal -->
     <div class="modal fade powerModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -35,6 +29,14 @@
         </div>
     <!-- modal fin -->
 
+
+  <div v-if="whichPage" class="myProfileTestLayOut">
+    <h2 class="profileName">내 정보</h2>
+    <img class="myProfileImage" :src="`/homedesign/images/` + userInfo.imagePath">
+    <div class="letMeIntroduce"><h3>{{ userInfo.intro }}</h3></div>
+    <!-- modal btn -->
+    <div class="modifyUserBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><h1>수정</h1></div>
+
     <!-- <ul class="winRateTest">
       <li><h2>총 승률: 0%</h2></li>
       <li><h3>마피아 승률: 0%</h3></li>
@@ -45,7 +47,7 @@
     <record-detail></record-detail>
   </div>
 
-  <div v-if="!whichPage" class="myFriendTestLayout" key="trans2">
+  <div v-if="!whichPage" class="myFriendTestLayout">
     <h2 class="profileName">친구목록</h2>
     <my-friend></my-friend>
   </div>
@@ -77,6 +79,10 @@ export default {
     return {
       whichPage: true,
       user: {},
+      image1: "profile_mafia.png",
+      image2: "mypage_mafia.gif",
+      image3: "wait_mafia.gif",
+      image4: "mypage_mafia_record2.gif",
     }
   },
   methods: {
@@ -86,6 +92,7 @@ export default {
       this.whichPage = !this.whichPage;
       console.log(this.whichPage);
       this.user = this.userInfo;
+      this.getFriendsStore(this.userInfo.id);
     },
     userUpdate() {
       console.log("지금")
@@ -107,7 +114,9 @@ export default {
       // alert("경찰 사진 선택. 수정 버튼을 눌러 프로필 사진을 바꿔보세요")
     },
     setDoctorPic() {
+      console.log(this.user);
       this.user.imagePath = this.image4;
+      console.log("의사사진 선택");
       // alert("의사 사진 선택. 수정 버튼을 눌러 프로필 사진을 바꿔보세요")
     },
   },
@@ -117,13 +126,13 @@ export default {
     console.log("===============")
     await this.getFriendsStore(this.userInfo.id);
     console.log("친구정보 받아지나?")
-    this.user = this.userinfo;
+    this.user = this.userInfo;
     console.log(this.userInfo);
     console.log(this.user);
   },
   watch: {
     userInfo() {
-      this.user = this.userinfo;
+      this.user = this.userInfo;
     }
   }
 }

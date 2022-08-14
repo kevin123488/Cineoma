@@ -142,7 +142,8 @@ import { mapState, mapMutations } from 'vuex';
       },
       goMyPage() {
         this.num = this.userInfo.id; // 나중에 얘 주석 풀자
-        this.$router.push({ name: "profile", params: { id_pk: this.num } }) ;
+        // this.$router.push({ name: "profile", params: { id_pk: this.num } }) ;
+        this.$router.push('/myPage');
       },
     },
     created() {

@@ -36,9 +36,9 @@
               <button v-on:click="voteResult()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                 투표결과 테스트
               </button>
-              <button @click="goMypageTest">
+              <!-- <button @click="goMypageTest">
                 마이페이지 테스트
-              </button>
+              </button> -->
             </div>
             </div>
           </div>
@@ -249,7 +249,7 @@ export default {
     ]),
 
     goMypageTest() {
-      this.$router.push("/myPageTest");
+      this.$router.push("/myPage");
     },
 
     voteResult() {
