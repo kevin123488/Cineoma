@@ -24,7 +24,7 @@
         <div class="mainCurtain">
 
 
-          <h1 style="padding-top: 200px;, margin-top: 0px; color: white;">시민 승리!</h1>
+          <h1 style="font-size: 70px; padding-top: 200px;, margin-top: 0px; color: white;">시민 승리!</h1>
 
           <div style="height: 250px;">
             <br>
