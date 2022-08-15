@@ -356,6 +356,13 @@ export default {
 
     startTest() {
       this.$router.push({ name: "ingame", params: { id_pk: this.roomNo } });
+
+      const voteMembers = document.querySelectorAll('.votePaperMembers')
+      voteMembers.forEach(voteMember => {
+        while (voteMember.hasChildNodes()) {
+          voteMember.removeChild(voteMember.firstChild);
+        }        
+      })
     },
 
     // 게임시작

@@ -24,7 +24,7 @@
         <div class="mainCurtain">
 
 
-          <h1 style="font-size: 70px; padding-top: 200px;, margin-top: 0px; color: white;">시민 승리!</h1>
+          <h1 style="font-size: 70px; padding-top: 200px;, margin-top: 0px; color: white;">{{ job }} 승리!</h1>
 
           <div style="height: 250px;">
             <br>
@@ -35,8 +35,9 @@
 
           <div style="height: 250px;">
             <div class="d-flex justify-content-center" style="margin: auto;">
-              <div v-for="(color, idx) in winColor" :key="idx">
-                <img class="winCharacter" :src="'/../../homedesign/images/mafia_' + color + '.png'" alt="">
+              <div v-for="(member, idx) in winMember" :key="idx">
+                <p>{{ member.nickname }}</p>
+                <img class="winCharacter" :src="'/../../homedesign/images/mafia_' + member.color + '.png'" alt="">
               </div>
             </div>
           </div>
@@ -64,11 +65,11 @@ const memberStore = "memberStore"
     },
     data() {
       return {
-        job: 'mafia',
+        job: '시민',
         curtainOut: false,
         isDark: true,
         showblackGround: true,
-        winColor: ['red', 'blue', 'black']
+        winMember: [{ color: 'red', nickname: '마피아고수' }, { color: 'blue', nickname: '마피아초고수' }, { color: 'black', nickname: '마피아개고수' }]
       }
     },
     computed: {
@@ -90,8 +91,17 @@ const memberStore = "memberStore"
       },
     },
     created() {
-      // 이긴 직업에 따라 배경바뀔거 표시
-      console.log(this.gameResult)
+      if (this.gameResult[0].winJob === 'mafia') {
+        this.job = '마피아'
+      } else if (this.gameResult[0].winJob === 'police') {
+        this.job = '교주'
+      } else {
+        this.job = '시민'
+      }
+
+      this.gameResult.forEach((winUser) => {
+        this.winMember.push({ color: winUser.color, nickname: winUser.nickname })
+      });
     },
     mounted() {
       setTimeout(() =>{ this.isDark = false }, 1000)
