@@ -361,6 +361,9 @@ export default {
     },
   },
   mounted() {},
+  unmounted() {
+    this.stompClient.disconnect();
+  },
 };
 </script>
 

@@ -32,18 +32,20 @@ public class ReadyController {
 		ReadyResultDto result = new ReadyResultDto();
 		
 		//방장만 true로 보낼 수 있어야함, 나중에 방장인지 아닌지 체크 하는것도 만들까싶음
-		result.setStartGame(paramDto.isIfStart());
-		
+		result.setStartGame(paramDto.isStartGame());
+		result.setId(paramDto.getId());
+		result.setIfReady(paramDto.isIfReady());
+		result.setIfStart(paramDto.isIfStart());
 		//게임 시작 하는 경우
-		if(paramDto.isIfStart())
+		if(paramDto.isStartGame())
 		{
-			//대기방 유저 정보를 이용하여 게임 시작 유저 정보 반영
 			mps.gameStart();
 			mps.setMovingUserCount(mps.getProfileUsers().size());
-			result.setId(paramDto.getId());
-			result.setIfReady(true);
-			result.setStartGame(true);
-			result.setStartGame(true);
+		}
+		//게임 시작 가능한 경우
+		else if(paramDto.isIfStart())
+		{
+			//대기방 유저 정보를 이용하여 게임 시작 유저 정보 반영
 			
 		}
 		//대기방 상태
@@ -68,7 +70,7 @@ public class ReadyController {
 			
 			
 			//start 가능 상태 보낼 부분
-			if(readyCount == pfuList.size() && pfuList.size()==5)
+			if(readyCount == pfuList.size() && pfuList.size()==4)
 				result.setIfStart(true);
 			else
 				result.setIfStart(false);
