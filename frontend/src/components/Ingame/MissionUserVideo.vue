@@ -1,6 +1,6 @@
 <template>
   <div v-if="streamManager">
-    <mission-video :stream-manager="streamManager" />
+    <mission-video :stream-manager="streamManager" style="margin:auto;" />
     <div>
       <p>{{ gameInfo.nickname }}</p>
     </div>
@@ -37,3 +37,12 @@ export default {
   },
 };
 </script>
+
+<style>
+.myVideoBackground {
+  background-image: url(../../../public/homedesign/images/lobby_friend.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+}
+
+</style>
