@@ -1,13 +1,13 @@
 <template>
 	<!-- <video autoplay class="video-size" /> -->
     <div v-if="ifWin" class="clearSign"></div>
-	<div style="font-size: 22px; font-family: 'NeoDunggeunmo Code';">{{ motionExplanation[missionClass] }}</div>
+	<div style="font-size: 20px; font-family: 'NeoDunggeunmo Code';">{{ motionExplanation[missionClass] }}</div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
 	<div><canvas id="canvas"></canvas></div>
 	<div id="label-container"></div>
 	<div id="missionCnt" class="d-flex missionInfo" >신자카운트: </div>
 
-	<div id="clearMessage" style="font-size: 30px; font-family: 'NeoDunggeunmo Code';"></div>
+	<div id="clearMessage" style="font-size: 20px; font-family: 'NeoDunggeunmo Code';"></div>
 </template>
 
 <script type="text/javascript">
@@ -202,7 +202,7 @@ export default {
     height: 200px;
 }
 .missionInfo {
-  font-size: 30px;
+  font-size: 24px;
   font-family: 'NeoDunggeunmo Code';
 }
 .believer {
@@ -215,7 +215,7 @@ export default {
 }
 .clearSign {
   position: absolute;
-  top: 42%;
+  top: 53%;
   left: 67%;
   right: 30%;
   opacity: 0.9;
