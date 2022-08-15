@@ -15,8 +15,7 @@
         jobRollFormSide: !isjobRollCenter,
         jobRollFormCenter: isjobRollCenter,
       }"
-    >
-    </button>
+    ></button>
 
     <!-- 직업확인창 -->
     <button v-if="isJobRollOpen" @click="switchJobRoll" class="openedJobRoll">
@@ -182,8 +181,9 @@
     </a>
   </div>
   <a href="/game/end">
-  <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
-  <i class='fa fa-close'></i>게임끝내기</button>
+    <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
+      <i class="fa fa-close"></i>게임끝내기
+    </button>
   </a>
 </template>
 
@@ -250,7 +250,7 @@ export default {
       // 직업정보열람용
       isjobRollCenter: true,
       isJobRollOpen: false,
-      job: 'headmaster',      
+      job: "headmaster",
     };
   },
   computed: {
@@ -266,9 +266,9 @@ export default {
   },
   created() {
     // 미션정보 세팅
-    this.setIfWin(false)
-    this.setMissionCnt(0)
-    this.setMissionClass(this.randomNum(0, 2))
+    this.setIfWin(false);
+    this.setMissionCnt(0);
+    this.setMissionClass(this.randomNum(0, 2));
 
     this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
@@ -299,12 +299,12 @@ export default {
   },
   methods: {
     ...mapActions(ingameStore, [
-      "setGameResult", 
-      "setIsDay", 
-      "setIfWin", 
-      "setMissionCnt", 
+      "setGameResult",
+      "setIsDay",
+      "setIfWin",
+      "setMissionCnt",
       "setMissionClass",
-      ]),
+    ]),
     ...mapActions(roomdataStore, [
       "deleteRoom",
       "enterRoom",
@@ -314,8 +314,8 @@ export default {
     ]),
 
     // 랜덤미션번호
-    randomNum(min, max){
-      var randNum = Math.floor(Math.random()*(max-min+1)) + min;
+    randomNum(min, max) {
+      var randNum = Math.floor(Math.random() * (max - min + 1)) + min;
       return randNum;
     },
 
@@ -394,7 +394,7 @@ export default {
             let publisher = this.OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
-              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+              publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
               resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
@@ -522,7 +522,7 @@ export default {
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
-      this.setIsDay(true)
+      this.setIsDay(true);
 
       if (this.myInfo.isAlive) {
         this.avOn;
@@ -536,7 +536,7 @@ export default {
 
     dayVoteTime() {
       this.progress.isDay = false;
-      this.setIsDay(true)
+      this.setIsDay(true);
       this.progress.isVoteDay = true;
       this.count = 10;
     },
@@ -603,8 +603,8 @@ export default {
           console.log("======================됐나?=======================");
           // 직업, 색깔 설정
           // 소켓Id 다시줌
-          this.sessionId = socket._transport.url.slice(-18, -10)
-          this.sendProfile()
+          this.sessionId = socket._transport.url.slice(-18, -10);
+          this.sendProfile();
 
           this.stompClient.subscribe(
             `/sendMafia/${this.mySessionId}/${this.userInfo.id}`,
@@ -656,7 +656,7 @@ export default {
 
                 if (res.body.ifSkip === true) {
                   this.progress.isDay = false;
-                  this.setIsDay(true)
+                  this.setIsDay(true);
                   this.progress.isVoteDay = true;
                   clearTimeout(this.clearId);
                 }
@@ -749,14 +749,14 @@ export default {
     // 프로필
     sendStart() {
       if (this.stompClient && this.stompClient.connected) {
-        const msg = { 
-          progress : 'start',
+        const msg = {
+          progress: "start",
           sessionId: this.sessionId,
           roomNo: this.roomNo,
-          id: this.user.id
+          id: this.user.id,
         };
         console.log(msg);
-        this.stompClient.send('/receiveMafia', JSON.stringify(msg), {});
+        this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
     },
 
