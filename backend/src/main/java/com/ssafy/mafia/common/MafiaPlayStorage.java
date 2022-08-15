@@ -42,6 +42,9 @@ public class MafiaPlayStorage {
 	//의사의 생존 여부
 	private boolean doctorAlive=true;
 	
+	//미션자가 미션 완료한 경우
+	private boolean missionComplete=false;
+	private String policeId="";
 	
 	private String mafiaChosen="";
 	private String doctorChosen="";
@@ -91,6 +94,10 @@ public class MafiaPlayStorage {
 			
 			idx =rand.nextInt(maxIdx);
 			mpu.setJob(jobList.get(idx));
+			if(mpu.getJob().equals("police"))
+			{
+				policeId=pu.getId();
+			}
 			Collections.swap(jobList, idx, maxIdx);
 			
 			maxIdx--;
@@ -125,6 +132,7 @@ public class MafiaPlayStorage {
 			//살아 있는경우
 			if(mpu.getId().equals(id))
 			{
+				aliveCount--;
 				mpu.setIfAlive(false);
 				break;
 			}
@@ -153,6 +161,7 @@ public class MafiaPlayStorage {
 					aliveCitizencount++;
 					break;
 				case "police":
+					alivePolicecount++;
 					aliveCitizencount++;
 					break;
 				case "doctor":
@@ -164,16 +173,20 @@ public class MafiaPlayStorage {
 				}
 			}
 		}
-		if(aliveDoctorcount==0)
+		if(missionComplete && alivePolicecount>0)
+		{
+			result = "police";
+		}
+		else if(aliveDoctorcount==0)
 		{
 			doctorAlive=false;
 		}
-		if(aliveMafiacount==0)
+		else if(aliveMafiacount==0)
 		{
 			result = "citizen";
 			gameEnd();
 		}
-		if(aliveMafiacount>=aliveCitizencount)
+		else if(aliveMafiacount>=aliveCitizencount)
 		{
 			result = "mafia";
 			gameEnd();

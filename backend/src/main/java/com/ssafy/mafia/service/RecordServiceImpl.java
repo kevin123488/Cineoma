@@ -1,6 +1,7 @@
 package com.ssafy.mafia.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,22 @@ public class RecordServiceImpl implements RecordService {
 		record4.setType("citizen");
 		recordRepository.save(record4);
 		
+	}
+	@Override
+	public boolean recordUpdate(Map<String, String> map) throws Exception {
+		System.out.println(map.get("id"));
+		List<Record> lr = recordRepository.findAllById(map.get("id"));
+		for(Record r : lr) {
+			if(r.getType().equals(map.get("type"))) {
+				 if(map.get("win").equals("true")) {
+					 r.setWinCount(r.getWinCount() +  1);
+				 }else {
+					 r.setLoseCount(r.getLoseCount() +  1);
+				 }
+				 recordRepository.save(r);
+			}
+		}	
+		return true;
 	}
 	
 

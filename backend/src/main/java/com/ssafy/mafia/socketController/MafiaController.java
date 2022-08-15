@@ -95,6 +95,7 @@ public class MafiaController {
 			else
 				dayResult.setIfSkip(false);
 			
+			System.out.println();
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), dayResult);	
 			
 			break;
@@ -102,6 +103,12 @@ public class MafiaController {
 		
 		case "voteDay":
 		{
+			//미션자가 미션 완료한 경우
+			if(paramDto.isIfWin())
+			{
+				mps.setMissionComplete(true);
+			}
+			
 			MafiaVoteResultDto result = new MafiaVoteResultDto();
 			
 			result.setVotedId(paramDto.getVote());
