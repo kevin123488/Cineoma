@@ -2,7 +2,6 @@ package com.ssafy.mafia.socketController;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -12,12 +11,12 @@ import org.springframework.stereotype.Controller;
 import com.ssafy.mafia.common.MafiaPlaingUser;
 import com.ssafy.mafia.common.MafiaPlayStorage;
 import com.ssafy.mafia.common.MafiaStaticData;
+import com.ssafy.mafia.socketDto.JoinUserDto;
 import com.ssafy.mafia.socketDto.MafiaDayResultDto;
 import com.ssafy.mafia.socketDto.MafiaParamDto;
 import com.ssafy.mafia.socketDto.MafiaStartResultDto;
 import com.ssafy.mafia.socketDto.MafiaVoteFinishResultDto;
 import com.ssafy.mafia.socketDto.MafiaVoteResultDto;
-import com.ssafy.mafia.socketDto.ReadyResultDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,7 +41,7 @@ public class MafiaController {
 		 
 		 switch (progress) {
 		 case "start":
-			
+		 {
 			//세션 아이디랑 유저 아이디,접속한 방 번호로 접속중인 회원관리 
 			MafiaStaticData.socketConnectedUserId.put(paramDto.getSessionId(), paramDto.getId());
 			MafiaStaticData.socketConnectedUserRoomNo.put(paramDto.getSessionId(), paramDto.getRoomNo());
@@ -57,7 +56,8 @@ public class MafiaController {
 			
 			//result에 joinUsers값 만들어주는부분
 			for (MafiaPlaingUser it : mps.getPlaingUsers()) {
-				startResult.addJoinUser(it.getId(), it.getNickname(), it.getColor());	
+				JoinUserDto jud = new JoinUserDto(it.getId(), it.getNickname(), it.getColor());
+				startResult.getJoinUsers().add(jud);
 			}
 			//Progress, absoluteTime 공통부분이니 여기서 처리해줌
 			startResult.setProgress(progress);
@@ -70,8 +70,8 @@ public class MafiaController {
 				System.out.println("startResult");
 				sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+it.getId(), startResult);	
 			}
-			
-			break;
+		 }
+		break;
 
 			
 		case "day":
@@ -99,9 +99,9 @@ public class MafiaController {
 			System.out.println();
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), dayResult);	
 			
-			break;
+			
 		}
-		
+		break;
 		case "voteDay":
 		{
 			//미션자가 미션 완료한 경우
@@ -170,7 +170,7 @@ public class MafiaController {
 			}
 			
 		}
-		
+		break;
 		
 		
 		case "voteNight":
@@ -230,7 +230,7 @@ public class MafiaController {
 			
 			
 		}
-		
+		break;
 		
 		default:
 			break;

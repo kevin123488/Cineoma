@@ -10,6 +10,7 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class MafiaStartResultDto {
 	
@@ -21,17 +22,17 @@ private String progress;
     private String job;
     private boolean isHost;
     
-    private List<JoinUser> joinUsers = new ArrayList<>();
+    private List<JoinUserDto> joinUsers = new ArrayList<>();
     
-    public void addJoinUser(String id, String nickname, String color)
-    {
-    	joinUsers.add(new JoinUser(id,nickname,color));
-    }
-    
-    @AllArgsConstructor
-    class JoinUser{
-    	String id;
-    	String nickname;
-    	String color;
-    }
+//    public void addJoinUser(String id, String nickname, String color)
+//    {
+//    	joinUsers.add(new JoinUser(id,nickname,color));
+//    }
+//    
+//    @AllArgsConstructor
+//    class JoinUser{
+//    	String id;
+//    	String nickname;
+//    	String color;
+//    }
 }

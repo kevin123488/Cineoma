@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ssafy.mafia.service.RecordService;
 import com.ssafy.mafia.socketDto.ProfileUserDto;
 
 import lombok.Data;
@@ -19,7 +22,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class MafiaPlayStorage {
-
+	@Autowired
+	RecordService recordService;
+	
+	
+	
+	
 	//t : 플레이 중 , f = 대기방 상태
 	private boolean ifPlay=false;
 	//대기방에서 게임 시작할때 유저 수만큼으로 바꿔주고 소켓 끊어지는 경우 1씩 줄여서 처리해줄거임 
@@ -180,6 +188,7 @@ public class MafiaPlayStorage {
 		if(missionComplete && alivePolicecount>0)
 		{
 			result = "police";
+			gameEnd();
 		}
 		else if(aliveDoctorcount==0)
 		{
@@ -197,6 +206,22 @@ public class MafiaPlayStorage {
 		}
 		
 		return result;
+	}
+	
+	void recordUpdate(String id, String type, String winLose) throws Exception
+	{
+		for (MafiaPlaingUser mpu : plaingUsers) {
+			if(mpu.getJob().equals(type))
+			{
+				recordService.recordUpdate(id, type, "win");
+			}
+			else
+			{
+				
+			}
+		}
+		
+		
 	}
 	
 }
