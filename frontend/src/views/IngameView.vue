@@ -73,7 +73,7 @@
             :id="info.id"
             v-if="info.isAlive"
             class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-            @click="chooseVote(info.nickname)"
+            @click="chooseVote(info)"
           >
             <button class="learn-more">{{ info.nickname }}</button>
           </div>
@@ -81,9 +81,9 @@
       </div>
       <div>
         <h5 style="text-align: center" class="mt-5">
-          선택한 유저: <span style="font-weight: bold">{{ selected }}</span>
+          선택한 유저: <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
-        <button v-if="!!selected">투표 확정 ㄱㄱ</button>
+        <button @click="sendVote(selected.id)" v-if="!!selected && !isVoted">투표 확정 ㄱㄱ</button>
       </div>
     </div>
 
@@ -268,6 +268,8 @@ export default {
 
       // 투표
       voteNo: 1, // 투표권
+      selected: [],
+      isVoted: false,
 
       // 시간제한
       count: 0,
@@ -356,6 +358,11 @@ export default {
       "saveIsCaptain",
       "saveIsConnected",
     ]),
+
+    // 투표
+    chooseVote(user) {
+      this.selected = user;
+    },
 
     // 랜덤미션번호
     randomNum(min, max) {
@@ -625,6 +632,7 @@ export default {
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
       this.count = 5;
+      this.isVoted = false;
       setTimeout(() => {
         this.isGone = false;
         this.deadColor = "";
@@ -847,6 +855,8 @@ export default {
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
       clearTimeout(this.voteClearNum);
+      this.selected = []; // 투표 누르면 투표확정 버튼 사라지게 하자
+      this.isVoted = true;
     },
 
     // 투표
