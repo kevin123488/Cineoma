@@ -25,7 +25,7 @@ public class User {
 	@Column(nullable = false)
 	private String email;
 	@Column(name = "image_path")
-	private String imagePath;
+	private String imagePath = "profile_mafia.png";
 	@Column(nullable = false, name = "user_name")
 	private String userName;
 	@Column(name = "my_point")
