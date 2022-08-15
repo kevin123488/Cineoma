@@ -160,6 +160,10 @@ export default {
     console.log(this.roomTitle);
   },
 
+  watch: {
+    usersInfo() {},
+  },
+
   methods: {
     ...mapActions(roomdataStore, [
       "deleteRoom",
