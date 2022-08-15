@@ -1,19 +1,18 @@
 <template>
-  <nav-header v-if="showNav" class='fixed-top' style="z-index: 1000;">
-  </nav-header>
+  <!-- <nav-header v-if="showNav" class='fixed-top' style="z-index: 1000;">
+  </nav-header> -->
   <router-view/>
 </template>
 
 
 <script>
-  import NavHeader from '@/components/Nav/NavHeader.vue'
 
   export default {
     name: 'App',
-    components: { NavHeader },
+    components: {  },
     data() {
       return {
-        showNav: true,
+
       }
     },
     methods: {

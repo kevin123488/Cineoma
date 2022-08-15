@@ -1,4 +1,6 @@
 <template>
+  <nav-header v-if="showNav" class='fixed-top' style="z-index: 1000;">
+  </nav-header>
   <div class="w3-black mypage-background">
     <div class="container mypage-undernavbar">
         <my-profile></my-profile>
@@ -12,6 +14,7 @@
 <script>
   import MyFriend from '@/components/Mypage/MyFriend.vue'
   import MyProfile from '@/components/Mypage/MyProfile.vue'
+  import NavHeader from '@/components/Nav/NavHeader.vue'
   const mypageStore = "mypageStore";
   import { mapActions } from 'vuex';
   import { mapState } from 'vuex';
@@ -22,10 +25,12 @@
     components: {
       MyFriend,
       MyProfile,
+      NavHeader,
     },
     data() {
       return {
         num : 1,
+        showNav: true,
       }
     },
     computed: {
@@ -33,7 +38,21 @@
     },
     methods: {
       ...mapActions(mypageStore, ["getFriendsStore"]),
+      scrollEvent() {
+      if (scrollY <= 10) {
+        this.showNav = true;
+        console.log("지금 보여야됨")
+        } else {
+          this.showNav = false;
+        }
+      },
     },
+    mounted() {
+      document.addEventListener("scroll", this.scrollEvent);
+    },
+    unmounted() {
+      document.removeEventListener("scroll", this.scrollEvent);
+    },    
     created() {
       console.log(this.userInfo);
       this.getFriendsStore(this.userInfo.id); // mypageStore의 friendList 부분에 정보 넣기
