@@ -81,39 +81,67 @@
       </div>
       <div>
         <h5 style="text-align: center" class="mt-5">
-          선택한 유저: <span style="font-weight: bold">{{ selected.nickname }}</span>
+          선택한 유저:
+          <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
-        <button @click="sendVote(selected.id)" v-if="!!selected && !isVoted">투표 확정 ㄱㄱ</button>
+        <button @click="sendVote(selected.id)" v-if="!!selected && !isVoted">
+          투표 확정 ㄱㄱ
+        </button>
       </div>
     </div>
 
     <!-- 낮 투표 스킵 -->
-    <button class="ingameDaySkipBtn" v-if="!isSkiped && progress.isDay" @click="sendSkip">
+    <button
+      class="ingameDaySkipBtn"
+      v-if="!isSkiped && progress.isDay"
+      @click="sendSkip"
+    >
       낮 스킵 후 투표로 넘어가기 지금 낮임
     </button>
 
     <!-- 낮 투표 결과 -->
-    <div :class="{'voteResultDay': progress.isVoteDayResult, 'voteResultNight': progress.isNightResult}">
+    <div
+      :class="{
+        voteResultDay: progress.isVoteDayResult,
+        voteResultNight: progress.isNightResult,
+      }"
+    >
       <!-- <h1 v-if="!!deadColor && progress.isVoteDayResult" style="text-align: center; color: black;">투표 결과<br>{{ whoIsGone }}<br>퇴출되었습니다!</h1> -->
-      <h1 v-if="!!deadColor && progress.isVoteDayResult" style="text-align: center; color: black;">{{ showingMsg }}</h1>
-      <h1 v-if="!!deadColor && progress.isNightResult" style="text-align: center; color: white;">{{ showingMsg }}</h1>
+      <h1
+        v-if="!!deadColor && progress.isVoteDayResult"
+        style="text-align: center; color: black"
+      >
+        {{ showingMsg }}
+      </h1>
+      <h1
+        v-if="!!deadColor && progress.isNightResult"
+        style="text-align: center; color: white"
+      >
+        {{ showingMsg }}
+      </h1>
       <!-- <h1 v-if="!deadColor">아무 일 없이 지나감</h1> -->
-      <div @click="getOut" :class="{
-        'redChar': deadColor === 'red',
-        'redCharGone': deadColor === 'red' && isGone,
-        'blueChar': deadColor === 'blue',
-        'blueCharGone': deadColor === 'blue' && isGone,
-        'whiteChar': deadColor === 'white',
-        'whiteCharGone': deadColor === 'white' && isGone,
-        'blackChar': deadColor === 'black',
-        'blackCharGone': deadColor === 'black' && isGone,
-        'yellowChar': deadColor === 'yellow',
-        'yellowCharGone': deadColor === 'yellow' && isGone
-        }"></div>
-        <div v-if="!!deadColor" :class="{
-          'deadShadow': true,
-          'deadShadowGone': isGone,
-          }"></div>
+      <div
+        @click="getOut"
+        :class="{
+          redChar: deadColor === 'red',
+          redCharGone: deadColor === 'red' && isGone,
+          blueChar: deadColor === 'blue',
+          blueCharGone: deadColor === 'blue' && isGone,
+          whiteChar: deadColor === 'white',
+          whiteCharGone: deadColor === 'white' && isGone,
+          blackChar: deadColor === 'black',
+          blackCharGone: deadColor === 'black' && isGone,
+          yellowChar: deadColor === 'yellow',
+          yellowCharGone: deadColor === 'yellow' && isGone,
+        }"
+      ></div>
+      <div
+        v-if="!!deadColor"
+        :class="{
+          deadShadow: true,
+          deadShadowGone: isGone,
+        }"
+      ></div>
     </div>
 
     <div class="w3-main mx-5">
@@ -272,7 +300,11 @@ export default {
       isVoted: false,
 
       // 시간제한
-      count: 0,
+      dayTimeCount: 0,
+      dayVoteTimeCount: 0,
+      dayVoteResultCount: 0,
+      dayNightTimeCount: 0,
+      dayNightResultCount: 0,
 
       // 직업정보열람용
       isjobRollCenter: true,
@@ -289,7 +321,7 @@ export default {
 
       // 투표 결과
       deadColor: "", // 투표 결과로 죽은 사람이 있다면 걔 색을 얘한테 ㄱ
-      isGone: false, // 
+      isGone: false, //
       whoIsGone: "", // 투표 결과로 죽은 사람이 있다면 걔 닉네임을 얘한테 ㄱ
       msgCnt: 0, // 투표결과 타이핑 효과에 필요
       showingMsg: "", // 투표 결과로 보여줄 메시지
@@ -307,8 +339,7 @@ export default {
     ...mapGetters(memberStore, ["isLogin"]),
     ...mapGetters(ingameStore, ["job"]),
   },
-  beforeCreate() {
-    },
+  beforeCreate() {},
   created() {
     this.mySessionId = `${this.roomNo}`;
     // 미션정보 세팅
@@ -564,11 +595,15 @@ export default {
     typeEffect() {
       this.msgCnt += 1;
       if (this.whoIsGone) {
-        this.showingMsg = `투표 결과 ${ this.whoIsGone } 님이 퇴출되었습니다!`.slice(0, this.msgCnt);
+        this.showingMsg =
+          `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`.slice(
+            0,
+            this.msgCnt
+          );
       } else {
         this.showingMsg = `아무도 퇴출되지 않았습니다`.slice(0, this.msgCnt);
       }
-      console.log("hi")
+      console.log("hi");
       if (this.msgCnt === 50) {
         clearInterval(this.stopCnt);
         this.stopCnt = 0;
@@ -577,7 +612,11 @@ export default {
     typeEffect2() {
       this.msgCnt += 1;
       if (this.whoisGone) {
-        this.showingMsg = `밤 사이에 ${ this.whoIsGone } 님이 사망하였습니다,,,`.slice(0, this.msgCnt);
+        this.showingMsg =
+          `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`.slice(
+            0,
+            this.msgCnt
+          );
       } else {
         this.showingMsg = `조용한 밤을 보냈습니다`.slice(0, this.msgCnt);
       }
@@ -609,10 +648,10 @@ export default {
         this.avOn;
       }
 
-      this.count = 20;
+      this.count = this.dayTimeCount;
       setTimeout(() => {
         this.dayVoteTime();
-      }, 22000);
+      }, 22200);
     },
 
     dayVoteTime() {
@@ -620,18 +659,20 @@ export default {
       this.progress.isDay = false;
       this.setIsDay(false);
       this.progress.isVoteDay = true;
-      this.count = 10;
+      this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
         this.sendVote("");
-        console.log("=======================지금 들어가나?=============================")
-      }, 15000);
+        console.log(
+          "=======================지금 들어가나?============================="
+        );
+      }, 15200);
     },
 
     dayVoteResult() {
       this.typeEffect(); // 투표결과 타이핑 효과
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
-      this.count = 5;
+      this.count = this.dayVoteResultCount;
       this.isVoted = false;
       setTimeout(() => {
         this.isGone = false;
@@ -650,7 +691,7 @@ export default {
 
       this.avOff();
 
-      this.count = 10;
+      this.count = this.dayNightTimeCount;
       this.voteClearNum = setTimeout(() => {
         this.sendVote("");
       }, 15000);
@@ -661,7 +702,7 @@ export default {
       this.typeEffect2();
       this.progress.isNight = false;
       this.progress.isNightResult = true;
-      this.count = 5;
+      this.count = this.dayNightResultCount;
       setTimeout(() => {
         this.isGone = false;
         this.deadColor = "";
@@ -676,14 +717,14 @@ export default {
     // 클릭 상호작용
     sendSkip() {
       if (this.stompClient && this.stompClient.connected) {
-          const msg = {
-              progress: 'day',
-              roomNo: this.roomNo,
-              id: this.userInfo.id,
-          }
-          this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
-          // this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
-          this.isSkiped = true;
+        const msg = {
+          progress: "day",
+          roomNo: this.roomNo,
+          id: this.userInfo.id,
+        };
+        this.stompClient.send("/receiveChat", JSON.stringify(msg), {});
+        // this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
+        this.isSkiped = true;
       } // 나중에 주석 풀기
       // this.dayToDayVote(); // 얘 나중에 주석처리
     },
@@ -714,7 +755,9 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendMafia/${this.mySessionId}/${this.userInfo.id}`,
             (res) => {
-              console.log("=========================개인별로 받는 정보=============================")
+              console.log(
+                "=========================개인별로 받는 정보============================="
+              );
               console.log(res);
               console.log("구독으로 받은 게임 정보입니다.", res.body);
               const data = JSON.parse(res.body);
@@ -727,6 +770,7 @@ export default {
                   }
                 });
               });
+              this.setCount(data.absoluteTime);
               this.startDay();
             }
           );
@@ -773,7 +817,7 @@ export default {
                     element.classList.add(`${user.color}`); // black부터 white까지 클래스 만들어두기
                     clicked.appendChild(element);
                   }
-                })
+                });
               }
 
               // 낮 투표 결과 받기
@@ -781,14 +825,16 @@ export default {
                 // 이 시점에 낮 투표시 넣어줬던 누가 누구 뽑았는지에 대한 정보를 지워줄 필요가 있음
                 // 누가 하겠지
                 // 지금 나는 모르겠음
-                console.log("================투표 응답 확인하자=================")
+                console.log(
+                  "================투표 응답 확인하자================="
+                );
                 console.log(res);
                 this.gameInfos.forEach((user) => {
                   if (user.id === res.body.id) {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
-                })
+                });
                 if (res.body.winJob !== "") {
                   this.gameEnd(res.body.winJob);
                 } else {
@@ -803,7 +849,7 @@ export default {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
-                })
+                });
                 if (res.body.winJob) {
                   this.gameEnd(res.body.winJob);
                 } else {
@@ -851,7 +897,7 @@ export default {
           msg.progress = "voteNight";
         }
         console.log(msg);
-        console.log("==================================")
+        console.log("==================================");
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
       clearTimeout(this.voteClearNum);
@@ -889,31 +935,31 @@ export default {
       // };
       const winJobList = [];
       this.gameInfos.forEach((user) => {
-      //  if (user.job === winJob) {
-      //   winJobList.push({
-      //     winJob: winJob,
-      //     nickname: user.nickname,
-      //     color: user.color,
-      //   });
-      //  }
-      if (winJob === "citizen") {
-        if (user.job === "citizen" || user.job === "doctor") {
-          winJobList.push({
-            winJob: winJob,
-            nickname: user.nickname,
-            color: user.color,
-          })
+        //  if (user.job === winJob) {
+        //   winJobList.push({
+        //     winJob: winJob,
+        //     nickname: user.nickname,
+        //     color: user.color,
+        //   });
+        //  }
+        if (winJob === "citizen") {
+          if (user.job === "citizen" || user.job === "doctor") {
+            winJobList.push({
+              winJob: winJob,
+              nickname: user.nickname,
+              color: user.color,
+            });
+          }
+        } else {
+          if (user.job === winJob) {
+            winJobList.push({
+              winJob: winJob,
+              nickname: user.nickname,
+              color: user.color,
+            });
+          }
         }
-      } else {
-        if (user.job === winJob) {
-          winJobList.push({
-            winJob: winJob,
-            nickname: user.nickname,
-            color: user.color,
-          })
-        }
-      }
-      })
+      });
 
       console.log(typeof this.setGameResult);
       this.setGameResult(winJobList);
@@ -922,6 +968,48 @@ export default {
       this.$router.push({
         name: "gameend",
       });
+    },
+
+    setCount(time) {
+      const convTime = time.split(":");
+
+      const startHours = convTime[0]; //시
+      const startMinutes = convTime[1]; //분
+      const startSeconds = convTime[2]; //초
+
+      const startToday = new Date();
+      const startYear = startToday.getFullYear(); //년
+      const startMonth = startToday.getMonth(); //월
+      const startDate = startToday.getDate(); //일
+
+      const gameStartTime = new Date(
+        startYear,
+        startMonth,
+        startDate,
+        startHours,
+        startMinutes,
+        startSeconds
+      );
+      console.log("=============================");
+      console.log(`시간입니다. ${gameStartTime}`);
+
+      // const gameDayTime = gameStartTime.setSeconds(
+      //   gameStartTime.getSeconds() + 20
+      // );
+      // const gameDayVoteTime = gameStartTime.setSeconds(
+      //   gameStartTime.getSeconds() + 15
+      // );
+      // const gameVoteResultTime = gameStartTime.setSeconds(
+      //   gameStartTime.getSeconds() + 5
+      // );
+      // const gameNightTime = gameStartTime.setSeconds(
+      //   gameStartTime.getSeconds() + 10
+      // );
+      // const gameNightResultTime = gameStartTime.setSeconds(
+      //   gameStartTime.getSeconds() + 5
+      // );
+
+      // const today = new Date();
     },
   },
 };
@@ -1177,7 +1265,7 @@ export default {
 /* 투표결과 관련 style */
 .voteResultDay {
   z-index: 1800;
-  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
   margin: auto;
   position: absolute;
   top: 10%;
@@ -1193,7 +1281,7 @@ export default {
 }
 .voteResultNight {
   z-index: 1800;
-  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 9999px;
   margin: auto;
   position: absolute;
   top: 10%;
