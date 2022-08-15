@@ -22,7 +22,7 @@
       <!-- 마피아 -->
       <div v-if="myInfo.job === 'mafia'">
         <div class="mafiaImage"></div>
-        <div style="width: 65%; margin-left: 120px; margin-top: 250px">
+        <div style="width: 65%; margin-left: 120px; margin-top: 270px">
           <h3 class="">당신의 직업: 마피아</h3>
           <h3 class="">밤마다 한명의 플레이어를 죽일 수 있습니다.</h3>
           <h3 class="">모든 플레이어를 죽이면 승리!</h3>
@@ -227,17 +227,12 @@
         </div>
       </div>
     </div>
-    <a href="/">
+    <a href="/game/end">
       <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
         <i class="fa fa-close"></i>게임끝내기
       </button>
     </a>
   </div>
-  <a href="/game/end">
-    <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
-      <i class="fa fa-close"></i>게임끝내기
-    </button>
-  </a>
 </template>
 
 <script>
