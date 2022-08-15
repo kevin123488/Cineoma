@@ -68,8 +68,8 @@ public class MafiaController {
 				startResult.setHost(it.isIfHost());
 				startResult.setJob(it.getJob());
 				System.out.println("startResult");
-				sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+it.getId(), startResult);	
 			}
+			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId(), startResult);
 		 }
 		break;
 
