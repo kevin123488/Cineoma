@@ -70,7 +70,7 @@ public class ReadyController {
 			
 			
 			//start 가능 상태 보낼 부분
-			if(readyCount == pfuList.size() && pfuList.size()==4)
+			if(readyCount == 4 && pfuList.size()==5)
 				result.setIfStart(true);
 			else
 				result.setIfStart(false);
