@@ -8,5 +8,5 @@ import com.ssafy.mafia.entity.Record;
 public interface RecordService {
 	public List<Record> get(String id) throws Exception; 
 	void registerUser(String id) throws Exception;
-	public boolean recordUpdate(Map<String, String> map) throws Exception;
+	public boolean recordUpdate(String id, String type, String winLose) throws Exception;
 }

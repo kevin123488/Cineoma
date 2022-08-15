@@ -1,5 +1,6 @@
 package com.ssafy.mafia.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,15 @@ public class RecordServiceImpl implements RecordService {
 		
 	}
 	@Override
-	public boolean recordUpdate(Map<String, String> map) throws Exception {
+	public boolean recordUpdate(String id, String type, String winLose) throws Exception {
+		
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("id", id);
+		map.put("type", type);
+		map.put("win", winLose);
+		
 		System.out.println(map.get("id"));
 		List<Record> lr = recordRepository.findAllById(map.get("id"));
 		for(Record r : lr) {

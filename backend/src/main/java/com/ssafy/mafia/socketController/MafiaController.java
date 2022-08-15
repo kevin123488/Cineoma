@@ -33,7 +33,8 @@ public class MafiaController {
 	 @MessageMapping("/receiveMafia")
      public void mafia(MafiaParamDto paramDto) throws Exception {
 		 
-		 
+		 System.out.println("======================리시브 마피아=================================");
+		 System.out.println(paramDto);
 		 String progress = paramDto.getProgress();
 		 
 		 //static에 저장된 방정보
@@ -66,7 +67,7 @@ public class MafiaController {
 			for (MafiaPlaingUser it : mps.getPlaingUsers()) {
 				startResult.setHost(it.isIfHost());
 				startResult.setJob(it.getJob());
-				
+				System.out.println("startResult");
 				sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+it.getId(), startResult);	
 			}
 			

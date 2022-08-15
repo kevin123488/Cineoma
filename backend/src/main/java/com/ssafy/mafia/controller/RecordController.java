@@ -18,17 +18,17 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api/record")
 public class RecordController {
-	private static final String SUCCESS = "success";
-	private static final String FAIL = "fail";
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private RecordService recordService;
-
-	@ApiOperation(value = "전적 갱신", notes = "파라미터로 아이디와 승패, 직업을 받아 전적을 갱신한다.", response = Map.class)
-	@GetMapping()
-	public ResponseEntity<String> updateRecord(@RequestParam Map<String, String> map) throws Exception {
-		if(recordService.recordUpdate(map))	return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-		else return new ResponseEntity<String>(FAIL, HttpStatus.NOT_FOUND);
-	}
+//	private static final String SUCCESS = "success";
+//	private static final String FAIL = "fail";
+//	@Autowired
+//	private UserService userService;
+//	@Autowired
+//	private RecordService recordService;
+//
+//	@ApiOperation(value = "전적 갱신", notes = "파라미터로 아이디와 승패, 직업을 받아 전적을 갱신한다.", response = Map.class)
+//	@GetMapping()
+//	public ResponseEntity<String> updateRecord(@RequestParam Map<String, String> map) throws Exception {
+//		if(recordService.recordUpdate(map))	return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//		else return new ResponseEntity<String>(FAIL, HttpStatus.NOT_FOUND);
+//	}
 }

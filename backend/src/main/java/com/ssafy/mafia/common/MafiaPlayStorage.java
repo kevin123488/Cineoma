@@ -62,8 +62,9 @@ public class MafiaPlayStorage {
 	public void gameStart()
 	{
 		aliveCount=profileUsers.size();
+		movingUserCount=profileUsers.size();
 		voteCount=0;
-		profileUsers.clear();
+//		profileUsers.clear();
 		doctorAlive=true;
 		mafiaChosen="";
 		doctorChosen="";
@@ -89,16 +90,19 @@ public class MafiaPlayStorage {
 			MafiaPlaingUser mpu = new MafiaPlaingUser();
 			
 			idx =rand.nextInt(maxIdx);
+			System.out.println("===============================================================");
+			System.out.println("colorList : "+idx);
 			mpu.setColor(colorList.get(idx));
-			Collections.swap(colorList, idx, maxIdx);
+			Collections.swap(colorList, idx, maxIdx-1);
 			
 			idx =rand.nextInt(maxIdx);
+			System.out.println("jobList : "+idx);
 			mpu.setJob(jobList.get(idx));
 			if(mpu.getJob().equals("police"))
 			{
 				policeId=pu.getId();
 			}
-			Collections.swap(jobList, idx, maxIdx);
+			Collections.swap(jobList, idx, maxIdx-1);
 			
 			maxIdx--;
 			
@@ -108,7 +112,7 @@ public class MafiaPlayStorage {
 			mpu.setWinRate(pu.getWinRate());
 			mpu.setIfHost(pu.isIfCaptain());
 			plaingUsers.add(mpu);
-			
+			System.out.println(mpu);
 		}
 	}
 	

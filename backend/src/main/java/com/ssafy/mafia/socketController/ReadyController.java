@@ -41,6 +41,7 @@ public class ReadyController {
 		{
 			mps.gameStart();
 			mps.setMovingUserCount(mps.getProfileUsers().size());
+			System.out.println(mps);
 		}
 		//게임 시작 가능한 경우
 		else if(paramDto.isIfStart())
