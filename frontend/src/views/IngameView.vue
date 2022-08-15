@@ -223,7 +223,7 @@ export default {
       subscribers: [],
 
       // Join form
-      mySessionId: this.$route.roomnumber,
+      mySessionId: this.$route.params.roomnumber,
       myUserName: "",
 
       // 게임정보
@@ -265,12 +265,12 @@ export default {
     ...mapGetters(ingameStore, ["job"]),
   },
   created() {
+    this.mySessionId = `${this.roomNo}`;
     // 미션정보 세팅
     this.setIfWin(false);
     this.setMissionCnt(0);
     this.setMissionClass(this.randomNum(0, 2));
 
-    this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
     this.myUserId = this.userInfo.id;
     // console.log("=====================참가자=================")
