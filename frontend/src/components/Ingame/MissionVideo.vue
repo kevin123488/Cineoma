@@ -105,6 +105,8 @@ export default {
         // 1.00이 되고, 마지막 시간이랑 3초 텀이 있어야 판별
         if (!this.ifWin && this.isDay) {
             // 쿨타임 끝났으면
+            const coolTime = String(parseInt(prediction[this.missionClass].probability.toFixed(2)*100)) + ' % 일치';
+            this.labelContainer.childNodes[0].innerText = coolTime;
             if ((nowTime - this.end) >= 6000) {
                 // 동작 인식되면
                 if (prediction[this.missionClass].probability.toFixed(2) === '1.00') {
@@ -150,13 +152,14 @@ export default {
                     this.labelContainer.childNodes[1].innerText = duration;
                 }
             } else {
+                this.labelContainer.childNodes[0].innerText = '성공!';
                 const duration = String(parseInt(7 - (nowTime - this.end)/1000)) + ' 초 뒤 도전가능'
                 this.labelContainer.childNodes[1].innerText = duration;
             }
 
             // 미션 랜덤배정 후=
-            const coolTime = String(parseInt(prediction[this.missionClass].probability.toFixed(2)*100)) + ' % 일치';
-            this.labelContainer.childNodes[0].innerText = coolTime;
+            // const coolTime = String(parseInt(prediction[this.missionClass].probability.toFixed(2)*100)) + ' % 일치';
+            // this.labelContainer.childNodes[0].innerText = coolTime;
 
             // 미션 랜덤배정 전
             // for (let i = 0; i < 3; i++) {
