@@ -16,7 +16,6 @@
         jobRollFormCenter: isjobRollCenter,
       }"
     >
-      <div class="voteItem"></div>
     </button>
 
     <!-- 직업확인창 -->

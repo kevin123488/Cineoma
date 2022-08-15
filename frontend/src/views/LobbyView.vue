@@ -1,163 +1,167 @@
 <template>
-<div class="bg-secondary lobby-background" style="padding-top:20px;">
 
-<!--  -->
-<!--  -->
-<!-- 로비창 이식 -->
+  <nav-header v-if="showNav" class='fixed-top' style="z-index: 1000;">
+  </nav-header>
 
-<div class="w3-container w3-content lobby-undernavbar" style="max-width:1400px;">    
-  <div class="w3-row">
+  <div class="bg-secondary lobby-background" style="padding-top:20px;">
 
-    <!-- <div id="test1"><div id="test2">asdf</div></div> -->
-    <!-- 방 관련 부분 -->
-    <div class="w3-col m8">
-      
-      <!-- 방검색, 만들기, 새로고침 부분 -->
+  <!--  -->
+  <!--  -->
+  <!-- 로비창 이식 -->
 
-      <div class="w3-row">
-        <div class="w3-col m12">
-          <div class="">
-            <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
-            <div class="w3-container w3-roun my-3">
-              <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
-              <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
-                <i class="fa fa-map-pin"></i>방검색
-              </button>
-              <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
-              <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
-                <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
-              </button>
-              <!-- <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
-                트랜지션 테스트
-              </button> -->
-              <a href="/game/end">
-                게임결과 테스트
-              </a>
-              <button v-on:click="voteResult()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
-                투표결과 테스트
-              </button>
-              <!-- <button @click="goMypageTest">
-                마이페이지 테스트
-              </button> -->
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="w3-container w3-content lobby-undernavbar" style="max-width:1400px;">    
+    <div class="w3-row">
 
-      <br>
-      <!--  -->
-      <div id="scroll" class="overflow-auto" style="height: 535px;">
-        <!-- <p class="sticky-top"></p> -->
-        <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 py-3" style="">
-            <h4 class="mx-4 text-purple" style="font-size: 28px;">Activated Room List</h4>
-        </div>
-
-        <!-- 들어가기모달 -->
-        <div class="modal" id="enterRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="margin-top: 200px;">
-          <div class="modal-dialog">
-            <div class="modal-content lobbyModal">
-              <div class="modal-header">
-                <h3 class="modal-title" style="color: white; margin-left: 50px;">{{ enterRoomData.roomTitle }}</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-
-              <div class="modal-body" style="color: white; margin-left: 50px;">
-                <p>함께할 멤버</p>
-                <div v-for="(member, index) in members" :key="index">
-                  <p>{{ member.nickname }}</p>
-                </div>
-                <input v-if="enterRoomData.isPassword" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호를 입력해주세요:" v-model="password">
-              </div>
-              <div class="modal-footer">
-              <!-- <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
-                <i class="fa fa-map-pin"></i>방검색
-              </button> -->
-                <button class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-close'></i>나가기</button>
-
-                <button v-on:click="tryEnterRoom(enterRoomData)" class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-arrow-right'></i>입장하기</button>
-
-              </div>
-          </div>
-        </div>
-          <!-- <div class="w3-row-padding" style="margin:0 -16px">
-            <div class="w3-half">
-              <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-            </div>
-            <div class="w3-half">
-              <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-            </div>
-          </div>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
-        </div>
-
-          <!-- 방 정보 시작 -->
-          <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
-            <span class="w3-right w3-opacity">생성시간: 10 min</span>
-            <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h3 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h3>
-            <hr class="">
-
-            <!-- 들어가기버튼 -->
-            <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px; cursor: pointer;">
-              <i class="fa fa-pencil"></i>들어가기
-            </p>
-        </div>
-        <!-- 방정보 끝 -->
+      <!-- <div id="test1"><div id="test2">asdf</div></div> -->
+      <!-- 방 관련 부분 -->
+      <div class="w3-col m8">
         
-      </div>
-    </div>
-    
-    <!-- 친구창 -->
-    <div class="w3-col m4">
+        <!-- 방검색, 만들기, 새로고침 부분 -->
 
-      <!-- 공지창 -->
-      <div id="notice" class="w3-round  w3-center">
-        <div class="w3-container" style="margin-left: 30px; margin-right: 30px">
-          <br>
-          <br>
-          <p class="my-1">Upcoming Events:</p>
-          <p class="my-1"><strong>시민이였던 내가 오늘은 마피아?!</strong></p>
-          <p class="my-1"><strong>release</strong></p>
-          <p class="my-1">8/19 13:00</p>
-          <p class="my-1">최종발표</p>
-        </div>
-      </div>
-      <br>
-      
-      <div id="scroll" class="overflow-auto my-3" style="height: 405px; margin-left: 50px; margin-right: 50px;">
-
-        <div id="" class="w3-center sticky-top lobbyFriendTitle">
-          <div class="w3-container my-3">
-            <h3 class="brownColor"><I>Friend List</I></h3>
+        <div class="w3-row">
+          <div class="w3-col m12">
+            <div class="">
+              <div id="lobbyTop" class="w3-container w3-card w3-round mx-5 my-3">
+              <div class="w3-container w3-roun my-3">
+                <input id ="searchBar" v-on:keyup.enter="searchRoom()" contenteditable="true" type="text" style="opacity: 0.7;" class="w3-border w3-padding w3-card" placeholder="방 제목:" v-model="searchRoomKeyword">
+                <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
+                  <i class="fa fa-map-pin"></i>방검색
+                </button>
+                <make-room class="text-deepdarkpurple" style="display: inline;"></make-room>
+                <button type="button" class="w3-button w3-theme" style="font-family: 'NeoDunggeunmo Code';">
+                  <a href="/lobby" class="text-deepdarkpurple" style="font-size: 20px;"><i class="fa fa-refresh "></i>새로고침</a>
+                </button>
+                <!-- <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+                  트랜지션 테스트
+                </button> -->
+                <a href="/game/end">
+                  게임결과 테스트
+                </a>
+                <button v-on:click="voteResult()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
+                  투표결과 테스트
+                </button>
+                <!-- <button @click="goMypageTest">
+                  마이페이지 테스트
+                </button> -->
+              </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div v-for="(friend, index) in friends" :key="index" class="w3-center lobbyFriend">
-          <div class="w3-container" style="height: 400px;">
-            <h2 class="brownColor" style="margin-top: 40px; margin-bottom: 40px;"><I><b>{{ friend.nickname }}</b></I></h2>
-            <img v-if="friend.imagePath !== null" class="friendImage" :src="`/homedesign/images/` + friend.imagePath" alt="">
+        <br>
+        <!--  -->
+        <div id="scroll" class="overflow-auto" style="height: 535px;">
+          <!-- <p class="sticky-top"></p> -->
+          <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 py-3" style="">
+              <h4 class="mx-4 text-purple" style="font-size: 28px;">Activated Room List</h4>
           </div>
-          <br>
+
+          <!-- 들어가기모달 -->
+          <div class="modal" id="enterRoomModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="margin-top: 200px;">
+            <div class="modal-dialog">
+              <div class="modal-content lobbyModal">
+                <div class="modal-header">
+                  <h3 class="modal-title" style="color: white; margin-left: 50px;">{{ enterRoomData.roomTitle }}</h3>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body" style="color: white; margin-left: 50px;">
+                  <p>함께할 멤버</p>
+                  <div v-for="(member, index) in members" :key="index">
+                    <p>{{ member.nickname }}</p>
+                  </div>
+                  <input v-if="enterRoomData.isPassword" contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호를 입력해주세요:" v-model="password">
+                </div>
+                <div class="modal-footer">
+                <!-- <button v-on:click="searchRoom()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px;">
+                  <i class="fa fa-map-pin"></i>방검색
+                </button> -->
+                  <button class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-close'></i>나가기</button>
+
+                  <button v-on:click="tryEnterRoom(enterRoomData)" class="w3-button w3-theme w3-white" style="font-family: 'NeoDunggeunmo Code'; font-size: 20px; border-radius: 4px;" data-bs-dismiss="modal"><i class='fa fa-arrow-right'></i>입장하기</button>
+
+                </div>
+            </div>
+          </div>
+            <!-- <div class="w3-row-padding" style="margin:0 -16px">
+              <div class="w3-half">
+                <img src="/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
+              </div>
+              <div class="w3-half">
+                <img src="/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
+              </div>
+            </div>
+          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i> Like</button> 
+          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i> Comment</button>  -->
+          </div>
+
+            <!-- 방 정보 시작 -->
+            <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
+              <span class="w3-right w3-opacity">생성시간: 10 min</span>
+              <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h3 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h3>
+              <hr class="">
+
+              <!-- 들어가기버튼 -->
+              <p class="mx-3 text-deepdarkpurple" data-bs-toggle="modal" data-bs-target="#enterRoomModal" @click="openEnterRoom(room)" style=" font-family: 'NeoDunggeunmo Code'; font-size: 24px; cursor: pointer;">
+                <i class="fa fa-pencil"></i>들어가기
+              </p>
+          </div>
+          <!-- 방정보 끝 -->
+          
         </div>
-      
       </div>
-      <br>
       
-      <!-- <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-        <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div> -->
+      <!-- 친구창 -->
+      <div class="w3-col m4">
+
+        <!-- 공지창 -->
+        <div id="notice" class="w3-round  w3-center">
+          <div class="w3-container" style="margin-left: 30px; margin-right: 30px">
+            <br>
+            <br>
+            <p class="my-1">Upcoming Events:</p>
+            <p class="my-1"><strong>시민이였던 내가 오늘은 마피아?!</strong></p>
+            <p class="my-1"><strong>release</strong></p>
+            <p class="my-1">8/19 13:00</p>
+            <p class="my-1">최종발표</p>
+          </div>
+        </div>
+        <br>
+        
+        <div id="scroll" class="overflow-auto my-3" style="height: 405px; margin-left: 50px; margin-right: 50px;">
+
+          <div id="" class="w3-center sticky-top lobbyFriendTitle">
+            <div class="w3-container my-3">
+              <h3 class="brownColor"><I>Friend List</I></h3>
+            </div>
+          </div>
+
+          <div v-for="(friend, index) in friends" :key="index" class="w3-center lobbyFriend">
+            <div class="w3-container" style="height: 400px;">
+              <h2 class="brownColor" style="margin-top: 40px; margin-bottom: 40px;"><I><b>{{ friend.nickname }}</b></I></h2>
+              <img v-if="friend.imagePath !== null" class="friendImage" :src="`/homedesign/images/` + friend.imagePath" alt="">
+            </div>
+            <br>
+          </div>
+        
+        </div>
+        <br>
+        
+        <!-- <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
+          <p><i class="fa fa-bug w3-xxlarge"></i></p>
+        </div> -->
+        
+      <!-- End Right Column -->
+      </div>
       
-    <!-- End Right Column -->
     </div>
-    
   </div>
-</div>
 
-<!-- 로비창 이식 끝 -->
-<!--  -->
-<!--  -->
-    
+  <!-- 로비창 이식 끝 -->
+  <!--  -->
+  <!--  -->
+      
 
 
 
@@ -165,7 +169,8 @@
 </template>
 
 <script>
-import MakeRoom from '@/components/Lobby/MakeRoom.vue'
+import MakeRoom from '@/components/Lobby/MakeRoom.vue'  
+import NavHeader from '@/components/Nav/NavHeader.vue'
 import { mapActions, mapGetters, mapState } from 'vuex'
 const lobbyStore = "lobbyStore"
 const roomdataStore = "roomdataStore"
@@ -180,6 +185,7 @@ export default {
   name: 'LobbyView',
   components: {
       MakeRoom,
+      NavHeader,
   },
   data() {
     return {
@@ -191,7 +197,8 @@ export default {
       members: [],
       // showFriendList: false
       roomNo: -1,
-      password: ''
+      password: '',
+      showNav: true,
     }
   },
   watch: {
@@ -238,6 +245,15 @@ export default {
       'saveRoomTitle',
       'saveIsCaptain',
     ]),
+
+    scrollEvent() {
+      if (scrollY <= 10) {
+        this.showNav = true;
+        console.log("지금 보여야됨")
+      } else {
+        this.showNav = false;
+      }
+    },
 
     goMypageTest() {
       this.$router.push("/myPage");
@@ -318,13 +334,17 @@ export default {
   },
 
   mounted() {
+    document.addEventListener("scroll", this.scrollEvent);    
     console.log(this.userInfo)
     console.log('연결되있나??')
     console.log(this.isConnected)
     // console.log(this.friendList)
     // console.log(this.roomList[0])
     // console.log(this.isCaptain)
-  }
+  },
+  unmounted() {
+      document.removeEventListener("scroll", this.scrollEvent);
+  },
 }
 </script>
 <style>
