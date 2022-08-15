@@ -205,12 +205,12 @@
         </div>
 
         <div class="w3-col m4">
-          <ul class="mx-2 my-2 w3-container border border-secondary w3-col m8">
-            <li>직업: {{ myInfo.job }}</li>
-            <li>미션:</li>
-          </ul>
+          <div class="mx-2 py-2 w3-container w3-col m9 just myVideoBackground">
+            <h3 class="brownColor" style="text-align: center;"><b><I>직업: {{ myInfo.job }}</I></b></h3>
+          </div>
           <div
-            class="mx-2 my-2 w3-container border border-secondary w3-col m8"
+            class="mx-2 my-2 w3-container w3-col m9 just"
+            style="padding: 0%; justify-content: center;"
             id="video-container"
           >
             <user-video
@@ -222,6 +222,7 @@
               v-if="myInfo.job === 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
+              class="myVideoBackground"
             />
           </div>
         </div>
@@ -1146,6 +1147,7 @@ export default {
   background-color: rgba(255, 255, 255, 0);
   transition-duration: 0.5s;
   transition-timing-function: ease;
+  z-index: 2000;
 }
 .openedJobRoll {
   position: absolute;
@@ -1396,5 +1398,14 @@ export default {
   left: 90%;
   width: 0px;
   height: 0px;
+}
+.myVideoBackground {
+  background-image: url(../../public/homedesign/images/lobby_friend.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  justify-content: center;
+}
+.brownColor {
+  color:rgb(106, 66, 14)
 }
 </style>

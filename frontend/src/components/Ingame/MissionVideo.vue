@@ -1,13 +1,13 @@
 <template>
 	<!-- <video autoplay class="video-size" /> -->
     <div v-if="ifWin" class="clearSign"></div>
-	<div style="font-size: 20px; font-family: 'NeoDunggeunmo Code';">{{ motionExplanation[missionClass] }}</div>
+	<div class="content brownColor" style="font-size: 20px; text-align: center; padding-top: 40px; padding-bottom: 20px; font-family: 'NeoDunggeunmo Code';"><b>{{ motionExplanation[missionClass] }}</b></div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
-	<div><canvas id="canvas"></canvas></div>
-	<div id="label-container"></div>
-	<div id="missionCnt" class="d-flex missionInfo" >신자카운트: </div>
+	<div style="text-align: center;"><canvas id="canvas"></canvas></div>
+	<div id="label-container" class="brownColor"></div>
+	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px;">신자카운트: </div>
 
-	<div id="clearMessage" style="font-size: 20px; font-family: 'NeoDunggeunmo Code';"></div>
+	<div id="clearMessage" class="brownColor" style="font-size: 20px; font-family: 'NeoDunggeunmo Code';"></div>
 </template>
 
 <script type="text/javascript">
@@ -130,7 +130,7 @@ export default {
                             if (this.missionCnt === 4) {
                                 var clearMessage = document.querySelector('#clearMessage')
                                 var missionClear = document.createElement("div")
-                                missionClear.classList.add("missionInfo");
+                                missionClear.classList.add("missionClearInfo");
                                 missionClear.innerText = '낮 투표에서 살아남으면 승리!'
                                 clearMessage.appendChild(missionClear);
                                 this.setIfWin(true)
@@ -197,6 +197,9 @@ export default {
 </script>
 
 <style>
+#canvas {
+    margin: auto;
+}
 .video-size {
     width: 100%;
     height: 200px;
@@ -204,6 +207,15 @@ export default {
 .missionInfo {
   font-size: 24px;
   font-family: 'NeoDunggeunmo Code';
+  text-align: center;
+  /* margin: auto; */
+}
+.missionClearInfo {
+  font-size: 20px;
+  font-family: 'NeoDunggeunmo Code';
+  text-align: center;
+  color:rgb(160, 26, 26);
+  font-weight: bold;  
 }
 .believer {
   background-image: url(../../../public/homedesign/images/believer.png);
@@ -215,8 +227,8 @@ export default {
 }
 .clearSign {
   position: absolute;
-  top: 53%;
-  left: 67%;
+  top: 56%;
+  left: 68%;
   right: 30%;
   opacity: 0.9;
   width: 40vh;
@@ -228,5 +240,8 @@ export default {
   background-color: rgba(255, 255, 255, 0);
   transition-duration: 0.5s;
   transition-timing-function: ease;
+}
+.brownColor {
+  color:rgb(106, 66, 14)
 }
 </style>

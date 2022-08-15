@@ -24,9 +24,9 @@
         <div class="mainCurtain">
 
 
-          <h1 style="font-size: 70px; padding-top: 200px;, margin-top: 0px; color: white;">{{ job }} 승리!</h1>
+          <h1 style="font-size: 70px; padding-top: 150px;, margin-top: 0px; color: white;">{{ job }} 승리!</h1>
 
-          <div style="height: 250px;">
+          <div style="height: 150px;">
             <br>
             <div v-show="!showblackGround" @click="returnWaitRoom" class="w3-container my-3 w3-white" style="width:200px; margin: auto; border-radius: 10px; cursor: pointer;">
               <h3>대기방으로</h3>
@@ -36,7 +36,7 @@
           <div style="height: 250px;">
             <div class="d-flex justify-content-center" style="margin: auto;">
               <div v-for="(member, idx) in winMember" :key="idx">
-                <p>{{ member.nickname }}</p>
+                <h3>{{ member.nickname }}</h3>
                 <img class="winCharacter" :src="'/../../homedesign/images/mafia_' + member.color + '.png'" alt="">
               </div>
             </div>
@@ -91,17 +91,17 @@ const memberStore = "memberStore"
       },
     },
     created() {
-      if (this.gameResult[0].winJob === 'mafia') {
-        this.job = '마피아'
-      } else if (this.gameResult[0].winJob === 'police') {
-        this.job = '교주'
-      } else {
-        this.job = '시민'
-      }
+      // if (this.gameResult[0].winJob === 'mafia') {
+      //   this.job = '마피아'
+      // } else if (this.gameResult[0].winJob === 'police') {
+      //   this.job = '교주'
+      // } else {
+      //   this.job = '시민'
+      // }
 
-      this.gameResult.forEach((winUser) => {
-        this.winMember.push({ color: winUser.color, nickname: winUser.nickname })
-      });
+      // this.gameResult.forEach((winUser) => {
+      //   this.winMember.push({ color: winUser.color, nickname: winUser.nickname })
+      // });
     },
     mounted() {
       setTimeout(() =>{ this.isDark = false }, 1000)
