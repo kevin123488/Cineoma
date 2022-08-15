@@ -315,12 +315,13 @@ export default {
     // 방 나가기
     sendOut() {
       if (this.stompClient && this.stompClient.connected) {
-        const msg = {
-          roomNo: this.roomNo,
-          id: this.user.id,
-        };
-        console.log(msg);
-        this.stompClient.send("/receiveProfile", JSON.stringify(msg), {});
+        this.stompClient.disconnect();
+        // const msg = {
+        //   roomNo: this.roomNo,
+        //   id: this.user.id,
+        // };
+        // console.log(msg);
+        // this.stompClient.send("/receiveProfile", JSON.stringify(msg), {});
       }
     },
 
