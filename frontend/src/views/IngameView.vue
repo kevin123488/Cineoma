@@ -44,7 +44,7 @@
       <!-- 교주 -->
       <div v-if="job === 'headmaster'">
         <div class="headmasterImage"></div>
-        <div style="width: 65%; margin-left: 120px; margin-top: 300px">
+        <div style="width: 65%; margin-left: 120px; margin-top: 270px">
           <h3 class="">당신의 직업: 교주</h3>
           <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
           <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>
@@ -223,7 +223,7 @@ export default {
       subscribers: [],
 
       // Join form
-      mySessionId: this.$route.roomnumber,
+      mySessionId: this.$route.params.roomnumber,
       myUserName: "",
 
       // 게임정보
@@ -265,12 +265,12 @@ export default {
     ...mapGetters(ingameStore, ["job"]),
   },
   created() {
+    this.mySessionId = `${this.roomNo}`;
     // 미션정보 세팅
     this.setIfWin(false);
     this.setMissionCnt(0);
     this.setMissionClass(this.randomNum(0, 2));
 
-    this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
     this.myUserId = this.userInfo.id;
     // console.log("=====================참가자=================")
