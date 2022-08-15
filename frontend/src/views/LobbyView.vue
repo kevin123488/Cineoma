@@ -272,8 +272,8 @@ export default {
       // 안되면 watch 달아보기
 
       console.log('방 들어갈때 방 정보임')
-      console.log(room.no)
-      console.log(this.userInfo)
+      console.log(room.roomTitle)
+      this.saveRoomTitle(room.roomTitle)
       const info = { roomNo: room.no, id: { id: this.userInfo.id } }
       this.getMemberList(info)
       this.enterRoomData = room
