@@ -186,12 +186,12 @@
             id="video-container"
           >
             <user-video
-              v-if="myInfo.job !== police"
+              v-if="myInfo.job !== 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
             />
             <mission-user-video
-              v-if="myInfo.job === police"
+              v-if="myInfo.job === 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
             />
@@ -616,6 +616,7 @@ export default {
       this.count = 10;
       this.voteClearNum = setTimeout(() => {
         this.sendVote("");
+        console.log("=======================지금 들어가나?=============================")
       }, 15000);
     },
 
@@ -673,7 +674,7 @@ export default {
               id: this.userInfo.id,
           }
           this.stompClient.send('/receiveChat', JSON.stringify(msg), {});
-          this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
+          // this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
           this.isSkiped = true;
       } // 나중에 주석 풀기
       // this.dayToDayVote(); // 얘 나중에 주석처리
@@ -683,6 +684,7 @@ export default {
 
     connect() {
       const serverURL = "http://localhost:8080/roomSocket";
+      // const serverURL = "https://i7e107.p.ssafy.io/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       socket.onclose = function () {
@@ -704,6 +706,7 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendMafia/${this.mySessionId}/${this.userInfo.id}`,
             (res) => {
+              console.log("=========================개인별로 받는 정보=============================")
               console.log(res);
               console.log("구독으로 받은 게임 정보입니다.", res.body);
               const data = JSON.parse(res.body);
@@ -715,8 +718,8 @@ export default {
                     gameInfo.color = joinUser.color;
                   }
                 });
-                this.startDay();
               });
+              this.startDay();
             }
           );
 
@@ -770,13 +773,15 @@ export default {
                 // 이 시점에 낮 투표시 넣어줬던 누가 누구 뽑았는지에 대한 정보를 지워줄 필요가 있음
                 // 누가 하겠지
                 // 지금 나는 모르겠음
+                console.log("================투표 응답 확인하자=================")
+                console.log(res);
                 this.gameInfos.forEach((user) => {
                   if (user.id === res.body.id) {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
                 })
-                if (res.body.winJob) {
+                if (res.body.winJob !== "") {
                   this.gameEnd(res.body.winJob);
                 } else {
                   this.dayVoteResult();
@@ -838,6 +843,7 @@ export default {
           msg.progress = "voteNight";
         }
         console.log(msg);
+        console.log("==================================")
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
       clearTimeout(this.voteClearNum);

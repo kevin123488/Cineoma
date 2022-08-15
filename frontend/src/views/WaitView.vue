@@ -178,6 +178,7 @@ export default {
     // 소켓 연결
     connect() {
       const serverURL = "http://localhost:8080/roomSocket";
+      // const serverURL = "https://i7e107.p.ssafy.io/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
