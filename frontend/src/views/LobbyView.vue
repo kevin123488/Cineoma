@@ -51,7 +51,7 @@
 
         <br>
         <!--  -->
-        <div id="scroll" class="overflow-auto" style="height: 535px;">
+        <div id="scroll" class="overflow-auto" style="height: 435px;">
           <!-- <p class="sticky-top"></p> -->
           <div id="lobbyMid" class="w3-container w3-card w3-round sticky-top mx-5 py-3" style="">
               <h4 class="mx-4 text-purple" style="font-size: 28px;">Activated Room List</h4>
@@ -62,7 +62,7 @@
             <div class="modal-dialog">
               <div class="modal-content lobbyModal">
                 <div class="modal-header">
-                  <h3 class="modal-title" style="color: white; margin-left: 50px;">{{ enterRoomData.roomTitle }}</h3>
+                  <h3 class="modal-title" style="coenterRoomDatalor: white; margin-left: 50px;">{{ enterRoomData.roomTitle }}</h3>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -98,7 +98,7 @@
 
             <!-- 방 정보 시작 -->
             <div v-for="(room, index) in roomList" :key="index" id="rooms" class="w3-container w3-card w3-white w3-round  mx-5 my-4"><br>
-              <span class="w3-right w3-opacity">생성시간: 10 min</span>
+              <h3 v-if="room.ifPassword" class="w3-right w3-opacity">비밀방입니다</h3>
               <h2 id="title" class="px-4 text-purple">{{ room.roomTitle }}</h2><h3 class="px-4 text-purple">({{ room.memberCnt }} / 5)</h3>
               <hr class="">
 
@@ -129,7 +129,7 @@
         </div>
         <br>
         
-        <div id="scroll" class="overflow-auto my-3" style="height: 405px; margin-left: 50px; margin-right: 50px;">
+        <div id="scroll" class="overflow-auto my-3" style="height: 305px; margin-left: 50px; margin-right: 50px;">
 
           <div id="" class="w3-center sticky-top lobbyFriendTitle">
             <div class="w3-container my-3">
@@ -139,7 +139,7 @@
 
           <div v-for="(friend, index) in friends" :key="index" class="w3-center lobbyFriend">
             <div class="w3-container" style="height: 400px;">
-              <h2 class="brownColor" style="margin-top: 40px; margin-bottom: 40px;"><I><b>{{ friend.nickname }}</b></I></h2>
+              <h2 class="brownColor" style="margin-top: 55px; margin-bottom: 35px;"><I><b>{{ friend.nickname }}</b></I></h2>
               <img v-if="friend.imagePath !== null" class="friendImage" :src="`/homedesign/images/` + friend.imagePath" alt="">
             </div>
             <br>
