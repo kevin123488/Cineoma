@@ -27,6 +27,7 @@ export default {
   watch: {
     time() {
       this.total = parseInt(this.time, 10);
+      clearInterval(this.interval);
       this.interval = setInterval(() => {
         this.tick();
       }, 1000);
@@ -42,7 +43,7 @@ export default {
       this.minutes = this.str_pad_left(minutes, "0", 2);
       this.seconds = this.str_pad_left(seconds, "0", 2);
 
-      if (this.total <= 0) {
+      if (this.total <= 2) {
         clearInterval(this.interval);
       }
 
