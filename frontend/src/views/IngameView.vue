@@ -157,7 +157,7 @@
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[0]"
-                :gameInfo="gameInfos[1]"
+                :gameInfo="gameInfos[0]"
               >
               </other-user-video>
             </div>
@@ -169,7 +169,7 @@
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[1]"
-                :gameInfo="gameInfos[2]"
+                :gameInfo="gameInfos[1]"
               >
               </other-user-video>
             </div>
@@ -181,7 +181,7 @@
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[2]"
-                :gameInfo="gameInfos[3]"
+                :gameInfo="gameInfos[2]"
               >
               </other-user-video>
             </div>
@@ -193,7 +193,7 @@
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[3]"
-                :gameInfo="gameInfos[4]"
+                :gameInfo="gameInfos[3]"
               >
               </other-user-video>
             </div>
