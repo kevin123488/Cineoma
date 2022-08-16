@@ -49,7 +49,11 @@ public class MafiaController {
 			
 			
 			//현재 시간 갱신
-			String absoluteTime=getTime();
+			if(mps.getTime().equals(""))
+			{
+				mps.setTime(getTime());
+			}
+			
 			
 			MafiaStartResultDto startResult = new MafiaStartResultDto();
 			
@@ -61,12 +65,13 @@ public class MafiaController {
 			//Progress, absoluteTime 공통부분이니 여기서 처리해줌
 			startResult.setProgress(progress);
 			
-			startResult.setAbsoluteTime(absoluteTime);
+			startResult.setAbsoluteTime(mps.getTime());
 			//result에 공통값 외에 바뀌는 부분을 넣어서 보내주는 부분
 			System.out.println(mps.getPlaingUsers());
 			for (MafiaPlaingUser it : mps.getPlaingUsers()) {
 				if(paramDto.getId().equals(it.getId()))
 				{
+					it.setIfAlive(true);
 					startResult.setHost(it.isIfHost());
 					startResult.setJob(it.getJob());
 					break;
@@ -76,6 +81,7 @@ public class MafiaController {
 			}
 			System.out.println("각 개인에게 보내주는 메시지======================================");
 			System.out.println("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId()+"\n"+startResult+"\n");
+			
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId(), startResult);
 		 }
 		break;
@@ -85,32 +91,35 @@ public class MafiaController {
 		{
 			MafiaDayResultDto dayResult = new MafiaDayResultDto();
 			
-			String time = getTime();
+			
 			
 			MafiaPlaingUser mpu = mps.getMPU(paramDto.getId());
 			
-			dayResult.setAbsoluteTime(time);
 			dayResult.setColor(mpu.getColor());
 			dayResult.setId(paramDto.getId());
 			dayResult.setProgress(progress);
+			
 			mps.setVoteCount(mps.getVoteCount()+1);
 			
 			if(mps.getVoteCount()>mps.getAliveCount()/2)
 			{
 				mps.setVoteCount(0);
+				dayResult.setAbsoluteTime(getTime());
 				dayResult.setIfSkip(true);
 			}
 			else
 				dayResult.setIfSkip(false);
 			
-			System.out.println();
+			
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), dayResult);	
 			
 			
 		}
 		break;
+		
 		case "voteDay":
 		{
+			mps.setTime("");
 			//미션자가 미션 완료한 경우
 			if(paramDto.isIfWin())
 			{
@@ -200,7 +209,7 @@ public class MafiaController {
 			
 			mps.setVoteCount(mps.getVoteCount()+1);
 			String dieId="";
-			if(paramDto.getJob()=="doctor")
+			if(paramDto.getJob().equals("doctor"))
 			{
 				//마피아가 아직 투표 안했음
 				if(mps.getVoteCount()==1)
@@ -209,7 +218,7 @@ public class MafiaController {
 					break;
 				}
 			}
-			else if(paramDto.getJob()=="mafia")
+			else if(paramDto.getJob().equals("mafia"))
 			{
 				//의사가 아직 투표 안했음
 				if(mps.isDoctorAlive() && mps.getVoteCount()==1)
