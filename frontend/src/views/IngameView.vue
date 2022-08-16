@@ -610,6 +610,9 @@ export default {
                 "================투표 응답 확인하자================="
               );
               console.log(res);
+              if (this.myInfo.id === data.id) {
+                this.isAlive = false;
+              }
               this.gameInfos.forEach((user) => {
                 if (user.id === data.id) {
                   this.deadColor = user.color;
@@ -966,7 +969,9 @@ export default {
       this.getDayVoteTimeCount();
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
-        this.sendVote("");
+        if (this.isAlive) {
+          this.sendVote("");
+        }
         console.log(
           "=======================지금 들어가나?============================="
         );
@@ -999,7 +1004,9 @@ export default {
       this.getDayNightTimeCount();
       this.count = this.dayNightTimeCount;
       this.voteClearNum2 = setTimeout(() => {
-        this.sendVote("");
+        if (this.isAlive) {
+          this.sendVote("");
+        }
       }, this.count * 1000 + 200);
       // 여기 강제투표
     },
