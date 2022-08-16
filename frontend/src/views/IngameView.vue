@@ -788,19 +788,19 @@ export default {
             `/topic/sendMafia/${this.mySessionId}`,
             (res) => {
               console.log("구독으로 받은 게임 정보입니다.", res.body);
-              // const data = JSON.parse(res.body);
+              const data = JSON.parse(res.body);
 
               // 낮 진행
-              if (res.body.progress === "day") {
-                this.color = res.body.color; // 긴급버튼 누른 사람의 색
-                this.voteUser = res.body.nickname; // 긴급버튼 누른 사람의 닉네임
+              if (data.progress === "day") {
+                this.color = data.color; // 긴급버튼 누른 사람의 색
+                this.voteUser = data.nickname; // 긴급버튼 누른 사람의 닉네임
                 this.showModal = true;
 
                 setTimeout(() => {
                   this.showModal = false;
                 }, 1000);
 
-                if (res.body.ifSkip === true) {
+                if (data.ifSkip === true) {
                   this.progress.isDay = false;
                   this.setIsDay(false);
                   this.progress.isVoteDay = true;
@@ -810,19 +810,19 @@ export default {
 
               // 낮 투표
               // 투표할때마다 상호작용
-              if (res.body.progress === "voteDay") {
+              if (data.progress === "voteDay") {
                 // 낮 투표 클릭할때마다 누가 누굴 선택했는지 모두에게 정보가 올 것
                 // data에 dayVoteUser와 dayVotedUser를 리스트의 형태로 만들어 두는거임
                 // 그 dayVoteUser에는 id값을, dayVotedUser에는 votedId를 넣어둘 거임
                 // dayVoteUser의 id값을 이용, id에 해당하는 색 정보를 받고
                 // 색 정보에 맞는 표식(체크든 동그라미든)을 votedId에 해당하는 유저에게 띄워줌
                 // voteDay에서 voteResult로 넘어갈 때 dayVoteUser와 dayVotedUser 초기화 해줌
-                this.dayVoteUser.push(res.body.id);
-                this.dayVotedUser.push(res.body.votedId);
-                const clicked = document.getElementById(`${res.body.votedId}`);
+                this.dayVoteUser.push(data.id);
+                this.dayVotedUser.push(data.votedId);
+                const clicked = document.getElementById(`${data.votedId}`);
                 const element = document.createElement("div");
                 this.gameInfos.forEach((user) => {
-                  if (user.id === res.body.id) {
+                  if (user.id === data.id) {
                     element.classList.add(`${user.color}`); // black부터 white까지 클래스 만들어두기
                     clicked.appendChild(element);
                   }
@@ -830,7 +830,9 @@ export default {
               }
 
               // 낮 투표 결과 받기
-              if (res.body.progress === "voteDayFinish") {
+              console.log("res body progress 오냐?")
+              console.log(data.progress);
+              if (data.progress === "voteDayFinish") {
                 // 이 시점에 낮 투표시 넣어줬던 누가 누구 뽑았는지에 대한 정보를 지워줄 필요가 있음
                 // 누가 하겠지
                 // 지금 나는 모르겠음
@@ -839,13 +841,13 @@ export default {
                 );
                 console.log(res);
                 this.gameInfos.forEach((user) => {
-                  if (user.id === res.body.id) {
+                  if (user.id === data.id) {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
                 });
-                if (res.body.winJob !== "") {
-                  this.gameEnd(res.body.winJob);
+                if (data.winJob !== "") {
+                  this.gameEnd(data.winJob);
                 } else {
                   this.dayVoteResult();
                   console.log("=================================================")
@@ -854,15 +856,15 @@ export default {
               }
 
               // 밤 투표
-              if (res.body.progress === "voteNight") {
+              if (data.progress === "voteNight") {
                 this.gameInfos.forEach((user) => {
-                  if (user.id === res.body.votedId) {
+                  if (user.id === data.votedId) {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
                 });
-                if (res.body.winJob) {
-                  this.gameEnd(res.body.winJob);
+                if (data.winJob) {
+                  this.gameEnd(data.winJob);
                 } else {
                   this.dayNightResult();
                 }
