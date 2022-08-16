@@ -167,6 +167,9 @@ export default {
             //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
             //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
             // }
+        } else if (!this.ifWin && !this.isDay) {
+            const duration = '낮에만 신자를 모을 수 있습니다'
+            this.labelContainer.childNodes[1].innerText = duration;
         }
 
 

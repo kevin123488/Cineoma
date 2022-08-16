@@ -80,9 +80,9 @@ export default {
       whichPage: true,
       user: {},
       image1: "profile_mafia.png",
-      image2: "mypage_mafia.gif",
-      image3: "wait_mafia.gif",
-      image4: "mypage_mafia_record2.gif",
+      image2: "profile_citizen.png",
+      image3: "profile_headmaster.png",
+      image4: "profile_doctor.png",
     }
   },
   methods: {
