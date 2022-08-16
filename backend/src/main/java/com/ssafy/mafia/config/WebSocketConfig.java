@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // connection을 맺을때 CORS 허용합니다.
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/roomSocket","/mafiaSocket")//소켓 연결용 uri
-            .setAllowedOriginPatterns("http://localhost"+"*","https://i7e107.p.ssafy.io"+"*")//cros 허용 url
+            .setAllowedOriginPatterns("http://localhost"+"*","https://i7e107.p.ssafy.io"+"*","wss://i7e107.p.ssafy.io"+"*")//cros 허용 url
             .withSockJS();
     }
 }
