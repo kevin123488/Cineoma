@@ -1080,7 +1080,7 @@ export default {
     },
 
     avOn() {
-      this.publisher.publishAudio(true);
+      this.publisher.publishAudio(false);
       this.publisher.publishVideo(true);
     },
 
