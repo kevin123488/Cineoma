@@ -65,7 +65,7 @@
     </button>
 
     <!-- 낮 투표용지 -->
-    <div class="voteForm" v-if="progress.isVoteDay">
+    <div class="GovoteForm" v-if="progress.isVoteDay">
       <h3 class="dayVoteTitle">지금 낮 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -84,7 +84,11 @@
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
-        <button @click="sendVote(selected.id)" v-if="!!selected && !isVoted">
+        <button
+          class="sendVoteBtn"
+          @click="sendVote(selected.id)"
+          v-if="!!selected && !isVoted"
+        >
           투표 확정 ㄱㄱ
         </button>
       </div>
@@ -150,56 +154,40 @@
       <div class="w3-row">
         <div class="w3-col m8">
           <div class="w3-row">
-            <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
-              id="video-container"
-            >
-              <user-video
-                class="userVideoLayout"
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
+              <other-user-video
+                class="OtherVideoBackground"
                 :stream-manager="subscribers[0]"
                 :gameInfo="gameInfos[0]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
             </div>
 
-            <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
-              id="video-container"
-            >
-              <user-video
-                class="userVideoLayout"
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
+              <other-user-video
+                class="OtherVideoBackground"
                 :stream-manager="subscribers[1]"
                 :gameInfo="gameInfos[1]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
             </div>
 
-            <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
-              id="video-container"
-            >
-              <user-video
-                class="userVideoLayout"
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
+              <other-user-video
+                class="OtherVideoBackground"
                 :stream-manager="subscribers[2]"
                 :gameInfo="gameInfos[2]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
             </div>
 
-            <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
-              id="video-container"
-            >
-              <user-video
-                class="userVideoLayout"
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
+              <other-user-video
+                class="OtherVideoBackground"
                 :stream-manager="subscribers[3]"
                 :gameInfo="gameInfos[3]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
             </div>
           </div>
         </div>
@@ -221,6 +209,8 @@
               v-if="myInfo.job !== 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
+              class="myVideoBackground"
+              style="text-align: center"
             />
             <mission-user-video
               v-if="myInfo.job === 'police'"
@@ -253,6 +243,7 @@ import axios from "axios";
 
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/Ingame/UserVideo.vue";
+import OtherUserVideo from "@/components/Ingame/OtherUserVideo.vue";
 import MissionUserVideo from "@/components/Ingame/MissionUserVideo.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -265,6 +256,7 @@ export default {
   components: {
     IngameNav,
     UserVideo,
+    OtherUserVideo,
     MissionUserVideo,
   },
   data() {
@@ -296,7 +288,7 @@ export default {
 
       // 투표
       voteNo: 1, // 투표권
-      selected: [],
+      selected: "",
       isVoted: false,
 
       // 시간관련
@@ -445,6 +437,7 @@ export default {
         console.log(`userData : ${userData}`);
         console.log(`id : ${userData[0]}`); // 아이디
         console.log(`nick : ${userData[1]}`); // 닉네임
+        console.log("=============얘는 session on 부분=================");
         this.gameInfos.push({
           id: userData[0],
           nickname: userData[1],
@@ -645,6 +638,9 @@ export default {
     },
 
     dayTime() {
+      console.log("=================유저 정보 세팅 확인====================");
+      console.log(this.gameInfos);
+      console.log(this.myInfo);
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
@@ -773,16 +769,31 @@ export default {
               console.log("구독으로 받은 게임 정보입니다.", res.body);
               console.log(`==== gameInfos ${this.gameInfos} ====`);
               const data = JSON.parse(res.body);
-
+              console.log(
+                "=======================직업 뭐받는지 확인================"
+              );
+              console.log(data.job);
               this.myInfo.job = data.job;
+              console.log(this.gameInfos); // joinsession 이후 여기는 잘 들어와있음
               data.joinUsers.forEach((joinUser) => {
                 this.gameInfos.forEach((gameInfo) => {
+                  console.log(joinUser.id);
                   if (joinUser.id === gameInfo.id) {
                     gameInfo.color = joinUser.color;
                   }
+                  if (joinUser.id === this.myInfo.id) {
+                    this.myInfo.color = joinUser.color;
+                  }
                 });
               });
-              this.setStartTime(data.absoluteTime);
+              this.setCount(data.absoluteTime);
+              console.log(
+                "=============얘는 gameinfos에 색 세팅되는 부분================="
+              );
+              console.log(
+                "====================gameinfos 확인===================="
+              );
+              console.log(this.gameInfos);
               this.startDay();
             }
           );
@@ -791,19 +802,19 @@ export default {
             `/topic/sendMafia/${this.mySessionId}`,
             (res) => {
               console.log("구독으로 받은 게임 정보입니다.", res.body);
-              // const data = JSON.parse(res.body);
+              const data = JSON.parse(res.body);
 
               // 낮 진행
-              if (res.body.progress === "day") {
-                this.color = res.body.color; // 긴급버튼 누른 사람의 색
-                this.voteUser = res.body.nickname; // 긴급버튼 누른 사람의 닉네임
+              if (data.progress === "day") {
+                this.color = data.color; // 긴급버튼 누른 사람의 색
+                this.voteUser = data.nickname; // 긴급버튼 누른 사람의 닉네임
                 this.showModal = true;
 
                 setTimeout(() => {
                   this.showModal = false;
                 }, 1000);
 
-                if (res.body.ifSkip === true) {
+                if (data.ifSkip === true) {
                   this.progress.isDay = false;
                   this.setIsDay(false);
                   this.progress.isVoteDay = true;
@@ -814,22 +825,19 @@ export default {
 
               // 낮 투표
               // 투표할때마다 상호작용
-              if (res.body.progress === "voteDay") {
+              if (data.progress === "voteDay") {
                 // 낮 투표 클릭할때마다 누가 누굴 선택했는지 모두에게 정보가 올 것
                 // data에 dayVoteUser와 dayVotedUser를 리스트의 형태로 만들어 두는거임
                 // 그 dayVoteUser에는 id값을, dayVotedUser에는 votedId를 넣어둘 거임
                 // dayVoteUser의 id값을 이용, id에 해당하는 색 정보를 받고
                 // 색 정보에 맞는 표식(체크든 동그라미든)을 votedId에 해당하는 유저에게 띄워줌
                 // voteDay에서 voteResult로 넘어갈 때 dayVoteUser와 dayVotedUser 초기화 해줌
-
-                this.dayVoteUser.push(res.body.id);
-                this.dayVotedUser.push(res.body.votedId);
-                console.log(`${this.dayVoteUser}`);
-                console.log(`${this.dayVotedUser}`);
-                const clicked = document.getElementById(`${res.body.votedId}`);
+                this.dayVoteUser.push(data.id);
+                this.dayVotedUser.push(data.votedId);
+                const clicked = document.getElementById(`${data.votedId}`);
                 const element = document.createElement("div");
                 this.gameInfos.forEach((user) => {
-                  if (user.id === res.body.id) {
+                  if (user.id === data.id) {
                     element.classList.add(`${user.color}`); // black부터 white까지 클래스 만들어두기
                     clicked.appendChild(element);
                   }
@@ -837,7 +845,9 @@ export default {
               }
 
               // 낮 투표 결과 받기
-              if (res.body.progress === "voteDayFinish") {
+              console.log("res body progress 오냐?");
+              console.log(data.progress);
+              if (data.progress === "voteDayFinish") {
                 // 이 시점에 낮 투표시 넣어줬던 누가 누구 뽑았는지에 대한 정보를 지워줄 필요가 있음
                 // 누가 하겠지
                 // 지금 나는 모르겠음
@@ -846,28 +856,34 @@ export default {
                 );
                 console.log(res);
                 this.gameInfos.forEach((user) => {
-                  if (user.id === res.body.id) {
+                  if (user.id === data.id) {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
                 });
-                if (res.body.winJob !== "") {
-                  this.gameEnd(res.body.winJob);
+                if (data.winJob !== "") {
+                  this.gameEnd(data.winJob);
                 } else {
                   this.dayVoteResult();
+                  console.log(
+                    "================================================="
+                  );
+                  console.log(
+                    "투표 결과 들어와서 투표 결과 보여주는 부분 진행되냐?"
+                  );
                 }
               }
 
               // 밤 투표
-              if (res.body.progress === "voteNight") {
+              if (data.progress === "voteNight") {
                 this.gameInfos.forEach((user) => {
-                  if (user.id === res.body.votedId) {
+                  if (user.id === data.votedId) {
                     this.deadColor = user.color;
                     this.whoIsGone = user.nickname;
                   }
                 });
-                if (res.body.winJob) {
-                  this.gameEnd(res.body.winJob);
+                if (data.winJob) {
+                  this.gameEnd(data.winJob);
                 } else {
                   this.dayNightResult();
                 }
@@ -917,7 +933,7 @@ export default {
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
       clearTimeout(this.voteClearNum);
-      this.selected = []; // 투표 누르면 투표확정 버튼 사라지게 하자
+      this.selected = ""; // 투표 누르면 투표확정 버튼 사라지게 하자
       this.isVoted = true;
     },
 
@@ -1148,22 +1164,6 @@ export default {
   background-size: cover;
   height: 100vh;
 }
-.voteForm {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  right: 10%;
-  /* background-color: white; */
-  /* opacity: 0.7; */
-  width: 80vh;
-  height: 80vh;
-  margin: auto;
-  border-radius: 30px;
-  /* box-shadow: 5px 5px 5px 5px gray; */
-  background-image: url(../../public/homedesign/images/vote_paper.png);
-  background-size: 80vh 80vh;
-  background-repeat: no-repeat;
-}
 .dayVoteTitle {
   text-align: center;
   margin-top: 50px;
@@ -1264,19 +1264,19 @@ export default {
   background-color: rgba(255, 255, 255, 0);
   z-index: 1200;
 }
-.voteForm {
+.GovoteForm {
   position: absolute;
   top: 10%;
   left: 10%;
   right: 10%;
   /* background-color: white; */
-  opacity: 0.7;
+  /* opacity: 0.7; */
   width: 80vh;
   height: 80vh;
   margin: auto;
   border-radius: 30px;
   /* box-shadow: 5px 5px 5px 5px gray; */
-  background-image: url(../../public/homedesign/images/vote_paper.png);
+  background-image: url(../../public/homedesign/images/jobinfo.png);
   background-size: 80vh 80vh;
   background-repeat: no-repeat;
 }
@@ -1500,9 +1500,22 @@ export default {
   background-image: url(../../public/homedesign/images/lobby_friend.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  justify-content: center;
+  text-align: center;
+}
+.OtherVideoBackground {
+  background-image: url(../../public/homedesign/images/ingame_others.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
 }
 .brownColor {
   color: rgb(106, 66, 14);
+}
+.sendVoteBtn {
+  position: absolute;
+  background-image: url(../../public/homedesign/images/vote_wood_dot.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
 }
 </style>

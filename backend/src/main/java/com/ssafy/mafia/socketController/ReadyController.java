@@ -40,8 +40,7 @@ public class ReadyController {
 		if(paramDto.isStartGame())
 		{
 			mps.gameStart();
-			mps.setMovingUserCount(mps.getProfileUsers().size());
-			System.out.println(mps);
+//			System.out.println(mps);
 		}
 		//게임 시작 가능한 경우
 		else if(paramDto.isIfStart())
@@ -78,7 +77,6 @@ public class ReadyController {
 			
 			//front에서 구독받을 uri로 보내줌
 		}
-		
 		
 		
 		sendingOperations.convertAndSend("/topic/sendReady/"+paramDto.getRoomNo(), result);
