@@ -75,7 +75,7 @@ public class MafiaController {
 //				System.out.println("startResult");
 			}
 			System.out.println("각 개인에게 보내주는 메시지======================================");
-			System.out.println(startResult);
+			System.out.println("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId()+"\n"+startResult+"\n");
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId(), startResult);
 		 }
 		break;
@@ -126,7 +126,8 @@ public class MafiaController {
 			//투표 기록
 			if(mps.getVote().containsKey(paramDto.getVote()))
 			{
-				mps.getVote().put(paramDto.getVote(), mps.getVote().get(paramDto.getVote()));
+				String votedId=paramDto.getVote();
+				mps.getVote().put(votedId, mps.getVote().get(votedId)+1);
 			}
 			else
 			{
@@ -154,7 +155,7 @@ public class MafiaController {
 				int maxNum=0;
 				String maxId="";
 				for (Map.Entry<String, Integer> it : mps.getVote().entrySet()) {
-					if(maxNum>it.getValue())
+					if(maxNum<it.getValue())
 					{
 						maxId=it.getKey();
 						maxNum=it.getValue();
@@ -167,11 +168,15 @@ public class MafiaController {
 				
 				result2.setProgress("voteDayFinish");
 				result2.setId(maxId);
+				//초기값 "" 세팅 ""이 아니라면 새로 갱신됨
 				result2.setNickname("");
 				if(!maxId.equals(""))
 				{
 					result2.setNickname(mps.getMPU(maxId).getNickname());
-					mps.kill(maxId);	
+					mps.kill(maxId);
+					System.out.println("============죽은후 방 저장 상태 확인============================");
+					System.out.println(mps);
+					System.out.println("============죽은후 방 저장 상태 확인 끝============================");
 				}
 				
 				String winJob=mps.gameEndCheck();
@@ -180,7 +185,6 @@ public class MafiaController {
 				//투표 기록초기화
 				mps.getVote().clear();
 				System.out.println(result2);
-				Thread.sleep(500);
 				sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result2);
 			}
 			
