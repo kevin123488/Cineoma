@@ -206,11 +206,15 @@
 
         <div class="w3-col m4">
           <div class="mx-2 py-2 w3-container w3-col m9 just myVideoBackground">
-            <h3 class="brownColor" style="text-align: center;"><b><I>직업: {{ myInfo.job }}</I></b></h3>
+            <h3 class="brownColor" style="text-align: center">
+              <b
+                ><I>직업: {{ myInfo.job }}</I></b
+              >
+            </h3>
           </div>
           <div
             class="mx-2 my-2 w3-container w3-col m9 just"
-            style="padding: 0%; justify-content: center;"
+            style="padding: 0%; justify-content: center"
             id="video-container"
           >
             <user-video
@@ -295,7 +299,13 @@ export default {
       selected: [],
       isVoted: false,
 
-      // 시간제한
+      // 시간관련
+      dayStartTime: null,
+      gameDayTime: null,
+      gameDayVoteTime: null,
+      gameVoteResultTime: null,
+      gameNightTime: null,
+      gameNightResultTime: null,
       dayTimeCount: 0,
       dayVoteTimeCount: 0,
       dayVoteResultCount: 0,
@@ -718,7 +728,7 @@ export default {
           roomNo: this.roomNo,
           id: this.userInfo.id,
         };
-        this.stompClient.send("/receiveChat", JSON.stringify(msg), {});
+        this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
         // this.progress.isDay = false; // 버튼 누르면 정보 담아서 보냄 -> 버튼 숨김
         this.isSkiped = true;
       } // 나중에 주석 풀기
@@ -766,7 +776,8 @@ export default {
                   }
                 });
               });
-              this.setCount(data.absoluteTime);
+              this.dayStartTime = data.absoluteTime;
+              console.log(`==== 하루의 시작시간 ${this.dayStartTime} ====`);
               this.startDay();
             }
           );
@@ -966,7 +977,7 @@ export default {
       });
     },
 
-    setCount(time) {
+    setStartCount(time, nowTime) {
       const convTime = time.split(":");
 
       const startHours = convTime[0]; //시
@@ -989,23 +1000,32 @@ export default {
       console.log("=============================");
       console.log(`시간입니다. ${gameStartTime}`);
 
-      // const gameDayTime = gameStartTime.setSeconds(
-      //   gameStartTime.getSeconds() + 20
-      // );
-      // const gameDayVoteTime = gameStartTime.setSeconds(
-      //   gameStartTime.getSeconds() + 15
-      // );
-      // const gameVoteResultTime = gameStartTime.setSeconds(
-      //   gameStartTime.getSeconds() + 5
-      // );
-      // const gameNightTime = gameStartTime.setSeconds(
-      //   gameStartTime.getSeconds() + 10
-      // );
-      // const gameNightResultTime = gameStartTime.setSeconds(
-      //   gameStartTime.getSeconds() + 5
-      // );
+      this.gameDayTime = gameStartTime.setSeconds(
+        gameStartTime.getSeconds() + 20
+      );
+      this.gameDayVoteTime = gameStartTime.setSeconds(
+        gameStartTime.getSeconds() + 15
+      );
+      this.gameVoteResultTime = gameStartTime.setSeconds(
+        gameStartTime.getSeconds() + 5
+      );
+      this.gameNightTime = gameStartTime.setSeconds(
+        gameStartTime.getSeconds() + 10
+      );
+      this.gameNightResultTime = gameStartTime.setSeconds(
+        gameStartTime.getSeconds() + 5
+      );
 
-      // const today = new Date();
+      this.dayTimeCount = this.gameDayTime.getTime() - nowTime.getTime();
+      this.dayVoteTimeCount =
+        this.gameDayVoteTime.getTime() - nowTime.getTime();
+      this.dayVoteResultCount =
+        this.gameVoteResultTime.getTime() - nowTime.getTime();
+      this.dayNightTimeCount = this.gameNightTime.getTime() - nowTime.getTime();
+      this.dayNightResultCount =
+        this.gameNightResultTime.getTime() - nowTime.getTime();
+
+      this.dayStartTime = this.gameNightResultTime;
     },
   },
 };
@@ -1401,11 +1421,11 @@ export default {
 }
 .myVideoBackground {
   background-image: url(../../public/homedesign/images/lobby_friend.png);
-  background-repeat : no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
   justify-content: center;
 }
 .brownColor {
-  color:rgb(106, 66, 14)
+  color: rgb(106, 66, 14);
 }
 </style>
