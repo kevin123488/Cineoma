@@ -54,6 +54,10 @@ public class MafiaPlayStorage {
 	
 	//미션자가 미션 완료한 경우
 	private volatile boolean missionComplete=false;
+	
+	//방 전체 시간 확인용
+	private volatile String time="";
+	
 	private String policeId="";
 	
 	private String mafiaChosen="";
