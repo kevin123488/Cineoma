@@ -611,7 +611,7 @@ export default {
               );
               console.log(res);
               if (this.myInfo.id === data.id) {
-                this.isAlive = false;
+                this.myInfo.isAlive = false;
               }
               this.gameInfos.forEach((user) => {
                 if (user.id === data.id) {
@@ -894,36 +894,19 @@ export default {
 
     // 투표 결과창 관련
     typeEffect() {
-      this.msgCnt += 1;
       if (this.whoIsGone) {
         this.showingMsg =
-          `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`.slice(
-            0,
-            this.msgCnt
-          );
+          `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`
       } else {
-        this.showingMsg = `아무도 퇴출되지 않았습니다`.slice(0, this.msgCnt);
-      }
-      console.log("hi");
-      if (this.msgCnt === 50) {
-        clearInterval(this.stopCnt);
-        this.stopCnt = 0;
+        this.showingMsg = `아무도 퇴출되지 않았습니다`
       }
     },
     typeEffect2() {
-      this.msgCnt += 1;
       if (this.whoisGone) {
         this.showingMsg =
-          `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`.slice(
-            0,
-            this.msgCnt
-          );
+          `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`
       } else {
-        this.showingMsg = `조용한 밤을 보냈습니다`.slice(0, this.msgCnt);
-      }
-      if (this.msgCnt === 50) {
-        clearInterval(this.stopCnt2);
-        this.stopCnt2 = 0;
+        this.showingMsg = `조용한 밤을 보냈습니다`
       }
     },
     getOut() {
@@ -969,7 +952,7 @@ export default {
       this.getDayVoteTimeCount();
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
-        if (this.isAlive) {
+        if (this.myInfo.isAlive) {
           this.sendVote("");
         }
         console.log(
@@ -979,7 +962,8 @@ export default {
     },
 
     dayVoteResult() {
-      this.stopCnt = setInterval(this.typeEffect, 150); // 투표결과 타이핑 효과
+      // this.stopCnt = setInterval(this.typeEffect, 150); // 투표결과 타이핑 효과
+      this.typeEffect();
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
       this.getDayVoteResultCount();
@@ -1004,7 +988,7 @@ export default {
       this.getDayNightTimeCount();
       this.count = this.dayNightTimeCount;
       this.voteClearNum2 = setTimeout(() => {
-        if (this.isAlive) {
+        if (this.myInfo.isAlive) {
           this.sendVote("");
         }
       }, this.count * 1000 + 200);
@@ -1012,7 +996,8 @@ export default {
     },
 
     dayNightResult() {
-      this.stopCnt2 = setInterval(this.typeEffect2, 150);
+      // this.stopCnt2 = setInterval(this.typeEffect2, 150);
+      this.typeEffect2();
       this.progress.isNight = false;
       this.progress.isNightResult = true;
       this.getDayNightResultCount();
