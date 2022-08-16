@@ -42,11 +42,11 @@ export default {
 <style>
 #info-time {
   text-align: center;
-  height: 130px;
+  height: 115px;
 }
 
 #timer {
-  font-size: 35px;
+  font-size: 30px;
 }
 
 #day {
@@ -54,6 +54,6 @@ export default {
 }
 
 #info {
-  height: 125px;
+  height: 115px;
 }
 </style>

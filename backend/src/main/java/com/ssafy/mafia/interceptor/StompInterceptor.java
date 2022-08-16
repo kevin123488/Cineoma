@@ -32,7 +32,6 @@ public class StompInterceptor {
 	 {
 		 //세션 아이디 받기
 		 String sessionId=event.getSessionId();
-		 System.out.println(sessionId);
 		 
 		 //세션 아이디를 바탕으로 룸넘버, 아이디 받기
 		 String id = MafiaStaticData.socketConnectedUserId.get(sessionId);
@@ -44,6 +43,7 @@ public class StompInterceptor {
 		 //저장된 방 정보
 		 MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo);
 		 System.out.println("==============인터셉터==========================================");
+		 System.out.println(sessionId);
 		 System.out.println("mps.getMovingUserCount() : "+mps.getMovingUserCount());
 		 //대기방->게임, 게임->대기방 이동중인 유저가 있다면 그 수만큼 나갈 때 처리안해줌
 		 if(mps.getMovingUserCount()>0)

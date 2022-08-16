@@ -18,7 +18,8 @@ export default {
 
 <style>
 .video-size {
-    width: 100%;
-    height: 200px;
+   width: 200px;
+   height: 100%;
+   margin: 20px 0px 30px;
 }
 </style>

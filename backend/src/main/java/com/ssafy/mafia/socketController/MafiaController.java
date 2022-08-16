@@ -45,7 +45,6 @@ public class MafiaController {
 			//세션 아이디랑 유저 아이디,접속한 방 번호로 접속중인 회원관리 
 			MafiaStaticData.socketConnectedUserId.put(paramDto.getSessionId(), paramDto.getId());
 			MafiaStaticData.socketConnectedUserRoomNo.put(paramDto.getSessionId(), paramDto.getRoomNo());
-			MafiaStaticData.MafiaPlayStorageDtoMap.get(paramDto.getRoomNo()).gameStart();
 			
 			
 			
@@ -64,11 +63,19 @@ public class MafiaController {
 			
 			startResult.setAbsoluteTime(absoluteTime);
 			//result에 공통값 외에 바뀌는 부분을 넣어서 보내주는 부분
+			System.out.println(mps.getPlaingUsers());
 			for (MafiaPlaingUser it : mps.getPlaingUsers()) {
-				startResult.setHost(it.isIfHost());
-				startResult.setJob(it.getJob());
-				System.out.println("startResult");
+				if(paramDto.getId().equals(it.getId()))
+				{
+					startResult.setHost(it.isIfHost());
+					startResult.setJob(it.getJob());
+					break;
+				}
+				
+//				System.out.println("startResult");
 			}
+			System.out.println("각 개인에게 보내주는 메시지======================================");
+			System.out.println(startResult);
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId(), startResult);
 		 }
 		break;
@@ -128,12 +135,15 @@ public class MafiaController {
 
 			
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result);	
+			System.out.println(mps.getVoteCount());
 			
 			mps.setVoteCount(mps.getVoteCount()+1);
-			
+			System.out.println(mps.getVoteCount());
 			//모두 투표를 마친 경우
+			System.out.println("살아있는 사람 수 : "+mps.getAliveCount());
 			if(mps.getAliveCount()==mps.getVoteCount())
 			{
+				System.out.println("======================표 다 모였음============================");
 				//투표 카운트 초기화
 				mps.setVoteCount(0);
 				
@@ -166,6 +176,8 @@ public class MafiaController {
 				
 				//투표 기록초기화
 				mps.getVote().clear();
+				System.out.println(result2);
+				Thread.sleep(500);
 				sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result2);
 			}
 			
