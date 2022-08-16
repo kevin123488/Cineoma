@@ -59,9 +59,35 @@ public class MafiaPlayStorage {
 	private String mafiaChosen="";
 	private String doctorChosen="";
 	
-	public void gameEnd()
+	public void gameEnd(String winJob) throws Exception
 	{
 		movingUserCount=plaingUsers.size();
+		
+	
+		for (MafiaPlaingUser mpu : plaingUsers) {
+			
+			if(mpu.getId().equals("doctor") && winJob.equals("citizen"))
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+			}
+			else if(mpu.getId().equals("citizen") && winJob.equals("doctor"))
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+			}
+			else if(mpu.getJob().equals(winJob))
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+			}
+			else
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "lose");
+			}
+			
+		}
+		
+		
+		
+		
 		profileUsers.clear();
 		ifPlay=false;
 		//나머지는 방입장하면서 알아서 채워질거임
@@ -158,7 +184,7 @@ public class MafiaPlayStorage {
 		}
 	}
 	
-	public String gameEndCheck()
+	public String gameEndCheck() throws Exception
 	{
 		String result="";
 		
@@ -195,7 +221,7 @@ public class MafiaPlayStorage {
 		if(missionComplete && alivePolicecount>0)
 		{
 			result = "police";
-			gameEnd();
+			gameEnd(result);
 		}
 		else if(aliveDoctorcount==0)
 		{
@@ -204,12 +230,12 @@ public class MafiaPlayStorage {
 		else if(aliveMafiacount==0)
 		{
 			result = "citizen";
-			gameEnd();
+			gameEnd(result);
 		}
 		else if(aliveMafiacount>=aliveCitizencount)
 		{
 			result = "mafia";
-			gameEnd();
+			gameEnd(result);
 		}
 		
 		return result;
