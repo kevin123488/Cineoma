@@ -28,9 +28,14 @@
 
           <div style="height: 150px;">
             <br>
-            <div v-show="!showblackGround" @click="returnWaitRoom" class="w3-container my-3 w3-white" style="width:200px; margin: auto; border-radius: 10px; cursor: pointer;">
+            <!-- <div v-show="!showblackGround" @click="returnWaitRoom" class="w3-container my-3 w3-white" style="width:200px; margin: auto; border-radius: 10px; cursor: pointer;">
               <h3>대기방으로</h3>
-            </div>
+            </div> -->
+            <a href="/lobby">
+            <div v-show="!showblackGround" @click="returnLobby" class="w3-container my-3 w3-white" style="width:200px; margin: auto; border-radius: 10px; cursor: pointer;">
+              <h3>로비로 이동</h3>
+            </div>    
+            </a>        
           </div>
 
           <div style="height: 250px;">
