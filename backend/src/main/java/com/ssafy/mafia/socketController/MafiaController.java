@@ -140,8 +140,10 @@ public class MafiaController {
 			mps.setVoteCount(mps.getVoteCount()+1);
 			System.out.println(mps.getVoteCount());
 			//모두 투표를 마친 경우
+			System.out.println("살아있는 사람 수 : "+mps.getAliveCount());
 			if(mps.getAliveCount()==mps.getVoteCount())
 			{
+				System.out.println("======================표 다 모였음============================");
 				//투표 카운트 초기화
 				mps.setVoteCount(0);
 				
@@ -174,6 +176,8 @@ public class MafiaController {
 				
 				//투표 기록초기화
 				mps.getVote().clear();
+				System.out.println(result2);
+				Thread.sleep(500);
 				sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result2);
 			}
 			
