@@ -84,7 +84,11 @@
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
-        <button class="sendVoteBtn" @click="sendVote(selected.id)" v-if="!!selected && !isVoted">
+        <button
+          class="sendVoteBtn"
+          @click="sendVote(selected.id)"
+          v-if="!!selected && !isVoted"
+        >
           투표 확정 ㄱㄱ
         </button>
       </div>
@@ -150,10 +154,7 @@
       <div class="w3-row">
         <div class="w3-col m8">
           <div class="w3-row">
-            <div
-              class="mx-2 my-2 w3-container w3-col m5"
-              id="video-container"
-            >
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[0]"
@@ -162,10 +163,7 @@
               </other-user-video>
             </div>
 
-            <div
-              class="mx-2 my-2 w3-container  w3-col m5"
-              id="video-container"
-            >
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[1]"
@@ -174,10 +172,7 @@
               </other-user-video>
             </div>
 
-            <div
-              class="mx-2 my-2 w3-container w3-col m5"
-              id="video-container"
-            >
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[2]"
@@ -186,10 +181,7 @@
               </other-user-video>
             </div>
 
-            <div
-              class="mx-2 my-2 w3-container w3-col m5"
-              id="video-container"
-            >
+            <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
                 :stream-manager="subscribers[3]"
@@ -218,7 +210,7 @@
               :stream-manager="publisher"
               :gameInfo="myInfo"
               class="myVideoBackground"
-              style="text-align: center;" 
+              style="text-align: center"
             />
             <mission-user-video
               v-if="myInfo.job === 'police'"
@@ -311,6 +303,7 @@ export default {
       dayVoteResultCount: 0,
       dayNightTimeCount: 0,
       dayNightResultCount: 0,
+      count: 0,
 
       // 직업정보열람용
       isjobRollCenter: true,
@@ -661,9 +654,9 @@ export default {
     },
 
     dayTime() {
-      console.log("=================유저 정보 세팅 확인====================")
-      console.log(this.gameInfos.Target);
-      console.log(this.myInfo)
+      console.log("=================유저 정보 세팅 확인====================");
+      console.log(this.gameInfos);
+      console.log(this.myInfo);
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
@@ -674,6 +667,7 @@ export default {
         this.avOn;
       }
 
+      this.getDayTimeCount();
       this.count = this.dayTimeCount;
       setTimeout(() => {
         this.dayVoteTime();
@@ -685,6 +679,7 @@ export default {
       this.progress.isDay = false;
       this.setIsDay(false);
       this.progress.isVoteDay = true;
+      this.getDayVoteTimeCount();
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
         this.sendVote("");
@@ -698,6 +693,7 @@ export default {
       this.stopCnt = setInterval(this.typeEffect, 150); // 투표결과 타이핑 효과
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
+      this.getDayVoteResultCount();
       this.count = this.dayVoteResultCount;
       this.isVoted = false;
       setTimeout(() => {
@@ -716,7 +712,7 @@ export default {
       this.progress.isNight = true;
 
       this.avOff();
-
+      this.getDayNightTimeCount();
       this.count = this.dayNightTimeCount;
       this.voteClearNum2 = setTimeout(() => {
         this.sendVote("");
@@ -728,6 +724,7 @@ export default {
       this.stopCnt2 = setInterval(this.typeEffect2, 150);
       this.progress.isNight = false;
       this.progress.isNightResult = true;
+      this.getDayNightResultCount();
       this.count = this.dayNightResultCount;
       setTimeout(() => {
         this.isGone = false;
@@ -736,6 +733,7 @@ export default {
         this.stopCnt2 = 0;
         this.showingMsg = "";
         this.whoIsGone = "";
+        this.setDayEndTime();
         this.dayTime();
       }, 15200);
     },
@@ -762,9 +760,6 @@ export default {
       // const serverURL = "https://i7e107.p.ssafy.io/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      socket.onclose = function () {
-        console.log("=============소켓 끊어줬슴=============");
-      };
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
       this.stompClient.connect(
         {},
@@ -786,8 +781,11 @@ export default {
               );
               console.log(res);
               console.log("구독으로 받은 게임 정보입니다.", res.body);
+              console.log(`==== gameInfos ${this.gameInfos} ====`);
               const data = JSON.parse(res.body);
-              console.log("=======================직업 뭐받는지 확인================")
+              console.log(
+                "=======================직업 뭐받는지 확인================"
+              );
               console.log(data.job);
               this.myInfo.job = data.job;
               this.setUserColor = data;
@@ -832,6 +830,24 @@ export default {
               // this.setCount(data.absoluteTime);
               console.log("=============얘는 gameinfos에 색 세팅되는 부분=================");
               console.log("====================gameinfos 확인====================")
+              data.joinUsers.forEach((joinUser) => {
+                this.gameInfos.forEach((gameInfo) => {
+                  console.log(joinUser.id);
+                  if (joinUser.id === gameInfo.id) {
+                    gameInfo.color = joinUser.color;
+                  }
+                  if (joinUser.id === this.myInfo.id) {
+                    this.myInfo.color = joinUser.color;
+                  }
+                });
+              });
+              this.setStartTime(data.absoluteTime);
+              console.log(
+                "=============얘는 gameinfos에 색 세팅되는 부분================="
+              );
+              console.log(
+                "====================gameinfos 확인===================="
+              );
               console.log(this.gameInfos);
               this.startDay();
             }
@@ -858,6 +874,7 @@ export default {
                   this.setIsDay(false);
                   this.progress.isVoteDay = true;
                   clearTimeout(this.clearId);
+                  this.setSkipTime();
                 }
               }
 
@@ -883,7 +900,7 @@ export default {
               }
 
               // 낮 투표 결과 받기
-              console.log("res body progress 오냐?")
+              console.log("res body progress 오냐?");
               console.log(data.progress);
               if (data.progress === "voteDayFinish") {
                 // 이 시점에 낮 투표시 넣어줬던 누가 누구 뽑았는지에 대한 정보를 지워줄 필요가 있음
@@ -903,8 +920,12 @@ export default {
                   this.gameEnd(data.winJob);
                 } else {
                   this.dayVoteResult();
-                  console.log("=================================================")
-                  console.log("투표 결과 들어와서 투표 결과 보여주는 부분 진행되냐?")
+                  console.log(
+                    "================================================="
+                  );
+                  console.log(
+                    "투표 결과 들어와서 투표 결과 보여주는 부분 진행되냐?"
+                  );
                 }
               }
 
@@ -1037,12 +1058,12 @@ export default {
       });
     },
 
-    setStartCount(time, nowTime) {
+    setStartTime(time) {
       const convTime = time.split(":");
 
-      const startHours = convTime[0]; //시
-      const startMinutes = convTime[1]; //분
-      const startSeconds = convTime[2]; //초
+      const startHours = parseInt(convTime[0]); //시
+      const startMinutes = parseInt(convTime[1]); //분
+      const startSeconds = parseInt(convTime[2]); //초
 
       const startToday = new Date();
       const startYear = startToday.getFullYear(); //년
@@ -1057,35 +1078,115 @@ export default {
         startMinutes,
         startSeconds
       );
+
+      this.dayStartTime = gameStartTime;
       console.log("=============================");
-      console.log(`시간입니다. ${gameStartTime}`);
+      console.log(`시간입니다. ${this.dayStartTime}`);
 
-      this.gameDayTime = gameStartTime.setSeconds(
-        gameStartTime.getSeconds() + 20
-      );
-      this.gameDayVoteTime = gameStartTime.setSeconds(
-        gameStartTime.getSeconds() + 15
-      );
-      this.gameVoteResultTime = gameStartTime.setSeconds(
-        gameStartTime.getSeconds() + 5
-      );
-      this.gameNightTime = gameStartTime.setSeconds(
-        gameStartTime.getSeconds() + 10
-      );
-      this.gameNightResultTime = gameStartTime.setSeconds(
-        gameStartTime.getSeconds() + 5
-      );
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
+      this.gameDayTime = new Date(this.dayStartTime);
+      console.log(`==== gameDayTime ${this.gameDayTime} ====`);
 
-      this.dayTimeCount = this.gameDayTime.getTime() - nowTime.getTime();
-      this.dayVoteTimeCount =
-        this.gameDayVoteTime.getTime() - nowTime.getTime();
+      this.dayStartTime = gameStartTime;
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 15);
+      this.gameDayVoteTime = new Date(this.dayStartTime);
+      console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
+
+      this.dayStartTime = gameStartTime;
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.gameVoteResultTime = new Date(this.dayStartTime);
+      console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
+
+      this.dayStartTime = gameStartTime;
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.gameNightTime = new Date(this.dayStartTime);
+      console.log(`==== gameNightTime ${this.gameNightTime} ====`);
+
+      this.dayStartTime = gameStartTime;
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.gameNightResultTime = new Date(this.dayStartTime);
+      console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
+    },
+
+    getDayTimeCount() {
+      let nowTime = new Date();
+      const elapsedMSec = this.gameDayTime.getTime() - nowTime.getTime();
+      console.log(`${this.gameDayTime} - ${nowTime}`);
+      console.log(
+        `${this.gameDayTime.getTime()} - ${nowTime.getTime()} = ${elapsedMSec}`
+      );
+      this.dayTimeCount = Math.floor(elapsedMSec / 1000);
+      console.log(`==== dayTimeCount ${this.dayTimeCount} ====`);
+    },
+
+    getDayVoteTimeCount() {
+      let nowTime = new Date();
+      const elapsedMSec = this.gameDayVoteTime.getTime() - nowTime.getTime();
+      console.log(`${this.gameDayVoteTime} - ${nowTime}`);
+      console.log(
+        `${this.gameDayVoteTime.getTime()} - ${nowTime.getTime()} = ${elapsedMSec}`
+      );
+      this.dayVoteTimeCount = Math.floor(elapsedMSec / 1000);
+      console.log(`==== dayVoteTimeCount ${this.dayVoteTimeCount} ====`);
+    },
+
+    getDayVoteResultCount() {
+      let nowTime = new Date();
       this.dayVoteResultCount =
         this.gameVoteResultTime.getTime() - nowTime.getTime();
+      console.log(`==== dayVoteResultCount ${this.dayVoteResultCount} ====`);
+    },
+
+    getDayNightTimeCount() {
+      let nowTime = new Date();
       this.dayNightTimeCount = this.gameNightTime.getTime() - nowTime.getTime();
+      console.log(`==== dayNightTimeCount ${this.dayNightTimeCount} ====`);
+    },
+
+    getDayNightResultCount() {
+      let nowTime = new Date();
       this.dayNightResultCount =
         this.gameNightResultTime.getTime() - nowTime.getTime();
+      console.log(`==== dayNightResultCount ${this.dayNightResultCount} ====`);
+    },
 
-      this.dayStartTime = this.gameNightResultTime;
+    setDayEndTime() {
+      let nowTime = new Date();
+      this.dayStartTime = nowTime;
+
+      this.gameDayTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 20
+      );
+      this.gameDayVoteTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 15
+      );
+      this.gameVoteResultTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 5
+      );
+      this.gameNightTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 10
+      );
+      this.gameNightResultTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 5
+      );
+    },
+
+    setSkipTime() {
+      let nowTime = new Date();
+      this.dayStartTime = nowTime;
+
+      this.gameDayVoteTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 15
+      );
+      this.gameVoteResultTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 5
+      );
+      this.gameNightTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 10
+      );
+      this.gameNightResultTime = this.dayStartTime.setSeconds(
+        this.dayStartTime.getSeconds() + 5
+      );
     },
   },
 };
@@ -1469,11 +1570,10 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   text-align: center;
-
 }
 .OtherVideoBackground {
   background-image: url(../../public/homedesign/images/ingame_others.jpg);
-  background-repeat : no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
   text-align: center;
 }
@@ -1486,6 +1586,5 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   left: 50%;
-  
 }
 </style>
