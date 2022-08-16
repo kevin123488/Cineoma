@@ -21,6 +21,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @ToString
+
 public class MafiaPlayStorage {
 	@Autowired
 	RecordService recordService;
@@ -32,26 +33,27 @@ public class MafiaPlayStorage {
 	private boolean ifPlay=false;
 	//대기방에서 게임 시작할때 유저 수만큼으로 바꿔주고 소켓 끊어지는 경우 1씩 줄여서 처리해줄거임 
 	//게임방에서 대기방으로 오는경우 도 마찬가지?
-	private int movingUserCount=0;
+	private volatile int movingUserCount=0;
 	//게임 시작 후 사용될 리스트
 	private List<MafiaPlaingUser> plaingUsers= new ArrayList<>();
 	//게임 시작 전 대기방에서 사용될 리스트
 	private List<ProfileUserDto> profileUsers= new ArrayList<>();
 	
+	//누가 몇표 뽑혔는지 기록
 	private Map<String, Integer> vote = new HashMap<String, Integer>();
 	
 	//투표완료한 숫자 기록 스킵 카운트도 이걸로 사용
-	private int voteCount=0;
+	private volatile int voteCount=0;
 	
 	//생존자 수
-	private int aliveCount=0;
+	private volatile int aliveCount=0;
 	
 	
 	//의사의 생존 여부
-	private boolean doctorAlive=true;
+	private volatile boolean doctorAlive=true;
 	
 	//미션자가 미션 완료한 경우
-	private boolean missionComplete=false;
+	private volatile boolean missionComplete=false;
 	private String policeId="";
 	
 	private String mafiaChosen="";
@@ -65,6 +67,11 @@ public class MafiaPlayStorage {
 		//나머지는 방입장하면서 알아서 채워질거임
 		
 		
+	}
+	
+	public void setVoteCount(int n)
+	{
+		this.voteCount=n;
 	}
 	
 	public void gameStart()
