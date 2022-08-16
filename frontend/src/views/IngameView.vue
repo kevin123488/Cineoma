@@ -65,7 +65,7 @@
     </button>
 
     <!-- 낮 투표용지 -->
-    <div class="voteForm" v-if="progress.isVoteDay">
+    <div class="GovoteForm" v-if="progress.isVoteDay">
       <h3 class="dayVoteTitle">지금 낮 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -84,7 +84,7 @@
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
-        <button @click="sendVote(selected.id)" v-if="!!selected && !isVoted">
+        <button class="sendVoteBtn" @click="sendVote(selected.id)" v-if="!!selected && !isVoted">
           투표 확정 ㄱㄱ
         </button>
       </div>
@@ -292,7 +292,7 @@ export default {
 
       // 투표
       voteNo: 1, // 투표권
-      selected: [],
+      selected: "",
       isVoted: false,
 
       // 시간제한
@@ -435,6 +435,7 @@ export default {
         console.log(`userData : ${userData}`);
         console.log(`id : ${userData[0]}`); // 아이디
         console.log(`nick : ${userData[1]}`); // 닉네임
+        console.log("=============얘는 session on 부분=================");
         this.gameInfos.push({
           id: userData[0],
           nickname: userData[1],
@@ -635,6 +636,9 @@ export default {
     },
 
     dayTime() {
+      console.log("=================유저 정보 세팅 확인====================")
+      console.log(this.gameInfos)
+      console.log(this.myInfo)
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
@@ -757,16 +761,25 @@ export default {
               console.log(res);
               console.log("구독으로 받은 게임 정보입니다.", res.body);
               const data = JSON.parse(res.body);
-
+              console.log("=======================직업 뭐받는지 확인================")
+              console.log(data.job);
               this.myInfo.job = data.job;
+              console.log(this.gameInfos); // joinsession 이후 여기는 잘 들어와있음
               data.joinUsers.forEach((joinUser) => {
                 this.gameInfos.forEach((gameInfo) => {
+                  console.log(joinUser.id);
                   if (joinUser.id === gameInfo.id) {
                     gameInfo.color = joinUser.color;
+                  }
+                  if (joinUser.id === this.myInfo.id) {
+                    this.myInfo.color = joinUser.color;
                   }
                 });
               });
               this.setCount(data.absoluteTime);
+              console.log("=============얘는 gameinfos에 색 세팅되는 부분=================");
+              console.log("====================gameinfos 확인====================")
+              console.log(this.gameInfos);
               this.startDay();
             }
           );
@@ -835,6 +848,8 @@ export default {
                   this.gameEnd(res.body.winJob);
                 } else {
                   this.dayVoteResult();
+                  console.log("=================================================")
+                  console.log("투표 결과 들어와서 투표 결과 보여주는 부분 진행되냐?")
                 }
               }
 
@@ -897,7 +912,7 @@ export default {
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
       clearTimeout(this.voteClearNum);
-      this.selected = []; // 투표 누르면 투표확정 버튼 사라지게 하자
+      this.selected = ""; // 투표 누르면 투표확정 버튼 사라지게 하자
       this.isVoted = true;
     },
 
@@ -1051,22 +1066,6 @@ export default {
   background-size: cover;
   height: 100vh;
 }
-.voteForm {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  right: 10%;
-  /* background-color: white; */
-  /* opacity: 0.7; */
-  width: 80vh;
-  height: 80vh;
-  margin: auto;
-  border-radius: 30px;
-  /* box-shadow: 5px 5px 5px 5px gray; */
-  background-image: url(../../public/homedesign/images/vote_paper.png);
-  background-size: 80vh 80vh;
-  background-repeat: no-repeat;
-}
 .dayVoteTitle {
   text-align: center;
   margin-top: 50px;
@@ -1167,19 +1166,19 @@ export default {
   background-color: rgba(255, 255, 255, 0);
   z-index: 1200;
 }
-.voteForm {
+.GovoteForm {
   position: absolute;
   top: 10%;
   left: 10%;
   right: 10%;
   /* background-color: white; */
-  opacity: 0.7;
+  /* opacity: 0.7; */
   width: 80vh;
   height: 80vh;
   margin: auto;
   border-radius: 30px;
   /* box-shadow: 5px 5px 5px 5px gray; */
-  background-image: url(../../public/homedesign/images/vote_paper.png);
+  background-image: url(../../public/homedesign/images/jobinfo.png);
   background-size: 80vh 80vh;
   background-repeat: no-repeat;
 }
@@ -1407,5 +1406,13 @@ export default {
 }
 .brownColor {
   color:rgb(106, 66, 14)
+}
+.sendVoteBtn {
+  position: absolute;
+  background-image: url(../../public/homedesign/images/vote_wood_dot.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  left: 50%;
+  
 }
 </style>
