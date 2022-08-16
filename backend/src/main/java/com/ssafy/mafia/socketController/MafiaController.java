@@ -93,6 +93,7 @@ public class MafiaController {
 			dayResult.setColor(mpu.getColor());
 			dayResult.setId(paramDto.getId());
 			dayResult.setProgress(progress);
+			
 			mps.setVoteCount(mps.getVoteCount()+1);
 			
 			if(mps.getVoteCount()>mps.getAliveCount()/2)
@@ -103,12 +104,13 @@ public class MafiaController {
 			else
 				dayResult.setIfSkip(false);
 			
-			System.out.println();
+			
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), dayResult);	
 			
 			
 		}
 		break;
+		
 		case "voteDay":
 		{
 			//미션자가 미션 완료한 경우
@@ -200,7 +202,7 @@ public class MafiaController {
 			
 			mps.setVoteCount(mps.getVoteCount()+1);
 			String dieId="";
-			if(paramDto.getJob()=="doctor")
+			if(paramDto.getJob().equals("doctor"))
 			{
 				//마피아가 아직 투표 안했음
 				if(mps.getVoteCount()==1)
@@ -209,7 +211,7 @@ public class MafiaController {
 					break;
 				}
 			}
-			else if(paramDto.getJob()=="mafia")
+			else if(paramDto.getJob().equals("mafia"))
 			{
 				//의사가 아직 투표 안했음
 				if(mps.isDoctorAlive() && mps.getVoteCount()==1)
