@@ -168,7 +168,7 @@ export default {
             //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
             // }
         } else if (!this.ifWin && !this.isDay) {
-            const duration = '낮에만 신자를 모을 수 있습니다'
+            const duration = '낮에만 신도를 모을 수 있습니다'
             this.labelContainer.childNodes[1].innerText = duration;
         }
 
