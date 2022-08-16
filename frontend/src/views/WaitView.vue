@@ -258,7 +258,7 @@ export default {
             (res) => {
               console.log("방 폭파.", res.body);
               this.stompClient.disconnect();
-              this.$router.push("lobby");
+              this.$router.push({ name: "lobby" });
             }
           );
         },
@@ -359,12 +359,12 @@ export default {
     startTest() {
       this.$router.push({ name: "ingame", params: { id_pk: this.roomNo } });
 
-      const voteMembers = document.querySelectorAll('.votePaperMembers')
-      voteMembers.forEach(voteMember => {
+      const voteMembers = document.querySelectorAll(".votePaperMembers");
+      voteMembers.forEach((voteMember) => {
         while (voteMember.hasChildNodes()) {
           voteMember.removeChild(voteMember.firstChild);
-        }        
-      })
+        }
+      });
     },
 
     // 게임시작
