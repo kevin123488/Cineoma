@@ -151,55 +151,51 @@
         <div class="w3-col m8">
           <div class="w3-row">
             <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+              class="mx-2 my-2 w3-container w3-col m5"
               id="video-container"
             >
-              <user-video
-                class="userVideoLayout"
+              <other-user-video
+                class="OtherVideoBackground"
                 :stream-manager="subscribers[0]"
-                :gameInfo="gameInfos[0]"
-              >
-              </user-video>
-              <button>vote</button>
-            </div>
-
-            <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
-              id="video-container"
-            >
-              <user-video
-                class="userVideoLayout"
-                :stream-manager="subscribers[1]"
                 :gameInfo="gameInfos[1]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
             </div>
 
             <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+              class="mx-2 my-2 w3-container  w3-col m5"
               id="video-container"
             >
-              <user-video
-                class="userVideoLayout"
-                :stream-manager="subscribers[2]"
+              <other-user-video
+                class="OtherVideoBackground"
+                :stream-manager="subscribers[1]"
                 :gameInfo="gameInfos[2]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
             </div>
 
             <div
-              class="mx-2 my-2 w3-container border border-secondary w3-col m5"
+              class="mx-2 my-2 w3-container w3-col m5"
               id="video-container"
             >
-              <user-video
-                class="userVideoLayout"
-                :stream-manager="subscribers[3]"
+              <other-user-video
+                class="OtherVideoBackground"
+                :stream-manager="subscribers[2]"
                 :gameInfo="gameInfos[3]"
               >
-              </user-video>
-              <button>vote</button>
+              </other-user-video>
+            </div>
+
+            <div
+              class="mx-2 my-2 w3-container w3-col m5"
+              id="video-container"
+            >
+              <other-user-video
+                class="OtherVideoBackground"
+                :stream-manager="subscribers[3]"
+                :gameInfo="gameInfos[4]"
+              >
+              </other-user-video>
             </div>
           </div>
         </div>
@@ -217,6 +213,8 @@
               v-if="myInfo.job !== 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
+              class="myVideoBackground"
+              style="text-align: center;" 
             />
             <mission-user-video
               v-if="myInfo.job === 'police'"
@@ -249,6 +247,7 @@ import axios from "axios";
 
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/Ingame/UserVideo.vue";
+import OtherUserVideo from "@/components/Ingame/OtherUserVideo.vue";
 import MissionUserVideo from "@/components/Ingame/MissionUserVideo.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -261,6 +260,7 @@ export default {
   components: {
     IngameNav,
     UserVideo,
+    OtherUserVideo,
     MissionUserVideo,
   },
   data() {
@@ -1403,7 +1403,14 @@ export default {
   background-image: url(../../public/homedesign/images/lobby_friend.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
-  justify-content: center;
+  text-align: center;
+
+}
+.OtherVideoBackground {
+  background-image: url(../../public/homedesign/images/ingame_others.jpg);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
 }
 .brownColor {
   color:rgb(106, 66, 14)
