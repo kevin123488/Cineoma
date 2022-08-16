@@ -2,10 +2,10 @@ package com.ssafy.mafia.common;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,7 +40,7 @@ public class MafiaPlayStorage {
 	private List<ProfileUserDto> profileUsers= new ArrayList<>();
 	
 	//누가 몇표 뽑혔는지 기록
-	private Map<String, Integer> vote = new HashMap<String, Integer>();
+	private Map<String, Integer> vote = new ConcurrentHashMap<String, Integer>();
 	
 	//투표완료한 숫자 기록 스킵 카운트도 이걸로 사용
 	private volatile int voteCount=0;

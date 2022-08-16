@@ -133,6 +133,9 @@ public class MafiaController {
 				mps.getVote().put(paramDto.getVote(), 1);
 			}
 
+			System.out.println("===============뽑은 상태 표시===================");
+			System.out.println(mps.getVote());
+			
 			
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result);	
 			System.out.println(mps.getVoteCount());
