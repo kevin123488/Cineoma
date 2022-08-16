@@ -1157,23 +1157,23 @@ export default {
       console.log("=============================");
       console.log(`시간입니다. ${this.dayStartTime}`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 15);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameDayTime = new Date(this.dayStartTime);
       console.log(`==== gameDayTime ${this.gameDayTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 25);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
@@ -1226,23 +1226,23 @@ export default {
       let nowTime = new Date();
       this.dayStartTime = nowTime;
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 15);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameDayTime = new Date(this.dayStartTime);
       console.log(`==== gameDayTime ${this.gameDayTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 25);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
@@ -1250,19 +1250,19 @@ export default {
     setSkipTime() {
       this.dayStartTime = new Date();
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 25);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 5);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
