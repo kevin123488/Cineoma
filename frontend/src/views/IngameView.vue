@@ -103,7 +103,7 @@
       낮 스킵 후 투표로 넘어가기 지금 낮임
     </button>
 
-    <!-- 낮 투표 결과 -->
+    <!-- 투표 결과 -->
     <div
       :class="{
         voteResultDay: progress.isVoteDayResult,
@@ -146,6 +146,67 @@
           deadShadowGone: isGone,
         }"
       ></div>
+    </div>
+
+    <!-- 밤 투표창 -->
+    <!-- 밤 투표창 마피아 -->
+    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'mafia'">
+      <h3 class="dayVoteTitle">지금 밤 투표임</h3>
+      <div class="voteItem">
+        <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
+          <div
+            :id="info.id"
+            v-if="info.isAlive"
+            class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+            @click="chooseVote(info)"
+          >
+            <button class="learn-more">{{ info.nickname }}</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h5 style="text-align: center" class="mt-5">
+          선택한 유저:
+          <span style="font-weight: bold">{{ selected.nickname }}</span>
+        </h5>
+        <button
+          class="sendVoteBtn"
+          @click="sendVote(selected.id)"
+          v-if="!!selected && !isVoted"
+        >
+          투표 확정 ㄱㄱ
+        </button>
+      </div>
+    </div>
+
+    <!-- 밤 투표창 의사 -->
+    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'doctor'">
+      <h3 class="dayVoteTitle">지금 밤 투표임</h3>
+      <div class="voteItem">
+        <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
+          <div
+            :id="info.id"
+            v-if="info.isAlive"
+            class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+            @click="chooseVote(info)"
+          >
+            <button class="learn-more">{{ info.nickname }}</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h5 style="text-align: center" class="mt-5">
+          선택한 유저:
+          <span style="font-weight: bold">{{ selected.nickname }}</span>
+        </h5>
+        <button
+          class="sendVoteBtn"
+          @click="sendVote(selected.id)"
+          v-if="!!selected && !isVoted"
+        >
+          투표 확정 ㄱㄱ
+        </button>
+      </div>
     </div>
 
     <div class="w3-main mx-5">
@@ -945,6 +1006,7 @@ export default {
     },
 
     dayVoteTime() {
+      console.log(this.myInfo);
       this.isSkiped = false;
       this.progress.isDay = false;
       this.setIsDay(false);
@@ -953,12 +1015,14 @@ export default {
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
         if (this.myInfo.isAlive) {
+          console.log("================살아있으면 투표 자동으로 들어가라========================")
           this.sendVote("");
         }
         console.log(
           "=======================지금 들어가나?============================="
         );
-      }, this.count * 1000 + 200);
+      // }, this.count * 1000 + 200);
+      }, 15000);
     },
 
     dayVoteResult() {
@@ -1619,7 +1683,7 @@ export default {
   height: 0px;
   width: 0px;
 }
-.redCharGone {
+.blackCharGone {
   transform: rotate(540deg);
   left: 90%;
   top: 10%;
