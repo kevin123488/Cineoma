@@ -3,8 +3,6 @@ package com.ssafy.mafia.socketDto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ssafy.mafia.common.MafiaPlaingUser;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,6 @@ private String progress;
     private String job;
     private boolean isHost;
     
-    private List<MafiaPlaingUser> endding;
     private List<JoinUserDto> joinUsers = new ArrayList<>();
     
 //    public void addJoinUser(String id, String nickname, String color)

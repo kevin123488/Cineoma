@@ -79,13 +79,10 @@ public class MafiaController {
 				
 //				System.out.println("startResult");
 			}
-//			System.out.println("각 개인에게 보내주는 메시지======================================");
-//			System.out.println("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId()+"\n"+startResult+"\n");
+			System.out.println("각 개인에게 보내주는 메시지======================================");
+			System.out.println("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId()+"\n"+startResult+"\n");
 			
-		
-			startResult.setEndding(mps.getPlaingUsers());
-			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), startResult);
-//			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId(), startResult);
+			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId(), startResult);
 		 }
 		break;
 
