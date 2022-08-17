@@ -1028,9 +1028,9 @@ export default {
     // 투표 결과창 관련
     typeEffect() {
       if (this.whoIsGone) {
-        this.showingMsg = `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`;
+        this.showingMsg = `투표 결과 ${this.whoIsGone} 님이 사망하였습니다!`;
       } else {
-        this.showingMsg = `아무도 퇴출되지 않았습니다`;
+        this.showingMsg = `아무도 사망하지 않았습니다`;
       }
     },
     typeEffect2() {
