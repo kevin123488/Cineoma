@@ -772,8 +772,11 @@ export default {
     console.log(this.isConnected);
     this.isDark = false
     setTimeout(() => {
+      this.isDark = false
+    }, 1000)    
+    setTimeout(() => {
       this.showblackGround = false
-    }, 2000)
+    }, 3000)
   },
   watch: {
     startGame() {
