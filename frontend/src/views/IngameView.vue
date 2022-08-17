@@ -628,7 +628,7 @@ export default {
                 console.log(joinUser.id);
                 if (joinUser.id === gameInfo.id) {
                   gameInfo.color = joinUser.color;
-                  gameInfo.job = joinUser.job
+                  gameInfo.job = joinUser.job;
                 }
                 if (joinUser.id === this.myInfo.id) {
                   this.myInfo.color = joinUser.color;
@@ -731,7 +731,7 @@ export default {
                 }
               });
               if (data.winJob !== "") {
-                this.endding = data.endding
+                this.endding = data.endding;
                 this.gameEnd(data.winJob);
               } else {
                 this.setDayVoteTime();
@@ -759,7 +759,7 @@ export default {
                 }
               });
               if (data.winJob) {
-                this.endding = data.endding
+                this.endding = data.endding;
                 this.gameEnd(data.winJob);
               } else {
                 this.dayNightResult();
@@ -781,13 +781,11 @@ export default {
     console.log(this.isConnected);
     this.isDark = false;
     setTimeout(() => {
-
-      this.isDark = false
-    }, 4000)    
+      this.isDark = false;
+    }, 4000);
     setTimeout(() => {
-      this.showblackGround = false
-    }, 6000)
-
+      this.showblackGround = false;
+    }, 6000);
   },
   watch: {
     startGame() {
@@ -880,6 +878,7 @@ export default {
         const tmp = subscriber.stream.connection.data.split('"');
         const userData = tmp[3].split(",");
         this.gameInfos.push({
+          subscriber: subscriber,
           id: userData[0],
           nickname: userData[1],
           isAlive: true, // 살았나 죽었나
@@ -1215,7 +1214,7 @@ export default {
     },
 
     avOn() {
-      this.publisher.publishAudio(false);
+      this.publisher.publishAudio(true);
       this.publisher.publishVideo(true);
     },
 
@@ -1233,9 +1232,9 @@ export default {
       this.showblackGround = true;
       this.isDark = true;
       const winJobList = [];
-      console.log('this.gameInfos.')
+      console.log("this.gameInfos.");
       this.endding.forEach((user) => {
-        console.log(user)
+        console.log(user);
 
         if (winJob === "citizen") {
           if (user.job === "citizen" || user.job === "doctor") {
@@ -1245,7 +1244,6 @@ export default {
               color: user.color,
             });
           }
-
         } else {
           if (user.job === winJob) {
             winJobList.push({
