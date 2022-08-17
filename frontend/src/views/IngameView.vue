@@ -1455,7 +1455,7 @@ export default {
   left: 30%;
   right: 30%;
   /* background-color: white; */
-  opacity: 0.85;
+  opacity: 1;
   width: 30vh;
   height: 30vh;
   margin: auto;
@@ -1475,7 +1475,7 @@ export default {
   left: 90%;
   right: 30%;
   /* background-color: white; */
-  opacity: 0.85;
+  opacity: 0.9;
   width: 10vh;
   height: 10vh;
   margin: auto;
@@ -1505,7 +1505,7 @@ export default {
   background-size: 80vh 90vh;
   background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0);
-  z-index: 1200;
+  z-index: 2000;
 }
 .GovoteForm {
   z-index: 2;
