@@ -1,5 +1,9 @@
-<template>showblackGround
-  <div v-if="showblackGround" :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
+<template>
+  showblackGround
+  <div
+    v-if="showblackGround"
+    :class="{ blackGround: isDark, blackGroundOut: !isDark }"
+  ></div>
   <div
     :class="{
       ingameNight: progress.isNight,
@@ -66,7 +70,7 @@
     </button>
 
     <!-- 낮 투표용지 -->
-    <div class="GovoteForm" v-if="progress.isVoteDay">
+    <div class="GovoteForm" v-if="progress.isVoteDay && myInfo.isAlive === true">
       <h3 class="dayVoteTitle">지금 낮 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -74,10 +78,20 @@
             <div
               v-if="info.isAlive"
               class=""
-              style="font-size: 50px;"
+              style="font-size: 50px"
               @click="chooseVote(info)"
+            >
+              <p
+                class="brownColor learn-more"
+                style="
+                  height: 50px;
+                  margin: 10px 0px;
+                  cursor: pointer;
+                  vertical-align: middle;
+                  font-family: 'NeoDunggeunmo Code';
+                "
               >
-              <p class="brownColor learn-more" style="height: 50px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
+              <p class="brownColor learn-more" style="height: 30px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
             </div>
           </div>
         </div>
@@ -153,7 +167,7 @@
 
     <!-- 밤 투표창 -->
     <!-- 밤 투표창 마피아 -->
-    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'mafia'">
+    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'mafia' && myInfo.isAlive === true">
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -183,7 +197,7 @@
     </div>
 
     <!-- 밤 투표창 의사 -->
-    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'doctor'">
+    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'doctor' && myInfo.isAlive === true">
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -336,7 +350,7 @@ export default {
       myUserName: "",
 
       // 게임정보
-      koreanJob: '',
+      koreanJob: "",
       startGame: false,
       startGameSignal: false,
       gameInfos: [],
@@ -377,6 +391,7 @@ export default {
       isJobRollOpen: false,
       job: "citizen",
       setUserColor: [],
+      jobRollOpenedForSetting: false,
 
       // 낮 스킵 관련
       isSkiped: false, // 투표 상황으로 넘어가면 반드시 false로 재 설정
@@ -547,14 +562,14 @@ export default {
               "=======================직업 뭐받는지 확인================"
             );
             this.myInfo.job = data.job;
-            if (data.job === 'citizen') {
-              this.koreanJob = '시민'
-            } else if (data.job === 'mafia') {
-              this.koreanJob = '마피아'
-            } else if (data.job === 'police') {
-              this.koreanJob = '교주'
-            } else if (data.job === 'doctor') {
-              this.koreanJob = '의사'
+            if (data.job === "citizen") {
+              this.koreanJob = "시민";
+            } else if (data.job === "mafia") {
+              this.koreanJob = "마피아";
+            } else if (data.job === "police") {
+              this.koreanJob = "교주";
+            } else if (data.job === "doctor") {
+              this.koreanJob = "의사";
             }
             this.setUserColor = data;
 
@@ -614,6 +629,8 @@ export default {
             this.startDay();
           }
         );
+
+        // this.gameInfos.push(this.myInfo); // 자기 게임정보를 넣어주는 타이밍은 여기가 맞는듯. 색 정보가 들어가고 난 후 세팅되어야 함 -> 확인해봤는데 아닌듯
 
         await this.stompClient.subscribe(
           `/topic/sendMafia/${this.mySessionId}`,
@@ -711,6 +728,7 @@ export default {
 
             // 밤 투표
             if (data.progress === "voteNight") {
+              console.log(`==== 밤 투표 결과 ${data} ====`);
               this.gameInfos.forEach((user) => {
                 if (user.id === data.votedId) {
                   this.deadColor = user.color;
@@ -773,15 +791,15 @@ export default {
 
     // 직업정보열람용
     switchJobRoll() {
-      if (this.setUserColor.job === 'citizen') {
-        this.koreanJob = '시민'
-      } else if (this.setUserColor.job === 'mafia') {
-        this.koreanJob = '마피아'
-      } else if (this.setUserColor.job === 'police') {
-        this.koreanJob = '교주'
-      } else if (this.setUserColor.job === 'doctor') {
-        this.koreanJob = '의사'
-      }      
+      if (this.setUserColor.job === "citizen") {
+        this.koreanJob = "시민";
+      } else if (this.setUserColor.job === "mafia") {
+        this.koreanJob = "마피아";
+      } else if (this.setUserColor.job === "police") {
+        this.koreanJob = "교주";
+      } else if (this.setUserColor.job === "doctor") {
+        this.koreanJob = "의사";
+      }
       this.isjobRollCenter = false;
       this.isJobRollOpen = false;
       this.myInfo.job = this.setUserColor.job;
@@ -790,9 +808,15 @@ export default {
           if (gameInfo.id === joinUser.id) {
             gameInfo.color = joinUser.color;
           }
+          if (this.myInfo.id === joinUser.id) {
+            this.myInfo.color = joinUser.color;
+          }
         });
       });
-      this.gameInfos.push(this.myInfo);
+      if (this.jobRollOpenedForSetting === false) {
+        this.gameInfos.push(this.myInfo);
+        this.jobRollOpenedForSetting = true;
+      }
     },
     openJobRoll() {
       if (this.isjobRollCenter) {
@@ -983,18 +1007,16 @@ export default {
     // 투표 결과창 관련
     typeEffect() {
       if (this.whoIsGone) {
-        this.showingMsg =
-          `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`
+        this.showingMsg = `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`;
       } else {
-        this.showingMsg = `아무도 퇴출되지 않았습니다`
+        this.showingMsg = `아무도 퇴출되지 않았습니다`;
       }
     },
     typeEffect2() {
       if (this.whoisGone) {
-        this.showingMsg =
-          `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`
+        this.showingMsg = `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`;
       } else {
-        this.showingMsg = `조용한 밤을 보냈습니다`
+        this.showingMsg = `조용한 밤을 보냈습니다`;
       }
     },
     getOut() {
@@ -1042,7 +1064,9 @@ export default {
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
         if (this.myInfo.isAlive) {
-          console.log("================살아있으면 투표 자동으로 들어가라========================")
+          console.log(
+            "================살아있으면 투표 자동으로 들어가라========================"
+          );
           this.sendVote("");
         }
         console.log(
@@ -1079,7 +1103,10 @@ export default {
       this.getDayNightTimeCount();
       this.count = this.dayNightTimeCount;
       this.voteClearNum2 = setTimeout(() => {
-        if (this.myInfo.isAlive && (this.myInfo.job === 'mafia' || this.myInfo.job === 'doctor')) {
+        if (
+          this.myInfo.isAlive &&
+          (this.myInfo.job === "mafia" || this.myInfo.job === "doctor")
+        ) {
           this.sendVote("");
         }
       }, this.count * 1000 + 200);
@@ -1139,7 +1166,7 @@ export default {
       clearTimeout(this.voteClearNum2);
       if (this.stompClient && this.stompClient.connected) {
         if (this.myInfo.isAlive === false) {
-          this.setIfWin(false)
+          this.setIfWin(false);
         }
         const msg = {
           progress: "voteDay",
@@ -1189,8 +1216,8 @@ export default {
       //   nickname: "마피아고수",
       //   color: "red",
       // };
-      this.showblackGround = true
-      this.isDark = true
+      this.showblackGround = true;
+      this.isDark = true;
       const winJobList = [];
       this.gameInfos.forEach((user) => {
         //  if (user.job === winJob) {
@@ -1224,9 +1251,8 @@ export default {
       this.leaveSession();
       setTimeout(() => {
         this.stompClient.disconnect();
-        this.$router.push({name: "gameend",});
-      }, 2000)
-
+        this.$router.push({ name: "gameend" });
+      }, 2000);
     },
 
     setStartTime(time) {
