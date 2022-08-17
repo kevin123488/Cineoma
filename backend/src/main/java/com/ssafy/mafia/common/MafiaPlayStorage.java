@@ -90,12 +90,10 @@ public class MafiaPlayStorage {
 //		
 //		
 //		
-//		profileUsers.clear();
 //		ifPlay=false;
 		this.winJob=winJob;
 		recordUpateCheck=true;
 		//나머지는 방입장하면서 알아서 채워질거임
-		
 		
 	}
 	
@@ -104,7 +102,6 @@ public class MafiaPlayStorage {
 	{
 		aliveCount=profileUsers.size();
 		movingUserCount=profileUsers.size();
-//		profileUsers.clear();
 		doctorAlive=true;
 		mafiaChosen="";
 		doctorChosen="";
@@ -182,6 +179,8 @@ public class MafiaPlayStorage {
 			}
 			
 		}
+		System.out.println(id);
+		System.out.println(id);
 		System.out.println("com.ssafy.mafia.common.MafiaPlayStorage.MafiaPlaingUser : 없는아이디 검색했음 널반환함");
 		return null;
 	}
@@ -234,10 +233,15 @@ public class MafiaPlayStorage {
 				}
 			}
 		}
+		System.out.println("================게임 엔드 체크======================");
+		System.out.println("aliveMafiacount : " + aliveMafiacount);
+		System.out.println("alivePolicecount : " + alivePolicecount);
+		System.out.println("aliveCitizencount : " + aliveCitizencount);
+		System.out.println("aliveDoctorcount : " + aliveDoctorcount);
 		if(missionComplete && alivePolicecount>0)
 		{
 			result = "police";
-			gameEnd(result);
+			gameEnd("police");
 		}
 		else if(aliveDoctorcount==0)
 		{
@@ -246,15 +250,17 @@ public class MafiaPlayStorage {
 		else if(aliveMafiacount==0)
 		{
 			result = "citizen";
-			gameEnd(result);
+			gameEnd("citizen");
 		}
 		else if(aliveMafiacount>=aliveCitizencount)
 		{
 			result = "mafia";
-			gameEnd(result);
+			gameEnd("mafia");
 		}
+		System.out.println("result : " + this.winJob);
+		System.out.println("================게임 엔드 체크======================");
 		
-		return result;
+		return this.winJob;
 	}
 	
 
