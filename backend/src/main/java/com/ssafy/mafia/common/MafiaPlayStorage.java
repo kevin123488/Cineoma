@@ -238,14 +238,15 @@ public class MafiaPlayStorage {
 		System.out.println("alivePolicecount : " + alivePolicecount);
 		System.out.println("aliveCitizencount : " + aliveCitizencount);
 		System.out.println("aliveDoctorcount : " + aliveDoctorcount);
+		if(aliveDoctorcount==0)
+		{
+			doctorAlive=false;
+		}
+		
 		if(missionComplete && alivePolicecount>0)
 		{
 			result = "police";
 			gameEnd("police");
-		}
-		else if(aliveDoctorcount==0)
-		{
-			doctorAlive=false;
 		}
 		else if(aliveMafiacount==0)
 		{
