@@ -70,7 +70,7 @@
     </button>
 
     <!-- 낮 투표용지 -->
-    <div class="GovoteForm" v-if="progress.isVoteDay">
+    <div class="GovoteForm" v-if="progress.isVoteDay && myInfo.isAlive === true">
       <h3 class="dayVoteTitle">지금 낮 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -91,8 +91,7 @@
                   font-family: 'NeoDunggeunmo Code';
                 "
               >
-                {{ info.nickname }}
-              </p>
+              <p class="brownColor learn-more" style="height: 30px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
             </div>
           </div>
         </div>
@@ -168,7 +167,7 @@
 
     <!-- 밤 투표창 -->
     <!-- 밤 투표창 마피아 -->
-    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'mafia'">
+    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'mafia' && myInfo.isAlive === true">
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -198,7 +197,7 @@
     </div>
 
     <!-- 밤 투표창 의사 -->
-    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'doctor'">
+    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'doctor' && myInfo.isAlive === true">
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -392,6 +391,7 @@ export default {
       isJobRollOpen: false,
       job: "citizen",
       setUserColor: [],
+      jobRollOpenedForSetting: false,
 
       // 낮 스킵 관련
       isSkiped: false, // 투표 상황으로 넘어가면 반드시 false로 재 설정
@@ -630,6 +630,8 @@ export default {
           }
         );
 
+        // this.gameInfos.push(this.myInfo); // 자기 게임정보를 넣어주는 타이밍은 여기가 맞는듯. 색 정보가 들어가고 난 후 세팅되어야 함 -> 확인해봤는데 아닌듯
+
         await this.stompClient.subscribe(
           `/topic/sendMafia/${this.mySessionId}`,
           (res) => {
@@ -806,9 +808,15 @@ export default {
           if (gameInfo.id === joinUser.id) {
             gameInfo.color = joinUser.color;
           }
+          if (this.myInfo.id === joinUser.id) {
+            this.myInfo.color = joinUser.color;
+          }
         });
       });
-      this.gameInfos.push(this.myInfo);
+      if (this.jobRollOpenedForSetting === false) {
+        this.gameInfos.push(this.myInfo);
+        this.jobRollOpenedForSetting = true;
+      }
     },
     openJobRoll() {
       if (this.isjobRollCenter) {
