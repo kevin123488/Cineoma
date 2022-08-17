@@ -5,7 +5,7 @@
 	<!-- <button type="button" @click="startMotion">Start</button> -->
 	<div style="text-align: center; border-radius: 10px;"><canvas id="canvas"></canvas></div>
 	<div id="label-container" class="brownColor"></div>
-	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px;">신자카운트: </div>
+	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px;">신도카운트: </div>
 
 	<div id="clearMessage" class="brownColor" style="font-size: 20px; font-family: 'NeoDunggeunmo Code';"></div>
 </template>
@@ -169,6 +169,7 @@ export default {
             // }
         } else if (!this.ifWin && !this.isDay) {
             const duration = '낮에만 신도를 모을 수 있습니다'
+            duration.classList.add("nightMissionInfo");
             this.labelContainer.childNodes[1].innerText = duration;
         }
 
@@ -209,20 +210,30 @@ export default {
   text-align: center;
   /* margin: auto; */
 }
+.nightMissionInfo {
+  font-size: 20px;
+  font-family: 'NeoDunggeunmo Code';
+  text-align: center;
+  /* margin: auto; */
+}
 .missionClearInfo {
   font-size: 20px;
   font-family: 'NeoDunggeunmo Code';
   text-align: center;
   color:rgb(160, 26, 26);
   font-weight: bold;  
+  margin-top: 10px;
 }
 .believer {
   background-image: url(../../../public/homedesign/images/believer.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;
+  background-color: rgb(106, 66, 14);
+  border-radius: 5px;
   width: 30px;
   height: 30px;
-  margin-top:7px;
+  margin-top: 3px;
+  margin-right: 2px;
 }
 .clearSign {
   position: absolute;
