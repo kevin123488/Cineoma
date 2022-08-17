@@ -13,7 +13,7 @@ const roomdataStore = {
   namespaced: true,
   state: {
     roomNo: -1,
-    roomTitle: "",
+    roomTitle: '뭐임?',
     isCaptain: false,
     password: '',
     isConnected: false,
@@ -69,7 +69,6 @@ const roomdataStore = {
           console.log(response.data)
           commit('SET_ROOMTITLE', response.data.roomTitle)
           commit('SET_ISCAPTAIN', true)
-          commit('SET_ROOMNO', response.data.no)
           console.log(response.data.roomTitle)
           console.log(response.data.no)
           router.push({ name: 'wait', params: { roomnumber:  response.data.no } })
@@ -93,9 +92,8 @@ const roomdataStore = {
     async enterRoom({ commit }, roomInfo) {
       await roomEnter(
         roomInfo,
-        (response) => {
+        () => {
           console.log('========응답오나=======')
-          commit('SET_ROOMTITLE', response.roomTitle)
           commit('SET_ROOMNO', roomInfo.no)
           commit('SET_PASSWORD', roomInfo.password)
           router.push({ name: 'wait', params: { roomnumber:  roomInfo.no } })
