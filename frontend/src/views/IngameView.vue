@@ -70,7 +70,10 @@
     </button>
 
     <!-- 낮 투표용지 -->
-    <div class="GovoteForm" v-if="progress.isVoteDay && myInfo.isAlive === true">
+    <div
+      class="GovoteForm"
+      v-if="progress.isVoteDay && myInfo.isAlive === true"
+    >
       <h3 class="dayVoteTitle">지금 낮 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -84,14 +87,15 @@
               <p
                 class="brownColor learn-more"
                 style="
-                  height: 50px;
+                  height: 30px;
                   margin: 10px 0px;
                   cursor: pointer;
                   vertical-align: middle;
                   font-family: 'NeoDunggeunmo Code';
                 "
               >
-              <p class="brownColor learn-more" style="height: 30px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
+                {{ info.nickname }}
+              </p>
             </div>
           </div>
         </div>
@@ -167,7 +171,12 @@
 
     <!-- 밤 투표창 -->
     <!-- 밤 투표창 마피아 -->
-    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'mafia' && myInfo.isAlive === true">
+    <div
+      class="GovoteForm"
+      v-if="
+        progress.isNight && myInfo.job === 'mafia' && myInfo.isAlive === true
+      "
+    >
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -197,7 +206,12 @@
     </div>
 
     <!-- 밤 투표창 의사 -->
-    <div class="GovoteForm" v-if="progress.isNight && myInfo.job === 'doctor' && myInfo.isAlive === true">
+    <div
+      class="GovoteForm"
+      v-if="
+        progress.isNight && myInfo.job === 'doctor' && myInfo.isAlive === true
+      "
+    >
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
@@ -235,7 +249,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[0]"
+                :stream-manager="gameInfos[0].subscriber"
                 :gameInfo="gameInfos[0]"
               >
               </other-user-video>
@@ -244,7 +258,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[1]"
+                :stream-manager="gameInfos[1].subscriber"
                 :gameInfo="gameInfos[1]"
               >
               </other-user-video>
@@ -253,7 +267,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[2]"
+                :stream-manager="gameInfos[2].subscriber"
                 :gameInfo="gameInfos[2]"
               >
               </other-user-video>
@@ -262,7 +276,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[3]"
+                :stream-manager="gameInfos[3].subscriber"
                 :gameInfo="gameInfos[3]"
               >
               </other-user-video>
@@ -462,6 +476,7 @@ export default {
       console.log(`nick : ${userData[1]}`); // 닉네임
       console.log("=============얘는 session on 부분=================");
       this.gameInfos.push({
+        subscriber: subscriber,
         id: userData[0],
         nickname: userData[1],
         isAlive: true, // 살았나 죽었나
