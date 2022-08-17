@@ -363,7 +363,14 @@ export default {
       startGame: false,
       startGameSignal: false,
       gameInfos: [],
-      myInfo: {},
+      myInfo: {
+        id: this.userInfo.id,
+        nickname: this.userInfo.nickname,
+        isAlive: true, // 살았나 죽었나
+        color: "", //색깔
+        job: "", // 직업
+        voted: [],
+      },
       progress: {
         nowDay: 0,
         isDay: true,
@@ -453,14 +460,6 @@ export default {
     // console.log("=====================참가자=================")
     // console.log(this.subscribers)
     this.joinSession();
-    this.myInfo = {
-      id: this.userInfo.id,
-      nickname: this.userInfo.nickname,
-      isAlive: true, // 살았나 죽었나
-      color: "", //색깔
-      job: "", // 직업
-      voted: [],
-    };
     setTimeout(() => {
       this.connect();
     }, 10000);
@@ -517,6 +516,7 @@ export default {
               console.log(
                 "=======================직업 뭐받는지 확인================"
               );
+
               this.myInfo.job = data.job;
               if (data.job === "citizen") {
                 this.koreanJob = "시민";
@@ -527,6 +527,7 @@ export default {
               } else if (data.job === "doctor") {
                 this.koreanJob = "의사";
               }
+              console.log(this.myInfo.job);
               this.setUserColor = data;
 
               // data.joinUsers.forEach((joinUser) => {
