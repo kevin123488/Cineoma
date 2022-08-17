@@ -2,10 +2,7 @@
   <div v-if="streamManager" class="brownColor">
     <br>
     <h3><b>{{ gameInfo.nickname }}</b></h3>
-    <h3><b>{{ this.votedInfos }}</b></h3>
     <ov-video :stream-manager="streamManager" style="border-radius: 10px;" />
-    <div>
-    </div>
   </div>
 </template>
 

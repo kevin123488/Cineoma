@@ -3,7 +3,7 @@
     <div v-if="ifWin" class="clearSign"></div>
 	<div class="content brownColor" style="font-size: 20px; text-align: center; padding-top: 40px; padding-bottom: 20px; font-family: 'NeoDunggeunmo Code';"><b>{{ motionExplanation[missionClass] }}</b></div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
-	<div style="text-align: center; border-radius: 10px;"><canvas id="canvas"></canvas></div>
+	<div style="text-align: center; border-radius: 10px;"><canvas id="canvas" style="border-radius: 10px;"></canvas></div>
 	<div id="label-container" class="brownColor"></div>
 	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px;">신도카운트: </div>
 
