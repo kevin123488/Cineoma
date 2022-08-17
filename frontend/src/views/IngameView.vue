@@ -1,4 +1,5 @@
-<template>
+<template>showblackGround
+  <div v-if="showblackGround" :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
   <div
     :class="{
       ingameNight: progress.isNight,
@@ -259,7 +260,7 @@
           <div class="mx-2 py-2 w3-container w3-col m9 just myVideoBackground">
             <h3 class="brownColor" style="text-align: center">
               <b
-                ><I>직업: {{ myInfo.job }}</I></b
+                ><I>직업: {{ koreanJob }}</I></b
               >
             </h3>
           </div>
@@ -335,6 +336,7 @@ export default {
       myUserName: "",
 
       // 게임정보
+      koreanJob: '',
       startGame: false,
       startGameSignal: false,
       gameInfos: [],
@@ -348,6 +350,8 @@ export default {
         isNightResult: false,
       },
       missionWin: false,
+      showblackGround: false,
+      isDark: false,
 
       // 투표
       voteNo: 1, // 투표권
@@ -405,7 +409,7 @@ export default {
       "isConnected",
     ]),
     ...mapGetters(memberStore, ["isLogin"]),
-    ...mapGetters(ingameStore, ["job"]),
+    ...mapGetters(ingameStore, ["job", "ifWin"]),
   },
   beforeCreate() {},
 
@@ -543,6 +547,15 @@ export default {
               "=======================직업 뭐받는지 확인================"
             );
             this.myInfo.job = data.job;
+            if (data.job === 'citizen') {
+              this.koreanJob = '시민'
+            } else if (data.job === 'mafia') {
+              this.koreanJob = '마피아'
+            } else if (data.job === 'police') {
+              this.koreanJob = '교주'
+            } else if (data.job === 'doctor') {
+              this.koreanJob = '의사'
+            }
             this.setUserColor = data;
 
             // data.joinUsers.forEach((joinUser) => {
@@ -760,6 +773,15 @@ export default {
 
     // 직업정보열람용
     switchJobRoll() {
+      if (this.setUserColor.job === 'citizen') {
+        this.koreanJob = '시민'
+      } else if (this.setUserColor.job === 'mafia') {
+        this.koreanJob = '마피아'
+      } else if (this.setUserColor.job === 'police') {
+        this.koreanJob = '교주'
+      } else if (this.setUserColor.job === 'doctor') {
+        this.koreanJob = '의사'
+      }      
       this.isjobRollCenter = false;
       this.isJobRollOpen = false;
       this.myInfo.job = this.setUserColor.job;
@@ -1116,6 +1138,9 @@ export default {
       clearTimeout(this.voteClearNum);
       clearTimeout(this.voteClearNum2);
       if (this.stompClient && this.stompClient.connected) {
+        if (this.myInfo.isAlive === false) {
+          this.setIfWin(false)
+        }
         const msg = {
           progress: "voteDay",
           roomNo: this.mySessionId,
@@ -1123,7 +1148,7 @@ export default {
           nickname: this.userInfo.nickname,
           job: this.myInfo.job,
           vote: voteId,
-          ifWin: this.missionWin,
+          ifWin: this.ifWin,
         };
         if (this.progress.isNight) {
           msg.progress = "voteNight";
@@ -1164,6 +1189,8 @@ export default {
       //   nickname: "마피아고수",
       //   color: "red",
       // };
+      this.showblackGround = true
+      this.isDark = true
       const winJobList = [];
       this.gameInfos.forEach((user) => {
         //  if (user.job === winJob) {
@@ -1195,10 +1222,11 @@ export default {
       console.log(typeof this.setGameResult);
       this.setGameResult(winJobList);
       this.leaveSession();
-      this.stompClient.disconnect();
-      this.$router.push({
-        name: "gameend",
-      });
+      setTimeout(() => {
+        this.stompClient.disconnect();
+        this.$router.push({name: "gameend",});
+      }, 2000)
+
     },
 
     setStartTime(time) {
