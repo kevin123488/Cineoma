@@ -66,11 +66,14 @@ public class ProfileServiceImpl implements ProfileService{
 		
 		if(mps.isRecordUpateCheck())
 		{
+
+			System.out.println("=====================레코드 업데이트 부분======================");
+			System.out.println("mps");
+			System.out.println(mps);
 			MafiaPlaingUser mpu =mps.getMPU(id);
 			String myJob=mpu.getJob();
 			String winJob = mps.getWinJob();
 			
-			System.out.println("=====================레코드 업데이트 부분======================");
 			System.out.println("mpu.getId() : " + mpu.getId());
 			System.out.println("mpu.getJob() : " + mpu.getJob());
 			System.out.println("winJob : " + winJob);
@@ -89,7 +92,6 @@ public class ProfileServiceImpl implements ProfileService{
 			}
 			else
 			{
-				
 				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "lose");
 			}
 		}
