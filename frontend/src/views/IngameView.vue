@@ -81,16 +81,6 @@
               style="font-size: 50px"
               @click="chooseVote(info)"
             >
-              <p
-                class="brownColor learn-more"
-                style="
-                  height: 50px;
-                  margin: 10px 0px;
-                  cursor: pointer;
-                  vertical-align: middle;
-                  font-family: 'NeoDunggeunmo Code';
-                "
-              >
               <p class="brownColor learn-more" style="height: 30px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
             </div>
           </div>

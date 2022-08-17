@@ -1,5 +1,6 @@
 <template>
 <div class="profilePageBackground">
+  <nav-header></nav-header>
     <!-- modal -->
     <div class="modal fade powerModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -16,7 +17,7 @@
                   </div>
                   <button class="choicePic" @click="setMafiaPic"><h1>마피아</h1></button>
                   <button class="choicePic" @click="setCitizenPic"><h1>시민</h1></button>
-                  <button class="choicePic" @click="setPolicePic"><h1>경찰</h1></button>
+                  <button class="choicePic" @click="setPolicePic"><h1>교주</h1></button>
                   <button class="choicePic" @click="setDoctorPic"><h1>의사</h1></button>
                 </div>
               </div>
@@ -62,6 +63,7 @@
 <script>
 import MyFriend from '@/components/Mypage/MyFriend.vue';
 import RecordDetail from '@/components/Mypage/RecordDetail.vue';
+import NavHeader from '@/components/Nav/NavHeader.vue'
 import { mapActions } from 'vuex';
 import { mapState } from 'vuex';
 const mypageStore = "mypageStore";
@@ -71,6 +73,7 @@ export default {
   components: {
     RecordDetail,
     MyFriend,
+    NavHeader,
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
