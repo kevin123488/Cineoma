@@ -744,12 +744,12 @@ export default {
       }
       this.isjobRollCenter = false;
       this.isJobRollOpen = false;
-      this.myInfo.job = this.setUserColor.job;
+      // this.myInfo.job = this.setUserColor.job;
       this.gameInfos.forEach((gameInfo) => {
         this.setUserColor.joinUsers.forEach((joinUser) => {
           if (gameInfo.id === joinUser.id) {
             gameInfo.color = joinUser.color;
-            gameInfo.job = joinUser.job;
+            // gameInfo.job = joinUser.job;
           }
           if (this.myInfo.id === joinUser.id) {
             this.myInfo.color = joinUser.color;
