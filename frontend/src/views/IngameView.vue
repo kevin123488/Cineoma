@@ -364,8 +364,8 @@ export default {
       startGameSignal: false,
       gameInfos: [],
       myInfo: {
-        id: this.userInfo.id,
-        nickname: this.userInfo.nickname,
+        id: "",
+        nickname: "",
         isAlive: true, // 살았나 죽었나
         color: "", //색깔
         job: "", // 직업
@@ -451,6 +451,8 @@ export default {
     this.setIfWin(false);
     this.setMissionCnt(0);
     this.setMissionClass(this.randomNum(0, 2));
+    this.myInfo.id = this.userInfo.id;
+    this.myInfo.nickname = this.userInfo.nickname;
 
     // this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
@@ -462,7 +464,7 @@ export default {
     this.joinSession();
     setTimeout(() => {
       this.connect();
-    }, 10000);
+    }, 20000);
   },
   mounted() {},
   watch: {
