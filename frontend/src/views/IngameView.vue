@@ -84,18 +84,7 @@
               style="font-size: 50px"
               @click="chooseVote(info)"
             >
-              <p
-                class="brownColor learn-more"
-                style="
-                  height: 30px;
-                  margin: 10px 0px;
-                  cursor: pointer;
-                  vertical-align: middle;
-                  font-family: 'NeoDunggeunmo Code';
-                "
-              >
-                {{ info.nickname }}
-              </p>
+              <p class="brownColor learn-more" style="height: 30px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
             </div>
           </div>
         </div>
@@ -298,14 +287,14 @@
             id="video-container"
           >
             <user-video
-              v-if="myInfo.job !== 'police'"
+              v-if="0"
               :stream-manager="publisher"
               :gameInfo="myInfo"
               class="myVideoBackground"
               style="text-align: center"
             />
             <mission-user-video
-              v-if="myInfo.job === 'police'"
+              v-if="1"
               :stream-manager="publisher"
               :gameInfo="myInfo"
               class="myVideoBackground"
@@ -1496,7 +1485,7 @@ export default {
   left: 30%;
   right: 30%;
   /* background-color: white; */
-  opacity: 0.85;
+  opacity: 1;
   width: 30vh;
   height: 30vh;
   margin: auto;
@@ -1516,7 +1505,7 @@ export default {
   left: 90%;
   right: 30%;
   /* background-color: white; */
-  opacity: 0.85;
+  opacity: 0.9;
   width: 10vh;
   height: 10vh;
   margin: auto;
@@ -1546,7 +1535,7 @@ export default {
   background-size: 80vh 90vh;
   background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0);
-  z-index: 1200;
+  z-index: 2000;
 }
 .GovoteForm {
   z-index: 2;
