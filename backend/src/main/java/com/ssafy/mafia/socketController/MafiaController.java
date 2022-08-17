@@ -3,6 +3,7 @@ package com.ssafy.mafia.socketController;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -79,6 +80,9 @@ public class MafiaController {
 				
 //				System.out.println("startResult");
 			}
+			Random rd = new Random();
+			int t = rd.nextInt(6000)+1000;
+			Thread.sleep(t);
 			System.out.println("각 개인에게 보내주는 메시지======================================");
 			System.out.println("/topic/sendMafia/"+paramDto.getRoomNo()+"/"+paramDto.getId()+"\n"+startResult+"\n");
 			

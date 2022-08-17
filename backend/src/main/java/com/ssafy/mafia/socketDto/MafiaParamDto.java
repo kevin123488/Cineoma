@@ -20,6 +20,7 @@ public class MafiaParamDto {
     private String nickName;
     private String id;
     private String job;
+    private String color;
     //누구를 뽑았는지 id 값을 넣어줌
     private String vote;
     private String sessionId;
