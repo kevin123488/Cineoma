@@ -15,12 +15,18 @@
             <span v-if="isCaptain">
               <button
                 v-if="ifStart"
+                class="w3-button w3-white w3-hide-small mx-3"
+                style="height=32px"
                 @click="startSignal"
-                class="w3-button w3-white w3-hide-small"
               >
                 게임시작
               </button>
-              <button v-else disabled class="w3-button w3-white w3-hide-small">
+              <button
+                v-else
+                class="w3-button w3-white w3-hide-small mx-3"
+                style="height=32px"
+                disabled
+              >
                 게임시작
               </button>
             </span>
@@ -28,17 +34,19 @@
             <span v-if="!isCaptain">
               <button
                 v-if="!ifReady"
+                class="w3-button w3-white w3-hide-small mx-3"
+                style="height=32px"
                 @click="sendReady"
-                class="w3-button w3-white w3-hide-small"
               >
-                준비
+                <i class="fa-regular fa-check"></i>준비
               </button>
               <button
                 v-if="ifReady"
+                class="w3-button w3-white w3-hide-small mx-3"
+                style="height=32px"
                 @click="sendReady"
-                class="w3-button w3-white w3-hide-small"
               >
-                준비취소
+                <i class="fa-regular fa-check"></i>준비취소
               </button>
             </span>
             <a href="/lobby">
@@ -51,6 +59,7 @@
               <button
                 v-if="isCaptain"
                 class="w3-button w3-white w3-hide-small"
+                style="height=32px"
                 @click="sendBreak"
               >
                 <i class="fa fa-close"></i>방삭제
@@ -58,6 +67,7 @@
               <button
                 v-if="!isCaptain"
                 class="w3-button w3-white w3-hide-small"
+                style="height=32px"
                 @click="sendOut"
               >
                 <i class="fa fa-close"></i>방나가기
@@ -72,7 +82,7 @@
       <!-- First Photo Grid-->
       <div class="w3-row">
         <div
-          class="w3-col m4 mx-5 my-5 w3-container w3-margin-bottom border border-secondary w3-white"
+          class="w3-col m3 mx-3 my-3 w3-container w3-margin-bottom border border-secondary w3-white"
           v-for="(item, idx) in waitUsers"
           :key="idx"
         >
@@ -407,7 +417,7 @@ export default {
 }
 
 .chatList {
-  height: 300px;
+  height: 200px;
   border-radius: 20px;
   padding: 10px 10px 10px 10px;
   background-color: whitesmoke;
