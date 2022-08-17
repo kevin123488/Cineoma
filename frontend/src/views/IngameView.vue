@@ -379,6 +379,7 @@ export default {
       missionWin: false,
       showblackGround: true,
       isDark: true,
+      endding: [],
 
       // 투표
       voteNo: 1, // 투표권
@@ -480,6 +481,7 @@ export default {
         nickname: userData[1],
         isAlive: true, // 살았나 죽었나
         color: "", //색깔
+        job: "",
         voted: [],
       });
     });
@@ -626,6 +628,7 @@ export default {
                 console.log(joinUser.id);
                 if (joinUser.id === gameInfo.id) {
                   gameInfo.color = joinUser.color;
+                  gameInfo.job = joinUser.job
                 }
                 if (joinUser.id === this.myInfo.id) {
                   this.myInfo.color = joinUser.color;
@@ -728,6 +731,7 @@ export default {
                 }
               });
               if (data.winJob !== "") {
+                this.endding = data.endding
                 this.gameEnd(data.winJob);
               } else {
                 this.setDayVoteTime();
@@ -755,6 +759,7 @@ export default {
                 }
               });
               if (data.winJob) {
+                this.endding = data.endding
                 this.gameEnd(data.winJob);
               } else {
                 this.dayNightResult();
@@ -834,6 +839,7 @@ export default {
         this.setUserColor.joinUsers.forEach((joinUser) => {
           if (gameInfo.id === joinUser.id) {
             gameInfo.color = joinUser.color;
+            gameInfo.job = joinUser.job;
           }
           if (this.myInfo.id === joinUser.id) {
             this.myInfo.color = joinUser.color;
@@ -878,6 +884,7 @@ export default {
           nickname: userData[1],
           isAlive: true, // 살았나 죽었나
           color: "", //색깔
+          job: "",
           voted: [],
         });
       });
@@ -1226,14 +1233,10 @@ export default {
       this.showblackGround = true;
       this.isDark = true;
       const winJobList = [];
-      this.gameInfos.forEach((user) => {
-        if (user.job === winJob) {
-          winJobList.push({
-            winJob: winJob,
-            nickname: user.nickname,
-            color: user.color,
-          });
-        }
+      console.log('this.gameInfos.')
+      this.endding.forEach((user) => {
+        console.log(user)
+
         if (winJob === "citizen") {
           if (user.job === "citizen" || user.job === "doctor") {
             winJobList.push({
@@ -1242,6 +1245,7 @@ export default {
               color: user.color,
             });
           }
+
         } else {
           if (user.job === winJob) {
             winJobList.push({
@@ -1254,11 +1258,11 @@ export default {
       });
 
       this.setGameResult(winJobList);
-      this.leaveSession();
       setTimeout(() => {
         // this.stompClient.disconnect();
+        this.leaveSession();
         this.$router.push({ name: "gameend" });
-      }, 2000);
+      }, 4000);
     },
 
     setStartTime(time) {
@@ -1496,7 +1500,7 @@ export default {
   left: 90%;
   right: 30%;
   /* background-color: white; */
-  opacity: 0.9;
+  opacity: 1;
   width: 10vh;
   height: 10vh;
   margin: auto;
