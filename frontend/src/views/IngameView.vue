@@ -1244,13 +1244,13 @@ export default {
       this.isDark = true;
       const winJobList = [];
       this.gameInfos.forEach((user) => {
-        //  if (user.job === winJob) {
-        //   winJobList.push({
-        //     winJob: winJob,
-        //     nickname: user.nickname,
-        //     color: user.color,
-        //   });
-        //  }
+         if (user.job === winJob) {
+          winJobList.push({
+            winJob: winJob,
+            nickname: user.nickname,
+            color: user.color,
+          });
+         }
         if (winJob === "citizen") {
           if (user.job === "citizen" || user.job === "doctor") {
             winJobList.push({
@@ -1274,7 +1274,7 @@ export default {
       this.setGameResult(winJobList);
       this.leaveSession();
       setTimeout(() => {
-        this.stompClient.disconnect();
+        // this.stompClient.disconnect();
         this.$router.push({ name: "gameend" });
       }, 2000);
     },
