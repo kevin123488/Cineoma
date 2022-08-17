@@ -80,15 +80,15 @@ public class ProfileServiceImpl implements ProfileService{
 			
 			if(mpu.getId().equals("doctor") && winJob.equals("citizen"))
 			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "true");
 			}
 			else if(mpu.getId().equals("citizen") && winJob.equals("doctor"))
 			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "true");
 			}
 			else if(mpu.getJob().equals(winJob))
 			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "true");
 			}
 			else
 			{

@@ -186,6 +186,7 @@ public class MafiaController {
 				{
 					result2.setNickname(mps.getMPU(maxId).getNickname());
 					mps.kill(maxId);
+					
 					System.out.println("============죽은후 방 저장 상태 확인============================");
 					System.out.println(mps);
 					System.out.println("============죽은후 방 저장 상태 확인 끝============================");
@@ -193,7 +194,10 @@ public class MafiaController {
 				
 				String winJob=mps.gameEndCheck();
 				result2.setWinJob(winJob);
-				
+				if(!(winJob.equals("")))
+				{
+					result2.setEndding(mps.getPlaingUsers());
+				}
 				//투표 기록초기화
 				mps.getVote().clear();
 				System.out.println(result2);
@@ -256,7 +260,10 @@ public class MafiaController {
 			}
 			String winJob=mps.gameEndCheck();
 			result.setWinJob(winJob);
-			
+			if(!(winJob.equals("")))
+			{
+				result.setEndding(mps.getPlaingUsers());
+			}
 			//모두가 투표하기 전까진 여기 접근안됨
 			//투표 기록초기화
 			mps.setVoteNightCount(0);

@@ -22,15 +22,15 @@ public class GameOutServiceImpl implements GameOutService{
 		GameOutDto result = new GameOutDto();
 		
 		MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo);
-		int idx=0;
+		
 		for (MafiaPlaingUser it : mps.getPlaingUsers()) {
 			if(id.equals(it.getId()))
 			{
+				it.setIfAlive(false);
 				break;
 			}
-			idx++;
 		}
-		mps.getPlaingUsers().remove(idx);
+		
 		String winJob=mps.gameEndCheck();
 		
 		result.setId(id);

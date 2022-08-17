@@ -3,6 +3,8 @@ package com.ssafy.mafia.socketDto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssafy.mafia.common.MafiaPlaingUser;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +25,7 @@ public class MafiaVoteFinishResultDto {
     // 승리자 없을 때 -> "", 시민 승 -> citizen, 마피아 승 -> mafia, 미션자 승 -> mission
     private String winJob;
     
+    //게임이 끝날때 다른 유저 정보 다 넣어서 보내줄 부분
+    private List<MafiaPlaingUser> endding;
     
 }
