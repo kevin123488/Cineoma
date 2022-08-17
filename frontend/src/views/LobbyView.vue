@@ -117,7 +117,7 @@
 
         <!-- 공지창 -->
         <div id="notice" class="w3-round  w3-center">
-          <div class="w3-container" style="margin-left: 30px; margin-right: 30px">
+          <div class="w3-container" style="margin-left: 30px; margin-right: 70px; padding-top: 24px;">
             <br>
             <br>
             <p class="my-1">Upcoming Events:</p>

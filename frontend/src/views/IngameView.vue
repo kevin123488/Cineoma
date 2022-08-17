@@ -69,13 +69,15 @@
       <h3 class="dayVoteTitle">지금 낮 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
-          <div
-            :id="info.id"
-            v-if="info.isAlive"
-            class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-            @click="chooseVote(info)"
-          >
-            <button class="learn-more">{{ info.nickname }}</button>
+          <div :id="info.id" class="d-flex">
+            <div
+              v-if="info.isAlive"
+              class=""
+              style="font-size: 50px;"
+              @click="chooseVote(info)"
+              >
+              <p class="brownColor learn-more" style="cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1669,45 +1671,40 @@ export default {
   background-image: url(../../public/homedesign/images/mafia_black.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  width: 20px;
-  height: 20px;
+  width: 50px;
+  height: 50px;
   text-align: center;
-  background-color: black;
 }
 .whiteVoted {
   background-image: url(../../public/homedesign/images/mafia_white.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  width: 20px;
-  height: 20px;
+  width: 50px;
+  height: 50px;
   text-align: center;
-  background-color: rgb(255, 255, 255);
 }
 .blueVoted {
   background-image: url(../../public/homedesign/images/mafia_blue.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  width: 20px;
-  height: 20px;
+  width: 50px;
+  height: 50px;
   text-align: center;
-  background-color: rgb(0, 4, 255);
 }
 .redVoted {
   background-image: url(../../public/homedesign/images/mafia_red.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   text-align: center;
-  width: 20px;
-  height: 20px;
-  background-color: rgb(255, 0, 0);
+  width: 50px;
+  height: 50px;
 }
 .yellowVoted {
   background-image: url(../../public/homedesign/images/mafia_yellow.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   text-align: center;
-  width: 20px;
-  height: 20px;
-  background-color: rgb(255, 234, 0);
+  width: 50px;
+  height: 50px;
 }
 </style>
