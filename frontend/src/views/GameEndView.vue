@@ -96,6 +96,8 @@ const memberStore = "memberStore"
       },
     },
     created() {
+      console.log(this.gameResult)
+      console.log(this.gameResult[0])
       if (this.gameResult[0].winJob === 'mafia') {
         this.job = '마피아'
       } else if (this.gameResult[0].winJob === 'police') {
