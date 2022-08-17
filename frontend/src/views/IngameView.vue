@@ -1,5 +1,4 @@
 <template>
-  showblackGround
   <div
     v-if="showblackGround"
     :class="{ blackGround: isDark, blackGroundOut: !isDark }"
@@ -367,8 +366,8 @@ export default {
         isNightResult: false,
       },
       missionWin: false,
-      showblackGround: false,
-      isDark: false,
+      showblackGround: true,
+      isDark: true,
 
       // 투표
       voteNo: 1, // 투표권
@@ -760,6 +759,10 @@ export default {
   },
   mounted() {
     console.log(this.isConnected);
+    this.isDark = false
+    setTimeout(() => {
+      this.showblackGround = false
+    }, 2000)
   },
   watch: {
     startGame() {
@@ -1836,5 +1839,31 @@ export default {
   width: 50px;
   height: 50px;
   margin: 10px 0px;
+}
+.blackGround {
+  background-color: black;
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  opacity: 0.9;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+  transition:all 2s ease;
+}
+.blackGroundOut {
+  background-color: black;
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  opacity: 0;
+  width:100%;
+  height:100%;
+  vertical-align:middle;
+  text-align:center;
+  transition:all 2s ease;
 }
 </style>

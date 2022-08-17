@@ -19,8 +19,9 @@
           </div>
           <div class="modal-body" style="color: white; margin-left: 50px">
             <p>방 제목과 비밀번호를 설정해주세요</p>
-            <input contenteditable="true" type="text" class="w3-border w3-padding" placeholder="방 제목:" v-model="subject">
-            <input contenteditable="true" type="text" class="w3-border w3-padding" placeholder="비밀번호(선택):" v-model="password">
+            <input contenteditable="true" type="text" class="w3-border w3-padding" style="color: gray; font-family: 'NeoDunggeunmo Code';" placeholder="방 제목:" v-model="subject">
+            <br>
+            <input contenteditable="true" type="text" class="w3-border w3-padding" style="color: gray; font-family: 'NeoDunggeunmo Code';" placeholder="비밀번호(선택):" v-model="password">
           </div>
           <div class="modal-footer">
             <button                       
