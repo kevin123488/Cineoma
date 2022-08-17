@@ -743,11 +743,14 @@ export default {
             // 밤 투표
             if (data.progress === "voteNight") {
               console.log(`==== 밤 투표 결과 ${data} ====`);
+              console.log(data.id)
               this.gameInfos.forEach((user) => {
-                if (user.id === data.votedId) {
+                if (user.id === data.id) {
                   this.deadColor = user.color;
                   this.whoIsGone = user.nickname;
                   user.isAlive = false;
+                  console.log('===whoIsGone===')
+                  console.log(this.whoIsGone)
                 }
               });
               if (data.winJob) {
@@ -1034,7 +1037,7 @@ export default {
       }
     },
     typeEffect2() {
-      if (this.whoisGone) {
+      if (this.whoIsGone) {
         this.showingMsg = `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`;
       } else {
         this.showingMsg = `조용한 밤을 보냈습니다`;

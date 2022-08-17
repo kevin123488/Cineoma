@@ -5,7 +5,7 @@
 	<!-- <button type="button" @click="startMotion">Start</button> -->
 	<div style="text-align: center; border-radius: 10px;"><canvas id="canvas" style="border-radius: 10px;"></canvas></div>
 	<div id="label-container" class="brownColor"></div>
-	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px;">신도카운트: </div>
+	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px; margin-bottom: 30px;">신도카운트: </div>
 
 	<div id="clearMessage" class="brownColor" style="font-size: 20px; font-family: 'NeoDunggeunmo Code';"></div>
 </template>
@@ -223,6 +223,7 @@ export default {
   color:rgb(160, 26, 26);
   font-weight: bold;  
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 .believer {
   background-image: url(../../../public/homedesign/images/believer.png);

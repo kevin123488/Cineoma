@@ -74,7 +74,7 @@ const memberStore = "memberStore"
         curtainOut: false,
         isDark: true,
         showblackGround: true,
-        winMember: [{ color: 'red', nickname: '마피아고수' }, { color: 'blue', nickname: '마피아초고수' }, { color: 'black', nickname: '마피아개고수' }]
+        winMember: []
       }
     },
     computed: {
@@ -96,17 +96,17 @@ const memberStore = "memberStore"
       },
     },
     created() {
-      // if (this.gameResult[0].winJob === 'mafia') {
-      //   this.job = '마피아'
-      // } else if (this.gameResult[0].winJob === 'police') {
-      //   this.job = '교주'
-      // } else {
-      //   this.job = '시민'
-      // }
+      if (this.gameResult[0].winJob === 'mafia') {
+        this.job = '마피아'
+      } else if (this.gameResult[0].winJob === 'police') {
+        this.job = '교주'
+      } else {
+        this.job = '시민'
+      }
 
-      // this.gameResult.forEach((winUser) => {
-      //   this.winMember.push({ color: winUser.color, nickname: winUser.nickname })
-      // });
+      this.gameResult.forEach((winUser) => {
+        this.winMember.push({ color: winUser.color, nickname: winUser.nickname })
+      });
     },
     mounted() {
       setTimeout(() =>{ this.isDark = false }, 1000)
