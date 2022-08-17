@@ -1,9 +1,5 @@
 <template>
   <div
-    v-if="showblackGround"
-    :class="{ blackGround: isDark, blackGroundOut: !isDark }"
-  ></div>
-  <div
     :class="{
       ingameNight: progress.isNight,
       ingameDay: progress.isDay,
