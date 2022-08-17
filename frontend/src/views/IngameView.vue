@@ -287,14 +287,14 @@
             id="video-container"
           >
             <user-video
-              v-if="0"
+              v-if="myInfo.job !== 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
               class="myVideoBackground"
               style="text-align: center"
             />
             <mission-user-video
-              v-if="1"
+              v-if="myInfo.job === 'police'"
               :stream-manager="publisher"
               :gameInfo="myInfo"
               class="myVideoBackground"

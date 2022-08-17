@@ -110,7 +110,7 @@
                   <div class="modal-header">
                     <h3
                       class="modal-title"
-                      style="coenterroomdatalor: white; margin-left: 50px"
+                      style="color: white; margin-left: 50px"
                     >
                       {{ enterRoomData.roomTitle }}
                     </h3>
@@ -446,6 +446,7 @@ export default {
 input::placeholder {
   font-family: "NeoDunggeunmo Code";
   font-size: 20px;
+  color: gray;
 }
 #scroll::-webkit-scrollbar {
   width: 0px;
