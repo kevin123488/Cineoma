@@ -46,8 +46,8 @@
         <div class="headmasterImage"></div>
         <div style="width: 65%; margin-left: 120px; margin-top: 270px">
           <h3 class="">당신의 직업: 교주</h3>
-          <h3 class="">특정 동작을 수행할 때 마다 신자 카운트가 증가합니다.</h3>
-          <h3 class="">다른 플레이어 수 만큼 신자 카운트를 쌓으면 승리!</h3>
+          <h3 class="">특정 동작을 수행할 때 마다 신도 카운트가 증가합니다.</h3>
+          <h3 class="">다른 플레이어 수 만큼 신도 카운트를 쌓으면 승리!</h3>
         </div>
       </div>
 
@@ -76,7 +76,7 @@
               style="font-size: 50px;"
               @click="chooseVote(info)"
               >
-              <p class="brownColor learn-more" style="cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
+              <p class="brownColor learn-more" style="height: 50px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
             </div>
           </div>
         </div>
@@ -1735,25 +1735,28 @@ export default {
   background-image: url(../../public/homedesign/images/mafia_black.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  text-align: center;
   width: 50px;
   height: 50px;
-  text-align: center;
+  margin: 10px 0px;
 }
 .whiteVoted {
   background-image: url(../../public/homedesign/images/mafia_white.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  text-align: center;
   width: 50px;
   height: 50px;
-  text-align: center;
+  margin: 10px 0px;
 }
 .blueVoted {
   background-image: url(../../public/homedesign/images/mafia_blue.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  text-align: center;
   width: 50px;
   height: 50px;
-  text-align: center;
+  margin: 10px 0px;
 }
 .redVoted {
   background-image: url(../../public/homedesign/images/mafia_red.png);
@@ -1762,6 +1765,7 @@ export default {
   text-align: center;
   width: 50px;
   height: 50px;
+  margin: 10px 0px;
 }
 .yellowVoted {
   background-image: url(../../public/homedesign/images/mafia_yellow.png);
@@ -1770,5 +1774,6 @@ export default {
   text-align: center;
   width: 50px;
   height: 50px;
+  margin: 10px 0px;
 }
 </style>
