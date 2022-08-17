@@ -506,7 +506,7 @@ export default {
           this.sendStart();
 
           this.stompClient.subscribe(
-            `/topic/sendMafia/${this.mySessionId}/${this.userInfo.id}`,
+            `/topic/sendMafia/${this.mySessionId}`,
             (res) => {
               console.log(
                 "=========================개인별로 받는 정보============================="
@@ -518,19 +518,24 @@ export default {
               console.log(
                 "=======================직업 뭐받는지 확인================"
               );
-
-              this.myInfo.job = data.job;
-              if (data.job === "citizen") {
-                this.koreanJob = "시민";
-              } else if (data.job === "mafia") {
-                this.koreanJob = "마피아";
-              } else if (data.job === "police") {
-                this.koreanJob = "교주";
-              } else if (data.job === "doctor") {
-                this.koreanJob = "의사";
+              if (data.progress === "start") {
+                data.endding.forEach((d) => {
+                  if (d.id === this.myInfo.id) {
+                    this.myInfo.job = d.job;
+                  }
+                });
+                if (this.myInfo.job === "citizen") {
+                  this.koreanJob = "시민";
+                } else if (this.myInfo.job === "mafia") {
+                  this.koreanJob = "마피아";
+                } else if (this.myInfo.job === "police") {
+                  this.koreanJob = "교주";
+                } else if (this.myInfo.job === "doctor") {
+                  this.koreanJob = "의사";
+                }
+                console.log(this.myInfo.job);
+                this.setUserColor = data;
               }
-              console.log(this.myInfo.job);
-              this.setUserColor = data;
 
               // data.joinUsers.forEach((joinUser) => {
               //   this.gameInfos.forEach((gameInfo) => {
@@ -1036,8 +1041,7 @@ export default {
       this.voteClearNum2 = setTimeout(() => {
         if (
           this.myInfo.isAlive &&
-          (this.setUserColor.job === "mafia" ||
-            this.setUserColor.job === "doctor")
+          (this.myInfo.job === "mafia" || this.myInfo.job === "doctor")
         ) {
           this.sendVote("");
         }
