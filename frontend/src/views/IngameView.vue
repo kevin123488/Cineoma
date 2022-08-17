@@ -463,7 +463,7 @@ export default {
     };
     setTimeout(() => {
       this.connect();
-    }, 1000);
+    }, 10000);
   },
   mounted() {},
   watch: {
