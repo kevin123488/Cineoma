@@ -25,7 +25,7 @@
               </button>
             </span>
 
-            <span>
+            <span v-if="!isCaptain">
               <button
                 v-if="!ifReady"
                 @click="sendReady"
@@ -73,14 +73,12 @@
       <div class="w3-row">
         <div
           class="w3-col m4 mx-5 my-5 w3-container w3-margin-bottom border border-secondary w3-white"
-          v-for="(item, idx) in usersInfo"
+          v-for="(item, idx) in waitUsers"
           :key="idx"
         >
           <p>{{ item.nickName }}</p>
           <p>{{ item.winRate }}</p>
-          <button id="readyButton" @click="isReady" v-if="!isCaptain">
-            준비
-          </button>
+          <p v-show="item.ifReady">준비 완료</p>
         </div>
       </div>
 
@@ -103,13 +101,6 @@
         </div>
       </div>
     </div>
-    <h1>대기방임</h1>
-    <hr />
-    <div v-if="isCaptain">
-      <!-- <button v-if="ifStart" @click="startSignal">게임시작</button>
-      <button v-else disabled>게임시작</button> -->
-    </div>
-    <button @click="startTest">게임시작-임시-</button>
   </div>
 </template>
 
@@ -136,6 +127,7 @@ export default {
       ifStart: false,
       ifReady: false,
       sessionId: "",
+      waitUsers: [],
     };
   },
 
@@ -161,7 +153,9 @@ export default {
   },
 
   watch: {
-    usersInfo() {},
+    usersInfo() {
+      this.waitUsers = this.usersInfo;
+    },
   },
 
   methods: {
@@ -230,7 +224,7 @@ export default {
               // 방 나가기
               if (res.body.progress === "out") {
                 this.stompClient.disconnect();
-                this.$route.push("lobby");
+                this.$router.push({ name: "lobby " });
               }
             }
           );
@@ -242,6 +236,11 @@ export default {
               console.log("구독으로 받은 레디입니다.", res.body);
               const readyData = JSON.parse(res.body);
               this.ifStart = readyData.ifStart;
+              this.usersInfo.forEach((user) => {
+                if (user.id === readyData.id) {
+                  user.ifReady = readyData.ifReady;
+                }
+              });
 
               if (readyData.startGame === true) {
                 this.$router.push({

@@ -920,7 +920,7 @@ export default {
       setTimeout(() => {
         this.dayTime();
         this.startGame = true;
-      }, 1000);
+      }, 1500);
     },
 
     dayTime() {
