@@ -1,9 +1,6 @@
 <template>
   <div v-if="streamManager">
-    <mission-video :stream-manager="streamManager" />
-    <div>
-      <p>{{ gameInfo.nickname }}</p>
-    </div>
+    <mission-video :stream-manager="streamManager" style="border-radius: 10px;" />
   </div>
 </template>
 

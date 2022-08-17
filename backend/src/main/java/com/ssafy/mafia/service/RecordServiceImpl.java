@@ -15,6 +15,7 @@ public class RecordServiceImpl implements RecordService {
 
 	@Autowired
 	RecordRepository recordRepository;
+	
 	@Override
 	public List<Record> get(String id) throws Exception {
 		return recordRepository.findAllById(id);
@@ -42,12 +43,17 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public boolean recordUpdate(String id, String type, String winLose) throws Exception {
 		
-		
+		System.out.println("================recordUpdate 들어옴 ==============");
+		System.out.println(id);
+		System.out.println(type);
+		System.out.println(winLose);
 		Map<String, String> map = new HashMap<String, String>();
 		
 		map.put("id", id);
 		map.put("type", type);
 		map.put("win", winLose);
+		
+		System.out.println(map);
 		
 		System.out.println(map.get("id"));
 		List<Record> lr = recordRepository.findAllById(map.get("id"));

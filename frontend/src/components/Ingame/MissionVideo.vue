@@ -3,9 +3,9 @@
     <div v-if="ifWin" class="clearSign"></div>
 	<div class="content brownColor" style="font-size: 20px; text-align: center; padding-top: 40px; padding-bottom: 20px; font-family: 'NeoDunggeunmo Code';"><b>{{ motionExplanation[missionClass] }}</b></div>
 	<!-- <button type="button" @click="startMotion">Start</button> -->
-	<div style="text-align: center; border-radius: 10px;"><canvas id="canvas"></canvas></div>
+	<div style="text-align: center; border-radius: 10px;"><canvas id="canvas" style="border-radius: 10px;"></canvas></div>
 	<div id="label-container" class="brownColor"></div>
-	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px;">신도카운트: </div>
+	<div id="missionCnt" class="d-flex missionInfo brownColor" style="margin-left: 50px; padding-bottom: 30px;">신도카운트: </div>
 
 	<div id="clearMessage" class="brownColor" style="font-size: 20px; font-family: 'NeoDunggeunmo Code';"></div>
 </template>
@@ -168,11 +168,11 @@ export default {
             //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
             // }
         } else if (!this.ifWin && !this.isDay) {
-            const duration = '낮에만 신도를 모을 수 있습니다'
-            duration.classList.add("nightMissionInfo");
-            this.labelContainer.childNodes[1].innerText = duration;
+            const nightInfo1 = '낮에만 신도를 '
+            const nightInfo2 = '모을 수 있습니다'
+            this.labelContainer.childNodes[0].innerText = nightInfo1;
+            this.labelContainer.childNodes[1].innerText = nightInfo2
         }
-
 
         // finally draw the poses
         this.drawPose(pose);
@@ -221,8 +221,8 @@ export default {
   font-family: 'NeoDunggeunmo Code';
   text-align: center;
   color:rgb(160, 26, 26);
-  font-weight: bold;  
-  margin-top: 10px;
+  font-weight: bold;
+  padding-bottom: 20px;
 }
 .believer {
   background-image: url(../../../public/homedesign/images/believer.png);

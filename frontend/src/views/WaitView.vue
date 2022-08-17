@@ -162,9 +162,6 @@ export default {
     this.nickName = this.user.nickname;
     // App.vue가 생성되면 소켓 연결을 시도합니다.
     this.connect();
-    console.log(this.isCaptain);
-    console.log(this.roomNo);
-    console.log(this.roomTitle);
   },
 
   watch: {
@@ -190,7 +187,6 @@ export default {
       // const serverURL = "https://i7e107.p.ssafy.io/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
       // const oldCloseCB = this.stompClient.ws.onclose
       // this.stompClient.ws.onclose = e => {
@@ -200,7 +196,6 @@ export default {
 
       socket.onclose = function () {
         this.saveIsConnected(false);
-        console.log("===================끊겼나?=====================");
       };
 
       this.stompClient.connect(
@@ -213,8 +208,6 @@ export default {
           console.log(this.isConnected);
 
           console.log("소켓 연결 성공", frame);
-          console.log("소켓id출력");
-          console.log(socket._transport.url);
           // const sessionIdLength = socket._transport.url.length
           this.sessionId = socket._transport.url.slice(-18, -10);
           this.sendProfile();
@@ -223,7 +216,6 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendChat/${this.roomNo}`,
             (res) => {
-              console.log("구독으로 받은 채팅입니다.", res.body);
               this.recvList.push(JSON.parse(res.body));
             }
           );
@@ -232,7 +224,6 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendProfile/${this.roomNo}`,
             (res) => {
-              console.log("구독으로 받은 프로필입니다.", res.body);
               const data = JSON.parse(res.body);
               this.usersInfo = data.userList;
 
@@ -248,7 +239,6 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendReady/${this.roomNo}`,
             (res) => {
-              console.log("구독으로 받은 레디입니다.", res.body);
               const readyData = JSON.parse(res.body);
               this.ifStart = readyData.ifStart;
               this.usersInfo.forEach((user) => {
@@ -269,31 +259,27 @@ export default {
           // 방 폭파
           this.stompClient.subscribe(
             `/topic/sendBreak/${this.roomNo}`,
-            (res) => {
-              console.log("방 폭파.", res.body);
+            () => {
               this.stompClient.disconnect();
               this.$router.push({ name: "lobby" });
             }
           );
         },
 
-        (error) => {
+        () => {
           // 소켓 연결 실패
-          console.log("소켓 연결 실패", error);
           this.connected = false;
         }
       );
     },
 
     sendChat() {
-      console.log("Send message:" + this.message);
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           roomNo: this.roomNo,
           nickName: this.nickName,
           content: this.message,
         };
-        console.log(msg);
         this.stompClient.send("/receiveChat", JSON.stringify(msg), {});
         this.message = "";
       }
@@ -307,7 +293,6 @@ export default {
           roomNo: this.roomNo,
           id: this.user.id,
         };
-        console.log(msg);
         this.stompClient.send("/receiveProfile", JSON.stringify(msg), {});
       }
     },
@@ -322,7 +307,6 @@ export default {
           ifReady: this.ifReady,
           id: this.user.id,
         };
-        console.log(msg);
         this.stompClient.send("/receiveReady", JSON.stringify(msg), {});
       }
     },
@@ -346,7 +330,6 @@ export default {
         const msg = {
           roomNo: this.roomNo,
         };
-        console.log(msg);
         this.stompClient.send("/receiveBreak", JSON.stringify(msg), {});
       }
     },
@@ -387,7 +370,8 @@ export default {
       this.sendReady();
     },
   },
-  mounted() {},
+  mounted() {
+  },
   unmounted() {
     this.stompClient.disconnect();
   },
