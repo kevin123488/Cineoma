@@ -16,7 +16,7 @@
               <button
                 v-if="ifStart"
                 class="w3-button w3-white w3-hide-small mx-3"
-                style="height=32px"
+                style="height: 32px"
                 @click="startSignal"
               >
                 게임시작
@@ -24,7 +24,7 @@
               <button
                 v-else
                 class="w3-button w3-white w3-hide-small mx-3"
-                style="height=32px"
+                style="height: 32px"
                 disabled
               >
                 게임시작
@@ -35,18 +35,18 @@
               <button
                 v-if="!ifReady"
                 class="w3-button w3-white w3-hide-small mx-3"
-                style="height=32px"
+                style="height: 32px"
                 @click="sendReady"
               >
-                <i class="fa-regular fa-check"></i>준비
+                준비
               </button>
               <button
                 v-if="ifReady"
                 class="w3-button w3-white w3-hide-small mx-3"
-                style="height=32px"
+                style="height: 32px"
                 @click="sendReady"
               >
-                <i class="fa-regular fa-check"></i>준비취소
+                준비취소
               </button>
             </span>
             <a href="/lobby">
@@ -59,7 +59,7 @@
               <button
                 v-if="isCaptain"
                 class="w3-button w3-white w3-hide-small"
-                style="height=32px"
+                style="height: 32px"
                 @click="sendBreak"
               >
                 <i class="fa fa-close"></i>방삭제
@@ -67,7 +67,7 @@
               <button
                 v-if="!isCaptain"
                 class="w3-button w3-white w3-hide-small"
-                style="height=32px"
+                style="height: 32px"
                 @click="sendOut"
               >
                 <i class="fa fa-close"></i>방나가기
@@ -233,6 +233,7 @@ export default {
 
               // 방 나가기
               if (res.body.progress === "out") {
+                console.log(res.body);
                 this.stompClient.disconnect();
                 this.$router.push({ name: "lobby " });
               }
