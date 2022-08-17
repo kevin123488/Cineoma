@@ -156,10 +156,11 @@ export default {
     this.user = this.userInfo;
     this.nickName = this.user.nickname;
     // App.vue가 생성되면 소켓 연결을 시도합니다.
-    this.connect();
+    
+    console.log('==============방들어가는중');
     console.log(this.isCaptain);
     console.log(this.roomNo);
-    console.log(this.roomTitle);
+    this.connect();
   },
 
   watch: {
@@ -383,7 +384,10 @@ export default {
       this.sendReady();
     },
   },
-  mounted() {},
+  mounted() {
+    console.log('===========')
+    console.log(this.roomTitle)
+  },
   unmounted() {
     this.stompClient.disconnect();
   },

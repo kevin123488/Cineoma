@@ -264,6 +264,7 @@
         </div>
       </div>
     </div>
+    </div>
 
     <!-- 로비창 이식 끝 -->
     <!--  -->
@@ -362,13 +363,12 @@ export default {
       // 안되면 watch 달아보기
 
       console.log("방 들어갈때 방 정보임");
-      console.log(room.roomTitle);
-      console.log(room);
-      this.saveRoomTitle(room);
+      console.log(room.roomTitle)
+      this.saveRoomTitle(room.roomTitle);
+      console.log(this.roomTitle)
       const info = { roomNo: room.no, id: { id: this.userInfo.id } };
       this.getMemberList(info);
       this.enterRoomData = room;
-      console.log(this.enterRoomData);
       this.enterModalVisible = true;
       // this.memberList = room.memberList
       // console.log(this.memberList)
@@ -392,7 +392,7 @@ export default {
       console.log("방정보임");
       console.log(roomInfo);
       console.log("=======입장하기=======");
-
+      console.log("=======입장하기=======");
       roomInfo.info = {
         id: this.userInfo.id,
         no: roomInfo.no,
