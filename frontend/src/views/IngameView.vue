@@ -363,7 +363,14 @@ export default {
       startGame: false,
       startGameSignal: false,
       gameInfos: [],
-      myInfo: {},
+      myInfo: {
+        id: "",
+        nickname: "",
+        isAlive: true, // 살았나 죽었나
+        color: "", //색깔
+        job: "", // 직업
+        voted: [],
+      },
       progress: {
         nowDay: 0,
         isDay: true,
@@ -444,6 +451,8 @@ export default {
     this.setIfWin(false);
     this.setMissionCnt(0);
     this.setMissionClass(this.randomNum(0, 2));
+    this.myInfo.id = this.userInfo.id;
+    this.myInfo.nickname = this.userInfo.nickname;
 
     // this.mySessionId = "a";
     this.myUserName = this.userInfo.nickname;
@@ -453,17 +462,9 @@ export default {
     // console.log("=====================참가자=================")
     // console.log(this.subscribers)
     this.joinSession();
-    this.myInfo = {
-      id: this.userInfo.id,
-      nickname: this.userInfo.nickname,
-      isAlive: true, // 살았나 죽었나
-      color: "", //색깔
-      job: "", // 직업
-      voted: [],
-    };
     setTimeout(() => {
       this.connect();
-    }, 1000);
+    }, 20000);
   },
   mounted() {},
   watch: {
@@ -517,6 +518,7 @@ export default {
               console.log(
                 "=======================직업 뭐받는지 확인================"
               );
+
               this.myInfo.job = data.job;
               if (data.job === "citizen") {
                 this.koreanJob = "시민";
@@ -527,6 +529,7 @@ export default {
               } else if (data.job === "doctor") {
                 this.koreanJob = "의사";
               }
+              console.log(this.myInfo.job);
               this.setUserColor = data;
 
               // data.joinUsers.forEach((joinUser) => {
@@ -743,12 +746,12 @@ export default {
       }
       this.isjobRollCenter = false;
       this.isJobRollOpen = false;
-      this.myInfo.job = this.setUserColor.job;
+      // this.myInfo.job = this.setUserColor.job;
       this.gameInfos.forEach((gameInfo) => {
         this.setUserColor.joinUsers.forEach((joinUser) => {
           if (gameInfo.id === joinUser.id) {
             gameInfo.color = joinUser.color;
-            gameInfo.job = joinUser.job;
+            // gameInfo.job = joinUser.job;
           }
           if (this.myInfo.id === joinUser.id) {
             this.myInfo.color = joinUser.color;
@@ -1033,7 +1036,8 @@ export default {
       this.voteClearNum2 = setTimeout(() => {
         if (
           this.myInfo.isAlive &&
-          (this.myInfo.job === "mafia" || this.myInfo.job === "doctor")
+          (this.setUserColor.job === "mafia" ||
+            this.setUserColor.job === "doctor")
         ) {
           this.sendVote("");
         }
