@@ -92,7 +92,8 @@
         <div>
           <img class="userItemInfoImg" :src="'/../../homedesign/images/' + item.imagePath" alt="">
         </div>
-          <p v-show="item.ifReady">준비 완료</p>
+          <div class="readySetChar" v-show="item.ifReady">
+          </div>
         </div>
       </div>
 
@@ -493,9 +494,15 @@ export default {
   height: 50vh;
   /* border: 2px solid black; */
   transform: translate(-50%, -50%);
+  -ms-overflow-style: none;
+}
+
+.userListInfo::-webkit-scrollbar{
+  display:none;
 }
 
 .userItemInfo {
+  position: relative;
   display: flex;
   justify-content: space-between;
   border-radius: 30px;
@@ -530,5 +537,17 @@ export default {
     top: 67%;
     left: 8%;
   }
+}
+
+.readySetChar {
+  z-index: 1000;
+  position: absolute;
+  top: 60%;
+  left: 60%;
+  height: 10vh;
+  width: 10vh;
+  background-image: url(../../public/homedesign/images/mafia_black.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
