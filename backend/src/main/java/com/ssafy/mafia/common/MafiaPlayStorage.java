@@ -18,10 +18,10 @@ import lombok.ToString;
 
 //게임 진행 중 내용을 기록해둘 dto, map 에다가 방 번호로 index번호 넣고 관리할 계획
 //dto라 하긴 힘들거 같지만 따로 패키지파고 만들기 애매해서 일단 dto에 생성해둠
+
 @Data
 @NoArgsConstructor
 @ToString
-
 public class MafiaPlayStorage {
 	@Autowired
 	RecordService recordService;
@@ -69,7 +69,8 @@ public class MafiaPlayStorage {
 	
 	public void gameEnd(String winJob) throws Exception
 	{
-		movingUserCount=plaingUsers.size();
+//		게임 끝나면 그냥 다 나가는거로 설정하기로 해서 주석시킴
+//		movingUserCount=plaingUsers.size();
 		
 	
 		for (MafiaPlaingUser mpu : plaingUsers) {
@@ -118,10 +119,10 @@ public class MafiaPlayStorage {
 		ArrayList<String> colorList = new ArrayList<String>();
 		ArrayList<String> jobList = new ArrayList<String>();
 		jobList.add("mafia");
-		jobList.add("police");
 		jobList.add("doctor");
 		jobList.add("citizen");
 		jobList.add("citizen");
+		jobList.add("police");
 		colorList.add("red");
 		colorList.add("blue");
 		colorList.add("white");
@@ -157,6 +158,23 @@ public class MafiaPlayStorage {
 			mpu.setIfHost(pu.isIfCaptain());
 			plaingUsers.add(mpu);
 			System.out.println(mpu);
+		}
+		//방장 교주 만들어주는 코드
+		for (MafiaPlaingUser mpu1 : plaingUsers) 
+		{	
+			if(mpu1.isIfHost())
+			{
+				for (MafiaPlaingUser mpu2 : plaingUsers) 
+				{
+					if(mpu2.getJob().equals("police"))
+					{
+						String tmp1 = mpu1.getJob();
+						mpu1.setJob("police");
+						mpu2.setJob(tmp1);
+					}
+				
+				}
+			}
 		}
 	}
 	
@@ -244,21 +262,7 @@ public class MafiaPlayStorage {
 		return result;
 	}
 	
-	void recordUpdate(String id, String type, String winLose) throws Exception
-	{
-		for (MafiaPlaingUser mpu : plaingUsers) {
-			if(mpu.getJob().equals(type))
-			{
-				recordService.recordUpdate(id, type, "win");
-			}
-			else
-			{
-				
-			}
-		}
-		
-		
-	}
+
 	
 }
 
