@@ -777,14 +777,6 @@ export default {
     // this.startDay();
   },
   mounted() {
-    console.log(this.isConnected);
-    this.isDark = false;
-    setTimeout(() => {
-      this.isDark = false;
-    }, 4000);
-    setTimeout(() => {
-      this.showblackGround = false;
-    }, 6000);
   },
   watch: {
     startGame() {
