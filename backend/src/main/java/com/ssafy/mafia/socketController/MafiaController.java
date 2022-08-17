@@ -86,7 +86,7 @@ public class MafiaController {
 		 }
 		break;
 
-			
+		//낮투표 스킵 메시지
 		case "day":
 		{
 			MafiaDayResultDto dayResult = new MafiaDayResultDto();
@@ -99,11 +99,11 @@ public class MafiaController {
 			dayResult.setId(paramDto.getId());
 			dayResult.setProgress(progress);
 			
-			mps.setVoteCount(mps.getVoteCount()+1);
+			mps.setVoteSkipCount(mps.getVoteSkipCount()+1);
 			
-			if(mps.getVoteCount()>mps.getAliveCount()/2)
+			//스킵 메시지가 살아있는 숫자의 과반수가 되면 스킵함 ex) 4명이 생존자면 3명 이상, 5명이 생존자면 3명이상
+			if(mps.getVoteSkipCount()>mps.getAliveCount()/2)
 			{
-				mps.setVoteCount(0);
 				dayResult.setAbsoluteTime(getTime());
 				dayResult.setIfSkip(true);
 			}
@@ -119,6 +119,9 @@ public class MafiaController {
 		
 		case "voteDay":
 		{
+			//낮투표 스킵 카운트 초기화
+			mps.setVoteSkipCount(0);
+			
 			mps.setTime("");
 			//미션자가 미션 완료한 경우
 			if(paramDto.isIfWin())
@@ -148,17 +151,17 @@ public class MafiaController {
 			
 			
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result);	
-			System.out.println(mps.getVoteCount());
+			System.out.println(mps.getVoteDayCount());
 			
-			mps.setVoteCount(mps.getVoteCount()+1);
-			System.out.println(mps.getVoteCount());
+			mps.setVoteDayCount(mps.getVoteDayCount()+1);
+			System.out.println(mps.getVoteDayCount());
 			//모두 투표를 마친 경우
 			System.out.println("살아있는 사람 수 : "+mps.getAliveCount());
-			if(mps.getAliveCount()==mps.getVoteCount())
+			if(mps.getAliveCount()==mps.getVoteDayCount())
 			{
 				System.out.println("======================표 다 모였음============================");
 				//투표 카운트 초기화
-				mps.setVoteCount(0);
+				mps.setVoteDayCount(0);
 				
 				MafiaVoteFinishResultDto result2 = new MafiaVoteFinishResultDto();
 				int maxNum=0;
@@ -207,12 +210,13 @@ public class MafiaController {
 			
 			
 			
-			mps.setVoteCount(mps.getVoteCount()+1);
+			mps.setVoteNightCount(mps.getVoteNightCount()+1);
 			String dieId="";
 			if(paramDto.getJob().equals("doctor"))
 			{
-				//마피아가 아직 투표 안했음
-				if(mps.getVoteCount()==1)
+				mps.setDoctorChosen(paramDto.getVote());
+				//마피아가 아직 투표 안했음으면 들어감
+				if(mps.getVoteNightCount()==1)
 				{
 					mps.setDoctorChosen(paramDto.getVote());
 					break;
@@ -220,8 +224,9 @@ public class MafiaController {
 			}
 			else if(paramDto.getJob().equals("mafia"))
 			{
-				//의사가 아직 투표 안했음
-				if(mps.isDoctorAlive() && mps.getVoteCount()==1)
+				mps.setMafiaChosen(paramDto.getVote());
+				//의사가 아직 투표 안했으면 들어감
+				if(mps.isDoctorAlive() && mps.getVoteNightCount()==1)
 				{
 					mps.setMafiaChosen(paramDto.getVote());
 					break;
@@ -233,8 +238,9 @@ public class MafiaController {
 				System.out.println("이상한 값 : " + paramDto.getJob());
 			}
 			
-			//마피아와 닥터의 선택이 다른경우
-			if(!paramDto.getVote().equals(mps.getMafiaChosen()))
+			//마피아와 닥터의 선택이 다른경우 들어감
+			//같은 경우 기본값인 ""이 반환됨
+			if(!mps.getDoctorChosen().equals(mps.getMafiaChosen()))
 			{
 				dieId=mps.getMafiaChosen();
 			}
@@ -242,6 +248,7 @@ public class MafiaController {
 			result.setProgress("voteNight");
 			result.setId(dieId);
 			result.setNickname("");
+			//죽은사람이 있는경우 값을 넣어주고 kill 메소드 실행
 			if(!dieId.equals(""))
 			{
 				result.setNickname(mps.getMPU(dieId).getNickname());
@@ -249,9 +256,10 @@ public class MafiaController {
 			}
 			String winJob=mps.gameEndCheck();
 			result.setWinJob(winJob);
-				
+			
+			//모두가 투표하기 전까진 여기 접근안됨
 			//투표 기록초기화
-			mps.setVoteCount(0);
+			mps.setVoteNightCount(0);
 			mps.setDoctorChosen("");
 			mps.setMafiaChosen("");
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result);

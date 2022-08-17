@@ -42,8 +42,12 @@ public class MafiaPlayStorage {
 	//누가 몇표 뽑혔는지 기록
 	private Map<String, Integer> vote = new ConcurrentHashMap<String, Integer>();
 	
-	//투표완료한 숫자 기록 스킵 카운트도 이걸로 사용
-	private volatile int voteCount=0;
+	//낮투표 카운트할 변수
+	private volatile int voteDayCount=0;
+	//낮시간 스킵 투표 카운트 할 변수
+	private volatile int voteSkipCount=0;
+	//밤 투표 카운트 할 변수
+	private volatile int voteNightCount=0;
 	
 	//생존자 수
 	private volatile int aliveCount=0;
@@ -99,16 +103,11 @@ public class MafiaPlayStorage {
 		
 	}
 	
-	public void setVoteCount(int n)
-	{
-		this.voteCount=n;
-	}
-	
+
 	public void gameStart()
 	{
 		aliveCount=profileUsers.size();
 		movingUserCount=profileUsers.size();
-		voteCount=0;
 //		profileUsers.clear();
 		doctorAlive=true;
 		mafiaChosen="";
