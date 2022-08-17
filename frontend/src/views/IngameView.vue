@@ -680,6 +680,7 @@ export default {
                 if (user.id === data.id) {
                   this.deadColor = user.color;
                   this.whoIsGone = user.nickname;
+                  user.isAlive = false;
                 }
               });
               if (data.winJob !== "") {
@@ -701,6 +702,7 @@ export default {
                 if (user.id === data.votedId) {
                   this.deadColor = user.color;
                   this.whoIsGone = user.nickname;
+                  user.isAlive = false;
                 }
               });
               if (data.winJob) {
@@ -768,6 +770,7 @@ export default {
           }
         });
       });
+      this.gameInfos.push(this.myInfo);
     },
     openJobRoll() {
       if (this.isjobRollCenter) {
@@ -1023,8 +1026,8 @@ export default {
         console.log(
           "=======================지금 들어가나?============================="
         );
-      // }, this.count * 1000 + 200);
-      }, 15000);
+      }, this.count * 1000 + 200);
+      // }, 15000);
     },
 
     dayVoteResult() {
@@ -1054,7 +1057,7 @@ export default {
       this.getDayNightTimeCount();
       this.count = this.dayNightTimeCount;
       this.voteClearNum2 = setTimeout(() => {
-        if (this.myInfo.isAlive) {
+        if (this.myInfo.isAlive && (this.myInfo.job === 'mafia' || this.myInfo.job === 'doctor')) {
           this.sendVote("");
         }
       }, this.count * 1000 + 200);
