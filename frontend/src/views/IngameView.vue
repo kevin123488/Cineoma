@@ -776,11 +776,13 @@ export default {
     console.log(this.isConnected);
     this.isDark = false;
     setTimeout(() => {
-      this.isDark = false;
-    }, 1000);
+
+      this.isDark = false
+    }, 4000)    
     setTimeout(() => {
-      this.showblackGround = false;
-    }, 3000);
+      this.showblackGround = false
+    }, 6000)
+
   },
   watch: {
     startGame() {
@@ -870,13 +872,7 @@ export default {
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
         const tmp = subscriber.stream.connection.data.split('"');
-        console.log(`tmp : ${tmp}`);
         const userData = tmp[3].split(",");
-
-        console.log(`userData : ${userData}`);
-        console.log(`id : ${userData[0]}`); // 아이디
-        console.log(`nick : ${userData[1]}`); // 닉네임
-        console.log("=============얘는 session on 부분=================");
         this.gameInfos.push({
           id: userData[0],
           nickname: userData[1],
@@ -1059,9 +1055,6 @@ export default {
     },
 
     dayTime() {
-      console.log("=================유저 정보 세팅 확인====================");
-      console.log(this.gameInfos);
-      console.log(this.myInfo);
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
@@ -1080,7 +1073,6 @@ export default {
     },
 
     dayVoteTime() {
-      console.log(this.myInfo);
       this.isSkiped = false;
       this.progress.isDay = false;
       this.setIsDay(false);
@@ -1089,14 +1081,8 @@ export default {
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
         if (this.myInfo.isAlive) {
-          console.log(
-            "================살아있으면 투표 자동으로 들어가라========================"
-          );
           this.sendVote("");
         }
-        console.log(
-          "=======================지금 들어가나?============================="
-        );
       }, this.count * 1000 + 200);
       // }, 15000);
     },
@@ -1181,7 +1167,6 @@ export default {
           roomNo: this.roomNo,
           id: this.userInfo.id,
         };
-        console.log(msg);
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
     },
@@ -1205,8 +1190,6 @@ export default {
         if (this.progress.isNight) {
           msg.progress = "voteNight";
         }
-        console.log(msg);
-        console.log("==================================");
         this.stompClient.send("/receiveMafia", JSON.stringify(msg), {});
       }
       this.selected = ""; // 투표 누르면 투표확정 버튼 사라지게 하자
@@ -1221,7 +1204,6 @@ export default {
       ) {
         this.sendVote(info.id);
         this.voteNo = 0;
-        console.log(`투표한 id ${info.id}`);
       }
     },
 
@@ -1271,7 +1253,6 @@ export default {
         }
       });
 
-      console.log(typeof this.setGameResult);
       this.setGameResult(winJobList);
       this.leaveSession();
       setTimeout(() => {
@@ -1302,64 +1283,47 @@ export default {
       );
 
       this.dayStartTime = gameStartTime;
-      console.log("=============================");
-      console.log(`시간입니다. ${this.dayStartTime}`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameDayTime = new Date(this.dayStartTime);
-      console.log(`==== gameDayTime ${this.gameDayTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
-      console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
-      console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
-      console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);
-      console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
 
     getDayTimeCount() {
       let nowTime = new Date();
       const elapsedMSec = this.gameDayTime.getTime() - nowTime.getTime();
-      console.log(`${this.gameDayTime} - ${nowTime}`);
-      console.log(
-        `${this.gameDayTime.getTime()} - ${nowTime.getTime()} = ${elapsedMSec}`
-      );
+
       this.dayTimeCount = Math.floor(elapsedMSec / 1000);
-      console.log(`==== dayTimeCount ${this.dayTimeCount} ====`);
     },
 
     getDayVoteTimeCount() {
       let nowTime = new Date();
       const elapsedMSec = this.gameDayVoteTime.getTime() - nowTime.getTime();
-      console.log(`${this.gameDayVoteTime} - ${nowTime}`);
-      console.log(
-        `${this.gameDayVoteTime.getTime()} - ${nowTime.getTime()} = ${elapsedMSec}`
-      );
+
       this.dayVoteTimeCount = Math.floor(elapsedMSec / 1000);
-      console.log(`==== dayVoteTimeCount ${this.dayVoteTimeCount} ====`);
     },
 
     getDayVoteResultCount() {
       let nowTime = new Date();
       const elapsedMSec = this.gameVoteResultTime.getTime() - nowTime.getTime();
       this.dayVoteResultCount = Math.floor(elapsedMSec / 1000);
-      console.log(`==== dayVoteResultCount ${this.dayVoteResultCount} ====`);
     },
 
     getDayNightTimeCount() {
       let nowTime = new Date();
       const elapsedMSec = this.gameNightTime.getTime() - nowTime.getTime();
       this.dayNightTimeCount = Math.floor(elapsedMSec / 1000);
-      console.log(`==== dayNightTimeCount ${this.dayNightTimeCount} ====`);
     },
 
     getDayNightResultCount() {
@@ -1367,7 +1331,6 @@ export default {
       const elapsedMSec =
         this.gameNightResultTime.getTime() - nowTime.getTime();
       this.dayNightResultCount = Math.floor(elapsedMSec / 1000);
-      console.log(`==== dayNightResultCount ${this.dayNightResultCount} ====`);
     },
 
     setDayEndTime() {
@@ -1376,23 +1339,18 @@ export default {
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameDayTime = new Date(this.dayStartTime);
-      console.log(`==== gameDayTime ${this.gameDayTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
-      console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
-      console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
-      console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);
-      console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
 
     setSkipTime() {
@@ -1400,19 +1358,15 @@ export default {
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
-      console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
-      console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
-      console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);
-      console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
 
     setDayVoteTime() {

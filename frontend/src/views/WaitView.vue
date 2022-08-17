@@ -1,9 +1,6 @@
 <template class="">
   <div class="w3-black wait-background" style="height: 1000px">
     <div class="w3-main mx-5">
-      <router-link :to="{ name: 'lobby' }">
-        <div>소켓연결 테스트ㄱㄱ</div>
-      </router-link>
 
       <!-- Header -->
       <header id="portfolio">
@@ -156,10 +153,6 @@ export default {
     this.user = this.userInfo;
     this.nickName = this.user.nickname;
     // App.vue가 생성되면 소켓 연결을 시도합니다.
-    
-    console.log('==============방들어가는중');
-    console.log(this.isCaptain);
-    console.log(this.roomNo);
     this.connect();
   },
 
@@ -186,7 +179,6 @@ export default {
       // const serverURL = "https://i7e107.p.ssafy.io/roomSocket";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
       // const oldCloseCB = this.stompClient.ws.onclose
       // this.stompClient.ws.onclose = e => {
@@ -196,7 +188,6 @@ export default {
 
       socket.onclose = function () {
         this.saveIsConnected(false);
-        console.log("===================끊겼나?=====================");
       };
 
       this.stompClient.connect(
@@ -209,8 +200,6 @@ export default {
           console.log(this.isConnected);
 
           console.log("소켓 연결 성공", frame);
-          console.log("소켓id출력");
-          console.log(socket._transport.url);
           // const sessionIdLength = socket._transport.url.length
           this.sessionId = socket._transport.url.slice(-18, -10);
           this.sendProfile();
@@ -219,7 +208,6 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendChat/${this.roomNo}`,
             (res) => {
-              console.log("구독으로 받은 채팅입니다.", res.body);
               this.recvList.push(JSON.parse(res.body));
             }
           );
@@ -228,13 +216,11 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendProfile/${this.roomNo}`,
             (res) => {
-              console.log("구독으로 받은 프로필입니다.", res.body);
               const data = JSON.parse(res.body);
               this.usersInfo = data.userList;
 
               // 방 나가기
               if (res.body.progress === "out") {
-                console.log(res.body);
                 this.stompClient.disconnect();
                 this.$router.push({ name: "lobby " });
               }
@@ -245,7 +231,6 @@ export default {
           this.stompClient.subscribe(
             `/topic/sendReady/${this.roomNo}`,
             (res) => {
-              console.log("구독으로 받은 레디입니다.", res.body);
               const readyData = JSON.parse(res.body);
               this.ifStart = readyData.ifStart;
               this.usersInfo.forEach((user) => {
@@ -266,31 +251,27 @@ export default {
           // 방 폭파
           this.stompClient.subscribe(
             `/topic/sendBreak/${this.roomNo}`,
-            (res) => {
-              console.log("방 폭파.", res.body);
+            () => {
               this.stompClient.disconnect();
               this.$router.push({ name: "lobby" });
             }
           );
         },
 
-        (error) => {
+        () => {
           // 소켓 연결 실패
-          console.log("소켓 연결 실패", error);
           this.connected = false;
         }
       );
     },
 
     sendChat() {
-      console.log("Send message:" + this.message);
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
           roomNo: this.roomNo,
           nickName: this.nickName,
           content: this.message,
         };
-        console.log(msg);
         this.stompClient.send("/receiveChat", JSON.stringify(msg), {});
         this.message = "";
       }
@@ -304,7 +285,6 @@ export default {
           roomNo: this.roomNo,
           id: this.user.id,
         };
-        console.log(msg);
         this.stompClient.send("/receiveProfile", JSON.stringify(msg), {});
       }
     },
@@ -319,7 +299,6 @@ export default {
           ifReady: this.ifReady,
           id: this.user.id,
         };
-        console.log(msg);
         this.stompClient.send("/receiveReady", JSON.stringify(msg), {});
       }
     },
@@ -343,7 +322,6 @@ export default {
         const msg = {
           roomNo: this.roomNo,
         };
-        console.log(msg);
         this.stompClient.send("/receiveBreak", JSON.stringify(msg), {});
       }
     },
@@ -385,8 +363,6 @@ export default {
     },
   },
   mounted() {
-    console.log('===========')
-    console.log(this.roomTitle)
   },
   unmounted() {
     this.stompClient.disconnect();
