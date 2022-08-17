@@ -1034,7 +1034,8 @@ export default {
       this.voteClearNum2 = setTimeout(() => {
         if (
           this.myInfo.isAlive &&
-          (this.myInfo.job === "mafia" || this.myInfo.job === "doctor")
+          (this.setUserColor.job === "mafia" ||
+            this.setUserColor.job === "doctor")
         ) {
           this.sendVote("");
         }
