@@ -99,7 +99,7 @@
 
       <div class="w3-row">
         <!-- <div class="chatList w3-col m12"> -->
-        <div class="chatList">
+        <div class="chatList" id="chatList"> 
           <div v-for="(item, idx) in recvList" :key="idx">
             <h3>{{ item.nickName }} : {{ item.content }}</h3>
           </div>
@@ -218,6 +218,12 @@ export default {
             `/topic/sendChat/${this.roomNo}`,
             (res) => {
               this.recvList.push(JSON.parse(res.body));
+
+              this.$nextTick(() => {
+              let messages = document.querySelector('#chatList')
+
+              messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+            });
             }
           );
 
