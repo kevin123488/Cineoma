@@ -248,7 +248,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[0].subscriber"
+                :stream-manager="subscribers[0]"
                 :gameInfo="gameInfos[0]"
               >
               </other-user-video>
@@ -257,7 +257,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[1].subscriber"
+                :stream-manager="subscribers[1]"
                 :gameInfo="gameInfos[1]"
               >
               </other-user-video>
@@ -266,7 +266,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[2].subscriber"
+                :stream-manager="subscribers[2]"
                 :gameInfo="gameInfos[2]"
               >
               </other-user-video>
@@ -275,7 +275,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[3].subscriber"
+                :stream-manager="subscribers[3]"
                 :gameInfo="gameInfos[3]"
               >
               </other-user-video>
@@ -476,7 +476,6 @@ export default {
       console.log(`nick : ${userData[1]}`); // 닉네임
       console.log("=============얘는 session on 부분=================");
       this.gameInfos.push({
-        subscriber: subscriber,
         id: userData[0],
         nickname: userData[1],
         isAlive: true, // 살았나 죽었나
