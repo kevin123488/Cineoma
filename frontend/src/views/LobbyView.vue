@@ -62,15 +62,6 @@
                     <!-- <button v-on:click="testvote()" type="button" class="w3-button w3-theme text-deepdarkpurple" style="font-family: 'NeoDunggeunmo Code';">
                   트랜지션 테스트
                 </button> -->
-                    <a href="/game/end"> 게임결과 테스트 </a>
-                    <button
-                      v-on:click="voteResult()"
-                      type="button"
-                      class="w3-button w3-theme text-deepdarkpurple"
-                      style="font-family: 'NeoDunggeunmo Code'"
-                    >
-                      투표결과 테스트
-                    </button>
                     <!-- <button @click="goMypageTest">
                   마이페이지 테스트
                 </button> -->
