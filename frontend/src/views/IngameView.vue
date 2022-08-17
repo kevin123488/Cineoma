@@ -1,5 +1,9 @@
-<template>showblackGround
-  <div v-if="showblackGround" :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
+<template>
+  showblackGround
+  <div
+    v-if="showblackGround"
+    :class="{ blackGround: isDark, blackGroundOut: !isDark }"
+  ></div>
   <div
     :class="{
       ingameNight: progress.isNight,
@@ -74,10 +78,21 @@
             <div
               v-if="info.isAlive"
               class=""
-              style="font-size: 50px;"
+              style="font-size: 50px"
               @click="chooseVote(info)"
+            >
+              <p
+                class="brownColor learn-more"
+                style="
+                  height: 50px;
+                  margin: 10px 0px;
+                  cursor: pointer;
+                  vertical-align: middle;
+                  font-family: 'NeoDunggeunmo Code';
+                "
               >
-              <p class="brownColor learn-more" style="height: 50px; margin: 10px 0px; cursor: pointer; vertical-align: middle;  font-family: 'NeoDunggeunmo Code';">{{ info.nickname }}</p>
+                {{ info.nickname }}
+              </p>
             </div>
           </div>
         </div>
@@ -336,7 +351,7 @@ export default {
       myUserName: "",
 
       // 게임정보
-      koreanJob: '',
+      koreanJob: "",
       startGame: false,
       startGameSignal: false,
       gameInfos: [],
@@ -547,14 +562,14 @@ export default {
               "=======================직업 뭐받는지 확인================"
             );
             this.myInfo.job = data.job;
-            if (data.job === 'citizen') {
-              this.koreanJob = '시민'
-            } else if (data.job === 'mafia') {
-              this.koreanJob = '마피아'
-            } else if (data.job === 'police') {
-              this.koreanJob = '교주'
-            } else if (data.job === 'doctor') {
-              this.koreanJob = '의사'
+            if (data.job === "citizen") {
+              this.koreanJob = "시민";
+            } else if (data.job === "mafia") {
+              this.koreanJob = "마피아";
+            } else if (data.job === "police") {
+              this.koreanJob = "교주";
+            } else if (data.job === "doctor") {
+              this.koreanJob = "의사";
             }
             this.setUserColor = data;
 
@@ -711,6 +726,7 @@ export default {
 
             // 밤 투표
             if (data.progress === "voteNight") {
+              console.log(`==== 밤 투표 결과 ${data} ====`);
               this.gameInfos.forEach((user) => {
                 if (user.id === data.votedId) {
                   this.deadColor = user.color;
@@ -773,15 +789,15 @@ export default {
 
     // 직업정보열람용
     switchJobRoll() {
-      if (this.setUserColor.job === 'citizen') {
-        this.koreanJob = '시민'
-      } else if (this.setUserColor.job === 'mafia') {
-        this.koreanJob = '마피아'
-      } else if (this.setUserColor.job === 'police') {
-        this.koreanJob = '교주'
-      } else if (this.setUserColor.job === 'doctor') {
-        this.koreanJob = '의사'
-      }      
+      if (this.setUserColor.job === "citizen") {
+        this.koreanJob = "시민";
+      } else if (this.setUserColor.job === "mafia") {
+        this.koreanJob = "마피아";
+      } else if (this.setUserColor.job === "police") {
+        this.koreanJob = "교주";
+      } else if (this.setUserColor.job === "doctor") {
+        this.koreanJob = "의사";
+      }
       this.isjobRollCenter = false;
       this.isJobRollOpen = false;
       this.myInfo.job = this.setUserColor.job;
@@ -983,18 +999,16 @@ export default {
     // 투표 결과창 관련
     typeEffect() {
       if (this.whoIsGone) {
-        this.showingMsg =
-          `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`
+        this.showingMsg = `투표 결과 ${this.whoIsGone} 님이 퇴출되었습니다!`;
       } else {
-        this.showingMsg = `아무도 퇴출되지 않았습니다`
+        this.showingMsg = `아무도 퇴출되지 않았습니다`;
       }
     },
     typeEffect2() {
       if (this.whoisGone) {
-        this.showingMsg =
-          `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`
+        this.showingMsg = `밤 사이에 ${this.whoIsGone} 님이 사망하였습니다,,,`;
       } else {
-        this.showingMsg = `조용한 밤을 보냈습니다`
+        this.showingMsg = `조용한 밤을 보냈습니다`;
       }
     },
     getOut() {
@@ -1042,7 +1056,9 @@ export default {
       this.count = this.dayVoteTimeCount;
       this.voteClearNum = setTimeout(() => {
         if (this.myInfo.isAlive) {
-          console.log("================살아있으면 투표 자동으로 들어가라========================")
+          console.log(
+            "================살아있으면 투표 자동으로 들어가라========================"
+          );
           this.sendVote("");
         }
         console.log(
@@ -1079,7 +1095,10 @@ export default {
       this.getDayNightTimeCount();
       this.count = this.dayNightTimeCount;
       this.voteClearNum2 = setTimeout(() => {
-        if (this.myInfo.isAlive && (this.myInfo.job === 'mafia' || this.myInfo.job === 'doctor')) {
+        if (
+          this.myInfo.isAlive &&
+          (this.myInfo.job === "mafia" || this.myInfo.job === "doctor")
+        ) {
           this.sendVote("");
         }
       }, this.count * 1000 + 200);
@@ -1139,7 +1158,7 @@ export default {
       clearTimeout(this.voteClearNum2);
       if (this.stompClient && this.stompClient.connected) {
         if (this.myInfo.isAlive === false) {
-          this.setIfWin(false)
+          this.setIfWin(false);
         }
         const msg = {
           progress: "voteDay",
@@ -1189,8 +1208,8 @@ export default {
       //   nickname: "마피아고수",
       //   color: "red",
       // };
-      this.showblackGround = true
-      this.isDark = true
+      this.showblackGround = true;
+      this.isDark = true;
       const winJobList = [];
       this.gameInfos.forEach((user) => {
         //  if (user.job === winJob) {
@@ -1224,9 +1243,8 @@ export default {
       this.leaveSession();
       setTimeout(() => {
         this.stompClient.disconnect();
-        this.$router.push({name: "gameend",});
-      }, 2000)
-
+        this.$router.push({ name: "gameend" });
+      }, 2000);
     },
 
     setStartTime(time) {
