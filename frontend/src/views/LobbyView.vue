@@ -140,7 +140,7 @@
           <div v-for="(friend, index) in friends" :key="index" class="w3-center lobbyFriend">
             <div class="w3-container" style="height: 400px;">
               <h2 class="brownColor" style="margin-top: 55px; margin-bottom: 35px;"><I><b>{{ friend.nickname }}</b></I></h2>
-              <img v-if="friend.imagePath !== null" class="friendImage" :src="`/homedesign/images/` + friend.imagePath" alt="">
+              <img v-if="friend.imagePath !== null" class="friendImage" style="border-radius: 10px;" :src="`/homedesign/images/` + friend.imagePath" alt="">
             </div>
             <br>
           </div>

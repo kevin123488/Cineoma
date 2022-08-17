@@ -168,11 +168,11 @@ export default {
             //     this.labelContainer.childNodes[i].innerHTML = classPrediction;
             // }
         } else if (!this.ifWin && !this.isDay) {
-            const duration = '낮에만 신도를 모을 수 있습니다'
-            duration.classList.add("nightMissionInfo");
-            this.labelContainer.childNodes[1].innerText = duration;
+            const nightInfo1 = '낮에만 신도를 '
+            const nightInfo2 = '모을 수 있습니다'
+            this.labelContainer.childNodes[0].innerText = nightInfo1;
+            this.labelContainer.childNodes[1].innerText = nightInfo2
         }
-
 
         // finally draw the poses
         this.drawPose(pose);
