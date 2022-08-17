@@ -730,6 +730,7 @@ export default {
               if (data.winJob !== "") {
                 this.gameEnd(data.winJob);
               } else {
+                this.setDayVoteTime();
                 this.dayVoteResult();
                 console.log(
                   "================================================="
@@ -743,14 +744,14 @@ export default {
             // 밤 투표
             if (data.progress === "voteNight") {
               console.log(`==== 밤 투표 결과 ${data} ====`);
-              console.log(data.id)
+              console.log(data.id);
               this.gameInfos.forEach((user) => {
                 if (user.id === data.id) {
                   this.deadColor = user.color;
                   this.whoIsGone = user.nickname;
                   user.isAlive = false;
-                  console.log('===whoIsGone===')
-                  console.log(this.whoIsGone)
+                  console.log("===whoIsGone===");
+                  console.log(this.whoIsGone);
                 }
               });
               if (data.winJob) {
@@ -773,13 +774,13 @@ export default {
   },
   mounted() {
     console.log(this.isConnected);
-    this.isDark = false
+    this.isDark = false;
     setTimeout(() => {
-      this.isDark = false
-    }, 1000)    
+      this.isDark = false;
+    }, 1000);
     setTimeout(() => {
-      this.showblackGround = false
-    }, 3000)
+      this.showblackGround = false;
+    }, 3000);
   },
   watch: {
     startGame() {
@@ -1054,7 +1055,7 @@ export default {
       setTimeout(() => {
         this.dayTime();
         this.startGame = true;
-      }, 1500);
+      }, 3000);
     },
 
     dayTime() {
@@ -1244,13 +1245,13 @@ export default {
       this.isDark = true;
       const winJobList = [];
       this.gameInfos.forEach((user) => {
-        //  if (user.job === winJob) {
-        //   winJobList.push({
-        //     winJob: winJob,
-        //     nickname: user.nickname,
-        //     color: user.color,
-        //   });
-        //  }
+        if (user.job === winJob) {
+          winJobList.push({
+            winJob: winJob,
+            nickname: user.nickname,
+            color: user.color,
+          });
+        }
         if (winJob === "citizen") {
           if (user.job === "citizen" || user.job === "doctor") {
             winJobList.push({
@@ -1274,7 +1275,7 @@ export default {
       this.setGameResult(winJobList);
       this.leaveSession();
       setTimeout(() => {
-        this.stompClient.disconnect();
+        // this.stompClient.disconnect();
         this.$router.push({ name: "gameend" });
       }, 2000);
     },
@@ -1400,6 +1401,22 @@ export default {
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 30);
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`==== gameDayVoteTime ${this.gameDayVoteTime} ====`);
+
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.gameVoteResultTime = new Date(this.dayStartTime);
+      console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
+
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
+      this.gameNightTime = new Date(this.dayStartTime);
+      console.log(`==== gameNightTime ${this.gameNightTime} ====`);
+
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.gameNightResultTime = new Date(this.dayStartTime);
+      console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
+    },
+
+    setDayVoteTime() {
+      this.dayStartTime = new Date();
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameVoteResultTime = new Date(this.dayStartTime);
@@ -1859,28 +1876,28 @@ export default {
 }
 .blackGround {
   background-color: black;
-  position:absolute;
-  z-index:3;
-  left:0;
-  top:0;
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
   opacity: 0.9;
-  width:100%;
-  height:100%;
-  vertical-align:middle;
-  text-align:center;
-  transition:all 2s ease;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  transition: all 2s ease;
 }
 .blackGroundOut {
   background-color: black;
-  position:absolute;
-  z-index:3;
-  left:0;
-  top:0;
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
   opacity: 0;
-  width:100%;
-  height:100%;
-  vertical-align:middle;
-  text-align:center;
-  transition:all 2s ease;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  transition: all 2s ease;
 }
 </style>
