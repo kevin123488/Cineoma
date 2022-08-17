@@ -262,6 +262,8 @@ public class MafiaController {
 			mps.setVoteNightCount(0);
 			mps.setDoctorChosen("");
 			mps.setMafiaChosen("");
+			System.out.println("=============밤투표 결과 보내기=========================");
+			System.out.println(result);
 			sendingOperations.convertAndSend("/topic/sendMafia/"+paramDto.getRoomNo(), result);
 			
 			

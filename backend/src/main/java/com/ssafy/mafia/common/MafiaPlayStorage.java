@@ -8,6 +8,9 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.ssafy.mafia.service.RecordService;
 import com.ssafy.mafia.socketDto.ProfileUserDto;
@@ -23,11 +26,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class MafiaPlayStorage {
-	@Autowired
-	RecordService recordService;
 	
 	
 	
+	//이게 true면 profileService에서 레코드 업데이트 처리해줌
+	private boolean recordUpateCheck=false;
 	
 	//t : 플레이 중 , f = 대기방 상태
 	private boolean ifPlay=false;
@@ -67,45 +70,37 @@ public class MafiaPlayStorage {
 	private String mafiaChosen="";
 	private String doctorChosen="";
 	
+	private String winJob="";
+	
+	
 	public void gameEnd(String winJob) throws Exception
 	{
 //		게임 끝나면 그냥 다 나가는거로 설정하기로 해서 주석시킴
 //		movingUserCount=plaingUsers.size();
 		
-	
-		for (MafiaPlaingUser mpu : plaingUsers) {
-			
-			if(mpu.getId().equals("doctor") && winJob.equals("citizen"))
-			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
-			}
-			else if(mpu.getId().equals("citizen") && winJob.equals("doctor"))
-			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
-			}
-			else if(mpu.getJob().equals(winJob))
-			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
-			}
-			else
-			{
-				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "lose");
-			}
-			
-		}
-		
-		
-		
-		
-		profileUsers.clear();
-		ifPlay=false;
+//		System.out.println("=================게임 끝 레코드 업데이트==================");
+//		System.out.println("=================승리 직업"+ winJob+"====================");
+//		for (MafiaPlaingUser mpu : plaingUsers) {
+//			System.out.println("=================유저 정보==================");
+//			System.out.println(mpu);
+//			
+//			
+//		}
+//		
+//		
+//		
+//		
+//		profileUsers.clear();
+//		ifPlay=false;
+		this.winJob=winJob;
+		recordUpateCheck=true;
 		//나머지는 방입장하면서 알아서 채워질거임
 		
 		
 	}
 	
 
-	public void gameStart()
+	public void gameStart() throws Exception
 	{
 		aliveCount=profileUsers.size();
 		movingUserCount=profileUsers.size();

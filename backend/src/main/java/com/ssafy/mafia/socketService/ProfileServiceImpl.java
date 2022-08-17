@@ -6,6 +6,8 @@ import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.mafia.common.MafiaPlaingUser;
+import com.ssafy.mafia.common.MafiaPlayStorage;
 import com.ssafy.mafia.common.MafiaStaticData;
 import com.ssafy.mafia.entity.Record;
 import com.ssafy.mafia.entity.Room;
@@ -50,6 +52,34 @@ public class ProfileServiceImpl implements ProfileService{
 	@Override
 	public void exitRoom(String id, int roomNo) throws Exception {
 //		System.out.println("======================exitRoom========Strat====================");
+		MafiaPlayStorage mps = MafiaStaticData.MafiaPlayStorageDtoMap.get(roomNo);
+		
+		if(mps.isRecordUpateCheck())
+		{
+			MafiaPlaingUser mpu =mps.getMPU(id);
+			String myJob=mpu.getJob();
+			String winJob = mps.getWinJob();
+			
+			if(mpu.getId().equals("doctor") && winJob.equals("citizen"))
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+			}
+			else if(mpu.getId().equals("citizen") && winJob.equals("doctor"))
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+			}
+			else if(mpu.getJob().equals(winJob))
+			{
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "ture");
+			}
+			else
+			{
+				System.out.println(recordService);
+				System.out.println("mpu.getId() : " + mpu.getId());
+				System.out.println("mpu.getJob() : " + mpu.getJob());
+				recordService.recordUpdate(mpu.getId(), mpu.getJob(), "lose");
+			}
+		}
 		roomRepository.memberCntminus(roomNo);
 		userRepository.updateRoomNo(1, id);
 		int idx=0;
