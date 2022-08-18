@@ -215,7 +215,7 @@ export default {
   height: 0px;
   width: 0px;
 }
-.redCharGone {
+.blackCharGone {
   transform: rotate(540deg);
   left: 90%;
   top: 10%;
