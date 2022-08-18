@@ -85,7 +85,7 @@
             <div
               v-if="info.isAlive"
               class=""
-              style="font-size: 50px"
+              style="font-size: 40px"
               @click="chooseVote(info)"
             >
               <p
@@ -103,6 +103,9 @@
             </div>
           </div>
         </div>
+          <div class="voteInvalidBtn" @click="invalidVote">
+            투표 스킵 버튼
+          </div>
       </div>
       <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
@@ -1171,6 +1174,10 @@ export default {
       this.isVoted = true;
     },
 
+    invalidVote() {
+      this.sendVote("");
+    },
+
     // 투표
     doVote(info) {
       if (
@@ -1890,5 +1897,23 @@ export default {
   transform: translate(-50%, -50%);
   height: 20vh;
   width: 50vw;
+}
+
+.voteInvalidBtn {
+  text-align: center;
+  position: absolute;
+  cursor: pointer;
+  top: 85%;
+  left: 70%;
+  background-image: url(../../public/homedesign/images/vote_wood_dot.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+  height: 10vh;
+  width: 20vh;
+}
+
+.voteInvalidBtn:active {
+  display: none;
 }
 </style>
