@@ -70,7 +70,7 @@
 
     <!-- 낮 스킵시 띄워주는 창 -->
     <div v-if="showModal" class="dayVoteSkip">
-      <h2>{{ voteUser }}님이 낮 스킵에 투표하였습니다</h2>
+      <h2>스킵 투표!!</h2>
     </div>
 
     <!-- 낮 투표용지 -->
@@ -176,7 +176,7 @@
         progress.isNight && myInfo.job === 'mafia' && myInfo.isAlive === true
       "
     >
-      <h3 class="dayVoteTitle">지금 밤 투표임</h3>
+      <h3 class="dayVoteTitle">밤 투표 진행중</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
           <div :id="info.id" class="d-flex">
@@ -225,7 +225,7 @@
         progress.isNight && myInfo.job === 'doctor' && myInfo.isAlive === true
       "
     >
-      <h3 class="dayVoteTitle">지금 밤 투표임</h3>
+      <h3 class="dayVoteTitle">밤 투표 진행중</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
           <div :id="info.id" class="d-flex">
@@ -654,6 +654,7 @@ export default {
 
                 setTimeout(() => {
                   this.showModal = false;
+                  this.voteUser = "";
                 }, 1000);
 
                 if (data.ifSkip === true) {
@@ -1786,6 +1787,8 @@ export default {
   background-size: 100% 100%;
   text-align: center;
 }
+
+
 .brownColor {
   color: rgb(106, 66, 14);
 }
@@ -1800,7 +1803,11 @@ export default {
   display: inline;
   font-size: 22px;
   left: 70%;
+<<<<<<< HEAD
   top: -60%;
+=======
+  top: 110%;
+>>>>>>> 015ecd427272ed13d7663e240f45abc268795ea1
 }
 .blackVoted {
   background-image: url(../../public/homedesign/images/mafia_black.png);
