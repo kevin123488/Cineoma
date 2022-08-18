@@ -511,7 +511,7 @@ export default {
     this.joinSession();
     setTimeout(() => {
       this.connect();
-    }, 20000);
+    }, 12000);
   },
   mounted() {},
   watch: {
@@ -753,6 +753,7 @@ export default {
                   this.endding = data.endding;
                   this.gameEnd(data.winJob);
                 } else {
+                  this.setNightVoteTime();
                   this.dayNightResult();
                 }
               }
@@ -1374,6 +1375,14 @@ export default {
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
+
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.gameNightResultTime = new Date(this.dayStartTime);
+      console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
+    },
+
+    setNightVoteTime() {
+      this.dayStartTime = new Date();
 
       this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
       this.gameNightResultTime = new Date(this.dayStartTime);

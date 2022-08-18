@@ -16,13 +16,13 @@
         <p v-show="progress.nowDay !== 0 && progress.isDay">
           아침이 밝았습니다.
         </p>
-        <p v-show="progress.isVoteDay">낮이 되었습니다. 마피아를 찾으세요.</p>
+        <p v-show="progress.isVoteDay">저녁이 되었습니다. 마피아를 찾으세요.</p>
         <p v-show="progress.isVoteDayResult">
-          {{ progress.nowDay }}번째 날 낮의 투표 결과입니다.
+          {{ progress.nowDay }} 번째 날의 투표 결과입니다.
         </p>
         <p v-show="progress.isNight">밤이 되었습니다.</p>
         <p v-show="progress.isNightResult">
-          {{ progress.nowDay }}번째 날 새벽입니다.
+          {{ progress.nowDay }} 번째 날 새벽입니다.
         </p>
       </div>
       <div class="w3-col m1">
