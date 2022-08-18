@@ -1,7 +1,7 @@
 <template class="">
   <div class="w3-black wait-background">
     <div class="waitViewChar"></div>
-    <h1 class="wateRoomName" style="padding: 15px;">
+    <h1 class="waitRoomName" style="padding: 15px">
       <b>{{ roomTitle }}</b>
     </h1>
     <div class="waitMainSource">
@@ -10,20 +10,21 @@
       </router-link> -->
 
       <!-- Header -->
-        <div class="waitRoomBtns">
+      <div class="waitRoomBtns">
+        <div class="d-flex mt-3">
           <span v-if="isCaptain">
             <button
               v-if="ifStart"
-              class="w3-button w3-white w3-hide-small mx-3"
-              style="height=32px"
+              class="w3-button w3-white w3-hide-small mx-2"
+              style="height: 50px; font-size: 20px"
               @click="startSignal"
             >
               게임시작
             </button>
             <button
               v-else
-              class="w3-button w3-white w3-hide-small mx-3"
-              style="height=32px"
+              class="w3-button w3-white w3-hide-small mx-2"
+              style="height: 50px; font-size: 20px"
               disabled
             >
               게임시작
@@ -33,19 +34,19 @@
           <span v-if="!isCaptain">
             <button
               v-if="!ifReady"
-              class="w3-button w3-white w3-hide-small mx-3"
-              style="height=32px"
+              class="w3-button w3-white w3-hide-small mx-2"
+              style="height: 50px; font-size: 20px"
               @click="sendReady"
             >
-              <i class="fa-regular fa-check"></i>준비
+              준비
             </button>
             <button
               v-if="ifReady"
-              class="w3-button w3-white w3-hide-small mx-3"
-              style="height=32px"
+              class="w3-button w3-white w3-hide-small mx-2"
+              style="height: 50px; font-size: 20px"
               @click="sendReady"
             >
-              <i class="fa-regular fa-check"></i>준비취소
+              준비취소
             </button>
           </span>
           <a href="/lobby">
@@ -57,16 +58,16 @@
 
             <button
               v-if="isCaptain"
-              class="w3-button w3-white w3-hide-small"
-              style="height=32px"
+              class="w3-button w3-white w3-hide-small mx-2"
+              style="height: 50px; font-size: 20px"
               @click="sendBreak"
             >
               <i class="fa fa-close"></i>방삭제
             </button>
             <button
               v-if="!isCaptain"
-              class="w3-button w3-white w3-hide-small"
-              style="height=32px"
+              class="w3-button w3-white w3-hide-small mx-2"
+              style="height: 50px; font-size: 20px"
               @click="sendOut"
             >
               <i class="fa fa-close"></i>방나가기
@@ -75,7 +76,7 @@
             <!-- </router-link> -->
           </a>
         </div>
-      
+      </div>
 
       <!-- First Photo Grid-->
       <!-- class="userListInfo w3-col m3 mx-3 my-3 w3-container w3-margin-bottom border border-secondary w3-white" -->
@@ -85,21 +86,24 @@
           v-for="(item, idx) in waitUsers"
           :key="idx"
         >
-        <div>
-          <h2>닉네임: {{ item.nickName }}</h2>
-          <h2>승률: {{ item.winRate }}%</h2>
-        </div>
-        <div>
-          <img class="userItemInfoImg" :src="'/../../homedesign/images/' + item.imagePath" alt="">
-        </div>
-          <div class="readySetChar" v-show="item.ifReady">
+          <div id="userDetail">
+            <p>닉네임: {{ item.nickName }}</p>
+            <p>승률: {{ item.winRate }}%</p>
           </div>
+          <div class="imgWrap">
+            <img
+              class="userItemInfoImg"
+              :src="'/../../homedesign/images/' + item.imagePath"
+              alt=""
+            />
+          </div>
+          <div class="readySetChar" v-show="item.ifReady"></div>
         </div>
       </div>
 
       <div class="w3-row">
         <!-- <div class="chatList w3-col m12"> -->
-        <div class="chatList" id="chatList"> 
+        <div class="chatList" id="chatList">
           <div v-for="(item, idx) in recvList" :key="idx">
             <h3>{{ item.nickName }} : {{ item.content }}</h3>
           </div>
@@ -220,10 +224,13 @@ export default {
               this.recvList.push(JSON.parse(res.body));
 
               this.$nextTick(() => {
-              let messages = document.querySelector('#chatList')
+                let messages = document.querySelector("#chatList");
 
-              messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-            });
+                messages.scrollTo({
+                  top: messages.scrollHeight,
+                  behavior: "smooth",
+                });
+              });
             }
           );
 
@@ -264,13 +271,10 @@ export default {
           );
 
           // 방 폭파
-          this.stompClient.subscribe(
-            `/topic/sendBreak/${this.roomNo}`,
-            () => {
-              this.stompClient.disconnect();
-              this.$router.push({ name: "lobby" });
-            }
-          );
+          this.stompClient.subscribe(`/topic/sendBreak/${this.roomNo}`, () => {
+            this.stompClient.disconnect();
+            this.$router.push({ name: "lobby" });
+          });
         },
 
         () => {
@@ -377,8 +381,7 @@ export default {
       this.sendReady();
     },
   },
-  mounted() {
-  },
+  mounted() {},
   unmounted() {
     this.stompClient.disconnect();
   },
@@ -388,10 +391,12 @@ export default {
 <style>
 .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-button {
   display: inline-block;
-  height: 40px;
+  height: 50px;
+  font-size: 20px;
 }
 .w3-bar.w3-black.w3-hide-small .w3-bar-item.w3-right {
-  height: 40px;
+  height: 50px;
+  font-size: 20px;
   padding-top: 6px;
   padding-right: 5px;
   margin: 0 0;
@@ -423,6 +428,8 @@ export default {
   height: 50vh;
   width: 30vw;
   overflow: auto;
+  padding-top: 2px;
+  padding-left: 10px;
 }
 .chatList::-webkit-scrollbar {
   width: 2px;
@@ -465,7 +472,8 @@ export default {
   width: 80vw;
 }
 
-.wateRoomName {
+.waitRoomName {
+  color: #000;
   z-index: 1000;
   position: absolute;
   top: 10%;
@@ -496,15 +504,17 @@ export default {
   overflow: auto;
   top: 47%;
   left: 30%;
-  width: 30vw;
+  width: 25vw;
   height: 50vh;
   /* border: 2px solid black; */
   transform: translate(-50%, -50%);
   -ms-overflow-style: none;
+  /* text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; */
+  color: #000;
 }
 
-.userListInfo::-webkit-scrollbar{
-  display:none;
+.userListInfo::-webkit-scrollbar {
+  display: none;
 }
 
 .userItemInfo {
@@ -515,7 +525,7 @@ export default {
 }
 
 .userItemInfoImg {
-  width: 10vw;
+  width: 8vw;
   border-radius: 30px;
 }
 
@@ -555,5 +565,14 @@ export default {
   background-image: url(../../public/homedesign/images/mafia_black.png);
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+#userDetail {
+  font-size: 30px;
+}
+
+.imgWrap {
+  display: flex;
+  align-items: center;
 }
 </style>
