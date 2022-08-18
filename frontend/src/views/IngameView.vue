@@ -103,9 +103,7 @@
             </div>
           </div>
         </div>
-          <div class="voteInvalidBtn" @click="invalidVote">
-            투표 스킵 버튼
-          </div>
+        <div class="voteInvalidBtn" @click="invalidVote">투표 스킵 버튼</div>
       </div>
       <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
@@ -666,11 +664,11 @@ export default {
                 }, 1000);
 
                 if (data.ifSkip === true) {
+                  this.setSkipTime();
                   this.progress.isDay = false;
                   this.setIsDay(false);
                   this.progress.isVoteDay = true;
                   clearTimeout(this.clearId);
-                  this.setSkipTime();
                 }
               }
 
