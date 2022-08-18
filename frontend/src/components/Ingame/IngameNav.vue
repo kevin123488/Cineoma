@@ -67,5 +67,6 @@ export default {
 
 #info {
   height: 115px;
+  font-size: 35px;
 }
 </style>
