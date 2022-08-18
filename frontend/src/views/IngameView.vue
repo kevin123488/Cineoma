@@ -1,5 +1,8 @@
 <template>
-  <div v-if="showblackGround" :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
+  <div
+    v-if="showblackGround"
+    :class="{ blackGround: isDark, blackGroundOut: !isDark }"
+  ></div>
   <div
     :class="{
       ingameNight: progress.isNight,
@@ -97,13 +100,16 @@
         </div>
       </div>
       <div>
-        <h5 style="text-align: center; padding: 0; display: inline;" class="mt-5">
+        <h5
+          style="text-align: center; padding: 0; display: inline"
+          class="mt-5"
+        >
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
         <button
           class="sendVoteBtn"
-          style="display: inline;"
+          style="display: inline"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
@@ -184,30 +190,33 @@
               class=""
               @click="chooseVote(info)"
             >
-            <p
-              class="brownColor learn-more"
-              style="
-                height: 30px;
-                margin: 10px 0px;
-                cursor: pointer;
-                vertical-align: middle;
-                font-family: 'NeoDunggeunmo Code';
-              "
-            >
-              {{ info.nickname }}
-            </p>
+              <p
+                class="brownColor learn-more"
+                style="
+                  height: 30px;
+                  margin: 10px 0px;
+                  cursor: pointer;
+                  vertical-align: middle;
+                  font-family: 'NeoDunggeunmo Code';
+                "
+              >
+                {{ info.nickname }}
+              </p>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <h5 style="text-align: center; padding: 0; display: inline;" class="mt-5">
+        <h5
+          style="text-align: center; padding: 0; display: inline"
+          class="mt-5"
+        >
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
         <button
           class="sendVoteBtn"
-          style="display: inline;"
+          style="display: inline"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
@@ -233,30 +242,33 @@
               class=""
               @click="chooseVote(info)"
             >
-            <p
-              class="brownColor learn-more"
-              style="
-                height: 30px;
-                margin: 10px 0px;
-                cursor: pointer;
-                vertical-align: middle;
-                font-family: 'NeoDunggeunmo Code';
-              "
-            >
-              {{ info.nickname }}
-            </p>
+              <p
+                class="brownColor learn-more"
+                style="
+                  height: 30px;
+                  margin: 10px 0px;
+                  cursor: pointer;
+                  vertical-align: middle;
+                  font-family: 'NeoDunggeunmo Code';
+                "
+              >
+                {{ info.nickname }}
+              </p>
             </div>
           </div>
         </div>
       </div>
       <div>
-        <h5 style="text-align: center; padding: 0; display: inline;" class="mt-5">
+        <h5
+          style="text-align: center; padding: 0; display: inline"
+          class="mt-5"
+        >
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
         <button
           class="sendVoteBtn"
-          style="display: inline;"
+          style="display: inline"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
@@ -274,7 +286,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[0]"
+                :stream-manager="gameInfos[0].subscriber"
                 :gameInfo="gameInfos[0]"
               >
               </other-user-video>
@@ -283,7 +295,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[1]"
+                :stream-manager="gameInfos[1].subscriber"
                 :gameInfo="gameInfos[1]"
               >
               </other-user-video>
@@ -292,7 +304,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[2]"
+                :stream-manager="gameInfos[2].subscriber"
                 :gameInfo="gameInfos[2]"
               >
               </other-user-video>
@@ -301,7 +313,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="subscribers[3]"
+                :stream-manager="gameInfos[3].subscriber"
                 :gameInfo="gameInfos[3]"
               >
               </other-user-video>
@@ -822,6 +834,7 @@ export default {
         const tmp = subscriber.stream.connection.data.split('"');
         const userData = tmp[3].split(",");
         this.gameInfos.push({
+          subscriber: subscriber,
           id: userData[0],
           nickname: userData[1],
           isAlive: true, // 살았나 죽었나
@@ -1176,7 +1189,7 @@ export default {
       this.showblackGround = true;
       setTimeout(() => {
         this.isDark = true;
-      }, 1000);      
+      }, 1000);
 
       const winJobList = [];
       console.log("this.gameInfos.");
