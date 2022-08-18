@@ -1803,11 +1803,7 @@ export default {
   display: inline;
   font-size: 22px;
   left: 70%;
-<<<<<<< HEAD
-  top: -60%;
-=======
-  top: 110%;
->>>>>>> 015ecd427272ed13d7663e240f45abc268795ea1
+  top: -59%;
 }
 .blackVoted {
   background-image: url(../../public/homedesign/images/mafia_black.png);
