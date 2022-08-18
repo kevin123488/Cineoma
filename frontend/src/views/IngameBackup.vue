@@ -1263,14 +1263,14 @@ export default {
 .voteResultFade-leave-to {
   opacity: 0;
 }
-.ingameDaySkipBtn {
+/* .ingameDaySkipBtn {
   position: absolute;
   top: 60%;
   left: 80%;
   height: 30px;
   border: 2px solid black;
   border-radius: 20px;
-}
+} */
 .jobRollFormCenter {
   position: absolute;
   top: 30%;
@@ -1577,11 +1577,11 @@ export default {
 .brownColor {
   color: rgb(106, 66, 14);
 }
-.sendVoteBtn {
+/* .sendVoteBtn {
   position: absolute;
   background-image: url(../../public/homedesign/images/vote_wood_dot.png);
   background-size: cover;
   background-repeat: no-repeat;
   left: 50%;
-}
+} */
 </style>

@@ -17,7 +17,7 @@
     <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
       <div
         class="u-align-center u-container-style u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-group u-shape-rectangle u-group-1"
-        style="margin-top: 150px"
+        style="margin-top: 100px"
       >
         <transition name="loginFade">
           <div
@@ -28,10 +28,12 @@
             <div class="fadeLogin">
               <h1 class="u-custom-font u-text u-text-1 my-2">Login</h1>
               <p style="font-family: 'NeoDunggeunmo Code'">갓 파 더</p>
+              
+              
               <div class="loginForm">
                 <p>
                   <input
-                    class="inputText"
+                    class="signUpInput"
                     type="text"
                     placeholder="아이디 입력"
                     v-model="user.id"
@@ -39,6 +41,7 @@
                 </p>
                 <p>
                   <input
+                    class="signUpInput"
                     type="password"
                     @keyup.enter="confirm"
                     placeholder="비밀번호 입력"
@@ -185,5 +188,8 @@ export default {
 }
 .u-button-style {
   font-size: 20px;
+}
+.signUpInput::-webkit-input-placeholder {
+  text-align: center;
 }
 </style>

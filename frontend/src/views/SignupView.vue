@@ -184,6 +184,7 @@ export default {
   width: 30vw;
 }
 .signUpInput {
+  text-align: center;
   height: 4.5vh;
   width: 20vw;
   margin-top: 5px;

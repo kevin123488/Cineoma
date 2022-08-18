@@ -123,13 +123,6 @@
     </div>
 
     <!-- 낮 투표 스킵 -->
-    <button
-      class="ingameDaySkipBtn"
-      v-if="!isSkiped && progress.isDay"
-      @click="sendSkip"
-    >
-      낮 스킵 후 투표로 넘어가기 지금 낮임
-    </button>
 
     <!-- 투표 결과 -->
     <div
@@ -353,18 +346,18 @@
               :gameInfo="myInfo"
               class="myVideoBackground"
             />
+            <div
+              class="ingameDaySkipBtn"
+              v-if="!isSkiped && progress.isDay"
+              @click="sendSkip"
+            >
+              긴급 투표 요청!
+            </div>
           </div>
         </div>
-        z
       </div>
     </div>
   </div>
-
-  <a href="/game/end">
-    <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
-      <i class="fa fa-close"></i>게임끝내기
-    </button>
-  </a>
 </template>
 
 <script>
@@ -1480,12 +1473,20 @@ export default {
   opacity: 0;
 }
 .ingameDaySkipBtn {
-  position: absolute;
-  top: 60%;
-  left: 80%;
-  height: 30px;
-  border: 2px solid black;
-  border-radius: 20px;
+  background-image: url(../../public/homedesign/images/vote_wood_dot.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+  font-size: 24px;
+  font-family: "NeoDunggeunmo Code";
+  line-height: 60px;
+  width: 80%;
+  height: 60px;
+  margin: auto;
+  padding: auto;
+  cursor: pointer;
+  color: rgb(255, 236, 218);
 }
 .jobRollFormCenter {
   position: absolute;
@@ -1801,12 +1802,12 @@ export default {
   background-image: url(../../public/homedesign/images/vote_wood.png);
   background-size: cover;
   background-repeat: no-repeat;
-  color: rgb(83, 54, 0);
+  color: rgb(54, 35, 0);
   padding: 0px;
   display: inline;
   font-size: 22px;
   left: 70%;
-  top: 110%;
+  top: -59%;
 }
 .blackVoted {
   background-image: url(../../public/homedesign/images/mafia_black.png);

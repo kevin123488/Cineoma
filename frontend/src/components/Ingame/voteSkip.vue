@@ -109,14 +109,14 @@ export default {
 .voteResultFade-enter-from, .voteResultFade-leave-to {
   opacity: 0;
 }
-.ingameDaySkipBtn {
+/* .ingameDaySkipBtn {
   position: absolute;
   top: 70%;
   left: 70%;
   height: 30px;
   border: 2px solid black;
   border-radius: 20px;
-}
+} */
 .jobRollFormCenter {
   position: absolute;
   top: 30%;
