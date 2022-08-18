@@ -30,12 +30,13 @@
               <p style="font-family: 'NeoDunggeunmo Code'">갓 파 더</p>
               <div class="loginForm">
                 <input
-                  class="inputText"
+                  class="inputText mx-2"
                   type="text"
                   placeholder="아이디 입력"
                   v-model="user.id"
                 />
                 <input
+                  class="mx-2"
                   type="password"
                   @keyup.enter="confirm"
                   placeholder="비밀번호 입력"
