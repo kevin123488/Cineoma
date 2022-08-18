@@ -29,19 +29,22 @@
               <h1 class="u-custom-font u-text u-text-1 my-2">Login</h1>
               <p style="font-family: 'NeoDunggeunmo Code'">갓 파 더</p>
               <div class="loginForm">
-                <input
-                  class="inputText mx-2"
-                  type="text"
-                  placeholder="아이디 입력"
-                  v-model="user.id"
-                />
-                <input
-                  class="mx-2"
-                  type="password"
-                  @keyup.enter="confirm"
-                  placeholder="비밀번호 입력"
-                  v-model="user.password"
-                />
+                <p>
+                  <input
+                    class="inputText"
+                    type="text"
+                    placeholder="아이디 입력"
+                    v-model="user.id"
+                  />
+                </p>
+                <p>
+                  <input
+                    type="password"
+                    @keyup.enter="confirm"
+                    placeholder="비밀번호 입력"
+                    v-model="user.password"
+                  />
+                </p>
               </div>
               <div>
                 <div class="router-nav-in">
@@ -180,6 +183,7 @@ export default {
 .loginFade-enter-from {
   opacity: 0;
 }
-.inputText {
+.u-button-style {
+  font-size: 20px;
 }
 </style>
