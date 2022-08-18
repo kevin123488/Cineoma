@@ -1,5 +1,13 @@
 <template>
   <div v-if="streamManager" class="brownColor">
+    <div :class="{
+      'userCharBlack': gameInfo.color === 'black',
+      'userCharWhite': gameInfo.color === 'white',
+      'userCharRed': gameInfo.color === 'red',
+      'userCharBlue': gameInfo.color === 'blue',
+      'userCharYellow': gameInfo.color === 'yellow',
+      }">
+    </div>
     <div v-if="gameInfo.isAlive === true" class="checkAlive"></div>
     <!-- <div class="checkAlive"></div> -->
     <div v-if="gameInfo.isAlive === false" class="checkDead"></div>
@@ -74,5 +82,57 @@ export default {
   top: 16%;
   width: 30%;
   height: 15%;
+}
+
+/* 다른유저 카메라 근처에 띄워질 캐릭터 그림 */
+.userCharBlack {
+  position: absolute;
+  background-image: url(../../../public/homedesign/images/mafia_black.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 10vh;
+  width: 10vh;
+  top: 80%;
+  left: 80%;
+}
+.userCharWhite {
+  position: absolute;
+  background-image: url(../../../public/homedesign/images/mafia_white.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 10vh;
+  width: 10vh;
+  top: 80%;
+  left: 80%;
+}
+.userCharBlue {
+  position: absolute;
+  background-image: url(../../../public/homedesign/images/mafia_blue.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 10vh;
+  width: 10vh;
+  top: 80%;
+  left: 80%;
+}
+.userCharRed {
+  position: absolute;
+  background-image: url(../../../public/homedesign/images/mafia_red.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 10vh;
+  width: 10vh;
+  top: 80%;
+  left: 80%;
+}
+.userCharYellow {
+  position: absolute;
+  background-image: url(../../../public/homedesign/images/mafia_yellow.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 10vh;
+  width: 10vh;
+  top: 80%;
+  left: 80%;
 }
 </style>
