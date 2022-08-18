@@ -276,9 +276,13 @@
         </button>
       </div>
     </div>
-
     <div class="w3-main mx-5">
-      <ingame-nav class="mb-3" :count="count" :progress="progress"></ingame-nav>
+      <ingame-nav
+        class="mb-3"
+        :count="count"
+        :progress="progress"
+        :myInfo="myInfo"
+      ></ingame-nav>
       <!-- 유저 화면 -->
       <div class="w3-row">
         <div class="w3-col m8">
@@ -286,7 +290,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[0].subscriber"
+                :stream-manager="subscribers[0]"
                 :gameInfo="gameInfos[0]"
               >
               </other-user-video>
@@ -295,7 +299,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[1].subscriber"
+                :stream-manager="subscribers[1]"
                 :gameInfo="gameInfos[1]"
               >
               </other-user-video>
@@ -304,7 +308,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[2].subscriber"
+                :stream-manager="subscribers[2]"
                 :gameInfo="gameInfos[2]"
               >
               </other-user-video>
@@ -313,7 +317,7 @@
             <div class="mx-2 my-2 w3-container w3-col m5" id="video-container">
               <other-user-video
                 class="OtherVideoBackground"
-                :stream-manager="gameInfos[3].subscriber"
+                :stream-manager="subscribers[3]"
                 :gameInfo="gameInfos[3]"
               >
               </other-user-video>
@@ -351,12 +355,13 @@
         </div>
       </div>
     </div>
-    <a href="/game/end">
-      <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
-        <i class="fa fa-close"></i>게임끝내기
-      </button>
-    </a>
   </div>
+
+  <a href="/game/end">
+    <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
+      <i class="fa fa-close"></i>게임끝내기
+    </button>
+  </a>
 </template>
 
 <script>
