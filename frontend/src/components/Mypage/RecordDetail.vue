@@ -49,11 +49,11 @@
       </div>
     </div> -->
     <ul class="winRateTest">
-      <li><h2>총 승률: {{ winRate }}%</h2></li>
-      <li><h3>마피아 승률: {{ mafiaWinRate }}%</h3></li>
-      <li><h3>시민 승률: {{ citizenWinRate }}%</h3></li>
-      <li><h3>의사 승률: {{ doctorWinRate }}%</h3></li>
-      <li><h3>교주 승률: {{ policeWinRate }}%</h3></li>
+      <li><h2>총 승률: {{ winRate.toFixed(0) }}%</h2></li>
+      <li><h3>마피아 승률: {{ mafiaWinRate.toFixed(0) }}%</h3></li>
+      <li><h3>시민 승률: {{ citizenWinRate.toFixed(0) }}%</h3></li>
+      <li><h3>의사 승률: {{ doctorWinRate.toFixed(0) }}%</h3></li>
+      <li><h3>교주 승률: {{ policeWinRate.toFixed(0) }}%</h3></li>
     </ul>
 </template>
 

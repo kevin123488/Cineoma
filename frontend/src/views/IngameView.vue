@@ -103,7 +103,9 @@
             </div>
           </div>
         </div>
-        <div class="voteInvalidBtn" @click="invalidVote">투표 스킵 버튼</div>
+          <div v-if="!dayVoteSkiped" class="voteInvalidBtn" @click="invalidVote">
+            투표 스킵
+          </div>
       </div>
       <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
@@ -466,6 +468,7 @@ export default {
       dayVoteUser: [], // 투표상황에서 벗어나면 (낮 투표에서 낮 투표 결과로 가면) 빈 리스트로 초기화 해줘야 함
       dayVotedUser: [], // 애도 마찬가지임
       clearId: 0,
+      dayVoteSkiped: false,
 
       // 투표 결과
       deadColor: "", // 투표 결과로 죽은 사람이 있다면 걔 색을 얘한테 ㄱ
@@ -1030,6 +1033,7 @@ export default {
     },
 
     dayTime() {
+      this.isSkiped = false;
       this.progress.nowDay = this.progress.nowDay + 1;
       this.progress.isNightResult = false;
       this.progress.isDay = true;
@@ -1042,7 +1046,7 @@ export default {
 
       this.getDayTimeCount();
       this.count = this.dayTimeCount;
-      setTimeout(() => {
+      this.clearId = setTimeout(() => {
         this.dayVoteTime();
       }, this.count * 1000 + 200);
     },
@@ -1064,6 +1068,7 @@ export default {
 
     dayVoteResult() {
       // this.stopCnt = setInterval(this.typeEffect, 150); // 투표결과 타이핑 효과
+      this.dayVoteSkiped = false; // 투표 결과 나올 때 dayvoteskiped를 false로 초기화 하여 다음 날 투표시 해당 버튼이 보여지도록 하자
       this.typeEffect();
       this.progress.isVoteDay = false;
       this.progress.isVoteDayResult = true;
@@ -1174,6 +1179,7 @@ export default {
 
     invalidVote() {
       this.sendVote("");
+      this.dayVoteSkiped = true; // 누르고 나면 이 버튼 안보이게 할 것
     },
 
     // 투표
@@ -1897,21 +1903,36 @@ export default {
   width: 50vw;
 }
 
-.voteInvalidBtn {
+/* .voteInvalidBtn {
   text-align: center;
   position: absolute;
   cursor: pointer;
   top: 85%;
-  left: 70%;
+  left: 10%;
   background-image: url(../../public/homedesign/images/vote_wood_dot.png);
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 30px;
-  height: 10vh;
-  width: 20vh;
-}
+  height: 7vh;
+  width: 15vh;
+} */
 
-.voteInvalidBtn:active {
-  display: none;
+.voteInvalidBtn {
+  background-image: url(../../public/homedesign/images/vote_wood_dot.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 85%;
+  left: 15%;
+  text-align: center;
+  font-size: 20px;
+  font-family: "NeoDunggeunmo Code";
+  line-height: 60px;
+  width: 15vh;
+  height: 7vh;
+  margin: auto;
+  padding: auto;
+  cursor: pointer;
+  color: rgb(255, 236, 218);
 }
 </style>
