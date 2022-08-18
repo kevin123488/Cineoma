@@ -68,6 +68,11 @@
       </div>
     </button>
 
+    <!-- 낮 스킵시 띄워주는 창 -->
+    <div v-if="showModal" class="dayVoteSkip">
+      <h2>{{ voteUser }}님이 낮 스킵에 투표하였습니다</h2>
+    </div>
+
     <!-- 낮 투표용지 -->
     <div
       class="GovoteForm"
@@ -431,6 +436,9 @@ export default {
       selected: "",
       isVoted: false,
 
+      // 낮 스킵 모달 관리
+      showModal: false,
+
       // 시간관련
       dayStartTime: null,
       gameDayTime: null,
@@ -454,6 +462,7 @@ export default {
 
       // 낮 스킵 관련
       isSkiped: false, // 투표 상황으로 넘어가면 반드시 false로 재 설정
+      voteUser: "",
 
       // 낮 투표 관련
       voteClearNum: 0, // 낮 투표상황에서 투표했을 때 sendVote 함수를 실행 안시키기 위한 썸띵
@@ -644,7 +653,12 @@ export default {
               // 낮 진행
               if (data.progress === "day") {
                 this.color = data.color; // 긴급버튼 누른 사람의 색
-                this.voteUser = data.nickname; // 긴급버튼 누른 사람의 닉네임
+                this.gameInfos.forEach((user) => {
+                  if (user.id === data.id) {
+                    this.voteUser = user.nickname;
+                  }
+                })
+                // this.voteUser = data.nickname; // 긴급버튼 누른 사람의 닉네임
                 this.showModal = true;
 
                 setTimeout(() => {
@@ -1845,5 +1859,16 @@ export default {
   vertical-align: middle;
   text-align: center;
   transition: all 2s ease;
+}
+
+/* 낮 스킵 */
+.dayVoteSkip {
+  position: absolute;
+  z-index: 10000;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 20vh;
+  width: 50vw;
 }
 </style>
