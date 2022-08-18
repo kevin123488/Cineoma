@@ -1,4 +1,5 @@
 <template>
+  <div v-if="showblackGround" :class="{ blackGround : isDark, blackGroundOut : !isDark}"></div>
   <div
     :class="{
       ingameNight: progress.isNight,
@@ -96,16 +97,17 @@
         </div>
       </div>
       <div>
-        <h5 style="text-align: center" class="mt-5">
+        <h5 style="text-align: center; padding: 0; display: inline;" class="mt-5">
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
         <button
           class="sendVoteBtn"
+          style="display: inline;"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
-          투표 확정 ㄱㄱ
+          투표 확정
         </button>
       </div>
     </div>
@@ -175,27 +177,41 @@
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
-          <div
-            :id="info.id"
-            v-if="info.isAlive"
-            class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-            @click="chooseVote(info)"
-          >
-            <button class="learn-more">{{ info.nickname }}</button>
+          <div class="d-flex">
+            <div
+              :id="info.id"
+              v-if="info.isAlive"
+              class=""
+              @click="chooseVote(info)"
+            >
+            <p
+              class="brownColor learn-more"
+              style="
+                height: 30px;
+                margin: 10px 0px;
+                cursor: pointer;
+                vertical-align: middle;
+                font-family: 'NeoDunggeunmo Code';
+              "
+            >
+              {{ info.nickname }}
+            </p>
+            </div>
           </div>
         </div>
       </div>
       <div>
-        <h5 style="text-align: center" class="mt-5">
+        <h5 style="text-align: center; padding: 0; display: inline;" class="mt-5">
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
         <button
           class="sendVoteBtn"
+          style="display: inline;"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
-          투표 확정 ㄱㄱ
+          투표 확정
         </button>
       </div>
     </div>
@@ -210,27 +226,41 @@
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
-          <div
-            :id="info.id"
-            v-if="info.isAlive"
-            class="btn-size u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-            @click="chooseVote(info)"
-          >
-            <button class="learn-more">{{ info.nickname }}</button>
+          <div class="d-flex">
+            <div
+              :id="info.id"
+              v-if="info.isAlive"
+              class=""
+              @click="chooseVote(info)"
+            >
+            <p
+              class="brownColor learn-more"
+              style="
+                height: 30px;
+                margin: 10px 0px;
+                cursor: pointer;
+                vertical-align: middle;
+                font-family: 'NeoDunggeunmo Code';
+              "
+            >
+              {{ info.nickname }}
+            </p>
+            </div>
           </div>
         </div>
       </div>
       <div>
-        <h5 style="text-align: center" class="mt-5">
+        <h5 style="text-align: center; padding: 0; display: inline;" class="mt-5">
           선택한 유저:
           <span style="font-weight: bold">{{ selected.nickname }}</span>
         </h5>
         <button
           class="sendVoteBtn"
+          style="display: inline;"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
-          투표 확정 ㄱㄱ
+          투표 확정
         </button>
       </div>
     </div>
@@ -380,8 +410,8 @@ export default {
         isNightResult: false,
       },
       missionWin: false,
-      showblackGround: true,
-      isDark: true,
+      showblackGround: false,
+      isDark: false,
       endding: [],
 
       // 투표
@@ -1144,7 +1174,10 @@ export default {
       //   color: "red",
       // };
       this.showblackGround = true;
-      this.isDark = true;
+      setTimeout(() => {
+        this.isDark = true;
+      }, 1000);      
+
       const winJobList = [];
       console.log("this.gameInfos.");
       this.endding.forEach((user) => {
@@ -1712,6 +1745,7 @@ export default {
   text-align: center;
 }
 .OtherVideoBackground {
+  position: relative;
   background-image: url(../../public/homedesign/images/ingame_others.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -1725,6 +1759,7 @@ export default {
   background-image: url(../../public/homedesign/images/vote_wood_dot.png);
   background-size: cover;
   background-repeat: no-repeat;
+  color: wheat;
   left: 50%;
 }
 .blackVoted {
