@@ -239,22 +239,39 @@
               </div>
             </div>
 
-          <div v-for="(friend, index) in friends" :key="index" class="w3-center lobbyFriend">
-            <div class="w3-container" style="height: 400px;">
-              <h2 class="brownColor" style="margin-top: 55px; margin-bottom: 35px;"><I><b>{{ friend.nickname }}</b></I></h2>
-              <img v-if="friend.imagePath !== null" class="friendImage" style="border-radius: 10px;" :src="`/homedesign/images/` + friend.imagePath" alt="">
+            <div
+              v-for="(friend, index) in friends"
+              :key="index"
+              class="w3-center lobbyFriend"
+            >
+              <div class="w3-container" style="height: 400px">
+                <h2
+                  class="brownColor"
+                  style="margin-top: 55px; margin-bottom: 35px"
+                >
+                  <I
+                    ><b>{{ friend.nickname }}</b></I
+                  >
+                </h2>
+                <img
+                  v-if="friend.imagePath !== null"
+                  class="friendImage"
+                  style="border-radius: 10px"
+                  :src="`/homedesign/images/` + friend.imagePath"
+                  alt=""
+                />
+              </div>
             </div>
-          </div>
-          <br />
+            <br />
 
-          <!-- <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
+            <!-- <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
           <p><i class="fa fa-bug w3-xxlarge"></i></p>
         </div> -->
 
-          <!-- End Right Column -->
+            <!-- End Right Column -->
+          </div>
         </div>
       </div>
-    </div>
     </div>
 
     <!-- 로비창 이식 끝 -->
@@ -354,9 +371,9 @@ export default {
       // 안되면 watch 달아보기
 
       console.log("방 들어갈때 방 정보임");
-      console.log(room.roomTitle)
+      console.log(room.roomTitle);
       this.saveRoomTitle(room.roomTitle);
-      console.log(this.roomTitle)
+      console.log(this.roomTitle);
       const info = { roomNo: room.no, id: { id: this.userInfo.id } };
       this.getMemberList(info);
       this.enterRoomData = room;
@@ -505,6 +522,7 @@ input::placeholder {
   background-image: url(../../public/homedesign/images/notice_cloud.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  height: 250px;
+  height: 300px;
+  font-size: 20px;
 }
 </style>
