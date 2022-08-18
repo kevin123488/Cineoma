@@ -1,11 +1,11 @@
 <template>
   <div v-if="streamManager" class="brownColor">
     <div v-if="gameInfo.isAlive === true" class="checkAlive"></div>
+    <!-- <div class="checkAlive"></div> -->
     <div v-if="gameInfo.isAlive === false" class="checkDead"></div>
+    <!-- <div class="checkDead"></div> -->
     <h3 style="padding-top: 18px; margin-top: 20px;"><b>{{ gameInfo.nickname }}</b></h3>
     <ov-video :stream-manager="streamManager" style="border-radius: 10px;" />
-    <div>
-    </div>
   </div>
 </template>
 
@@ -52,24 +52,27 @@ export default {
 </script>
 
 <style>
-.checkAlive {
-  background-image: url(../../../public/homedesign/images/check_circle.png);
-  background-repeat : no-repeat;
-  background-size: 100% 100%;  
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 2%;
-  height: 1%;  
+#post {
+  position: relative;
 }
 .checkDead {
   background-image: url(../../../public/homedesign/images/check_circle.png);
   background-repeat : no-repeat;
   background-size: 100% 100%;  
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 2%;
-  height: 1%;
+  position: absolute;
+  left: 16%;
+  top: 16%;
+  width: 30%;
+  height: 15%;  
+}
+.checkAlive {
+  background-image: url(../../../public/homedesign/images/check_circle.png);
+  background-repeat : no-repeat;
+  background-size: 100% 100%;  
+  position: absolute;
+  left: 54%;
+  top: 16%;
+  width: 30%;
+  height: 15%;
 }
 </style>
