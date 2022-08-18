@@ -87,6 +87,7 @@
           :key="idx"
         >
           <div id="userDetail">
+            <div v-show="item.ifReady" class="readySetStamp"></div>
             <p>닉네임: {{ item.nickName }}</p>
             <p>승률: {{ item.winRate }}%</p>
           </div>
@@ -97,7 +98,7 @@
               alt=""
             />
           </div>
-          <div class="readySetChar" v-show="item.ifReady"></div>
+          <!-- <div class="readySetChar" v-show="item.ifReady"></div> -->
         </div>
       </div>
 
@@ -408,7 +409,7 @@ export default {
 .w3-bar.w3-black.w3-hide-small .fa {
   /* height: 30px; */
   margin: 0;
-  /* padding-top: 6px; 
+  /* padding-top: 6px;
   margin: 0 0; */
 }
 .wait-background {
@@ -578,5 +579,16 @@ export default {
 
 .waitRoomBorder {
   border-radius: 20px;
+}
+.readySetStamp {
+  z-index: 1000;
+  position: absolute;
+  left: -5%;
+  top: -40%;
+  height: 22vh;
+  width: 42vh;
+  background-image: url(../../public/homedesign/images/ready-stamp.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
