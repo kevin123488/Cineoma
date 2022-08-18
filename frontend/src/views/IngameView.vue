@@ -104,10 +104,12 @@
           </div>
         </div>
       </div>
-      <div style="position: relative;">
+      <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
           선택한 유저:
-          <span style="font-weight: bold; text-align: center; padding: 0px;">{{ selected.nickname }}</span>
+          <span style="font-weight: bold; text-align: center; padding: 0px">{{
+            selected.nickname
+          }}</span>
         </p>
         <p
           class="sendVoteBtn"
@@ -121,7 +123,6 @@
     </div>
 
     <!-- 낮 투표 스킵 -->
-
 
     <!-- 투표 결과 -->
     <div
@@ -202,10 +203,12 @@
           </div>
         </div>
       </div>
-      <div style="position: relative;">
+      <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
           선택한 유저:
-          <span style="font-weight: bold; text-align: center; padding: 0px;">{{ selected.nickname }}</span>
+          <span style="font-weight: bold; text-align: center; padding: 0px">{{
+            selected.nickname
+          }}</span>
         </p>
         <p
           class="sendVoteBtn"
@@ -251,10 +254,12 @@
           </div>
         </div>
       </div>
-      <div style="position: relative;">
+      <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
           선택한 유저:
-          <span style="font-weight: bold; text-align: center; padding: 0px;">{{ selected.nickname }}</span>
+          <span style="font-weight: bold; text-align: center; padding: 0px">{{
+            selected.nickname
+          }}</span>
         </p>
         <p
           class="sendVoteBtn"
@@ -648,7 +653,7 @@ export default {
                   if (user.id === data.id) {
                     this.voteUser = user.nickname;
                   }
-                })
+                });
                 // this.voteUser = data.nickname; // 긴급버튼 누른 사람의 닉네임
                 this.showModal = true;
 
@@ -1254,7 +1259,7 @@ export default {
       this.dayStartTime = gameStartTime;
       console.log(`===== 게임 시작 시간 ${this.dayStartTime} =====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 60);
       this.gameDayTime = new Date(this.dayStartTime);
       console.log(`===== gameDayTime ${this.gameDayTime} =====`);
 
@@ -1262,7 +1267,7 @@ export default {
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`===== gameDayVoteTime ${this.gameDayVoteTime} =====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`===== gameVoteResultTime ${this.gameVoteResultTime} =====`);
 
@@ -1270,7 +1275,7 @@ export default {
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`===== gameNightTime ${this.gameNightTime} =====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(
         `===== gameNightResultTime ${this.gameNightResultTime} =====`
@@ -1321,7 +1326,7 @@ export default {
       let nowTime = new Date();
       this.dayStartTime = nowTime;
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 20);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 60);
       this.gameDayTime = new Date(this.dayStartTime);
       console.log(`===== gameDayTime ${this.gameDayTime} =====`);
 
@@ -1329,7 +1334,7 @@ export default {
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`===== gameDayVoteTime ${this.gameDayVoteTime} =====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
@@ -1337,7 +1342,7 @@ export default {
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(
         `===== gameNightResultTime ${this.gameNightResultTime} =====`
@@ -1351,7 +1356,7 @@ export default {
       this.gameDayVoteTime = new Date(this.dayStartTime);
       console.log(`===== gameDayVoteTime ${this.gameDayVoteTime} =====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
@@ -1359,7 +1364,7 @@ export default {
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(
         `===== gameNightResultTime ${this.gameNightResultTime} =====`
@@ -1369,7 +1374,7 @@ export default {
     setDayVoteTime() {
       this.dayStartTime = new Date();
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameVoteResultTime = new Date(this.dayStartTime);
       console.log(`==== gameVoteResultTime ${this.gameVoteResultTime} ====`);
 
@@ -1377,7 +1382,7 @@ export default {
       this.gameNightTime = new Date(this.dayStartTime);
       console.log(`==== gameNightTime ${this.gameNightTime} ====`);
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
@@ -1385,7 +1390,7 @@ export default {
     setNightVoteTime() {
       this.dayStartTime = new Date();
 
-      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 10);
+      this.dayStartTime.setSeconds(this.dayStartTime.getSeconds() + 8);
       this.gameNightResultTime = new Date(this.dayStartTime);
       console.log(`==== gameNightResultTime ${this.gameNightResultTime} ====`);
     },
@@ -1470,11 +1475,11 @@ export default {
 .ingameDaySkipBtn {
   background-image: url(../../public/homedesign/images/vote_wood_dot.png);
   background-size: 100% 100%;
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
   position: relative;
   text-align: center;
   font-size: 24px;
-  font-family: 'NeoDunggeunmo Code';
+  font-family: "NeoDunggeunmo Code";
   line-height: 60px;
   width: 80%;
   height: 60px;
@@ -1787,7 +1792,6 @@ export default {
   background-size: 100% 100%;
   text-align: center;
 }
-
 
 .brownColor {
   color: rgb(106, 66, 14);
