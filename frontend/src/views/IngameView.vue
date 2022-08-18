@@ -99,22 +99,19 @@
           </div>
         </div>
       </div>
-      <div>
-        <h5
-          style="text-align: center; padding: 0; display: inline"
-          class="mt-5"
-        >
+      <div style="position: relative;">
+        <p style="text-align: center; font-size: 22px" class="mt-5">
           선택한 유저:
-          <span style="font-weight: bold">{{ selected.nickname }}</span>
-        </h5>
-        <button
+          <span style="font-weight: bold; text-align: center; padding: 0px;">{{ selected.nickname }}</span>
+        </p>
+        <p
           class="sendVoteBtn"
           style="display: inline"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
           투표 확정
-        </button>
+        </p>
       </div>
     </div>
 
@@ -183,11 +180,11 @@
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
-          <div class="d-flex">
+          <div :id="info.id" class="d-flex">
             <div
-              :id="info.id"
               v-if="info.isAlive"
               class=""
+              style="font-size: 50px"
               @click="chooseVote(info)"
             >
               <p
@@ -206,22 +203,19 @@
           </div>
         </div>
       </div>
-      <div>
-        <h5
-          style="text-align: center; padding: 0; display: inline"
-          class="mt-5"
-        >
+      <div style="position: relative;">
+        <p style="text-align: center; font-size: 22px" class="mt-5">
           선택한 유저:
-          <span style="font-weight: bold">{{ selected.nickname }}</span>
-        </h5>
-        <button
+          <span style="font-weight: bold; text-align: center; padding: 0px;">{{ selected.nickname }}</span>
+        </p>
+        <p
           class="sendVoteBtn"
           style="display: inline"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
           투표 확정
-        </button>
+        </p>
       </div>
     </div>
 
@@ -235,11 +229,11 @@
       <h3 class="dayVoteTitle">지금 밤 투표임</h3>
       <div class="voteItem">
         <div class="voteUserList" v-for="info in gameInfos" :key="info.id">
-          <div class="d-flex">
+          <div :id="info.id" class="d-flex">
             <div
-              :id="info.id"
               v-if="info.isAlive"
               class=""
+              style="font-size: 50px"
               @click="chooseVote(info)"
             >
               <p
@@ -258,22 +252,19 @@
           </div>
         </div>
       </div>
-      <div>
-        <h5
-          style="text-align: center; padding: 0; display: inline"
-          class="mt-5"
-        >
+      <div style="position: relative;">
+        <p style="text-align: center; font-size: 22px" class="mt-5">
           선택한 유저:
-          <span style="font-weight: bold">{{ selected.nickname }}</span>
-        </h5>
-        <button
+          <span style="font-weight: bold; text-align: center; padding: 0px;">{{ selected.nickname }}</span>
+        </p>
+        <p
           class="sendVoteBtn"
           style="display: inline"
           @click="sendVote(selected.id)"
           v-if="!!selected && !isVoted"
         >
           투표 확정
-        </button>
+        </p>
       </div>
     </div>
 
@@ -348,14 +339,9 @@
               class="myVideoBackground"
             />
           </div>
-        </div>
+        </div>z
       </div>
     </div>
-    <a href="/game/end">
-      <button class="w3-button w3-white w3-hide-small" @click="gameEnd">
-        <i class="fa fa-close"></i>게임끝내기
-      </button>
-    </a>
   </div>
 </template>
 
@@ -1769,11 +1755,16 @@ export default {
 }
 .sendVoteBtn {
   position: absolute;
-  background-image: url(../../public/homedesign/images/vote_wood_dot.png);
+  cursor: pointer;
+  background-image: url(../../public/homedesign/images/vote_wood.png);
   background-size: cover;
   background-repeat: no-repeat;
-  color: wheat;
-  left: 50%;
+  color: rgb(83, 54, 0);
+  padding: 0px;
+  display: inline;
+  font-size: 22px;
+  left: 70%;
+  top: -130%;
 }
 .blackVoted {
   background-image: url(../../public/homedesign/images/mafia_black.png);

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="streamManager">
+  <div v-if="streamManager && gameInfo.isAlive === true">
     <mission-video :stream-manager="streamManager" style="border-radius: 10px;" />
   </div>
 </template>

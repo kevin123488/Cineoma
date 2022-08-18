@@ -14,7 +14,6 @@
         <p v-show="progress.isNightResult">밤 결과.</p>
       </div>
       <div class="w3-col m1">
-        <button>vote</button>
       </div>
     </header>
   </div>
