@@ -1,5 +1,13 @@
 <template>
-  <div v-if="streamManager && gameInfo.isAlive === true">
+  <div class="charSetClass" v-if="streamManager && gameInfo.isAlive === true">
+    <div :class="{
+      'userCharBlack': gameInfo.color === 'black',
+      'userCharWhite': gameInfo.color === 'white',
+      'userCharRed': gameInfo.color === 'red',
+      'userCharBlue': gameInfo.color === 'blue',
+      'userCharYellow': gameInfo.color === 'yellow',
+      }">
+    </div>
     <mission-video :stream-manager="streamManager" style="border-radius: 10px;" />
   </div>
 </template>

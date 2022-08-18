@@ -1,5 +1,13 @@
 <template>
-  <div v-if="streamManager" class="brownColor">
+  <div v-if="streamManager" class="brownColor charSetClass">
+    <div :class="{
+      'userCharBlack': gameInfo.color === 'black',
+      'userCharWhite': gameInfo.color === 'white',
+      'userCharRed': gameInfo.color === 'red',
+      'userCharBlue': gameInfo.color === 'blue',
+      'userCharYellow': gameInfo.color === 'yellow',
+      }">
+    </div>
     <br>
     <h3><b>{{ gameInfo.nickname }}</b></h3>
     <ov-video :stream-manager="streamManager" style="border-radius: 10px;" />
@@ -47,3 +55,10 @@ export default {
   },
 };
 </script>
+<style>
+
+.charSetClass {
+  position: relative;
+}
+
+</style>
