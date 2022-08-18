@@ -15,7 +15,7 @@
           <span v-if="isCaptain">
             <button
               v-if="ifStart"
-              class="w3-button w3-white w3-hide-small mx-2"
+              class="w3-button w3-white w3-hide-small mx-2 waitRoomBorder"
               style="height: 50px; font-size: 20px"
               @click="startSignal"
             >
@@ -23,7 +23,7 @@
             </button>
             <button
               v-else
-              class="w3-button w3-white w3-hide-small mx-2"
+              class="w3-button w3-white w3-hide-small mx-2 waitRoomBorder"
               style="height: 50px; font-size: 20px"
               disabled
             >
@@ -34,7 +34,7 @@
           <span v-if="!isCaptain">
             <button
               v-if="!ifReady"
-              class="w3-button w3-white w3-hide-small mx-2"
+              class="w3-button w3-white w3-hide-small mx-2 waitRoomBorder"
               style="height: 50px; font-size: 20px"
               @click="sendReady"
             >
@@ -42,7 +42,7 @@
             </button>
             <button
               v-if="ifReady"
-              class="w3-button w3-white w3-hide-small mx-2"
+              class="w3-button w3-white w3-hide-small mx-2 waitRoomBorder"
               style="height: 50px; font-size: 20px"
               @click="sendReady"
             >
@@ -58,7 +58,7 @@
 
             <button
               v-if="isCaptain"
-              class="w3-button w3-white w3-hide-small mx-2"
+              class="w3-button w3-white w3-hide-small mx-2 waitRoomBorder"
               style="height: 50px; font-size: 20px"
               @click="sendBreak"
             >
@@ -66,7 +66,7 @@
             </button>
             <button
               v-if="!isCaptain"
-              class="w3-button w3-white w3-hide-small mx-2"
+              class="w3-button w3-white w3-hide-small mx-2 waitRoomBorder"
               style="height: 50px; font-size: 20px"
               @click="sendOut"
             >
@@ -574,5 +574,9 @@ export default {
 .imgWrap {
   display: flex;
   align-items: center;
+}
+
+.waitRoomBorder {
+  border-radius: 20px;
 }
 </style>
