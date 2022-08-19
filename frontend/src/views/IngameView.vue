@@ -103,9 +103,9 @@
             </div>
           </div>
         </div>
-          <div v-if="!dayVoteSkiped" class="voteInvalidBtn" @click="invalidVote">
-            투표 스킵
-          </div>
+        <div v-if="!dayVoteSkiped" class="voteInvalidBtn" @click="invalidVote">
+          투표 스킵
+        </div>
       </div>
       <div style="position: relative">
         <p style="text-align: center; font-size: 22px" class="mt-5">
@@ -1194,7 +1194,7 @@ export default {
     },
 
     avOn() {
-      this.publisher.publishAudio(false);
+      this.publisher.publishAudio(true);
       this.publisher.publishVideo(true);
     },
 
