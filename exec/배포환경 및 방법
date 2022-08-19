@@ -1,0 +1,50 @@
+## 1. 배포환경
+
+
+- Serve : AWS EC2 (MobaXterm
+   - ubuntu 20.04 LTS
+
+- Database : MySQL Workbench 8.0CE
+- openvidu v2.22.0
+- Vue.js v3.1.5 
+- Spring Boot v3.9.14
+- OpenJDK (Zulu 8.33.0.1-win64)
+
+
+## 2. 배포 방법
+
+- AWS EC2 (MobaXterm)에 만들어진 백엔드 빌드파일(jar) 와 프론트 엔드 빌드파일(dist 폴더)를 업로드 후 수동 배포.
+- 명령 프롬프트 창에서 다음 명령어를 입력하여 백엔드 빌드파일 생성
+   - cd (gradlew파일이 있는 위치)
+   - gradlew build 
+- MobaXterm에서 현재 실행되고 있는 jar 파일 확인
+
+   ``` $suodo ps -ef | grep mafia-0.0.1-SNAPSHOT.jar```
+
+- 찾은 PID를 이용하여 프로세스 종료
+
+``` $kill -9 PID```
+- 새로운 jar파일 배포
+   
+   ```$ JAVA -jar mafia-0.0.1-SANPSHOT.jar```
+  
+   ```$ nohup java-jar mafia-0.0.1-SNAPSHOT.jar &(백그라운드로 실행)```
+
+## 3. 배포 특이사항
+
+- OpenVidu 는 Nginx와의 충돌이 일어날 수 있음.
+- 충돌 방지를 위해 Openvidu 서버를 종료
+
+   ```$ cd /opt/openvidu```
+
+   ```$ sudo ./openvidu stop```
+
+- Nginx 재실행.
+
+   ```$ sudo service nginx restart```
+
+- Nginx 재실행 후 openvidu 실행
+
+   ```$sudo ./openvidu start
+
+   
