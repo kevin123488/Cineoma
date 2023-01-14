@@ -87,3 +87,5 @@ SSAFY 7기 2학기 공통 프로젝트
 - ### 결과 페이지
 
 <img src="README.assets/winPage.png" alt="winPage" style="zoom:80%;" />
+
+---
